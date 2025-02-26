@@ -2,7 +2,7 @@
     <div class="bg-gray-50 font-[sans-serif]">
         <div class="min-h-screen flex flex-col items-center justify-center py-6 px-4">
             <div class="max-w-md w-full">
-                <img src="{{ asset('assets/img/logo.jpg') }}" alt="logo" class="w-60 my-2 mx-auto">
+                <img src="{{ asset('assets/img/LocalBIZ.png') }}" alt="logo" class="w-60 my-2 mx-auto">
                 <div class="p-8 rounded-2xl bg-white shadow">
                     <h2 class="text-gray-800 text-center text-2xl font-bold">Sign in</h2>
                     <form class="mt-8 space-y-4" method="POST" action="{{ route('login') }}">
