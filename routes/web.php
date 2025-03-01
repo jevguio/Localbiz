@@ -32,6 +32,7 @@ Route::middleware(['auth', 'Owner'])->group(function () {
     Route::get('/owner/orders', [OwnerController::class, 'orders'])->name('owner.orders');
     Route::get('/owner/inventory', [OwnerController::class, 'inventory'])->name('owner.inventory');
     Route::get('/owner/reports', [OwnerController::class, 'reports'])->name('owner.reports');
+    Route::get('/owner/reports/daterangepicker', [OwnerController::class, 'daterangepicker'])->name('owner.daterangepicker');
 
     Route::get('/owner/inventory/export', [OwnerController::class, 'exportInventory'])->name('owner.inventory.export');
     Route::get('/owner/sales/export', [OwnerController::class, 'exportSales'])->name('owner.sales.export');

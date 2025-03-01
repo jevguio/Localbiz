@@ -16,10 +16,72 @@
     <link href="https://cdn.jsdelivr.net/npm/daisyui@5.0.0-beta.8/daisyui.css" rel="stylesheet" type="text/css" />
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.14.8/dist/cdn.min.js"></script>
+     
     <!-- Scripts -->
     {{-- @vite(['resources/css/app.css', 'resources/js/app.js']) --}}
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
     <script src="{{ asset('js/app.js') }}"></script>
+    
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: #f4f4f4;
+        } .flatpickr-calendar {
+            padding:5%;
+            position: fixed !important;
+            top: 50% !important;
+            left: 50% !important;
+            transform: translate(-50%, -50%) !important;
+        }
+        #dateRangePicker{ 
+            visibility: hidden;
+            width: 0;
+            height:0;
+        }
+        input {
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            width: 250px;
+            text-align: center;
+        }
+        .button-group {
+            margin-top: 15px;
+        } 
+        #cancel-picker { 
+            
+            padding: 10px 20px;
+            border: none; 
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            margin: 5px;
+            background: #dc3545;
+        }
+        #confirm-picker { 
+            
+            padding: 10px 20px;
+            border: none;
+            background: #007bff;
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            margin: 5px; 
+        }
+        button:hover {
+            opacity: 0.9;
+        }
+    </style> 
+    
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 </head>
 
 <body class="font-sans antialiased">

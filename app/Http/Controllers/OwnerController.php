@@ -22,6 +22,8 @@ use App\Services\OwnerService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Maatwebsite\Excel\Facades\Excel;
+use Barryvdh\DomPDF\Facade\Pdf;
+use Illuminate\Support\Facades\Storage;
 
 class OwnerController extends Controller
 {
@@ -108,21 +110,45 @@ class OwnerController extends Controller
         return view('owner.inventory', compact('orders', 'products', 'totalSales'));
     }
 
-    public function exportInventory()
-    {
-        $fileName = Auth::user()->name . '_' . now()->format('YmdHis') . '.xlsx';
+    public function exportInventory(Request $request)
+    { 
+        $startDate = $request->input('start_date');
+        $endDate = $request->input('end_date');
+        // return Excel::download(new AdminInventoryExport(), $fileName);
+        $fileName = Auth::user()->name . '_' . now()->format('YmdHis') . '.pdf';
         $filePath = 'reports/' . $fileName;
 
-        Excel::store(new AdminInventoryExport(), $filePath, 'public');
-
+        $items = Products::leftJoin('tbl_order_items', 'tbl_products.id', '=', 'tbl_order_items.product_id')
+        ->selectRaw('
+            tbl_products.id,
+            tbl_products.name AS name,
+            tbl_products.seller_id AS seller_id,
+            tbl_products.stock AS stock,
+            COALESCE(SUM(tbl_order_items.quantity), 0) AS sold,
+            tbl_products.price,
+            MAX(tbl_order_items.created_at) AS order_date
+        ')
+        ->when($startDate && $endDate, function ($query) use ($startDate, $endDate) {
+            return $query->whereBetween('tbl_order_items.created_at', [$startDate, $endDate]);
+        })
+        ->groupBy('tbl_products.id', 'tbl_products.name', 'tbl_products.stock', 'tbl_products.price')
+        ->get();
+        // Generate PDF
+        $pdf = Pdf::loadView('reports.inventory', compact('items'))->setPaper('a4', 'portrait');
+    
+        // Store PDF in storage
+        Storage::disk('public')->put($filePath, $pdf->output());
+    
+        // Save report to database
         $report = Reports::create([
             'seller_id' => Auth::user()->id,
             'report_name' => 'Inventory Report',
-            'report_type' => 'excel',
+            'report_type' => 'pdf',
             'content' => $fileName,
         ]);
-
-        return Excel::download(new AdminInventoryExport(), $fileName);
+    
+        // Return PDF for download
+        return $pdf->download($fileName);
     }
 
     public function exportProducts()
@@ -158,10 +184,45 @@ class OwnerController extends Controller
 
         return Excel::download(new AdminOrdersExport(), $fileName);
     }
-
-    public function reports()
-    {
+    public function daterangepicker(){
+        
+        return view('reports.daterangepicker');
+    }
+    public function reports(Request $request)
+    { 
         $reports = Reports::paginate(10);
-        return view('owner.reports', compact('reports'));
+        $products = Products::paginate(10); 
+        $sellers = User::where('role', 'seller')->get();
+        $selectedSeller = User::where('role', 'seller')->where('id', $request->id)->get()->first();
+        $items = Products::leftJoin('tbl_order_items', 'tbl_products.id', '=', 'tbl_order_items.product_id')
+        ->leftJoin('tbl_sellers', 'tbl_products.seller_id', '=', 'tbl_sellers.id')
+        ->leftJoin('tbl_users', 'tbl_sellers.user_id', '=', 'tbl_users.id')
+        ->selectRaw('
+            tbl_products.id,
+            tbl_products.name AS name,
+            tbl_products.seller_id AS seller_id,
+            tbl_products.stock AS stock,
+            COALESCE(SUM(tbl_order_items.quantity), 0) AS sold,
+            tbl_products.price,
+            MAX(tbl_order_items.created_at) AS order_date,
+            tbl_sellers.is_approved AS seller_approved,
+            tbl_users.name AS seller_name,
+            tbl_users.email AS seller_email,
+            tbl_users.phone AS seller_phone
+        ') 
+        ->where('tbl_sellers.user_id', $request->id) // Filtering by seller_id
+        ->groupBy(
+            'tbl_products.id', 
+            'tbl_products.name', 
+            'tbl_products.stock', 
+            'tbl_products.price',
+            'tbl_sellers.is_approved',
+            'tbl_users.name',
+            'tbl_users.email',
+            'tbl_users.phone'
+        )
+        ->get();
+    
+        return view('owner.reports', compact('reports','products','items','sellers','selectedSeller'));
     }
 }
