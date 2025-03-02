@@ -108,9 +108,30 @@
                         <td>{{ $seller->name }}</td>
                         <td>{{ $seller->address  }}</td> 
                         <td>
-                    <a href="{{route('owner.reports')}}?id={{$seller->id}}"  
-                        class="btn btn-primary bg-blue-700 hover:bg-blue-800 text-white px-4 py-2 rounded-md">Generate
-                        Report</a></td> 
+                        <a id="generateReportBtn"
+                        class="btn btn-primary bg-blue-700 hover:bg-blue-800 text-white px-4 py-2 rounded-md">
+                        Generate Report
+                        </a>
+
+                        <script>
+                            document.addEventListener("DOMContentLoaded", function () {
+                                let generateBtn = document.getElementById("generateReportBtn");
+                                let datePicker = dateRangeflatpickr; // Ensure this is correctly defined in your script
+
+                                generateBtn.addEventListener("click", function (event) {
+                                    event.preventDefault(); // Prevent default link behavior
+
+                                    let baseUrl = "{{ route('owner.reports') }}"; // Blade generates this correctly
+                                    let sellerId = "{{ $seller->id }}"; // Get seller ID from Blade
+                                    let dateStart = datePicker.valueStart || ''; // Get start date from flatpickr
+                                    let dateEnd = datePicker.valueEnd || ''; // Get end date from flatpickr
+
+                                    let url = `${baseUrl}?id=${sellerId}&dateStart=${dateStart}&dateEnd=${dateEnd}`;
+                                    window.location.href = url; // Redirect dynamically
+                                });
+                            });
+                        </script>
+                    </td> 
                     </tr>
                 @endforeach
             </tbody>

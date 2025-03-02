@@ -30,44 +30,45 @@
     <table class="table">
         <thead >
             <tr>
-            <th>ID</th>
-            <th>Seller ID</th>
-                <th>Item Name</th>
-                <th>Stock</th>
-                <th>Price</th>
+            <th>Quantity Sold</th>
+            <th>Unit</th>
+                <th>Descriptsion</th>
+                <th>Selling Price</th>
+                <th>Total Amount</th>
             </tr>
         </thead>
         <tbody>
         @php $totalPrice = 0; @endphp
+        @php $QuantityPrice = 0; @endphp
             @foreach ($items as $index => $item)
+                @php $QuantityPrice += $item->price * $item->sold; @endphp
+
                 @if ($item->seller_id == 1)
                 <tr>
-                    <td>{{ $item->id }}</td>
-                    <td>{{ $item->seller_id }}</td>
+                    <td>{{ $item->sold }}</td>
                     <td>{{ $item->name }}</td>
-                    <td>{{ $item->stock }}</td>
-                    <td>${{ number_format($item->price, 2) }}</td>
+                    <td>{{ $item->description }}</td>
+                    <td>{{ $item->price }}</td>
+                    <td>${{ $QuantityPrice }}</td>
                 </tr>
                 @endif
-                @php $totalPrice += $item->price; @endphp
-
+                @php $totalPrice += $QuantityPrice; @endphp
             @endforeach
 
-        </tbody>
-        @if ($totalPrice > 0)
+        </tbody> 
             <tfoot>
+                <tr>
+                    <td colspan="4"><strong>Sub-Total Less 40%</strong></td>
+                    <td><strong>${{ number_format($totalPrice * 0.4, 2) }}</strong></td>
+                </tr>
                 <tr>
                     <td colspan="4"><strong>Total:</strong></td>
                     <td><strong>${{ number_format($totalPrice, 2) }}</strong></td>
-                </tr>
+                </tr> 
                 <tr>
-                    <td colspan="5" style="padding-top: 10px;"><strong>Payment Received By: </strong></td>
+                    <td colspan="5" style="padding-top: 10px;"><strong>Date: {{ now()->format('F j, Y, g:i a') }}</strong></td>
                 </tr>
-                <tr>
-                    <td colspan="5" style="padding-top: 10px;"><strong>Date: </strong></td>
-                </tr>
-            </tfoot>
-        @endif
+            </tfoot> 
     </table>
     
 </body>

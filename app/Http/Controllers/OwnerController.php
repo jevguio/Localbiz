@@ -191,6 +191,8 @@ class OwnerController extends Controller
     public function reports(Request $request)
     { 
         $reports = Reports::paginate(10);
+        $startDate= $request->startDate;
+        $endDate= $request->endDate;
         $products = Products::paginate(10); 
         $sellers = User::where('role', 'seller')->get();
         $selectedSeller = User::where('role', 'seller')->where('id', $request->id)->get()->first();
@@ -202,6 +204,7 @@ class OwnerController extends Controller
             tbl_products.name AS name,
             tbl_products.seller_id AS seller_id,
             tbl_products.stock AS stock,
+            tbl_products.description AS description,
             COALESCE(SUM(tbl_order_items.quantity), 0) AS sold,
             tbl_products.price,
             MAX(tbl_order_items.created_at) AS order_date,
@@ -223,6 +226,6 @@ class OwnerController extends Controller
         )
         ->get();
     
-        return view('owner.reports', compact('reports','products','items','sellers','selectedSeller'));
+        return view('owner.reports', compact('reports','products','items','sellers','startDate','endDate','selectedSeller'));
     }
 }
