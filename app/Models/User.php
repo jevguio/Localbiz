@@ -15,7 +15,7 @@ class User extends Authenticatable
     protected $table = 'tbl_users';
     public $timestamps = true;
 
-    protected $fillable = ['name', 'email', 'password', 'address', 'phone', 'role', 'is_active', 'avatar', 'gcash_number', 'bank_name', 'bank_account_number', 'last_login'];
+    protected $fillable = ['fname', 'lname', 'email', 'password', 'address', 'phone', 'role', 'is_active', 'avatar', 'gcash_number', 'bank_name', 'bank_account_number', 'last_login'];
 
     protected $hidden = ['password'];
 

@@ -105,7 +105,7 @@
                 @foreach ($sellers as $index => $seller)
                     <tr>
                     <td>{{ $seller->id }}</td> 
-                        <td>{{ $seller->name }}</td>
+                        <td>{{ $seller->fname." ".$seller->lname }}</td>
                         <td>{{ $seller->address  }}</td> 
                         <td>
                         <a id="generateReportBtn"

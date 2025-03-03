@@ -25,7 +25,7 @@
 <div class="header">Localbiz</div>
 <div class="subheader" id="subheader" style="background-color:rgb(161, 124, 0); width:100%; color:white;padding:10px ">Inventory Report</div>
 <p>Seller: {{ $selectedSeller->name ?? 'N/A' }}</p>
-    <p>Generated Date/s: {{ now()->format('F j, Y, g:i a') }}</p>
+    <p id="DateStartEnd">Generated Date/s: {{ now()->format('F j, Y, g:i a') }}</p>
 
     <table class="table">
         <thead >
@@ -56,17 +56,9 @@
             @endforeach
 
         </tbody> 
-            <tfoot>
+            <tfoot> 
                 <tr>
-                    <td colspan="4"><strong>Sub-Total Less 40%</strong></td>
-                    <td><strong>${{ number_format($totalPrice * 0.4, 2) }}</strong></td>
-                </tr>
-                <tr>
-                    <td colspan="4"><strong>Total:</strong></td>
-                    <td><strong>${{ number_format($totalPrice, 2) }}</strong></td>
-                </tr> 
-                <tr>
-                    <td colspan="5" style="padding-top: 10px;"><strong>Date: {{ now()->format('F j, Y, g:i a') }}</strong></td>
+                    <td colspan="5" style="padding-top: 10px;"><strong>Date Generated: {{ now()->format('F j, Y, g:i a') }}</strong></td>
                 </tr>
             </tfoot> 
     </table>

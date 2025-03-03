@@ -141,7 +141,7 @@
                                                     @endforeach
                                                 </select>
                                             </div>
-                                            <div class="col-span-1">
+                                            <!-- <div class="col-span-1">
                                                 <label for="status"
                                                     class="block mb-2 text-sm font-medium text-gray-900">Status</label>
                                                 <select name="status" id="status"
@@ -154,8 +154,8 @@
                                                         Inactive
                                                     </option>
                                                 </select>
-                                            </div>
-                                            <hr class="my-4">
+                                            </div> -->
+                                            <!-- <hr class="my-4"> -->
                                             <div class="flex justify-end">
                                                 <button type="button"
                                                     data-modal-toggle="viewModal{{ $product->id }}"

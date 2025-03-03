@@ -44,7 +44,7 @@
                         @foreach ($users as $user)
                             <tr class="bg-white border-b border-gray-200 hover:bg-gray-50">
                                 <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
-                                    {{ $user->name }}
+                                    {{ $user->fname ." " .$user->lname }}
                                 </th>
                                 <td class="px-6 py-4">
                                     {{ $user->email }}
@@ -64,6 +64,17 @@
                                         class="font-medium text-red-600 hover:underline" type="button">
                                         Delete
                                     </button>
+                                    @if ($user->is_active == 2)
+                                    <button data-modal-target="ToggleModal{{ $user->id }}"
+                                        class="font-medium text-red-600 hover:underline" type="button">
+                                        Enable
+                                    </button>
+                                    @elseif ($user->is_active == 1)
+                                    <button data-modal-target="ToggleModal{{ $user->id }}"
+                                        class="font-medium text-red-600 hover:underline" type="button">
+                                        Disable
+                                    </button>
+                                    @endif
                                 </td>
                             </tr>
 
@@ -88,12 +99,18 @@
                                                 @csrf
                                                 @method('PUT')
                                                 <div class="grid gap-4 mb-4 grid-cols-2">
-                                                    <div class="col-span-2">
+                                                <div class="col-span-2">
                                                         <label class="block mb-2 text-sm font-medium text-gray-900"
-                                                            for="name">Name</label>
-                                                        <input type="text" name="name" id="name"
+                                                            for="fname">First Name</label>
+                                                        <input type="text" name="fname" id="fname"
                                                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
-                                                            placeholder="Type name" value="{{ $user->name }}">
+                                                            placeholder="Type first name" value="{{ $user->fname }}">
+                                                    </div><div class="col-span-2">
+                                                        <label class="block mb-2 text-sm font-medium text-gray-900"
+                                                            for="lname">Last Name</label>
+                                                        <input type="text" name="lname" id="lname"
+                                                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                                                            placeholder="Type last name" value="{{ $user->lname }}">
                                                     </div>
                                                     <div class="col-span-2">
                                                         <label class="block mb-2 text-sm font-medium text-gray-900"
@@ -124,10 +141,7 @@
                                                             </option>
                                                             <option value="GovernmentAgency"
                                                                 {{ $user->role == 'GovernmentAgency' ? 'selected' : '' }}>
-                                                                Government Agency</option>
-                                                            <option value="Customer"
-                                                                {{ $user->role == 'Customer' ? 'selected' : '' }}>
-                                                                Customer</option>
+                                                                Government Agency</option> 
                                                         </select>
                                                     </div>
                                                     <div class="col-span-2">
@@ -200,6 +214,44 @@
                                     </div>
                                 </div>
                             </div>
+                            <div id="ToggleModal{{ $user->id }}" tabindex="-1" aria-hidden="true"
+                                class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-screen max-h-full bg-black bg-opacity-50">
+                                <div class="relative p-4 w-full max-w-5xl max-h-full mx-auto">
+                                    <div class="relative bg-white rounded-lg shadow-sm">
+                                        <div
+                                            class="flex items-center justify-between p-4 md:p-5 border-b rounded-t border-gray-200">
+                                            <h3 class="text-lg font-bold text-gray-900">
+                                               {{$user->is_active==1? "Disable":"Enable" }} Account
+                                            </h3>
+                                            <button type="button"
+                                                class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center"
+                                                data-modal-toggle="ToggleModal{{ $user->id }}">
+                                                <i class='bx bx-x text-gray-500 text-2xl'></i>
+                                            </button>
+                                        </div>
+                                        <div class="grid gap-4 mb-4 p-4">
+                                            <form action="{{ route('owner.account.toggle', $user->id) }}"
+                                                method="POST" enctype="multipart/form-data">
+                                                @csrf
+                                                @method('put')
+                                                <p>Are you sure you want to {{$user->is_active==1? "Disable":"Enable" }}  this account?</p>
+                                                <hr class="my-4">
+                                                <div class="flex justify-end gap-2">
+                                                    <button type="submit"
+                                                        class="btn btn-primary text-white inline-flex items-center bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">
+                                                        {{$user->is_active==1? "Disable":"Enable" }} 
+                                                    </button>
+                                                    <button type="button"
+                                                        data-modal-toggle="ToggleModal{{ $user->id }}"
+                                                        class="btn btn-error text-white inline-flex items-center bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">
+                                                        Close
+                                                    </button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         @endforeach
                     </tbody>
                 </table>
@@ -236,12 +288,19 @@
                                     @csrf
                                     @method('POST')
                                     <div class="grid gap-4 mb-4 grid-cols-2">
+                                    <div class="col-span-2">
+                                            <label class="block mb-2 text-sm font-medium text-gray-900"
+                                                for="fname">First Name</label>
+                                            <input type="text" name="fname" id="fname"
+                                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                                                placeholder="Type First name" value="{{ old('fname') }}">
+                                        </div>
                                         <div class="col-span-2">
                                             <label class="block mb-2 text-sm font-medium text-gray-900"
-                                                for="name">Name</label>
-                                            <input type="text" name="name" id="name"
+                                                for="lname">Last Name</label>
+                                            <input type="text" name="lname" id="lname"
                                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
-                                                placeholder="Type name" value="{{ old('name') }}">
+                                                placeholder="Type last name" value="{{ old('lname') }}">
                                         </div>
                                         <div class="col-span-2">
                                             <label class="block mb-2 text-sm font-medium text-gray-900"

@@ -15,7 +15,8 @@ class UserSeeder extends Seeder
     {
         $users = [
             [
-                'name' => 'Admin',
+                'fname' => 'Admin',
+                'lname' => 'Admin',
                 'email' => 'admin@gmail.com',
                 'password' => Hash::make('password'),
                 'address' => 'Manila, Philippines',
@@ -25,7 +26,8 @@ class UserSeeder extends Seeder
                 'last_login' => now(),
             ],
             [
-                'name' => 'Seller',
+                'fname' => 'Seller',
+                'lname' => 'Seller',
                 'email' => 'seller@gmail.com',
                 'password' => Hash::make('password'),
                 'address' => 'Manila, Philippines',
@@ -39,7 +41,8 @@ class UserSeeder extends Seeder
                 'last_login' => now(),
             ],
             [
-                'name' => 'Cashier',
+                'fname' => 'Cashier',
+                'lname' => 'Cashier',
                 'email' => 'cashier@gmail.com',
                 'password' => Hash::make('password'),
                 'address' => 'Manila, Philippines',
@@ -49,7 +52,8 @@ class UserSeeder extends Seeder
                 'last_login' => now(),
             ],
             [
-                'name' => 'GovernmentAgency',
+                'fname' => 'GovernmentAgency',
+                'lname' => 'GovernmentAgency',
                 'email' => 'governmentagency@gmail.com',
                 'password' => Hash::make('password'),
                 'address' => 'Manila, Philippines',
@@ -59,7 +63,8 @@ class UserSeeder extends Seeder
                 'last_login' => now(),
             ],
             [
-                'name' => 'DeliveryRider',
+                'fname' => 'DeliveryRider',
+                'lname' => 'DeliveryRider',
                 'email' => 'deliveryrider@gmail.com',
                 'password' => Hash::make('password'),
                 'address' => 'Manila, Philippines',
@@ -69,7 +74,8 @@ class UserSeeder extends Seeder
                 'last_login' => now(),
             ],
             [
-                'name' => 'Customer',
+                'fname' => 'Customer',
+                'lname' => 'Customer',
                 'email' => 'customer@gmail.com',
                 'password' => Hash::make('password'),
                 'address' => 'Manila, Philippines',

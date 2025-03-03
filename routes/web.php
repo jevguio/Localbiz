@@ -43,6 +43,7 @@ Route::middleware(['auth', 'Owner'])->group(function () {
 
     Route::put('/owner/courier/update/{id}', [OwnerController::class, 'updateCourier'])->name('owner.courier.update');
     Route::put('/owner/account/update/{id}', [OwnerController::class, 'updateAccount'])->name('owner.account.update');
+    Route::put('/owner/account/toggle/{id}', [OwnerController::class, 'ToggleAccount'])->name('owner.account.toggle');
 
     Route::delete('/owner/courier/destroy/{id}', [OwnerController::class, 'destroyCourier'])->name('owner.courier.destroy');
     Route::delete('/owner/account/destroy/{id}', [OwnerController::class, 'destroyAccount'])->name('owner.account.destroy');

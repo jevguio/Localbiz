@@ -45,6 +45,13 @@ class OwnerController extends Controller
         return redirect()->back()->with('success', 'Account updated successfully');
     }
 
+
+    public function ToggleAccount(Request $request, $id)
+    {
+        $result = (new OwnerService())->ToggleAccount($id, $request);
+        return redirect()->back()->with('success', 'Account updated successfully');
+    }
+
     public function destroyAccount($id)
     {
         $result = (new OwnerService())->destroyAccount($id);
@@ -115,7 +122,7 @@ class OwnerController extends Controller
         $startDate = $request->input('start_date');
         $endDate = $request->input('end_date');
         // return Excel::download(new AdminInventoryExport(), $fileName);
-        $fileName = Auth::user()->name . '_' . now()->format('YmdHis') . '.pdf';
+        $fileName = Auth::user()->fname . '_' . Auth::user()->lname . '_' . now()->format('YmdHis') . '.pdf';
         $filePath = 'reports/' . $fileName;
 
         $items = Products::leftJoin('tbl_order_items', 'tbl_products.id', '=', 'tbl_order_items.product_id')
@@ -153,7 +160,7 @@ class OwnerController extends Controller
 
     public function exportProducts()
     {
-        $fileName = Auth::user()->name . '_' . now()->format('YmdHis') . '.xlsx';
+        $fileName =  Auth::user()->fname . '_' . Auth::user()->lname . '_' . now()->format('YmdHis') . '.xlsx';
         $filePath = 'reports/' . $fileName;
 
         Excel::store(new AdminProductsExport(), $filePath, 'public');
@@ -170,7 +177,7 @@ class OwnerController extends Controller
 
     public function exportSales()
     {
-        $fileName = Auth::user()->name . '_' . now()->format('YmdHis') . '.xlsx';
+        $fileName = Auth::user()->fname . '_' . Auth::user()->lname . '_' . now()->format('YmdHis') . '.xlsx';
         $filePath = 'reports/' . $fileName;
 
         Excel::store(new AdminOrdersExport(), $filePath, 'public');
@@ -209,7 +216,8 @@ class OwnerController extends Controller
             tbl_products.price,
             MAX(tbl_order_items.created_at) AS order_date,
             tbl_sellers.is_approved AS seller_approved,
-            tbl_users.name AS seller_name,
+            tbl_users.fname AS seller_fname,
+            tbl_users.lname AS seller_lname,
             tbl_users.email AS seller_email,
             tbl_users.phone AS seller_phone
         ') 
@@ -220,7 +228,8 @@ class OwnerController extends Controller
             'tbl_products.stock', 
             'tbl_products.price',
             'tbl_sellers.is_approved',
-            'tbl_users.name',
+            'tbl_users.fname',
+            'tbl_users.lname',
             'tbl_users.email',
             'tbl_users.phone'
         )

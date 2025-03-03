@@ -79,7 +79,32 @@ class OwnerService
             ]);
         }
     }
+    public function ToggleAccount($id, $request)
+    {
+        try {
+            $user = User::find($id);
+            $user->update(['is_active' => $user->is_active==1? 2:1]);
+            
 
+            if ($request->password) {
+                $user->update(['password' => Hash::make($request->password)]);
+            }
+
+            session()->flash('success', 'Account updated successfully');
+            return response()->json([
+                'error_code' => MyConstant::SUCCESS_CODE,
+                'status_code' => MyConstant::SUCCESS_CODE,
+                'message' => 'Account updated successfully.',
+            ]);
+        } catch (\Exception $e) {
+            session()->flash('error', 'Failed to update account.');
+            return response()->json([
+                'error_code' => MyConstant::FAILED_CODE,
+                'status_code' => MyConstant::FAILED_CODE,
+                'message' => 'Failed to update account.',
+            ]);
+        }
+    }
     public function destroyAccount($id)
     {
         try {

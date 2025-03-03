@@ -43,7 +43,7 @@
                                     {{ $order->order_number }}
                                 </th>
                                 <td class="px-6 py-4">
-                                    {{ $order->user->name }}
+                                {{ $order->user->name . " " . $order->user->lname}}
                                 </td>
                                 <td class="px-6 py-4">
                                     {{ $order->orderItems->first()->product->name ?? 'N/A' }}
@@ -78,10 +78,19 @@
                                             <div class="col-span-1">
                                                 <label for="customer_id"
                                                     class="block mb-2 text-sm font-medium text-gray-900">Customer
-                                                    Name</label>
+                                                    First Name</label>
                                                 <input type="text" name="customer_id" id="customer_id"
                                                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
-                                                    placeholder="Type customer name" value="{{ $order->user->name }}"
+                                                    placeholder="Type customer first name" value="{{ $order->user->fname }}"
+                                                    readonly>
+                                            </div> 
+                                            <div class="col-span-1">
+                                                <label for="customer_id"
+                                                    class="block mb-2 text-sm font-medium text-gray-900">Customer
+                                                    Last Name</label>
+                                                <input type="text" name="customer_id" id="customer_id"
+                                                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                                                    placeholder="Type customer last name" value="{{ $order->user->lname }}"
                                                     readonly>
                                             </div>
                                             <div class="col-span-1">
@@ -142,7 +151,7 @@
                                                     @endforeach
                                                 </select>
                                             </div>
-                                            <div class="col-span-1">
+                                            <!-- <div class="col-span-1">
                                                 <label for="status"
                                                     class="block mb-2 text-sm font-medium text-gray-900">Status</label>
                                                 <select name="status" id="status"
@@ -168,7 +177,7 @@
                                                         Cancelled
                                                     </option>
                                                 </select>
-                                            </div>
+                                            </div> -->
                                             <div class="col-span-1">
                                                 <label for="payment_method"
                                                     class="block mb-2 text-sm font-medium text-gray-900">Payment
@@ -209,7 +218,7 @@
                                                     class="block mb-2 text-sm font-bold text-gray-900">Feedback</label>
                                                 <ul class="bg-gray-50 border border-gray-300 rounded-lg p-2">
                                                     <li class="mb-2">
-                                                        <strong>{{ $order->user->name }}:</strong>
+                                                        <strong>{{ $order->user->fname ." ".$order->user->lname }}:</strong>
                                                         <span>{{ $order->orderItems->first()->feedback->comment ?? 'No feedback yet' }}</span>
                                                         <span class="text-gray-500"> (Rating:
                                                             {{ $order->orderItems->first()->feedback->rating ?? 'No rating yet' }})</span>
