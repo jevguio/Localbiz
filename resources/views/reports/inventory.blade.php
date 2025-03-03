@@ -24,7 +24,7 @@
     </style>
 <div class="header">Localbiz</div>
 <div class="subheader" id="subheader" style="background-color:rgb(161, 124, 0); width:100%; color:white;padding:10px ">Inventory Report</div>
-<p>Seller: {{ $selectedSeller->name ?? 'N/A' }}</p>
+<p>Seller: {{ $selectedSeller->fname ." ".$selectedSeller->lname}}</p>
     <p id="DateStartEnd">Generated Date/s: {{ now()->format('F j, Y, g:i a') }}</p>
 
     <table class="table">
