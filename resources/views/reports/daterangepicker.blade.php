@@ -28,15 +28,16 @@
                             month: 'long',
                             day: 'numeric'
                         });
-
+ 
                         const endFormatted = endDate.toLocaleString('en-US', {
                             year: 'numeric',
                             month: 'long',
                             day: 'numeric'
                         });
-
+                        DateStartEnd.setAttribute('start',startFormatted);
+                        DateStartEnd.setAttribute('end',endFormatted);
                         // Display formatted date
-                        DateStartEnd.innerHTML = "Date: " + startFormatted + " - " + endFormatted;
+                        DateStartEnd.innerHTML = "Generated Date/s: " + startFormatted + " - " + endFormatted;
                         
                         const overlay = document.getElementById('overlay');
                         overlay.style.display="block"; 
@@ -59,8 +60,18 @@
         confirmButton.textContent = "Confirm";
         confirmButton.addEventListener("click", function() { 
             
+        const id = urlParams.get("id"); 
+        const sales = urlParams.get("sales"); 
+        const inventory = urlParams.get("inventory");  
+        if(sales && id!=null){
+
+            const invent = document.getElementById('Sales_Management');
+            invent.style.display="block"; 
+        }else if(inventory && id!=null){
+
             const invent = document.getElementById('Product_Management');
             invent.style.display="block"; 
+        }
             const overlay = document.getElementById('overlay');
             overlay.style.display="none"; 
             dateRangeflatpickr.clear();

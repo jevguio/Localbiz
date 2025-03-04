@@ -67,6 +67,10 @@
                                             </button>
                                         </form>
                                     </div>
+                                    
+                                    <div class="flex flex-col md:order-4 md:w-32 space-y-2 md:space-y-0 md:space-x-1">
+                                                <input type="checkbox" />
+                                            </div>  
                                 </div>
                             </div>
                         @endforeach

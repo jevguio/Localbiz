@@ -30,9 +30,9 @@
                             <th scope="col" class="px-6 py-3">
                                 Created At
                             </th>
-                            <th scope="col" class="px-6 py-3">
+                            <!-- <th scope="col" class="px-6 py-3">
                                 Content
-                            </th>
+                            </th> -->
                         </tr>
                     </thead>
                     <tbody id="reports-table-body">
@@ -47,26 +47,32 @@
                                 <td class="px-6 py-4">
                                     {{ $report->created_at->format('F d, Y h:i:s A') }}
                                 </td>
-                                <td class="px-6 py-4">
+                                <!-- <td class="px-6 py-4">
                                     <a href="{{ asset('reports/' . $report->content) }}"
                                         class="btn btn-primary bg-blue-700 hover:bg-blue-800 text-white font-bold py-2 px-4 rounded"
                                         download>Download</a>
-                                </td>
+                                </td> -->
                             </tr>
                         @endforeach
                     </tbody>
                 </table>
                 <div class="flex gap-2 my-4">
-                    <a href="#" onclick="openSeller()"
+                    <a href="#" onclick="openInventorySeller()"
                         class="btn btn-primary bg-blue-700 hover:bg-blue-800 text-white px-4 py-2 rounded-md">Generate
                         Inventory</a>
-                    <a href="{{ route('owner.products.export') }}"
-                        class="btn btn-primary bg-blue-700 hover:bg-blue-800 text-white px-4 py-2 rounded-md">
-                        Generate Products
-                    </a>
-                    <a href="{{ route('owner.sales.export') }}"
+                        
+                    <a href="#" onclick="openSalesSeller()"
                         class="btn btn-primary bg-blue-700 hover:bg-blue-800 text-white px-4 py-2 rounded-md">
                         Generate Sales
+                    </a>
+                    <a  href="{{route('owner.topseller')}}" 
+                        class="btn btn-primary bg-blue-700 hover:bg-blue-800 text-white px-4 py-2 rounded-md">
+                        Top Seller
+                    </a>
+                    
+                    <a href="#" onclick="openTopProducts()"
+                        class="btn btn-primary bg-blue-700 hover:bg-blue-800 text-white px-4 py-2 rounded-md">
+                        Top Purchased Products
                     </a>
                 </div>
                 <nav class="flex items-center flex-column flex-wrap md:flex-row justify-between pt-4"
@@ -86,13 +92,14 @@
      
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> 
 
-<div class="p-4 " id="Seller_Management" style="display:none; position:fixed; top:0;left:0;background-color:rgba(0,0,0,0.3);width:100%;height:100%" onclick="CloseSeller(event)">
+  
+    <div class="p-4 " id="Seller_Inventory_Management" style="display:none; position:fixed; top:0;left:0;background-color:rgba(0,0,0,0.3);width:100%;height:100%" onclick="CloseInventorySeller(event)">
         <div class="p-4   rounded-lg" style="width:60%; margin-left:auto;margin-right:auto; background-color:white;height:80%" onclick="">
              
              
-        <div class="header">Seller Management</div> 
+        <div class="header">Seller Inventory Management</div> 
 
-        <table class="table">
+        <table class="hidden_table">
             <thead>
                 <tr>
                     <th>ID</th>
@@ -117,16 +124,66 @@
                             document.addEventListener("DOMContentLoaded", function () {
                                 let generateBtn = document.getElementById("generateReportBtn");
                                 let datePicker = dateRangeflatpickr; // Ensure this is correctly defined in your script
-
+                                console.log(datePicker);
                                 generateBtn.addEventListener("click", function (event) {
                                     event.preventDefault(); // Prevent default link behavior
 
                                     let baseUrl = "{{ route('owner.reports') }}"; // Blade generates this correctly
-                                    let sellerId = "{{ $seller->id }}"; // Get seller ID from Blade
-                                    let dateStart = datePicker.valueStart || ''; // Get start date from flatpickr
-                                    let dateEnd = datePicker.valueEnd || ''; // Get end date from flatpickr
+                                    let sellerId = "{{ $seller->id }}"; // Get seller ID from Blade 
 
-                                    let url = `${baseUrl}?id=${sellerId}&dateStart=${dateStart}&dateEnd=${dateEnd}`;
+                                    let url = `${baseUrl}?id=${sellerId}&inventory=true`;
+                                    window.location.href = url; // Redirect dynamically
+                                });
+                            });
+                        </script>
+                    </td> 
+                    </tr>
+                @endforeach
+            </tbody>
+        </table>
+                 
+        </div>
+    </div>
+    
+<div class="p-4 " id="Seller_Sales_Management" style="display:none; position:fixed; top:0;left:0;background-color:rgba(0,0,0,0.3);width:100%;height:100%" onclick="CloseSalesSeller(event)">
+        <div class="p-4   rounded-lg" style="width:60%; margin-left:auto;margin-right:auto; background-color:white;height:80%" onclick="">
+             
+             
+        <div class="header">Seller Sales Management</div> 
+
+        <table class="hidden_table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>seller Name</th>
+                    <th>Address</th> 
+                    <th>Action</th> 
+                </tr>
+            </thead>
+            <tbody>
+                @foreach ($sellers as $index => $seller)
+                    <tr>
+                    <td>{{ $seller->id }}</td> 
+                        <td>{{ $seller->fname." ".$seller->lname }}</td>
+                        <td>{{ $seller->address  }}</td> 
+                        <td>
+                        <a id="generateSalesReportBtn"
+                        class="btn btn-primary bg-blue-700 hover:bg-blue-800 text-white px-4 py-2 rounded-md">
+                        Generate Report
+                        </a>
+
+                        <script>
+                            document.addEventListener("DOMContentLoaded", function () {
+                                let generateBtn = document.getElementById("generateSalesReportBtn");
+                                let datePicker = dateRangeflatpickr; // Ensure this is correctly defined in your script
+                                console.log(datePicker);
+                                generateBtn.addEventListener("click", function (event) {
+                                    event.preventDefault(); // Prevent default link behavior
+
+                                    let baseUrl = "{{ route('owner.reports') }}"; // Blade generates this correctly
+                                    let sellerId = "{{ $seller->id }}"; // Get seller ID from Blade 
+
+                                    let url = `${baseUrl}?id=${sellerId}&sales=true`;
                                     window.location.href = url; // Redirect dynamically
                                 });
                             });
@@ -148,9 +205,56 @@
            
                 @include('reports.inventory')
         
-                <a href="{{ route('owner.inventory.export') }}"
+                <a href="{{ route('owner.inventory.export') }}" id="export_inventory"
                         class="btn btn-primary bg-blue-700 hover:bg-blue-800 text-white px-4 py-2 rounded-md" style="position:absolute;right:21%; bottom:23%">Download PDF</a>
-            
+                        <script>
+                            document.addEventListener("DOMContentLoaded", function () {
+                                let export_inventory = document.getElementById("export_inventory"); 
+
+                                export_inventory.addEventListener("click", function (event) {
+                                    event.preventDefault(); // Prevent default link behavior
+
+                                    let DateStartEnd = document.getElementById("DateStartEnd"); 
+                                    let baseUrl = "{{ route('owner.inventory.export') }}"; // Blade generates this correctly
+                                    let sellerId = "{{ $seller->id }}"; // Get seller ID from Blade 
+                                    let start=DateStartEnd.getAttribute('start');
+                                    let end=DateStartEnd.getAttribute('end');
+                                    let url = `${baseUrl}?id=${sellerId}&sales=true&start_date=${start}&end_date=${end}`;
+                                    window.location.href = url; // Redirect dynamically
+                                });
+                            });
+                        </script>
+                 
+        </div>
+    </div>
+     
+
+
+    
+    <div class="p-4 " id="Sales_Management" style="position:fixed; top:0;left:0;background-color:rgba(0,0,0,0.3);width:100%;height:100%" onclick="CloseSales(event)">
+        <div class="p-4   rounded-lg" style="width:60%; margin-left:auto;margin-right:auto; background-color:white;height:80%">
+           
+                @include('reports.sales')
+        
+                <a href="{{ route('owner.inventory.export') }}" id="export_sales"
+                        class="btn btn-primary bg-blue-700 hover:bg-blue-800 text-white px-4 py-2 rounded-md" style="position:absolute;right:21%; bottom:23%">Download PDF</a>
+                        <script>
+                            document.addEventListener("DOMContentLoaded", function () {
+                                let export_sales = document.getElementById("export_sales"); 
+
+                                export_sales.addEventListener("click", function (event) {
+                                    event.preventDefault(); // Prevent default link behavior
+
+                                    let DateStartEnd = document.getElementById("DateStartEnd"); 
+                                    let baseUrl = "{{ route('owner.sales.export') }}"; // Blade generates this correctly
+                                    let sellerId = "{{ $seller->id }}"; // Get seller ID from Blade 
+                                    let start=DateStartEnd.getAttribute('start');
+                                    let end=DateStartEnd.getAttribute('end');
+                                    let url = `${baseUrl}?id=${sellerId}&sales=true&start_date=${start}&end_date=${end}`;
+                                    window.location.href = url; // Redirect dynamically
+                                });
+                            });
+                        </script>
                  
         </div>
     </div>
@@ -171,7 +275,7 @@
  
 </style> 
     <script> 
-        const Seller = document.getElementById('Seller_Management');
+        const Seller = document.getElementById('Seller_Inventory_Management');
          
          const datePicker = document.createElement("input"); 
          datePicker.setAttribute('type','text'); 
@@ -185,8 +289,18 @@
             grid.setAttribute('id','grid'); 
          }
          
-  
-        function openInventory(event){ 
+
+ 
+
+        //   -------------------------------Inventory--------------------------------------
+        //   -------------------------------Inventory--------------------------------------
+        //   -------------------------------Inventory--------------------------------------
+        //   -------------------------------Inventory--------------------------------------
+        
+
+
+
+         function openInventoryReport(event){ 
             
             const overlay = document.getElementById("overlay");  
             const invent = document.getElementById('Product_Management');
@@ -200,15 +314,48 @@
             const invent = document.getElementById('Product_Management');
             if (event.target === event.currentTarget) {
                 invent.style.display="none";
+                window.location.href ="#";
             }
         }
-        function openSeller(event){ 
-            const Seller = document.getElementById('Seller_Management');
+        function openInventorySeller(event){ 
+            const Seller = document.getElementById('Seller_Inventory_Management');
                 Seller.style.display="block"; 
         }
-        function CloseSeller(event){
+        function CloseInventorySeller(event){
             if (event.target === event.currentTarget) {
-                const Seller = document.getElementById('Seller_Management');
+                const Seller = document.getElementById('Seller_Inventory_Management');
+                Seller.style.display="none";
+            }
+        }
+        
+        //   -------------------------------Sales--------------------------------------
+        //   -------------------------------Sales--------------------------------------
+        //   -------------------------------Sales--------------------------------------
+        //   -------------------------------Sales--------------------------------------
+        
+        function openSalesReport(event){ 
+            
+            const overlay = document.getElementById("overlay");  
+            const invent = document.getElementById('Sales_Management');
+            invent.style.display="none";
+                overlay.style.display= "block"; 
+                overlay.style.visibility= "visible";   
+                overlay.style.opacity= 1;   
+                dateRangeflatpickr.open(); 
+        }
+        function CloseSales(event){
+            const invent = document.getElementById('Sales_Management');
+            if (event.target === event.currentTarget) {
+                invent.style.display="none";
+            }
+        }
+        function openSalesSeller(event){ 
+            const Seller = document.getElementById('Seller_Sales_Management');
+                Seller.style.display="block"; 
+        }
+        function CloseSalesSeller(event){
+            if (event.target === event.currentTarget) {
+                const Seller = document.getElementById('Seller_Sales_Management');
                 Seller.style.display="none";
             }
         }
@@ -222,12 +369,29 @@
         });
         const urlParams = new URLSearchParams(window.location.search);
         const id = urlParams.get("id"); 
-        if (id!=null) { 
-            openSeller(null);
-            openInventory(null);
+        const sales = urlParams.get("sales"); 
+        const inventory = urlParams.get("inventory");  
+        if(sales && id!=null){
+
+            openSalesSeller(null);
+            openSalesReport(null);
+        }else {
+            
+            const Product_Management = document.getElementById("Product_Management");
+            Product_Management.style.display="none"; 
+            const Sales_Management = document.getElementById("Sales_Management");
+            Sales_Management.style.display="none"; 
+        }
+        
+        if(inventory && id!=null){
+
+            openInventorySeller(null);
+            openInventoryReport(null);
         } else {
-            const invent = document.getElementById("Product_Management");
-            invent.style.display="none"; 
+            const Product_Management = document.getElementById("Product_Management");
+            Product_Management.style.display="none"; 
+            const Sales_Management = document.getElementById("Sales_Management");
+            Sales_Management.style.display="none"; 
         }
         </script> 
 

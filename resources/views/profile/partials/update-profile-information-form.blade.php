@@ -23,9 +23,14 @@
         </fieldset>
 
         <fieldset class="fieldset">
-            <legend class="fieldset-legend">Name</legend>
-            <input type="text" name="name" class="input w-full" placeholder="Type your name"
-                value="{{ $user->name }}" required />
+            <legend class="fieldset-legend">First Name</legend>
+            <input type="text" name="fname" class="input w-full" placeholder="Type your name"
+                value="{{ $user->fname }}" required />
+        </fieldset>
+        <fieldset class="fieldset">
+            <legend class="fieldset-legend">Last Name</legend>
+            <input type="text" name="lname" class="input w-full" placeholder="Type your name"
+                value="{{ $user->lname }}" required />
         </fieldset>
 
         <fieldset class="fieldset">

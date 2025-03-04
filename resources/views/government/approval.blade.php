@@ -99,8 +99,9 @@
                                                         <label class="block mb-2 text-sm font-medium text-gray-900"
                                                             for="name">Is Active</label>
                                                         <select name="is_active" id="is_active"
+                                                       {{$seller->is_approved == 0? '   ':'' }}
                                                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
-                                                            value="{{ old('is_active', $seller->user->is_active ? 'Active' : 'Inactive') }}">
+                                                            value="{{ old('is_active', $seller->user->is_active ? 'Active' : 'Inactive') }}" >
                                                             <option value="1"
                                                                 {{ $seller->user->is_active ? 'selected' : '' }}>
                                                                 Active

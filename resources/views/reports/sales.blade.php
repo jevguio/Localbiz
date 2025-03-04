@@ -18,17 +18,12 @@
             width:100%; 
             height:auto;
         }
-        .hidden_table{
-             width: 100%; border-collapse: collapse; margin-top: 10px;  
-        }
-        .hidden_table th, .table td { padding: 8px; text-align: left; }
-
         .table { width: 100%; border-collapse: collapse; margin-top: 10px; }
         .table th, .table td { border: 1px solid #000; padding: 8px; text-align: left; }
         .table th { background-color: #f2f2f2; }
     </style>
 <div class="header">Localbiz</div>
-<div class="subheader" id="subheader" style="background-color:rgb(161, 124, 0); width:100%; color:white;padding:10px ">Inventory Report</div>
+<div class="subheader" id="subheader" style="background-color:rgb(161, 124, 0); width:100%; color:white;padding:10px ">Sales Report</div>
 <p>Seller: {{$selectedSeller? $selectedSeller->fname ." ".$selectedSeller->lname :'NULL'}}</p>
 <p id="DateStartEnd">Generated Date/s: {{ now()->format('F j, Y, g:i a') }}</p>
 <p id="DateStartEnd1">Date: {{ now()->format('F j, Y, g:i a') }}</p>
@@ -39,7 +34,7 @@
             <th>Quantity Sold</th>
             <th>Unit</th>
                 <th>Descriptsion</th>
-                <th>Remaining</th>
+                <th>Selling Price</th>
                 <th>Total Amount</th>
             </tr>
         </thead>
@@ -54,14 +49,24 @@
                     <td>{{ $item->sold }}</td>
                     <td>{{ $item->name }}</td>
                     <td>{{ $item->description }}</td>
-                    <td>{{ $item->stock }}</td>
-                    <td>${{ $QuantityPrice }}</td>
+                    <td>{{ $item->price }}</td>
+                    <td>${{ ($item->sold * $QuantityPrice)}}</td>
                 </tr>
                 @endif
-                @php $totalPrice += $QuantityPrice; @endphp
+                @php $totalPrice += ($item->sold * $QuantityPrice); @endphp
             @endforeach
 
         </tbody>  
+        <tfoot>
+            <tr>
+                <td colspan="4" >Sub-Total Less 40%</td>
+                <td colspan="1" >-${{ $totalPrice -($totalPrice *(1- 0.4))}} </td>
+            </tr>
+            <tr> 
+                <td colspan="4" >Total Sales: </td>
+                <td colspan="1" >${{ $totalPrice - ($totalPrice * 0.4) }} </td>
+            </tr>
+        </tfoot>
     </table>
     
 </body>

@@ -125,6 +125,7 @@ class OwnerController extends Controller
         $fileName = Auth::user()->fname . '_' . Auth::user()->lname . '_' . now()->format('YmdHis') . '.pdf';
         $filePath = 'reports/' . $fileName;
 
+        $selectedSeller = User::where('role', 'seller')->where('id', $request->id)->get()->first();
         $items = Products::leftJoin('tbl_order_items', 'tbl_products.id', '=', 'tbl_order_items.product_id')
         ->selectRaw('
             tbl_products.id,
@@ -134,14 +135,11 @@ class OwnerController extends Controller
             COALESCE(SUM(tbl_order_items.quantity), 0) AS sold,
             tbl_products.price,
             MAX(tbl_order_items.created_at) AS order_date
-        ')
-        ->when($startDate && $endDate, function ($query) use ($startDate, $endDate) {
-            return $query->whereBetween('tbl_order_items.created_at', [$startDate, $endDate]);
-        })
+        ') 
         ->groupBy('tbl_products.id', 'tbl_products.name', 'tbl_products.stock', 'tbl_products.price')
         ->get();
         // Generate PDF
-        $pdf = Pdf::loadView('reports.inventory', compact('items'))->setPaper('a4', 'portrait');
+        $pdf = Pdf::loadView('reports.inventory', compact('items','selectedSeller'))->setPaper('a4', 'portrait');
     
         // Store PDF in storage
         Storage::disk('public')->put($filePath, $pdf->output());
@@ -175,21 +173,43 @@ class OwnerController extends Controller
         return Excel::download(new AdminProductsExport(), $fileName);
     }
 
-    public function exportSales()
+    public function exportSales(Request $request)
     {
-        $fileName = Auth::user()->fname . '_' . Auth::user()->lname . '_' . now()->format('YmdHis') . '.xlsx';
+        $startDate = $request->input('start_date');
+        $endDate = $request->input('end_date');
+        // return Excel::download(new AdminInventoryExport(), $fileName);
+        $fileName = Auth::user()->fname . '_' . Auth::user()->lname . '_' . now()->format('YmdHis') . '.pdf';
         $filePath = 'reports/' . $fileName;
 
-        Excel::store(new AdminOrdersExport(), $filePath, 'public');
-
+        $selectedSeller = User::where('role', 'seller')->where('id', $request->id)->get()->first();
+        $items = Products::leftJoin('tbl_order_items', 'tbl_products.id', '=', 'tbl_order_items.product_id')
+        ->selectRaw('
+            tbl_products.id,
+            tbl_products.name AS name,
+            tbl_products.seller_id AS seller_id,
+            tbl_products.stock AS stock,
+            COALESCE(SUM(tbl_order_items.quantity), 0) AS sold,
+            tbl_products.price,
+            MAX(tbl_order_items.created_at) AS order_date
+        ') 
+        ->groupBy('tbl_products.id', 'tbl_products.name', 'tbl_products.stock', 'tbl_products.price')
+        ->get();
+        // Generate PDF
+        $pdf = Pdf::loadView('reports.sales', compact('items','selectedSeller'))->setPaper('a4', 'portrait');
+    
+        // Store PDF in storage
+        Storage::disk('public')->put($filePath, $pdf->output());
+    
+        // Save report to database
         $report = Reports::create([
             'seller_id' => Auth::user()->id,
-            'report_name' => 'Sales Report',
-            'report_type' => 'excel',
+            'report_name' => 'Inventory Report',
+            'report_type' => 'pdf',
             'content' => $fileName,
         ]);
-
-        return Excel::download(new AdminOrdersExport(), $fileName);
+    
+        // Return PDF for download
+        return $pdf->download($fileName);
     }
     public function daterangepicker(){
         
@@ -234,7 +254,95 @@ class OwnerController extends Controller
             'tbl_users.phone'
         )
         ->get();
+        $topSellers = User::where('role', 'seller')
+        ->leftJoin('tbl_sellers', 'tbl_users.id', '=', 'tbl_sellers.user_id')
+        ->leftJoin('tbl_products', 'tbl_sellers.id', '=', 'tbl_products.seller_id')
+        ->leftJoin('tbl_order_items', 'tbl_products.id', '=', 'tbl_order_items.product_id')
+        ->selectRaw('
+            tbl_users.id,
+            tbl_users.fname,
+            tbl_users.lname,
+            COUNT(DISTINCT tbl_order_items.order_id) AS total_order,
+            SUM(tbl_order_items.quantity) AS total_units_sold,
+            SUM(tbl_order_items.quantity * tbl_order_items.price) AS revenue,
+            CASE 
+                WHEN COUNT(DISTINCT tbl_order_items.order_id) > 0 
+                THEN SUM(tbl_order_items.quantity * tbl_order_items.price) / COUNT(DISTINCT tbl_order_items.order_id) 
+                ELSE 0 
+            END AS avg_order_value
+        ')
+        ->groupBy('tbl_users.id', 'tbl_users.fname', 'tbl_users.lname')
+        ->orderByDesc('revenue') // Sort by highest revenue
+        ->limit(10) // Get top 10 sellers
+        ->get();
+        return view('owner.reports', compact('reports','products','items','sellers','topSellers','startDate','endDate','selectedSeller'));
+    }
     
-        return view('owner.reports', compact('reports','products','items','sellers','startDate','endDate','selectedSeller'));
+    public function TopSeller(){
+        $topSellers = User::where('role', 'seller')
+        ->leftJoin('tbl_sellers', 'tbl_users.id', '=', 'tbl_sellers.user_id')
+        ->leftJoin('tbl_products', 'tbl_sellers.id', '=', 'tbl_products.seller_id')
+        ->leftJoin('tbl_order_items', 'tbl_products.id', '=', 'tbl_order_items.product_id')
+        ->selectRaw('
+            tbl_users.id,
+            tbl_users.fname,
+            tbl_users.lname,
+            COUNT(DISTINCT tbl_order_items.order_id) AS total_order,
+            SUM(tbl_order_items.quantity) AS total_units_sold,
+            SUM(tbl_order_items.quantity * tbl_order_items.price) AS revenue,
+            CASE 
+                WHEN COUNT(DISTINCT tbl_order_items.order_id) > 0 
+                THEN SUM(tbl_order_items.quantity * tbl_order_items.price) / COUNT(DISTINCT tbl_order_items.order_id) 
+                ELSE 0 
+            END AS avg_order_value
+        ')
+        ->groupBy('tbl_users.id', 'tbl_users.fname', 'tbl_users.lname')
+        ->orderByDesc('revenue') // Sort by highest revenue
+        ->limit(10) // Get top 10 sellers
+        ->get();
+        $isViewBTN=true;
+          return view('reports.top_seller', compact('topSellers','isViewBTN'));
+    }
+    public function exportTopSeller(){
+        $isViewBTN=false;
+        $topSellers = User::where('role', 'seller')
+        ->leftJoin('tbl_sellers', 'tbl_users.id', '=', 'tbl_sellers.user_id')
+        ->leftJoin('tbl_products', 'tbl_sellers.id', '=', 'tbl_products.seller_id')
+        ->leftJoin('tbl_order_items', 'tbl_products.id', '=', 'tbl_order_items.product_id')
+        ->selectRaw('
+            tbl_users.id,
+            tbl_users.fname,
+            tbl_users.lname,
+            COUNT(DISTINCT tbl_order_items.order_id) AS total_order,
+            SUM(tbl_order_items.quantity) AS total_units_sold,
+            SUM(tbl_order_items.quantity * tbl_order_items.price) AS revenue,
+            CASE 
+                WHEN COUNT(DISTINCT tbl_order_items.order_id) > 0 
+                THEN SUM(tbl_order_items.quantity * tbl_order_items.price) / COUNT(DISTINCT tbl_order_items.order_id) 
+                ELSE 0 
+            END AS avg_order_value
+        ')
+        ->groupBy('tbl_users.id', 'tbl_users.fname', 'tbl_users.lname')
+        ->orderByDesc('revenue') // Sort by highest revenue
+        ->limit(10) // Get top 10 sellers
+        ->get();
+        
+        $fileName = Auth::user()->fname . '_' . Auth::user()->lname . '_' . now()->format('YmdHis') . '.pdf';
+        $pdf = Pdf::loadView('reports.top_seller_component', compact('topSellers','isViewBTN'))->setPaper('a4', 'portrait');
+    
+        $filePath = 'reports/' . $fileName;
+        // Store PDF in storage
+        Storage::disk('public')->put($filePath, $pdf->output());
+    
+        // Save report to database
+        $report = Reports::create([
+            'seller_id' => Auth::user()->id,
+            'report_name' => 'Inventory Report',
+            'report_type' => 'pdf',
+            'content' => $fileName,
+        ]);
+    
+        // Return PDF for download
+        return $pdf->download($fileName); 
     }
 }
