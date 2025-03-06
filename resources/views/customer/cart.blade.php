@@ -119,8 +119,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                                {{$is_active_checkout}}
+                                </div> 
                                 <div x-data="{ paymentMethod: '' }">
                                     <button id="proceedToCheckout" @if(!$is_active_checkout) 
                                     disabled
