@@ -65,9 +65,15 @@ class CustomerController extends Controller
         $result = (new CustomerService())->cancelOrder($request);
         return redirect()->back()->with('success', 'Order cancelled successfully');
     }
+    
+    public function updateSelectionCart(Request $request)
+    {
+        $result = (new CustomerService())->updateSelectionCart($request);
+        return redirect()->back()->with('success', 'Product updated in cart successfully');
+    }
 
     public function updateCart(Request $request)
-    {
+    { 
         $result = (new CustomerService())->updateCart($request);
         return redirect()->back()->with('success', 'Product updated in cart successfully');
     }

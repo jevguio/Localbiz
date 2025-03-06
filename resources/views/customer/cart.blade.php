@@ -32,7 +32,7 @@
                                     </div>
 
                                     <div class="flex flex-row items-center md:order-3 space-x-4">
-                                        <form action="{{ route('customer.updateCart', $item->product_id) }}"
+                                        <form action="{{ route('customer.updateCart') }}"
                                             method="POST" class="inline-flex items-center space-x-2">
                                             @csrf
                                             @method('PUT')
@@ -66,11 +66,22 @@
                                                 <i class='bx bx-trash text-lg me-1.5'></i> Remove
                                             </button>
                                         </form>
-                                    </div>
-                                    
+                                    </div> 
                                     <div class="flex flex-col md:order-4 md:w-32 space-y-2 md:space-y-0 md:space-x-1">
-                                                <input type="checkbox" />
-                                            </div>  
+                                    <form action="{{ route('customer.updateSelectionCart') }}"
+                                            method="POST" class="inline-flex items-center space-x-2">
+                                            @csrf
+                                            @method('PUT')
+
+                                            <input type="hidden" name="id" value="{{ $item->id }}" />
+                                            <input type="hidden" name="is_checked" value="0" />
+
+                                            <input type="checkbox" name="is_checked" value="1"
+                                                onchange="setTimeout(() => this.form.submit(), 300)"
+                                                {{ $item->is_checked ? 'checked' : '' }} 
+                                                /> 
+                                        </form>
+                                    </div>  
                                 </div>
                             </div>
                         @endforeach
@@ -85,7 +96,7 @@
                                                 <dt class="text-base font-normal text-gray-500">Original Price</dt>
                                                 <dd class="text-base font-medium text-gray-900">
                                                     ₱
-                                                    {{ $cartItems->sum(fn($item) => $item->product->price * $item->quantity) }}
+                                                    {{ $cartItems->sum(fn($item) => $item->product->price * $item->quantity * $item->is_checked) }}
                                                 </dd>
                                             </dl>
                                             <div>
@@ -94,7 +105,7 @@
                                                     <dt class="text-base font-bold text-gray-900">Total</dt>
                                                     <dd class="text-base font-bold text-gray-900">
                                                         ₱
-                                                        {{ $cartItems->sum(fn($item) => $item->product->price * $item->quantity) }}
+                                                        {{ $cartItems->sum(fn($item) => $item->product->price * $item->quantity* $item->is_checked) }}
                                                     </dd>
                                                 </dl>
                                             </div>

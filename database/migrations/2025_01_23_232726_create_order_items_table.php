@@ -16,6 +16,7 @@ return new class extends Migration {
             $table->foreignId('product_id')->constrained('tbl_products');
             $table->integer('quantity');
             $table->decimal('price', 10, 2);
+            $table->boolean('is_checked')->nullable();
             $table->timestamps();
         });
     }

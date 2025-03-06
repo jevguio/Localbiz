@@ -112,23 +112,46 @@ class CustomerService
         }
     }    
 
-    public function updateCart($request)
+    public function updateSelectionCart($request)
     {
         try {
             $orderItem = OrderItems::findOrFail($request->id);
-            $order = Orders::where('user_id', Auth::id())->where('status', 'pending')->firstOrFail();
+            $orderItem->is_checked = $request->is_checked;
+            $orderItem->save();
+            session()->flash('success', 'Product updated in cart successfully.');
+            Log::info("success $request");
+            return response()->json([
+                'error_code' => MyConstant::SUCCESS_CODE,
+                'status_code' => MyConstant::SUCCESS_CODE,
+                'message' => 'Product updated in cart successfully.',
+            ]);
+
+        } catch (\Exception $e) {
+            Log::error($e->getMessage());
+            session()->flash('error', 'Failed to update product in cart.');
+            return response()->json([
+                'error_code' => MyConstant::FAILED_CODE,
+                'status_code' => MyConstant::INTERNAL_SERVER_ERROR,
+                'message' => $e->getMessage(),
+            ]);
+        }
+    }
+    public function updateCart($request)
+    {
+        try {
+            $orderItem = OrderItems::findOrFail($request->id); 
+            // $order = Orders::where('user_id', Auth::id())->where('status', 'pending')->firstOrFail();
 
             if ($request->increment) {
                 $orderItem->increment('quantity');
             } elseif ($request->decrement && $orderItem->quantity > 1) {
                 $orderItem->decrement('quantity');
-            }
-
+            } 
             $orderItem->price = $orderItem->product->price * $orderItem->quantity;
             $orderItem->save();
 
-            $order->total_amount = $order->orderItems->sum('price');
-            $order->save();
+            // $order->total_amount = $order->orderItems->sum('price');
+            // $order->save();
 
             session()->flash('success', 'Product updated in cart successfully.');
             return response()->json([
@@ -137,6 +160,7 @@ class CustomerService
                 'message' => 'Product updated in cart successfully.',
             ]);
         } catch (\Exception $e) {
+            Log::info($e->getMessage());
             session()->flash('error', 'Failed to update product in cart.');
             return response()->json([
                 'error_code' => MyConstant::FAILED_CODE,
