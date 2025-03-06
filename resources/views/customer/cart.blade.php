@@ -7,6 +7,7 @@
             <div class="mt-6 sm:mt-8 md:gap-6 lg:flex lg:items-start xl:gap-8">
                 <div class="mx-auto w-full flex-none">
                     <div class="space-y-6">
+                        @php $is_active_checkout=false; @endphp
                         @foreach ($cartItems as $item)
                             <div class="rounded-lg border border-gray-300 bg-white p-6 shadow-md md:p-8">
                                 <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-6">
@@ -84,6 +85,13 @@
                                     </div>  
                                 </div>
                             </div>
+                            
+                        @php 
+                            if($item->is_checked){
+
+                                $is_active_checkout=true; 
+                            }
+                        @endphp
                         @endforeach
                         @if ($cartItems->isNotEmpty())
                             <div class="mx-auto mt- flex-1 space-y-6 lg:mt-0 lg:w-full">
@@ -112,9 +120,11 @@
                                         </div>
                                     </div>
                                 </div>
-
+                                {{$is_active_checkout}}
                                 <div x-data="{ paymentMethod: '' }">
-                                    <button id="proceedToCheckout"
+                                    <button id="proceedToCheckout" @if(!$is_active_checkout) 
+                                    disabled
+                                    @endif 
                                         class="flex w-full items-center justify-center rounded-lg btn btn-primary px-5 py-2.5 text-sm font-medium text-white">
                                         Proceed to Checkout
                                     </button>
