@@ -140,7 +140,16 @@
                                                     id="paymentMethod" required>
                                                     <option disabled selected>Pick a payment method</option>
                                                     <option value="Credit Card">Credit Card</option>
-                                                    <option value="Gcash">Gcash</option>
+                                                    <option value="Gcash">Gcash</option> 
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <div class="fieldset">
+                                                <legend class="fieldset-legend">Delivery Method</legend>
+                                                <select class="select select-bordered w-full" name="delivery_method"
+                                                    id="deliveryMethod" required>
+                                                    <option disabled selected>Pick a Delivery method</option> 
                                                     <option value="COD">Cash on Delivery</option>
                                                     <option value="Pick Up">Pick Up</option>
                                                 </select>
@@ -178,6 +187,12 @@
                                                 accept="image/*" name="receipt_file" required />
                                             <label class="fieldset-label">Max size 2MB</label>
                                         </div>
+                                        
+                                        <div class="fieldset">
+                                            <legend class="fieldset-legend">Message:</legend>
+                                            <textarea rows="8" class="p-2" name="message"></textarea>
+                                        </div>
+                                        
                                         <button type="submit"
                                             class="flex w-full items-center justify-center rounded-lg btn btn-secondary px-5 py-2.5 text-sm font-medium text-white">Submit</button>
                                     </form>
