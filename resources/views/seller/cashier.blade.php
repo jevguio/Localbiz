@@ -37,7 +37,7 @@
                         @foreach ($cashiers as $cashier)
                             <tr class="bg-white border-b border-gray-200 hover:bg-gray-50">
                                 <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
-                                    {{ $cashier->user->name }}
+                                    {{ $cashier->user->fname." ". $cashier->user->lname }}
                                 </th>
                                 <td class="px-6 py-4">
                                     {{ $cashier->is_approved ? 'Approved' : 'Pending' }}
@@ -77,11 +77,19 @@
                                                     @method('PUT')
                                                     <div class="col-span-2">
                                                         <label class="block mb-2 text-sm font-medium text-gray-900"
-                                                            for="name">Cashier Name</label>
-                                                        <input type="text" name="name" id="name"
+                                                            for="fname">Cashier Frist Name</label>
+                                                        <input type="text" name="fname" id="fname"
                                                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
-                                                            placeholder="Type cashier name"
-                                                            value="{{ old('name', $cashier->user->name) }}">
+                                                            placeholder="Type cashier first name"
+                                                            value="{{ old('fname', $cashier->user->fname) }}">
+                                                    </div>
+                                                    <div class="col-span-2">
+                                                        <label class="block mb-2 text-sm font-medium text-gray-900"
+                                                            for="lname">Cashier Last Name</label>
+                                                        <input type="text" name="lname" id="lname"
+                                                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                                                            placeholder="Type cashier last name"
+                                                            value="{{ old('lname', $cashier->user->lname) }}">
                                                     </div>
                                                     <div class="col-span-2">
                                                         <img src="{{ asset('cashier/documents/' . $cashier->document_file) }}"
@@ -90,7 +98,7 @@
                                                     </div>
                                                     <div class="col-span-2">
                                                         <label class="block mb-2 text-sm font-medium text-gray-900"
-                                                            for="name">Is Approved</label>
+                                                            for="is_approved">Is Approved</label>
                                                         <select name="is_approved" id="is_approved"
                                                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
                                                             value="{{ old('is_approved', $cashier->is_approved ? 'Approved' : 'Pending') }}">
@@ -199,10 +207,17 @@
                                     <div class="grid gap-4 mb-4 grid-cols-2">
                                         <div class="col-span-2">
                                             <label class="block mb-2 text-sm font-medium text-gray-900"
-                                                for="name">Cashier Name</label>
-                                            <input type="text" name="name" id="name"
+                                                for="fname">Cashier First Name</label>
+                                            <input type="text" name="fname" id="fname"
                                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
-                                                placeholder="Type cashier name" value="{{ old('name') }}">
+                                                placeholder="Type cashier frist name" value="{{ old('fname') }}">
+                                        </div>
+                                        <div class="col-span-2">
+                                            <label class="block mb-2 text-sm font-medium text-gray-900"
+                                                for="lname">Cashier Last Name</label>
+                                            <input type="text" name="lname" id="lname"
+                                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                                                placeholder="Type cashier last name" value="{{ old('lname') }}">
                                         </div>
                                         <div class="col-span-2">
                                             <label class="block mb-2 text-sm font-medium text-gray-900"

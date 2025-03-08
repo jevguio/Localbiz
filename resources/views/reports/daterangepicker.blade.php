@@ -59,7 +59,7 @@
         confirmButton.id = "confirm-picker";
         confirmButton.textContent = "Confirm";
         confirmButton.addEventListener("click", function() { 
-            
+              
         const id = urlParams.get("id"); 
         const sales = urlParams.get("sales"); 
         const inventory = urlParams.get("inventory");  

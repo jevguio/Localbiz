@@ -12,6 +12,7 @@ class CategorySeeder extends Seeder
         $categories = [
             ['name' => 'Electronics'],
             ['name' => 'Clothing'],
+            ['name' => 'food'],
             ['name' => 'Home & Garden'],
         ];
 

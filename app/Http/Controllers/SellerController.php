@@ -17,9 +17,13 @@ use App\Models\Reports;
 use App\Models\Rider;
 use App\Models\Seller;
 use App\Services\CashierService;
+use App\Models\User;
+use Barryvdh\DomPDF\Facade\Pdf;
+use Illuminate\Support\Facades\Storage;
 use App\Services\CategoryService;
 use App\Services\LocationService;
 use App\Services\ProductService;
+use App\Constant\MyConstant;
 use App\Services\RiderService;
 use App\Services\SellerService;
 use Illuminate\Http\Request;
@@ -31,7 +35,9 @@ class SellerController extends Controller
     public function index()
     {
         $seller = Seller::where('user_id', Auth::user()->id)->first();
-        return view('seller.dashboard', compact('seller'));
+        $lowStockProducts = Products::where('stock', '<=', 5)->get();
+
+        return view('seller.dashboard', compact('seller','lowStockProducts'));
     }
 
     public function upload(Request $request)
@@ -143,8 +149,32 @@ class SellerController extends Controller
     {
         $result = (new LocationService())->updateLocation($request, $id);
         return redirect()->back();
-    }
+    }    
+    public function updateOrder(Request $request)
+    {
+        
+        \Log::error($request);
+        try {
+            $orderItem = Orders::findOrFail($request->id); 
+            // $order = Orders::where('user_id', Auth::id())->where('status', 'pending')->firstOrFail();
 
+             
+            $orderItem->status = $request->status;
+            $orderItem->save();
+
+            // $order->total_amount = $order->orderItems->sum('price');
+            // $order->save();
+
+            session()->flash('success', 'Updated successfully.');
+            
+        return redirect()->back();
+        } catch (\Exception $e) { 
+            \Log::error($e);
+            session()->flash('error', 'Failed to update product in cart.');
+           
+        return redirect()->back();
+        }
+    } 
     public function destroyLocation($id)
     {
         $result = (new LocationService())->destroyLocation($id);
@@ -211,7 +241,15 @@ class SellerController extends Controller
 
     public function trackingPending()
     {
+        $categories = Categories::all();
+        $couriers = Courier::all();
         $seller = Seller::where('user_id', Auth::user()->id)->first();
+        $orders = Orders::whereHas('orderItems', function ($query) use ($seller) {
+            $query->whereHas('product', function ($subQuery) use ($seller) {
+                $subQuery->where('seller_id', $seller->id);
+            });
+        })
+        ->get();
         if ($seller->is_approved == 0 || $seller->user->is_active == 0) {
             session()->flash('error', 'You are not approved to access this page.');
             return redirect()->route('seller.dashboard');
@@ -223,30 +261,46 @@ class SellerController extends Controller
                 $query->where('seller_id', $seller->id);
             })
             ->get();
-        return view('seller.tracking.pending', compact('cartItems'));
+        return view('seller.tracking.pending', compact('cartItems','categories','couriers','orders'));
     }
 
     public function trackingProcessed()
     {
+        $categories = Categories::all();
+        $couriers = Courier::all();
         $seller = Seller::where('user_id', Auth::user()->id)->first();
+        $orders = Orders::whereHas('orderItems', function ($query) use ($seller) {
+            $query->whereHas('product', function ($subQuery) use ($seller) {
+                $subQuery->where('seller_id', $seller->id);
+            });
+        })
+        ->get();
         if ($seller->is_approved == 0 || $seller->user->is_active == 0) {
             session()->flash('error', 'You are not approved to access this page.');
             return redirect()->route('seller.dashboard');
         }
         $cartItems = OrderItems::whereHas('order', function ($query) {
-            $query->where('status', 'processing');
+            $query->whereIn('status', ['processing', 'pending']);
         })
             ->whereHas('product', function ($query) use ($seller) {
                 $query->where('seller_id', $seller->id);
             })
             ->get();
-        return view('seller.tracking.processed', compact('cartItems'));
+        return view('seller.tracking.processed', compact('cartItems','categories','couriers','orders'));
     }
 
     public function trackingToReceive()
     {
+        $categories = Categories::all();
+        $couriers = Courier::all();
         $seller = Seller::where('user_id', Auth::user()->id)->first();
 
+        $orders = Orders::whereHas('orderItems', function ($query) use ($seller) {
+            $query->whereHas('product', function ($subQuery) use ($seller) {
+                $subQuery->where('seller_id', $seller->id);
+            });
+        })
+        ->get();
         if ($seller->is_approved == 0 || $seller->user->is_active == 0) {
             session()->flash('error', 'You are not approved to access this page.');
             return redirect()->route('seller.dashboard');
@@ -258,12 +312,21 @@ class SellerController extends Controller
                 $query->where('seller_id', $seller->id);
             })
             ->get();
-        return view('seller.tracking.receiving', compact('cartItems'));
+        return view('seller.tracking.receiving', compact('cartItems','categories','couriers','orders'));
     }
 
     public function trackingCancelled()
     {
+        $categories = Categories::all();
+        $couriers = Courier::all();
         $seller = Seller::where('user_id', Auth::user()->id)->first();
+
+        $orders = Orders::whereHas('orderItems', function ($query) use ($seller) {
+            $query->whereHas('product', function ($subQuery) use ($seller) {
+                $subQuery->where('seller_id', $seller->id);
+            });
+        })
+        ->get();
         if ($seller->is_approved == 0 || $seller->user->is_active == 0) {
             session()->flash('error', 'You are not approved to access this page.');
             return redirect()->route('seller.dashboard');
@@ -275,7 +338,7 @@ class SellerController extends Controller
                 $query->where('seller_id', $seller->id);
             })
             ->get();
-        return view('seller.tracking.cancelled', compact('cartItems'));
+        return view('seller.tracking.cancelled', compact('cartItems','categories','couriers','orders'));
     }
 
     public function trackingDelivered()
@@ -315,50 +378,170 @@ class SellerController extends Controller
         return view('seller.order-history', compact('orders', 'categories', 'couriers'));
     }
 
-    public function exportInventory()
-    {
-        $seller = Seller::where('user_id', Auth::user()->id)->first();
-        $fileName = $seller->user->name . '_' . now()->format('YmdHis') . '.xlsx';
+
+    public function exportInventory(Request $request)
+    { 
+        $startDate = $request->input('start_date');
+        $endDate = $request->input('end_date');
+        // return Excel::download(new AdminInventoryExport(), $fileName);
+        $fileName = Auth::user()->fname . '_' . Auth::user()->lname . '_' . now()->format('YmdHis') . '.pdf';
         $filePath = 'reports/' . $fileName;
 
-        Excel::store(new InventoryExport($seller->id), $filePath, 'public');
-
+        $selectedSeller = Auth::user();
+        $items = Products::leftJoin('tbl_order_items', 'tbl_products.id', '=', 'tbl_order_items.product_id')
+        ->selectRaw('
+            tbl_products.id,
+            tbl_products.name AS name,
+            tbl_products.seller_id AS seller_id,
+            tbl_products.stock AS stock,
+            COALESCE(SUM(tbl_order_items.quantity), 0) AS sold,
+            tbl_products.price,
+            MAX(tbl_order_items.created_at) AS order_date
+        ') 
+        ->groupBy('tbl_products.id', 'tbl_products.name', 'tbl_products.stock', 'tbl_products.price')
+        ->get();
+        // Generate PDF
+        $pdf = Pdf::loadView('reports.inventory', compact('items','selectedSeller'))->setPaper('a4', 'portrait');
+    
+        // Store PDF in storage
+        Storage::disk('public')->put($filePath, $pdf->output());
+    
+        // Save report to database
         $report = Reports::create([
-            'seller_id' => $seller->id,
+            'seller_id' => Seller::where('user_id', $selectedSeller->id)->first()->id,
             'report_name' => 'Inventory Report',
-            'report_type' => 'excel',
+            'report_type' => 'pdf',
             'content' => $fileName,
         ]);
-
-        return Excel::download(new InventoryExport($seller->id), $fileName);
+        
+    
+        // Return PDF for download
+        return $pdf->download($fileName);
     }
 
-    public function exportSales()
+    public function exportSales(Request $request)
     {
-        $seller = Seller::where('user_id', Auth::user()->id)->first();
-        $fileName = $seller->user->name . '_' . now()->format('YmdHis') . '.xlsx';
+        $startDate = $request->input('start_date');
+        $endDate = $request->input('end_date');
+        // return Excel::download(new AdminInventoryExport(), $fileName);
+        $fileName = Auth::user()->fname . '_' . Auth::user()->lname . '_' . now()->format('YmdHis') . '.pdf';
         $filePath = 'reports/' . $fileName;
 
-        Excel::store(new SalesExport(), $filePath, 'public');
-
+        $selectedSeller = User::where('role', 'seller')->where('id', $request->id)->get()->first();
+        $items = Products::leftJoin('tbl_order_items', 'tbl_products.id', '=', 'tbl_order_items.product_id')
+        ->selectRaw('
+            tbl_products.id,
+            tbl_products.name AS name,
+            tbl_products.seller_id AS seller_id,
+            tbl_products.stock AS stock,
+            COALESCE(SUM(tbl_order_items.quantity), 0) AS sold,
+            tbl_products.price,
+            MAX(tbl_order_items.created_at) AS order_date
+        ') 
+        ->groupBy('tbl_products.id', 'tbl_products.name', 'tbl_products.stock', 'tbl_products.price')
+        ->get();
+        // Generate PDF
+        $pdf = Pdf::loadView('reports.sales', compact('items','selectedSeller'))->setPaper('a4', 'portrait');
+    
+        // Store PDF in storage
+        Storage::disk('public')->put($filePath, $pdf->output());
+    
+        // Save report to database
         $report = Reports::create([
-            'seller_id' => $seller->id,
-            'report_name' => 'Sales Report',
-            'report_type' => 'excel',
+            'seller_id' => Auth::user()->id,
+            'report_name' => 'Inventory Report',
+            'report_type' => 'pdf',
             'content' => $fileName,
         ]);
-
-        return Excel::download(new SalesExport(), $fileName);
+    
+        // Return PDF for download
+        return $pdf->download($fileName);
     }
-
+    public function exportTopSeller(){
+        $isViewBTN=false;
+        $topSellers = User::where('role', 'seller')
+        ->leftJoin('tbl_sellers', 'tbl_users.id', '=', 'tbl_sellers.user_id')
+        ->leftJoin('tbl_products', 'tbl_sellers.id', '=', 'tbl_products.seller_id')
+        ->leftJoin('tbl_order_items', 'tbl_products.id', '=', 'tbl_order_items.product_id')
+        ->selectRaw('
+            tbl_users.id,
+            tbl_users.fname,
+            tbl_users.lname,
+            COUNT(DISTINCT tbl_order_items.order_id) AS total_order,
+            SUM(tbl_order_items.quantity) AS total_units_sold,
+            SUM(tbl_order_items.quantity * tbl_order_items.price) AS revenue,
+            CASE 
+                WHEN COUNT(DISTINCT tbl_order_items.order_id) > 0 
+                THEN SUM(tbl_order_items.quantity * tbl_order_items.price) / COUNT(DISTINCT tbl_order_items.order_id) 
+                ELSE 0 
+            END AS avg_order_value
+        ')
+        ->groupBy('tbl_users.id', 'tbl_users.fname', 'tbl_users.lname')
+        ->orderByDesc('revenue') // Sort by highest revenue
+        ->limit(10) // Get top 10 sellers
+        ->get();
+        
+        $fileName = Auth::user()->fname . '_' . Auth::user()->lname . '_' . now()->format('YmdHis') . '.pdf';
+        $pdf = Pdf::loadView('reports.top_seller_component', compact('topSellers','isViewBTN'))->setPaper('a4', 'portrait');
+    
+        $filePath = 'reports/' . $fileName;
+        // Store PDF in storage
+        Storage::disk('public')->put($filePath, $pdf->output());
+    
+        // Save report to database
+        $report = Reports::create([
+            'seller_id' => Auth::user()->id,
+            'report_name' => 'Inventory Report',
+            'report_type' => 'pdf',
+            'content' => $fileName,
+        ]);
+    
+        // Return PDF for download
+        return $pdf->download($fileName); 
+    }
     public function reports()
     {
+        $items = Products::leftJoin('tbl_order_items', 'tbl_products.id', '=', 'tbl_order_items.product_id')
+        ->selectRaw('
+            tbl_products.id,
+            tbl_products.name AS name,
+            tbl_products.seller_id AS seller_id,
+            tbl_products.stock AS stock,
+            COALESCE(SUM(tbl_order_items.quantity), 0) AS sold,
+            tbl_products.price,
+            MAX(tbl_order_items.created_at) AS order_date
+        ') 
+        ->groupBy('tbl_products.id', 'tbl_products.name', 'tbl_products.stock', 'tbl_products.price')
+        ->get();
+        $selectedSeller = User::where('role', 'seller')->where('id', Auth::user()->id)->get()->first();
         $seller = Seller::where('user_id', Auth::user()->id)->first();
         if (!$seller || !$seller->is_approved || $seller->user->is_active == 0) {
             session()->flash('error', 'You are not approved to access this page.');
             return redirect()->route('seller.dashboard');
         }
+        $isViewBTN=false;
+        $topSellers = User::where('role', 'seller')
+        ->leftJoin('tbl_sellers', 'tbl_users.id', '=', 'tbl_sellers.user_id')
+        ->leftJoin('tbl_products', 'tbl_sellers.id', '=', 'tbl_products.seller_id')
+        ->leftJoin('tbl_order_items', 'tbl_products.id', '=', 'tbl_order_items.product_id')
+        ->selectRaw('
+            tbl_users.id,
+            tbl_users.fname,
+            tbl_users.lname,
+            COUNT(DISTINCT tbl_order_items.order_id) AS total_order,
+            SUM(tbl_order_items.quantity) AS total_units_sold,
+            SUM(tbl_order_items.quantity * tbl_order_items.price) AS revenue,
+            CASE 
+                WHEN COUNT(DISTINCT tbl_order_items.order_id) > 0 
+                THEN SUM(tbl_order_items.quantity * tbl_order_items.price) / COUNT(DISTINCT tbl_order_items.order_id) 
+                ELSE 0 
+            END AS avg_order_value
+        ')
+        ->groupBy('tbl_users.id', 'tbl_users.fname', 'tbl_users.lname')
+        ->orderByDesc('revenue') // Sort by highest revenue
+        ->limit(10) // Get top 10 sellers
+        ->get();
         $reports = Reports::where('seller_id', $seller->id)->orderBy('created_at', 'desc')->paginate(10);
-        return view('seller.reports', compact('reports'));
+        return view('seller.reports', compact('reports','items','topSellers','isViewBTN','selectedSeller','seller'));
     }
 }

@@ -135,7 +135,7 @@
                         </a>
                     </div>
                 </li>
-                <li>
+                <!-- <li>
                     <div class="group">
                         <a href="{{ route('seller.locations') }}"
                             class="text-gray-800 text-sm flex items-center group-hover:text-blue-600 transition-all">
@@ -143,7 +143,7 @@
                             <span>Location Management</span>
                         </a>
                     </div>
-                </li>
+                </li> -->
                 <li>
                     <div class="group">
                         <a href="{{ route('seller.cashier') }}"

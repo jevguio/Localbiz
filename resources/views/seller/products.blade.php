@@ -298,15 +298,22 @@
                                             <label for="category"
                                                 class="block mb-2 text-sm font-medium text-gray-900">Category</label>
                                             <select id="category" name="category_id"
+                                            onchange="categoryChange(event)"
                                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5">
                                                 <option selected="">Select category</option>
                                                 @foreach ($categories as $category)
-                                                    <option value="{{ $category->id }}">
+                                                    <option value="{{ $category->name }}">
                                                         {{ $category->name }}</option>
                                                 @endforeach
                                             </select>
                                         </div>
                                     </div>
+                                        <div id="bestBeforeDateDiv" style="display: none;" class="col-span-2 sm:col-span-1">
+                                            <div  class="mt-2" >
+                                                <label for="best_before_date">Best Before Date</label>
+                                                <input type="date" name="best_before_date" class="form-control">
+                                            </div>
+                                        </div> 
                                     <hr class="my-4">
                                     <div class="flex justify-end gap-2">
                                         <button type="submit"
@@ -346,5 +353,10 @@
                 $(`#${modalId}`).addClass('hidden');
             });
         });
+                                         function categoryChange(e) {
+                                            console.log( e.target.value);
+                                            let bestBeforeDiv = document.getElementById('bestBeforeDateDiv');
+                                            bestBeforeDiv.style.display = e.target.value == 'food' ? 'block' : 'none';
+                                        };
     </script>
 </x-app-layout>

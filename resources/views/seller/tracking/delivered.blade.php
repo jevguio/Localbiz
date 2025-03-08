@@ -6,6 +6,10 @@
             </div>
             @include('seller.tracking.breadcrumbs')
             <div class="flex flex-col bg-white p-4 rounded-lg mt-4">
+                
+            @if ($cartItems->isEmpty())
+                <p>No Orders found. </p>
+            @else
                 @foreach ($cartItems as $item)
                     <div class="flex items-start gap-4">
                         <div class="w-32 h-28 max-lg:w-24 max-lg:h-24 flex p-3 shrink-0 rounded-md">
@@ -28,6 +32,7 @@
                         </div>
                     </div>
                 @endforeach
+                @endif
             </div>
         </div>
     </div>

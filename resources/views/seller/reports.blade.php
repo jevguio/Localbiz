@@ -54,14 +54,15 @@
                         @endforeach
                     </tbody>
                 </table>
-                <a href="{{ route('seller.inventory.export') }}"
+                
+                <a href="#" onclick="openInventory(event)"
                     class="btn btn-primary bg-blue-700 hover:bg-blue-800 text-white px-4 py-2 rounded-md my-4">Generate
                     Inventory</a>
                 <a href="{{ route('seller.products.export') }}"
                     class="btn btn-primary bg-blue-700 hover:bg-blue-800 text-white px-4 py-2 rounded-md">
                     Generate Products
                 </a>
-                <a href="{{ route('seller.sales.export') }}"
+                <a  href="#" onclick="openSales(event)"
                     class="btn btn-primary bg-blue-700 hover:bg-blue-800 text-white px-4 py-2 rounded-md">
                     Generate Sales
                 </a>
@@ -78,8 +79,84 @@
                 </nav>
             </div>
         </div>
-    </div>
+    </div> 
+    <div class="p-4 " id="Sales_Management" style="position:fixed; top:0;left:0;background-color:rgba(0,0,0,0.3);width:100%;height:100%" onclick="CloseSales(event)">
+        <div class="p-4   rounded-lg" style="width:60%; margin-left:auto;margin-right:auto; background-color:white;height:80%">
+           
+                @include('reports.sales')
+        
+                <a href="{{ route('seller.inventory.export') }}" id="export_sales"
+                        class="btn btn-primary bg-blue-700 hover:bg-blue-800 text-white px-4 py-2 rounded-md" style="position:absolute;right:21%; bottom:23%">Download PDF</a>
+                        <script>
+                            document.addEventListener("DOMContentLoaded", function () {
+                                let export_sales = document.getElementById("export_sales"); 
 
+                                export_sales.addEventListener("click", function (event) {
+                                    event.preventDefault(); // Prevent default link behavior
+
+                                    let DateStartEnd = document.getElementById("DateStartEnd"); 
+                                    let baseUrl = "{{ route('seller.sales.export') }}"; // Blade generates this correctly
+                                    let sellerId = "{{ $selectedSeller->id }}"; // Get seller ID from Blade 
+                                    let start=DateStartEnd.getAttribute('start');
+                                    let end=DateStartEnd.getAttribute('end');
+                                    let url = `${baseUrl}?id=${sellerId}&sales=true&start_date=${start}&end_date=${end}`;
+                                    window.location.href = url; // Redirect dynamically
+                                });
+                            });
+                        </script>
+                 
+        </div>
+    </div>
+    
+    <div class="overlay" id="overlay">
+    @include('reports.daterangepicker')
+        
+    </div>
+    <div class="p-4 " id="Product_Management" style="position:fixed; top:0;left:0;background-color:rgba(0,0,0,0.3);width:100%;height:100%" onclick="CloseInventory(event)">
+        <div class="p-4   rounded-lg" style="width:60%; margin-left:auto;margin-right:auto; background-color:white;height:80%">
+           
+                @include('reports.inventory')
+        
+                <a href="{{ route('seller.inventory.export') }}" id="export_inventory"
+                        class="btn btn-primary bg-blue-700 hover:bg-blue-800 text-white px-4 py-2 rounded-md" style="position:absolute;right:21%; bottom:23%">Download PDF</a>
+                        <script>
+                            document.addEventListener("DOMContentLoaded", function () {
+                                let export_inventory = document.getElementById("export_inventory"); 
+
+                                export_inventory.addEventListener("click", function (event) {
+                                    event.preventDefault(); // Prevent default link behavior
+
+                                    let DateStartEnd = document.getElementById("DateStartEnd"); 
+                                    let baseUrl = "{{ route('seller.inventory.export') }}"; // Blade generates this correctly
+                                    let sellerId = "{{ $selectedSeller->id }}"; // Get seller ID from Blade 
+                                    let start=DateStartEnd.getAttribute('start');
+                                    let end=DateStartEnd.getAttribute('end');
+                                    let url = `${baseUrl}?id=${sellerId}&sales=true&start_date=${start}&end_date=${end}`;
+                                    window.location.href = url; // Redirect dynamically
+                                });
+                            });
+                        </script>
+                 
+        </div>
+    </div>
+     
+    <style> .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent black */
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000; 
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+ 
+</style> 
+ 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
         $(document).ready(function() {
@@ -90,5 +167,80 @@
                 });
             });
         });
+        
+        function openSalesReport(event){  
+            let datePicker = dateRangeflatpickr; // Ensure this is correctly defined in your script
+            // console.log(datePicker);  
+            const overlay = document.getElementById("overlay");  
+            const invent = document.getElementById('Sales_Management');
+            invent.style.display="none";
+                overlay.style.display= "block"; 
+                overlay.style.visibility= "visible";   
+                overlay.style.opacity= 1;   
+                dateRangeflatpickr.open(); 
+        } 
+        function openInventory(event){ 
+            let baseUrl = "{{ route('seller.reports') }}"; // Blade generates this correctly
+            let sellerId = "{{ $seller->id }}"; // Get seller ID from Blade 
+            let url = `${baseUrl}?id=${sellerId}&inventory=true`;
+            window.location.href = url; // Redirect dynamically
+        }
+        
+        function openSales(event){ 
+            let baseUrl = "{{ route('seller.reports') }}"; // Blade generates this correctly
+            let sellerId = "{{ $seller->id }}"; // Get seller ID from Blade 
+            let url = `${baseUrl}?id=${sellerId}&sales=true`;
+            window.location.href = url; // Redirect dynamically
+        }
+        
+        function openInventoryReport(event){  
+
+                                    
+                                    // window.location.href = url; // Redirect dynamically
+            const overlay = document.getElementById("overlay");  
+            const invent = document.getElementById('Product_Management');
+            invent.style.display="none";
+                overlay.style.display= "block"; 
+                overlay.style.visibility= "visible";   
+                overlay.style.opacity= 1;   
+                dateRangeflatpickr.open(); 
+        }
+        function CloseInventory(){
+            if (event.target === event.currentTarget) {
+                const Product_Management =document.getElementById('Product_Management');
+                Product_Management.style.display="none";
+            }
+        }
+        function CloseSales(){
+            if (event.target === event.currentTarget) {
+                const Product_Management =document.getElementById('Sales_Management');
+                Product_Management.style.display="none";
+            }
+        }
+        const urlParams = new URLSearchParams(window.location.search);
+        const id = urlParams.get("id"); 
+        const sales = urlParams.get("sales"); 
+        const inventory = urlParams.get("inventory");  
+        if(sales && id!=null){
+ 
+            openSalesReport(null);
+        }else {
+            
+            const Product_Management = document.getElementById("Product_Management");
+            Product_Management.style.display="none"; 
+            const Sales_Management = document.getElementById("Sales_Management");
+            Sales_Management.style.display="none"; 
+        }
+        
+        if(inventory && id!=null){
+ 
+            openInventoryReport(null);
+        } else {
+            const Product_Management = document.getElementById("Product_Management");
+            Product_Management.style.display="none"; 
+            const Sales_Management = document.getElementById("Sales_Management");
+            Sales_Management.style.display="none"; 
+        }
     </script>
+    
 </x-app-layout>

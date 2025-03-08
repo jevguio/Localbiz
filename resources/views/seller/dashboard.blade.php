@@ -24,6 +24,16 @@
                             <i class='bx bx-check-circle shrink-0 stroke-current text-lg'></i>
                             <span>Your documents have been approved. You can now access the dashboard.</span>
                         </div>
+                        @foreach ($lowStockProducts as $product)
+                        @if ($product->stock <= 5)
+                            <div role="alert" class="alert alert-warning text-white mt-2">
+                            <i class='bx bx-error shrink-0 stroke-current text-lg'></i> 
+                                <p>{{ $product->name }} Stock Running Low! Only {{ $product->stock }} left.</p>
+ 
+                            </div>
+                            @endif
+                        @endforeach
+
                     @elseif ($seller && $seller->document_file && $seller->logo && $seller->is_approved == 0)
                         <div role="alert" class="alert alert-success text-white">
                             <i class='bx bx-check-circle shrink-0 stroke-current text-lg'></i>

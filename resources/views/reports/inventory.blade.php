@@ -38,16 +38,15 @@
             <tr>
             <th>Quantity Sold</th>
             <th>Unit</th>
-                <th>Descriptsion</th>
+                <th>Description</th>
                 <th>Remaining</th>
                 <th>Total Amount</th>
             </tr>
         </thead>
-        <tbody>
-        @php $totalPrice = 0; @endphp
+        <tbody> 
         @php $QuantityPrice = 0; @endphp
             @foreach ($items as $index => $item)
-                @php $QuantityPrice += $item->price * $item->sold; @endphp
+                @php $QuantityPrice = $item->price * $item->sold; @endphp
 
                 @if ($item->seller_id == 1)
                 <tr>
@@ -57,8 +56,7 @@
                     <td>{{ $item->stock }}</td>
                     <td>${{ $QuantityPrice }}</td>
                 </tr>
-                @endif
-                @php $totalPrice += $QuantityPrice; @endphp
+                @endif 
             @endforeach
 
         </tbody>  

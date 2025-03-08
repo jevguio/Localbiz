@@ -102,6 +102,7 @@ Route::middleware(['auth', 'Seller'])->group(function () {
     Route::post('/seller/cashier/store', [SellerController::class, 'storeCashier'])->name('seller.cashier.store');
     Route::post('/seller/rider/store', [SellerController::class, 'storeRider'])->name('seller.rider.store');
 
+    Route::put('/seller/order/update', [SellerController::class, 'updateOrder'])->name('seller.order.update');
     Route::put('/seller/categories/update/{id}', [SellerController::class, 'updateCategory'])->name('seller.categories.update');
     Route::put('/seller/products/update/{id}', [SellerController::class, 'updateProduct'])->name('seller.products.update');
     Route::put('/seller/locations/update/{id}', [SellerController::class, 'updateLocation'])->name('seller.locations.update');
