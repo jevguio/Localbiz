@@ -23,7 +23,7 @@
         .table th { background-color: #f2f2f2; }
     </style>
     
-    <div class="relative">
+    <div class="relative mb-10">
 <div class="header">Localbiz</div>
 
 <script>

@@ -1,5 +1,5 @@
 <x-app-layout>
-   <div class="p-4 sm:ml-64">
+   <div class="p-4 sm:ml-64 ">
    <div class="mb-4 mt-4">
         <a href="{{route('owner.reports')}}" class="bg-info p-2 mb-4" style="border-radius: 10px;">
            Back

@@ -27,7 +27,7 @@
         .table th, .table td { border: 1px solid #000; padding: 8px; text-align: left; }
         .table th { background-color: #f2f2f2; }
     </style>
-    <div class="relative">
+    <div class="relative mb-10" >
     <div class="header">Localbiz</div>
     <script>
         function CloseInventoryThis(){
