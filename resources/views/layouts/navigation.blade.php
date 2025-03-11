@@ -135,7 +135,7 @@
                     <a href="#"
                         class="dropdown-toggle text-gray-800 text-sm flex items-center group-hover:text-blue-600 transition-all"
                         onclick="toggleDropdown(this)">
-                        <i class='bx bxs-package text-2xl mr-4 text-gray-400 group-hover:text-blue-600'></i>
+                        <i class='bx bxs-user-circle text-2xl mr-4 text-gray-400 group-hover:text-blue-600'></i>
                         <span>Accounts</span>
                     </a>
                     <ul class="dropdown-menu" style="display: none;">
@@ -145,7 +145,7 @@
                                 class="text-sm text-gray-700 hover:text-gray-900">Rider</a></li>
                     </ul>
                 </li>
-
+                <br>
                 <!-- <li>
                     <div class="group">
                         <a href="{{ route('seller.products') }}"
@@ -172,6 +172,7 @@
                 </li>
 
 
+                <br>
                 <!-- <li>
                     <div class="group">
                         <a href="{{ route('seller.categories') }}"
@@ -211,8 +212,8 @@
                 <li class="dropdown">
                     <a href="#"
                         class="dropdown-toggle text-gray-800 text-sm flex items-center group-hover:text-blue-600 transition-all"
-                        onclick="toggleDropdown(this)">
-                        <i class='bx bxs-package text-2xl mr-4 text-gray-400 group-hover:text-blue-600'></i>
+                         >
+                        <i class='bx bxs-cart text-2xl mr-4 text-gray-400 group-hover:text-blue-600'></i>
                         <span>Orders</span>
                     </a>
                     <ul class="dropdown-menu" style="display: none;">
@@ -242,7 +243,7 @@
                     <div class="group">
                         <a href="{{ route('seller.order-history') }}"
                             class="text-gray-800 text-sm flex items-center group-hover:text-blue-600 transition-all">
-                            <i class='bx bxs-wallet text-2xl mr-4 text-gray-400 group-hover:text-blue-600'></i>
+                            <i class='bx bxs-package text-2xl mr-4 text-gray-400 group-hover:text-blue-600'></i>
                             <span>Inventory</span>
                         </a>
                     </div>
