@@ -15,7 +15,7 @@
                         <a href="{{ route('owner.account') }}"
                             class="text-gray-800 text-sm flex items-center group-hover:text-blue-600 transition-all">
                             <i class='bx bxs-user-circle text-2xl mr-4 text-gray-400 group-hover:text-blue-600'></i>
-                            <span>Account Management</span>
+                            <span>Accounts</span>
                         </a>
                     </div>
                 </li>
@@ -24,7 +24,7 @@
                         <a href="{{ route('owner.products') }}"
                             class="text-gray-800 text-sm flex items-center group-hover:text-blue-600 transition-all">
                             <i class='bx bxs-package text-2xl mr-4 text-gray-400 group-hover:text-blue-600'></i>
-                            <span>Products & Inventory</span>
+                            <span>Products</span>
                         </a>
                     </div>
                 </li>
@@ -42,20 +42,32 @@
                         <a href="{{ route('owner.orders') }}"
                             class="text-gray-800 text-sm flex items-center group-hover:text-blue-600 transition-all">
                             <i class='bx bxs-cart text-2xl mr-4 text-gray-400 group-hover:text-blue-600'></i>
-                            <span>Order Management</span>
+                            <span>Orders</span>
                         </a>
                     </div>
                 </li>
+                
+                <li>
+                    <div class="group">
+                        <a href="{{ route('owner.products') }}"
+                            class="text-gray-800 text-sm flex items-center group-hover:text-blue-600 transition-all">
+                            <i class='bx bxs-package text-2xl mr-4 text-gray-400 group-hover:text-blue-600'></i>
+                            <span>Inventory</span>
+                        </a>
+                    </div>
+                </li>
+
                 <li>
                     <div class="group">
                         <a href="{{ route('owner.reports') }}"
                             class="text-gray-800 text-sm flex items-center group-hover:text-blue-600 transition-all">
                             <i class='bx bxs-file-pdf text-2xl mr-4 text-gray-400 group-hover:text-blue-600'></i>
-                            <span>Generate Report</span>
+                            <span>Reports</span>
                         </a>
                     </div>
                 </li>
             @endif
+
 
             @if (Auth::user()->role == 'Customer')
                 <li>
@@ -81,13 +93,13 @@
                         class="dropdown-toggle text-gray-800 text-sm flex items-center group-hover:text-blue-600 transition-all"
                         onclick="toggleDropdown(this)">
                         <i class='bx bxs-package text-2xl mr-4 text-gray-400 group-hover:text-blue-600'></i>
-                        <span>Order Tracking</span>
+                        <span>Orders</span>
                     </a>
                     <ul class="dropdown-menu" style="display: none;">
                         <li class="dropdown-item"><a href="{{ route('customer.tracking.pending') }}"
                                 class="text-sm text-gray-700 hover:text-gray-900">Pending</a></li>
                         <li class="dropdown-item"><a href="{{ route('customer.tracking.processed') }}"
-                                class="text-sm text-gray-700 hover:text-gray-900">Processing</a></li>
+                                class="text-sm text-gray-700 hover:text-gray-900">Processed</a></li>
                         <li class="dropdown-item"><a href="{{ route('customer.tracking.receiving') }}"
                                 class="text-sm text-gray-700 hover:text-gray-900">To Receive</a></li>
                         <li class="dropdown-item"><a href="{{ route('customer.tracking.cancelled') }}"
@@ -107,6 +119,7 @@
                 </li>
             @endif
 
+
             @if (Auth::user()->role == 'Seller')
                 <li>
                     <div class="group">
@@ -117,16 +130,49 @@
                         </a>
                     </div>
                 </li>
-                <li>
+
+                <li class="dropdown">
+                    <a href="#"
+                        class="dropdown-toggle text-gray-800 text-sm flex items-center group-hover:text-blue-600 transition-all"
+                        onclick="toggleDropdown(this)">
+                        <i class='bx bxs-package text-2xl mr-4 text-gray-400 group-hover:text-blue-600'></i>
+                        <span>Accounts</span>
+                    </a>
+                    <ul class="dropdown-menu" style="display: none;">
+                        <li class="dropdown-item"><a href="{{ route('seller.cashier') }}"
+                                class="text-sm text-gray-700 hover:text-gray-900">Cashier</a></li>
+                        <li class="dropdown-item"><a href="{{ route('seller.rider') }}"
+                                class="text-sm text-gray-700 hover:text-gray-900">Rider</a></li>
+                    </ul>
+                </li>
+
+                <!-- <li>
                     <div class="group">
                         <a href="{{ route('seller.products') }}"
                             class="text-gray-800 text-sm flex items-center group-hover:text-blue-600 transition-all">
                             <i class='bx bxs-package text-2xl mr-4 text-gray-400 group-hover:text-blue-600'></i>
-                            <span>Products & Inventory</span>
+                            <span>Products</span>
                         </a>
                     </div>
+                </li> -->
+
+                <li class="dropdown">
+                    <a href="#"
+                        class="dropdown-toggle text-gray-800 text-sm flex items-center group-hover:text-blue-600 transition-all"
+                        onclick="toggleDropdown(this)">
+                        <i class='bx bxs-package text-2xl mr-4 text-gray-400 group-hover:text-blue-600'></i>
+                        <span>Products</span>
+                    </a>
+                    <ul class="dropdown-menu" style="display: none;">
+                        <li class="dropdown-item"><a href="{{ route('seller.products') }}"
+                                class="text-sm text-gray-700 hover:text-gray-900">Products</a></li>
+                        <li class="dropdown-item"><a href="{{ route('seller.categories') }}"
+                                class="text-sm text-gray-700 hover:text-gray-900">Categories</a></li>
+                    </ul>
                 </li>
-                <li>
+
+
+                <!-- <li>
                     <div class="group">
                         <a href="{{ route('seller.categories') }}"
                             class="text-gray-800 text-sm flex items-center group-hover:text-blue-600 transition-all">
@@ -135,7 +181,7 @@
                         </a>
                     </div>
                 </li>
-                <!-- <li>
+                <li>
                     <div class="group">
                         <a href="{{ route('seller.locations') }}"
                             class="text-gray-800 text-sm flex items-center group-hover:text-blue-600 transition-all">
@@ -144,7 +190,7 @@
                         </a>
                     </div>
                 </li> -->
-                <li>
+                <!-- <li>
                     <div class="group">
                         <a href="{{ route('seller.cashier') }}"
                             class="text-gray-800 text-sm flex items-center group-hover:text-blue-600 transition-all">
@@ -161,25 +207,25 @@
                             <span>Rider Management</span>
                         </a>
                     </div>
-                </li>
+                </li> -->
                 <li class="dropdown">
                     <a href="#"
                         class="dropdown-toggle text-gray-800 text-sm flex items-center group-hover:text-blue-600 transition-all"
                         onclick="toggleDropdown(this)">
                         <i class='bx bxs-package text-2xl mr-4 text-gray-400 group-hover:text-blue-600'></i>
-                        <span>Order Tracking</span>
+                        <span>Orders</span>
                     </a>
                     <ul class="dropdown-menu" style="display: none;">
+                        <!-- <li class="dropdown-item"><a href="{{ route('seller.tracking.pending') }}"
+                                class="text-sm text-gray-700 hover:text-gray-900">Pending</a></li> -->
                         <li class="dropdown-item"><a href="{{ route('seller.tracking.pending') }}"
-                                class="text-sm text-gray-700 hover:text-gray-900">Pending</a></li>
-                        <li class="dropdown-item"><a href="{{ route('seller.tracking.processed') }}"
                                 class="text-sm text-gray-700 hover:text-gray-900">Processing</a></li>
                         <li class="dropdown-item"><a href="{{ route('seller.tracking.receiving') }}"
                                 class="text-sm text-gray-700 hover:text-gray-900">To Receive</a></li>
+                        <li class="dropdown-item"><a href="{{ route('seller.tracking.delivered') }}"
+                                class="text-sm text-gray-700 hover:text-gray-900">Completed</a></li>
                         <li class="dropdown-item"><a href="{{ route('seller.tracking.cancelled') }}"
                                 class="text-sm text-gray-700 hover:text-gray-900">Cancelled</a></li>
-                        <li class="dropdown-item"><a href="{{ route('seller.tracking.delivered') }}"
-                                class="text-sm text-gray-700 hover:text-gray-900">Completed/Delivered</a></li>
                     </ul>
                 </li>
                 <li>
@@ -191,16 +237,28 @@
                         </a>
                     </div>
                 </li>
+                
+                <li>
+                    <div class="group">
+                        <a href="{{ route('seller.order-history') }}"
+                            class="text-gray-800 text-sm flex items-center group-hover:text-blue-600 transition-all">
+                            <i class='bx bxs-wallet text-2xl mr-4 text-gray-400 group-hover:text-blue-600'></i>
+                            <span>Inventory</span>
+                        </a>
+                    </div>
+                </li>
+
                 <li>
                     <div class="group">
                         <a href="{{ route('seller.reports') }}"
                             class="text-gray-800 text-sm flex items-center group-hover:text-blue-600 transition-all">
                             <i class='bx bxs-file-pdf text-2xl mr-4 text-gray-400 group-hover:text-blue-600'></i>
-                            <span>Generate Report</span>
+                            <span>Reports</span>
                         </a>
                     </div>
                 </li>
             @endif
+
 
             @if (Auth::user()->role == 'GovernmentAgency')
                 <li>
@@ -208,11 +266,12 @@
                         <a href="{{ route('government.approval') }}"
                             class="text-gray-800 text-sm flex items-center group-hover:text-blue-600 transition-all">
                             <i class='bx bxs-user-check text-2xl mr-4 text-gray-400 group-hover:text-blue-600'></i>
-                            <span>Approval Management</span>
+                            <span>Accounts</span>
                         </a>
                     </div>
                 </li>
             @endif
+
 
             @if (Auth::user()->role == 'Cashier')
                 <li>
@@ -229,7 +288,7 @@
                         <a href="{{ route('cashier.orders') }}"
                             class="text-gray-800 text-sm flex items-center group-hover:text-blue-600 transition-all">
                             <i class='bx bxs-cart text-2xl mr-4 text-gray-400 group-hover:text-blue-600'></i>
-                            <span>Order Management</span>
+                            <span>Orders</span>
                         </a>
                     </div>
                 </li>
@@ -238,11 +297,12 @@
                         <a href="{{ route('cashier.reports') }}"
                             class="text-gray-800 text-sm flex items-center group-hover:text-blue-600 transition-all">
                             <i class='bx bxs-file-pdf text-2xl mr-4 text-gray-400 group-hover:text-blue-600'></i>
-                            <span>Generate Report</span>
+                            <span>Reports</span>
                         </a>
                     </div>
                 </li>
             @endif
+
 
             @if (Auth::user()->role == 'DeliveryRider')
                 <li>
@@ -259,7 +319,7 @@
                         <a href="{{ route('rider.orders') }}"
                             class="text-gray-800 text-sm flex items-center group-hover:text-blue-600 transition-all">
                             <i class='bx bxs-package text-2xl mr-4 text-gray-400 group-hover:text-blue-600'></i>
-                            <span>Order Management</span>
+                            <span>Orders</span>
                         </a>
                     </div>
                 </li>

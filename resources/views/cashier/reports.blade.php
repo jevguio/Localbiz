@@ -28,9 +28,9 @@
                             <th scope="col" class="px-6 py-3">
                                 Created At
                             </th>
-                            <th scope="col" class="px-6 py-3">
+                            <!-- <th scope="col" class="px-6 py-3">
                                 Content
-                            </th>
+                            </th> -->
                         </tr>
                     </thead>
                     <tbody id="reports-table-body">
@@ -45,11 +45,11 @@
                                 <td class="px-6 py-4">
                                     {{ $report->created_at->format('F d, Y h:i:s A') }}
                                 </td>
-                                <td class="px-6 py-4">
+                                <!-- <td class="px-6 py-4">
                                     <a href="{{ asset('reports/' . $report->content) }}"
                                         class="btn btn-primary bg-blue-700 hover:bg-blue-800 text-white font-bold py-2 px-4 rounded"
                                         download>Download</a>
-                                </td>
+                                </td> -->
                             </tr>
                         @endforeach
                     </tbody>
@@ -57,7 +57,7 @@
                 <div class="flex gap-2 my-4">
                     <a href="{{ route('cashier.sales.export') }}"
                         class="btn btn-primary bg-blue-700 hover:bg-blue-800 text-white px-4 py-2 rounded-md">
-                        Generate Sales
+                        Generate Payment Transactions
                     </a>
                 </div>
                 <nav class="flex items-center flex-column flex-wrap md:flex-row justify-between pt-4"

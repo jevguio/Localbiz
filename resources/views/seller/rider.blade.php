@@ -77,7 +77,7 @@
                                                     @method('PUT')
                                                     <div class="col-span-2">
                                                         <label class="block mb-2 text-sm font-medium text-gray-900"
-                                                            for="fname">Rider First Name</label>
+                                                            for="fname">First Name</label>
                                                         <input type="text" name="fname" id="fname"
                                                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
                                                             placeholder="Type rider frist name"
@@ -85,7 +85,7 @@
                                                     </div>
                                                     <div class="col-span-2">
                                                         <label class="block mb-2 text-sm font-medium text-gray-900"
-                                                            for="lname">Rider Last Name</label>
+                                                            for="lname">Last Name</label>
                                                         <input type="text" name="lname" id="lname"
                                                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
                                                             placeholder="Type rider last name"
@@ -206,31 +206,31 @@
                                     <div class="grid gap-4 mb-4 grid-cols-2">
                                         <div class="col-span-2">
                                             <label class="block mb-2 text-sm font-medium text-gray-900"
-                                                for="name">Rider Name</label>
+                                                for="name">Name</label>
                                             <input type="text" name="name" id="name"
                                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
-                                                placeholder="Type rider name" value="{{ old('name') }}">
+                                                placeholder="Type name" value="{{ old('name') }}">
                                         </div>
                                         <div class="col-span-2">
                                             <label class="block mb-2 text-sm font-medium text-gray-900"
-                                                for="email">Rider Email</label>
+                                                for="email">Email</label>
                                             <input type="email" name="email" id="email"
                                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
-                                                placeholder="Type rider email" value="{{ old('email') }}">
+                                                placeholder="Type email" value="{{ old('email') }}">
                                         </div>
                                         <div class="col-span-2">
                                             <label class="block mb-2 text-sm font-medium text-gray-900"
-                                                for="address">Rider Address</label>
+                                                for="address">Address</label>
                                             <textarea name="address" id="address"
                                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
-                                                placeholder="Type rider address">{{ old('address') }}</textarea>
+                                                placeholder="Type address">{{ old('address') }}</textarea>
                                         </div>
                                         <div class="col-span-2">
                                             <label class="block mb-2 text-sm font-medium text-gray-900"
-                                                for="phone">Rider Phone</label>
+                                                for="phone">Contact Number</label>
                                             <input type="text" name="phone" id="phone"
                                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
-                                                placeholder="Type rider phone" value="{{ old('phone') }}">
+                                                placeholder="Type contact number" value="{{ old('phone') }}">
                                         </div>
                                     </div>
                                     <hr class="my-4">

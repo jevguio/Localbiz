@@ -154,7 +154,7 @@
                                                         class="block mb-2 text-sm font-medium text-gray-900">Status</label>
                                                     <select name="status" id="status"
                                                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5">
-                                                        <option value="pending"
+                                                        <!-- <option value="pending"
                                                             {{ $order->orderItems->first()->product->status == 'pending' ? 'selected' : '' }}>
                                                             Pending
                                                         </option>
@@ -165,10 +165,10 @@
                                                         <option value="receiving"
                                                             {{ $order->status == 'receiving' ? 'selected' : '' }}>
                                                             Receiving
-                                                        </option>
+                                                        </option> -->
                                                         <option value="delivered"
                                                             {{ $order->status == 'delivered' ? 'selected' : '' }}>
-                                                            Completed/Delivered
+                                                            Delivered
                                                         </option>
                                                         <option value="cancelled"
                                                             {{ $order->status == 'cancelled' ? 'selected' : '' }}>

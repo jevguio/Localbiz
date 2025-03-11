@@ -14,10 +14,10 @@
     </li>
     <li
         class="text-gray-400 hover:bg-gray-100 px-4 py-2.5 rounded-lg text-sm font-bold cursor-pointer flex items-center">
-        <a onclick="window.location.href = '{{ route('customer.tracking.cancelled') }}'">Cancelled</a>
+        <a onclick="window.location.href = '{{ route('customer.tracking.delivered') }}'">Received</a>
     </li>
     <li
         class="text-gray-400 hover:bg-gray-100 px-4 py-2.5 rounded-lg text-sm font-bold cursor-pointer flex items-center">
-        <a onclick="window.location.href = '{{ route('customer.tracking.delivered') }}'">Completed/Delivered</a>
+        <a onclick="window.location.href = '{{ route('customer.tracking.cancelled') }}'">Cancelled</a>
     </li>
 </ul>

@@ -28,9 +28,6 @@
                             <th scope="col" class="px-6 py-3">
                                 Created At
                             </th>
-                            <th scope="col" class="px-6 py-3">
-                                Content
-                            </th>
                         </tr>
                     </thead>
                     <tbody id="reports-table-body">
@@ -45,11 +42,11 @@
                                 <td class="px-6 py-4">
                                     {{ $report->created_at->format('F d, Y h:i:s A') }}
                                 </td>
-                                <td class="px-6 py-4">
+                                <!-- <td class="px-6 py-4">
                                     <a href="{{ asset('reports/' . $report->content) }}"
                                         class="btn btn-primary bg-blue-700 hover:bg-blue-800 text-white font-bold py-2 px-4 rounded"
                                         download>Download</a>
-                                </td>
+                                </td> -->
                             </tr>
                         @endforeach
                     </tbody>

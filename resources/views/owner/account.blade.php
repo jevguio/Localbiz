@@ -122,10 +122,10 @@
                                                     </div>
                                                     <div class="col-span-2">
                                                         <label class="block mb-2 text-sm font-medium text-gray-900"
-                                                            for="phone">Phone Number</label>
+                                                            for="phone">Contact Number</label>
                                                         <input type="text" name="phone" id="phone"
                                                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
-                                                            placeholder="Type phone number"
+                                                            placeholder="Type contact number"
                                                             value="{{ $user->phone }}">
                                                     </div>
                                                     <div class="col-span-2">
@@ -133,9 +133,7 @@
                                                             for="role">Role</label>
                                                         <select name="role" id="role"
                                                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5">
-                                                            <option value="Owner"
-                                                                {{ $user->role == 'Owner' ? 'selected' : '' }}>Owner
-                                                            </option>
+                                                            
                                                             <option value="Seller"
                                                                 {{ $user->role == 'Seller' ? 'selected' : '' }}>Seller
                                                             </option>
@@ -335,10 +333,8 @@
                                                 for="role">Role</label>
                                             <select name="role" id="role"
                                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5">
-                                                <option value="Owner">Owner</option>
                                                 <option value="Seller">Seller</option>
                                                 <option value="GovernmentAgency">Government Agency</option>
-                                                <option value="Customer">Customer</option>
                                             </select>
                                         </div>
                                     </div>

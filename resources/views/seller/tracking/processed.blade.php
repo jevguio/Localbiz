@@ -7,7 +7,7 @@
             @include('seller.tracking.breadcrumbs')
             <div class="flex flex-col bg-white p-4 rounded-lg mt-4">
             @if ($cartItems->isEmpty())
-                <p>No Orders found. </p>
+            <p style="text-align: center;">No Orders found.</p>
             @else 
                 @foreach ($cartItems as $item )
                     <div class="flex items-start gap-4">

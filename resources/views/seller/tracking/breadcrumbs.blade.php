@@ -13,7 +13,7 @@
     <li class="px-4 py-2.5 rounded-lg text-sm font-bold cursor-pointer flex items-center
         text-gray-400 hover:bg-gray-100 
         {{ Route::currentRouteName() == 'seller.tracking.delivered' ? 'border-b-2 border-blue-500 text-blue-600' : '' }}">
-        <a href="{{ route('seller.tracking.delivered') }}">Completed/Delivered</a>
+        <a href="{{ route('seller.tracking.delivered') }}">Completed</a>
     </li>
     <li class="px-4 py-2.5 rounded-lg text-sm font-bold cursor-pointer flex items-center
         text-gray-400 hover:bg-gray-100 

@@ -2,7 +2,7 @@
     <div class="p-4 sm:ml-64">
         <div class="p-4 border-2 border-gray-200 border-dashed rounded-lg">
             <div class="flex justify-between items-center">
-                <h2 class="mt-3 text-xl font-bold text-gray-900 sm:text-2xl">Order History</h2>
+                <h2 class="mt-3 text-xl font-bold text-gray-900 sm:text-2xl">Orders</h2>
             </div>
             <div class="relative overflow-x-auto mt-10 bg-white p-4 rounded-lg">
                 <form class="max-w-md ml-0 mb-4">
@@ -95,7 +95,7 @@
                                                             {{ $order->status == 'processing' ? 'selected' : '' }}>
                                                             Processing
                                                         </option>
-                                                        <option value="receiving"
+                                                        <!-- <option value="receiving"
                                                             {{ $order->status == 'receiving' ? 'selected' : '' }}>
                                                             Receiving
                                                         </option>
@@ -106,7 +106,7 @@
                                                         <option value="canceled"
                                                             {{ $order->status == 'canceled' ? 'selected' : '' }}>
                                                             Canceled
-                                                        </option>
+                                                        </option> -->
                                                     </select>
                                                 </div>
                                                 <div class="col-span-1">
