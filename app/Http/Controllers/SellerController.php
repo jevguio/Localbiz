@@ -480,9 +480,9 @@ class SellerController extends Controller
         ->orderByDesc('revenue') // Sort by highest revenue
         ->limit(10) // Get top 10 sellers
         ->get();
-        
+        $is_view=false;
         $fileName = Auth::user()->fname . '_' . Auth::user()->lname . '_' . now()->format('YmdHis') . '.pdf';
-        $pdf = Pdf::loadView('reports.top_seller_component', compact('topSellers','isViewBTN'))->setPaper('a4', 'portrait');
+        $pdf = Pdf::loadView('reports.top_seller_component', compact('topSellers','is_view','isViewBTN'))->setPaper('a4', 'portrait');
     
         $filePath = 'reports/' . $fileName;
         // Store PDF in storage
@@ -520,6 +520,7 @@ class SellerController extends Controller
             return redirect()->route('seller.dashboard');
         }
         $isViewBTN=false;
+        $is_view=false;
         $topSellers = User::where('role', 'seller')
         ->leftJoin('tbl_sellers', 'tbl_users.id', '=', 'tbl_sellers.user_id')
         ->leftJoin('tbl_products', 'tbl_sellers.id', '=', 'tbl_products.seller_id')
@@ -542,6 +543,6 @@ class SellerController extends Controller
         ->limit(10) // Get top 10 sellers
         ->get();
         $reports = Reports::where('seller_id', $seller->id)->orderBy('created_at', 'desc')->paginate(10);
-        return view('seller.reports', compact('reports','items','topSellers','isViewBTN','selectedSeller','seller'));
+        return view('seller.reports', compact('reports','items','topSellers','is_view','isViewBTN','selectedSeller','seller'));
     }
 }
