@@ -36,14 +36,7 @@
             visibility: hidden;
             width: 0;
             height:0;
-        }
-        input {
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            width: 250px;
-            text-align: center;
-        }
+        } 
         .button-group {
             margin-top: 15px;
         } 
@@ -71,13 +64,7 @@
         }
         button:hover {
             opacity: 0.9;
-        }
-        #profile input, #profile button{
-            width: 70%;
-        }
-        #profile input{ 
-            text-align:left;
-        }
+        } 
     </style> 
     
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
