@@ -1,4 +1,4 @@
-<section>
+<section  >
     <header>
         <h2 class="text-lg font-medium text-gray-900">
             {{ __('Profile Information') }}
@@ -21,7 +21,7 @@
             <legend class="fieldset-legend">Profile Picture</legend>
             <input type="file" name="avatar" class="file-input file-input-bordered w-full" accept="image/*" />
         </fieldset>
-
+        
         <fieldset class="fieldset">
             <legend class="fieldset-legend">First Name</legend>
             <input type="text" name="fname" class="input w-full" placeholder="Type your name"

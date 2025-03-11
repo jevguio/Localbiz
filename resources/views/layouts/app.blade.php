@@ -24,13 +24,8 @@
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
     <script src="{{ asset('js/app.js') }}"></script>
     
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            display: flex;
-            justify-content: center; 
-            height: 100vh; 
-        } .flatpickr-calendar {
+    <style> 
+    .flatpickr-calendar {
             padding:5%;
             position: fixed !important;
             top: 50% !important;
@@ -77,6 +72,12 @@
         button:hover {
             opacity: 0.9;
         }
+        #profile input, #profile button{
+            width: 70%;
+        }
+        #profile input{ 
+            text-align:left;
+        }
     </style> 
     
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
@@ -112,7 +113,7 @@
         @endisset
 
         <!-- Page Content -->
-        <main  style="margin:0; padding:0;">
+        <main  style="margin:0; padding:0;" >
             {{ $slot }}
         </main>
     </div>
