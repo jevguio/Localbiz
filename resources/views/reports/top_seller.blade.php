@@ -1,5 +1,6 @@
 <x-app-layout>
-    <div class="mb-4 mt-4">
+   <div class="p-4 sm:ml-64">
+   <div class="mb-4 mt-4">
         <a href="{{route('owner.reports')}}" class="bg-info p-2 mb-4" style="border-radius: 10px;">
            Back
         </a>
@@ -15,4 +16,5 @@
             class="btn btn-primary bg-blue-700 hover:bg-blue-800 text-white px-4 py-2 rounded-md"
             style="position:absolute;right:21%; bottom:23%">Download PDF</a>
     @endif
+</div>
 </x-app-layout>
