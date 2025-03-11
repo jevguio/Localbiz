@@ -1,6 +1,6 @@
 <x-app-layout>
-    <div class="p-4 sm:ml-64">
-        <div class="p-4 border-2 border-gray-200 border-dashed rounded-lg dark:border-gray-700">
+    <div class="p-4 sm:ml-64 mt-115 " style="background-color:rgba(68, 68, 68, 0.13) ">
+        <div class="p-4 border-2 border-gray-200 border-dashed rounded-lg dark:border-gray-700 ">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
                 
                 <!-- Forms will always be in one column with spacing -->

@@ -31,7 +31,7 @@
             justify-content: center;
             align-items: center;
             height: 100vh;
-            background: #f4f4f4;
+            width:'100vw !important';
         } .flatpickr-calendar {
             padding:5%;
             position: fixed !important;
@@ -84,8 +84,8 @@
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 </head>
 
-<body class="font-sans antialiased">
-    <div class="min-h-screen bg-gray-100">
+<body class="font-sans antialiased"  >
+    <div class="    " style="width:100%;  ">
         @include('layouts.navigation')
 
         <div class="toast toast-top toast-end">
@@ -114,7 +114,7 @@
         @endisset
 
         <!-- Page Content -->
-        <main>
+        <main style="width:'100%'">
             {{ $slot }}
         </main>
     </div>
