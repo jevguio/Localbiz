@@ -70,15 +70,15 @@
                                         class="font-medium text-red-600 hover:underline" type="button">
                                         Delete
                                     </button> -->
-                                    @if ($user->is_active == 2)
-                                    <button data-modal-target="ToggleModal{{ $user->id }}"
-                                        class="font-medium bg-white p-2 text-black hover:underline" type="button" style="border-radius:5px">
-                                        Enable
-                                    </button>
-                                    @elseif ($user->is_active == 1)
+                                    @if ($user->is_active == 1)
                                     <button data-modal-target="ToggleModal{{ $user->id }}"
                                         class="font-medium bg-error p-2 text-white hover:underline" type="button" style="border-radius:5px">
                                         Disable
+                                    </button>
+                                    @else 
+                                    <button data-modal-target="ToggleModal{{ $user->id }}"
+                                        class="font-medium bg-white p-2 text-black hover:underline" type="button" style="border-radius:5px">
+                                        Enable
                                     </button>
                                     @endif
                                 </td>

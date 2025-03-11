@@ -119,14 +119,14 @@
                         <td>{{ $seller->fname." ".$seller->lname }}</td>
                         <td>{{ $seller->address  }}</td> 
                         <td>
-                        <a id="generateReportBtn"
+                        <a id="generateReportBtn{{ $seller->id }}"
                         class="btn btn-primary bg-blue-700 hover:bg-blue-800 text-white px-4 py-2 rounded-md">
                         Generate Report
                         </a>
 
                         <script>
                             document.addEventListener("DOMContentLoaded", function () {
-                                let generateBtn = document.getElementById("generateReportBtn");
+                                let generateBtn = document.getElementById("generateReportBtn{{ $seller->id }}");
                                 let datePicker = dateRangeflatpickr; // Ensure this is correctly defined in your script
                                 console.log(datePicker);
                                 generateBtn.addEventListener("click", function (event) {
@@ -178,14 +178,14 @@
                         <td>{{ $seller->fname." ".$seller->lname }}</td>
                         <td>{{ $seller->address  }}</td> 
                         <td>
-                        <a id="generateSalesReportBtn"
+                        <a id="generateSalesReportBtn{{ $seller->id }}"
                         class="btn btn-primary bg-blue-700 hover:bg-blue-800 text-white px-4 py-2 rounded-md">
                         Generate Report
                         </a>
 
                         <script>
                             document.addEventListener("DOMContentLoaded", function () {
-                                let generateBtn = document.getElementById("generateSalesReportBtn");
+                                let generateBtn = document.getElementById("generateSalesReportBtn{{ $seller->id }}");
                                 let datePicker = dateRangeflatpickr; // Ensure this is correctly defined in your script
                                 console.log(datePicker);
                                 generateBtn.addEventListener("click", function (event) {
@@ -333,6 +333,7 @@
                 Seller.style.display="block"; 
         }
         function CloseInventorySeller(event){
+            event.stopPropagation(); 
             if (event.target === event.currentTarget) {
                 const Seller = document.getElementById('Seller_Inventory_Management');
                 Seller.style.display="none";
