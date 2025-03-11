@@ -1,6 +1,19 @@
  
     <div  style="width:100%" id="date-range">    
     </div>
+    <style>
+.flatpickr-day.nextMonthDay,
+.flatpickr-day.prevMonthDay {
+    opacity: 1; /* Dim past/future month days */
+    color: rgba(57, 57, 57, 0.7) !important; /* Make disabled future dates look faded */
+    
+}
+
+.flatpickr-day.flatpickr-disabled {
+    color: rgba(57, 57, 57, 0.4) !important; /* Make disabled future dates look faded */ 
+}
+
+        </style>
     <script>
         let startDate,endDate;
         const dateRange = document.getElementById('date-range');
@@ -11,6 +24,7 @@
         const dateRangeflatpickr= flatpickr(dateRangePicker, {
             mode: "range",
             dateFormat: "Y-m-d",
+            maxDate: "today",
             clickOpens: false,
             onOpen: function(selectedDates, dateStr, instance) {
                     const overlay = document.getElementById('overlay');
@@ -23,6 +37,7 @@
                      endDate = selectedDates[1]; 
                         buttonContainer.style.display="block";
                         const DateStartEnd = document.getElementById('DateStartEnd');
+                        const SalesDateStartEnd = document.getElementById('SalesDateStartEnd');
                         const startFormatted = startDate.toLocaleString('en-US', {
                             year: 'numeric',
                             month: 'long',
@@ -39,6 +54,10 @@
                         // Display formatted date
                         DateStartEnd.innerHTML = "Generated Date/s: " + startFormatted + " - " + endFormatted;
                         
+                        SalesDateStartEnd.setAttribute('start',startFormatted);
+                        SalesDateStartEnd.setAttribute('end',endFormatted);
+                        // Display formatted date
+                        SalesDateStartEnd.innerHTML = "Generated Date/s: " + startFormatted + " - " + endFormatted;
                         const overlay = document.getElementById('overlay');
                         overlay.style.display="block"; 
                         dateRangeflatpickr.open(); 

@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Inventory Report</title>
 </head>
-<body>
+<body >
     <style>
         body { font-family: Arial, sans-serif; }
         .header { text-align: center; font-size: 18px; font-weight: bold; margin-bottom: 20px;  }
@@ -27,8 +27,23 @@
         .table th, .table td { border: 1px solid #000; padding: 8px; text-align: left; }
         .table th { background-color: #f2f2f2; }
     </style>
-<div class="header">Localbiz</div>
+    <div class="relative">
+    <div class="header">Localbiz</div>
+    <script>
+        function CloseInventoryThis(){
+
+            const invent = document.getElementById('Product_Management');
+            invent.style.display="none";
+        }
+        </script>
 <div class="subheader" id="subheader" style="background-color:rgb(161, 124, 0); width:100%; color:white;padding:10px ">Inventory Report</div>
+@if($is_view)
+<button  onclick="CloseInventoryThis()" 
+        class="absolute top-5 right-5 "
+        >
+            <i class="bx bx-x text-gray-500 text-2xl"></i>
+        </button>
+@endif
 <p>Seller: {{$selectedSeller? $selectedSeller->fname ." ".$selectedSeller->lname :'NULL'}}</p>
 <p id="DateStartEnd">Generated Date/s: {{ now()->format('F j, Y, g:i a') }}</p>
 <p id="DateStartEnd1">Date: {{ now()->format('F j, Y, g:i a') }}</p>
@@ -61,6 +76,8 @@
 
         </tbody>  
     </table>
+    </div>
+
     
 </body>
 </html>

@@ -94,11 +94,15 @@
 
   
     <div class="p-4 " id="Seller_Inventory_Management" style="display:none; position:fixed; top:0;left:0;background-color:rgba(0,0,0,0.3);width:100%;height:100%" onclick="CloseInventorySeller(event)">
-        <div class="p-4   rounded-lg" style="width:60%; margin-left:auto;margin-right:auto; background-color:white;height:80%" onclick="">
+        <div class="p-4  relative rounded-lg" style="width:60%; margin-left:auto;margin-right:auto; background-color:white;height:80%" onclick="">
              
              
         <div class="header">Seller Inventory Management</div> 
-
+        <button  onclick="CloseInventorySeller()" 
+        class="absolute top-5 right-5 "
+        >
+            <i class="bx bx-x text-gray-500 text-2xl"></i>
+        </button>
         <table class="hidden_table">
             <thead>
                 <tr>
@@ -146,11 +150,18 @@
     </div>
     
 <div class="p-4 " id="Seller_Sales_Management" style="display:none; position:fixed; top:0;left:0;background-color:rgba(0,0,0,0.3);width:100%;height:100%" onclick="CloseSalesSeller(event)">
-        <div class="p-4   rounded-lg" style="width:60%; margin-left:auto;margin-right:auto; background-color:white;height:80%" onclick="">
+        <div class="p-4  relative rounded-lg" style="width:60%; margin-left:auto;margin-right:auto; background-color:white;height:80%" onclick="">
              
              
         <div class="header">Seller Sales Management</div> 
 
+        @if($is_view)
+<button  onclick="CloseSalesSeller()" 
+        class="absolute top-5 right-5 "
+        >
+            <i class="bx bx-x text-gray-500 text-2xl"></i>
+        </button>
+@endif
         <table class="hidden_table">
             <thead>
                 <tr>
@@ -328,6 +339,11 @@
             }
         }
         
+        function CloseInventorySeller(){
+                const Seller = document.getElementById('Seller_Inventory_Management');
+                Seller.style.display="none";
+        }
+        
         //   -------------------------------Sales--------------------------------------
         //   -------------------------------Sales--------------------------------------
         //   -------------------------------Sales--------------------------------------
@@ -348,7 +364,7 @@
             if (event.target === event.currentTarget) {
                 invent.style.display="none";
             }
-        }
+        } 
         function openSalesSeller(event){ 
             const Seller = document.getElementById('Seller_Sales_Management');
                 Seller.style.display="block"; 
@@ -358,6 +374,10 @@
                 const Seller = document.getElementById('Seller_Sales_Management');
                 Seller.style.display="none";
             }
+        }
+        function CloseSalesSeller(){
+                const Seller = document.getElementById('Seller_Sales_Management');
+                Seller.style.display="none";
         }
         $(document).ready(function() {
             $('#table-search').on('keyup', function() {

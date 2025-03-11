@@ -138,8 +138,9 @@ class OwnerController extends Controller
         ') 
         ->groupBy('tbl_products.id', 'tbl_products.name', 'tbl_products.stock', 'tbl_products.price')
         ->get();
+        $is_view=false;
         // Generate PDF
-        $pdf = Pdf::loadView('reports.inventory', compact('items','selectedSeller'))->setPaper('a4', 'portrait');
+        $pdf = Pdf::loadView('reports.inventory', compact('items','selectedSeller','is_view'))->setPaper('a4', 'portrait');
     
         // Store PDF in storage
         Storage::disk('public')->put($filePath, $pdf->output());
@@ -194,8 +195,9 @@ class OwnerController extends Controller
         ') 
         ->groupBy('tbl_products.id', 'tbl_products.name', 'tbl_products.stock', 'tbl_products.price')
         ->get();
+        $is_view=false;
         // Generate PDF
-        $pdf = Pdf::loadView('reports.sales', compact('items','selectedSeller'))->setPaper('a4', 'portrait');
+        $pdf = Pdf::loadView('reports.sales', compact('items','selectedSeller','is_view'))->setPaper('a4', 'portrait');
     
         // Store PDF in storage
         Storage::disk('public')->put($filePath, $pdf->output());
@@ -275,7 +277,8 @@ class OwnerController extends Controller
         ->orderByDesc('revenue') // Sort by highest revenue
         ->limit(10) // Get top 10 sellers
         ->get();
-        return view('owner.reports', compact('reports','products','items','sellers','topSellers','startDate','endDate','selectedSeller'));
+        $is_view=true;
+        return view('owner.reports', compact('reports','products','items','sellers','is_view','topSellers','startDate','endDate','selectedSeller'));
     }
     
     public function TopSeller(){

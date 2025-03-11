@@ -33,6 +33,9 @@
                                 Role
                             </th>
                             <th scope="col" class="px-6 py-3">
+                                Status
+                            </th>
+                            <th scope="col" class="px-6 py-3">
                                 Last Login
                             </th>
                             <th scope="col" class="px-6 py-3">
@@ -42,36 +45,39 @@
                     </thead>
                     <tbody id="account-table-body">
                         @foreach ($users as $user)
-                            <tr class="bg-white border-b border-gray-200 hover:bg-gray-50">
-                                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
+                            <tr class="{{ $user->is_active == 1 ? 'bg-white' :'bg-error' }} border-b border-gray-200 hover:{{ $user->is_active == 1 ? 'bg-gray-50' :'bg-warning-50' }}" >
+                                <th scope="row" class="px-6 py-4 font-medium {{ $user->is_active == 1 ? 'text-gray-900' :'text-white' }}   whitespace-nowrap">
                                     {{ $user->fname ." " .$user->lname }}
                                 </th>
-                                <td class="px-6 py-4">
+                                <td class="px-6 py-4 {{ $user->is_active == 1 ? 'text-gray-900' :'text-white' }}">
                                     {{ $user->email }}
                                 </td>
-                                <td class="px-6 py-4">
+                                <td class="px-6 py-4 {{ $user->is_active == 1 ? 'text-gray-900' :'text-white' }}">
                                     {{ $user->role }}
                                 </td>
-                                <td class="px-6 py-4">
+                                <td class="px-6 py-4 {{ $user->is_active == 1 ? 'text-gray-900' :'text-white' }}">
+                                    {{ $user->is_active==1?'Active':'Disable' }}
+                                </td>
+                                <td class="px-6 py-4 {{ $user->is_active == 1 ? 'text-gray-900' :'text-white' }}">
                                     {{ \Carbon\Carbon::parse($user->last_login)->format('M d, Y') }}
                                 </td>
                                 <td class="px-6 py-4 flex gap-2">
                                     <button data-modal-target="editModal{{ $user->id }}"
-                                        class="font-medium text-blue-600 hover:underline" type="button">
+                                        class="font-medium bg-primary p-2  text-white hover:underline" type="button" style="border-radius:5px">
                                         Edit
                                     </button>
-                                    <button data-modal-target="deleteModal{{ $user->id }}"
+                                    <!-- <button data-modal-target="deleteModal{{ $user->id }}"
                                         class="font-medium text-red-600 hover:underline" type="button">
                                         Delete
-                                    </button>
+                                    </button> -->
                                     @if ($user->is_active == 2)
                                     <button data-modal-target="ToggleModal{{ $user->id }}"
-                                        class="font-medium text-red-600 hover:underline" type="button">
+                                        class="font-medium bg-white p-2 text-black hover:underline" type="button" style="border-radius:5px">
                                         Enable
                                     </button>
                                     @elseif ($user->is_active == 1)
                                     <button data-modal-target="ToggleModal{{ $user->id }}"
-                                        class="font-medium text-red-600 hover:underline" type="button">
+                                        class="font-medium bg-error p-2 text-white hover:underline" type="button" style="border-radius:5px">
                                         Disable
                                     </button>
                                     @endif

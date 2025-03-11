@@ -130,13 +130,13 @@
                                             <div class="col-span-1">
                                                 <label for="category"
                                                     class="block mb-2 text-sm font-medium text-gray-900">Category</label>
-                                                <select id="category" name="category_id"
+                                                <select id="category" name="category_id" disabled readonly
                                                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5">
-                                                    <option selected="">Select category</option>
+                                                    <option selected="" readonly disabled>Select category</option>
                                                     @foreach ($categories as $category)
                                                         <option value="{{ $category->id }}"
                                                             {{ $product->category_id == $category->id ? 'selected' : '' }}
-                                                            readonly>
+                                                            readonly disabled>
                                                             {{ $category->name }}</option>
                                                     @endforeach
                                                 </select>
