@@ -10,8 +10,24 @@
                         @php $is_active_checkout=false; @endphp
                         @foreach ($cartItems as $item)
                             <div class="rounded-lg border border-gray-300 bg-white p-6 shadow-md md:p-8">
-                                <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-6">
-                                    <div class="flex items-center space-x-4 md:order-1">
+                                <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-1">
+                                    
+                                <div class="flex items-center space-x-1 md:order-1">
+                                    <form action="{{ route('customer.updateSelectionCart') }}"
+                                            method="POST" class="inline-flex items-center space-x-2">
+                                            @csrf
+                                            @method('PUT')
+
+                                            <input type="hidden" name="id" value="{{ $item->id }}" />
+                                            <input type="hidden" name="is_checked" value="0" />
+
+                                            <input type="checkbox" name="is_checked" style="transform: scale(2);" value="1"
+                                                onchange="setTimeout(() => this.form.submit(), 300)"
+                                                {{ $item->is_checked ? 'checked' : '' }} 
+                                                /> 
+                                        </form>
+                                    </div>  
+                                    <div class="flex items-center space-x-4 md:order-2">
                                         <a href="#" class="shrink-0">
                                             <img class="h-24 w-24 rounded-lg border border-gray-300 object-cover"
                                                 src="{{ asset('assets/' . $item->product->image) }}"
@@ -68,21 +84,9 @@
                                             </button>
                                         </form>
                                     </div> 
-                                    <div class="flex flex-col md:order-4 md:w-32 space-y-2 md:space-y-0 md:space-x-1">
-                                    <form action="{{ route('customer.updateSelectionCart') }}"
-                                            method="POST" class="inline-flex items-center space-x-2">
-                                            @csrf
-                                            @method('PUT')
-
-                                            <input type="hidden" name="id" value="{{ $item->id }}" />
-                                            <input type="hidden" name="is_checked" value="0" />
-
-                                            <input type="checkbox" name="is_checked" value="1"
-                                                onchange="setTimeout(() => this.form.submit(), 300)"
-                                                {{ $item->is_checked ? 'checked' : '' }} 
-                                                /> 
-                                        </form>
-                                    </div>  
+                                    
+                                <div class="flex items-center space-x-1 md:order-4">
+                                </div>
                                 </div>
                             </div>
                             
@@ -197,6 +201,7 @@
                                             class="flex w-full items-center justify-center rounded-lg btn btn-secondary px-5 py-2.5 text-sm font-medium text-white">Submit</button>
                                     </form>
                                 </div>
+                                
                             </div>
                         @endif
 

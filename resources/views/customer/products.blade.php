@@ -96,8 +96,8 @@
                                 <input type="hidden" name="product_id" value="{{ $product->id }}">
                                 <button class="btn btn-primary px-4 py-2 rounded-md">Add to Cart</button>
                             </form>
-                            <button class="btn btn-secondary"
-                                onclick="productModal{{ $product->id }}.close()">Close</button>
+                            <!-- <button class="btn btn-secondary"
+                                onclick="productModal{{ $product->id }}.close()">Close</button> -->
                         </div>
                     </div>
                 </dialog>

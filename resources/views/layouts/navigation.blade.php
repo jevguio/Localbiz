@@ -1,7 +1,7 @@
 <nav class="bg-white h-screen fixed top-0 left-0 min-w-[250px] py-6 px-4 shadow-lg border-r border-gray-200">
     <div class="relative">
         <a href="{{ route('dashboard') }}">
-            <img src="{{ asset('assets/img/logo.jpg') }}" alt="logo" class='w-36' />
+            <img src="{{ asset('assets/img/logo.jpg') }}" alt="logo" class='w-46' />
         </a>
         <i
             class='bx bx-chevron-right absolute -right-6 top-2 p-2 text-lg cursor-pointer bg-blue-700 flex items-center justify-center rounded-full text-white'></i>
