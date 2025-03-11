@@ -140,7 +140,7 @@ class OwnerController extends Controller
         ->get();
         $is_view=false;
         // Generate PDF
-        $pdf = Pdf::loadView('reports.inventory', compact('items','selectedSeller','is_view'))->setPaper('a4', 'portrait');
+        $pdf = Pdf::loadView('reports.inventory', compact('items','selectedSeller','is_view','startDate','endDate'))->setPaper('a4', 'portrait');
     
         // Store PDF in storage
         Storage::disk('public')->put($filePath, $pdf->output());
@@ -197,7 +197,7 @@ class OwnerController extends Controller
         ->get();
         $is_view=false;
         // Generate PDF
-        $pdf = Pdf::loadView('reports.sales', compact('items','selectedSeller','is_view'))->setPaper('a4', 'portrait');
+        $pdf = Pdf::loadView('reports.sales', compact('items','selectedSeller','is_view','startDate','endDate'))->setPaper('a4', 'portrait');
     
         // Store PDF in storage
         Storage::disk('public')->put($filePath, $pdf->output());

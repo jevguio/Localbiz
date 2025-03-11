@@ -216,7 +216,7 @@
            
                 @include('reports.inventory')
         
-                <a href="{{ route('owner.inventory.export') }}" id="export_inventory"
+                <a  id="export_inventory"
                         class="btn btn-primary bg-blue-700 hover:bg-blue-800 text-white px-4 py-2 rounded-md" style="position:absolute;right:21%; bottom:23%">Download PDF</a>
                         <script>
                             document.addEventListener("DOMContentLoaded", function () {
