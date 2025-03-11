@@ -27,7 +27,7 @@
 <div class="header">Localbiz</div>
 
 <script>
-        function CloseInventoryThis(){
+        function CloseSalesThis(){
 
             const invent = document.getElementById('Sales_Management');
             invent.style.display="none";
@@ -36,7 +36,7 @@
 <div class="subheader" id="subheader" style="background-color:rgb(161, 124, 0); width:100%; color:white;padding:10px ">Sales Report</div>
 
 @if($is_view)
-<button  onclick="CloseInventoryThis()" 
+<button  onclick="CloseSalesThis()" 
         class="absolute top-5 right-5 "
         >
             <i class="bx bx-x text-gray-500 text-2xl"></i>
@@ -78,13 +78,18 @@
         </tbody>  
         <tfoot>
             <tr>
-            <td colspan="3" > </td>
-            <td colspan="1" >Sub-Total Less 40%</td>
+                <td colspan="3" > </td>
+                <td colspan="1" >Sub-Total</td>
+                <td colspan="1" >${{ $totalPrice}} </td>
+            </tr>
+            <tr>
+                <td colspan="3" > </td>
+                <td colspan="1" >Less 40%</td>
                 <td colspan="1" >-${{ $totalPrice -($totalPrice *(1- 0.4))}} </td>
             </tr>
             <tr> 
-            <td colspan="3" > </td>
-            <td colspan="1" >Total Sales: </td>
+                <td colspan="3" > </td>
+                <td colspan="1" >Total Sales: </td>
                 <td colspan="1" >${{ $totalPrice - ($totalPrice * 0.4) }} </td>
             </tr>
         </tfoot>

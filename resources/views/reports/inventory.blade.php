@@ -32,14 +32,14 @@
     <script>
         function CloseInventoryThis(){
 
-            const invent = document.getElementById('Product_Management');
-            invent.style.display="none";
+            const Product_Management = document.getElementById('Product_Management');
+            Product_Management.style.display="none";
         }
         </script>
 <div class="subheader" id="subheader" style="background-color:rgb(161, 124, 0); width:100%; color:white;padding:10px ">Inventory Report</div>
 @if($is_view)
 <button  onclick="CloseInventoryThis()" 
-        class="absolute top-5 right-5 "
+        class="absolute top-2 right-5 "
         >
             <i class="bx bx-x text-gray-500 text-2xl"></i>
         </button>
