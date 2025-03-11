@@ -28,10 +28,8 @@
         body {
             font-family: Arial, sans-serif;
             display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            width:'100vw !important';
+            justify-content: center; 
+            height: 100vh; 
         } .flatpickr-calendar {
             padding:5%;
             position: fixed !important;
@@ -114,7 +112,7 @@
         @endisset
 
         <!-- Page Content -->
-        <main style="width:'100%'">
+        <main  style="margin:0; padding:0;">
             {{ $slot }}
         </main>
     </div>
