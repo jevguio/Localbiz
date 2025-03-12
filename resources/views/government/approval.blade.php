@@ -20,7 +20,7 @@
                     <thead class="text-xs text-gray-700 uppercase bg-gray-50">
                         <tr>
                             <th scope="col" class="px-6 py-3">
-                                Seller Name
+                                Seller Business Name
                             </th>
                             <th scope="col" class="px-6 py-3">
                                 Is Active
@@ -37,7 +37,7 @@
                         @foreach ($sellers as $seller)
                             <tr class="bg-white border-b border-gray-200 hover:bg-gray-50">
                                 <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
-                                    {{ $seller->user->name }}
+                                    {{ $seller->user->fname }}
                                 </th>
                                 <td class="px-6 py-4">
                                     {{ $seller->user->is_active ? 'Active' : 'Inactive' }}
@@ -76,18 +76,25 @@
                                                     @method('PUT')
                                                     <div class="col-span-2">
                                                         <label class="block mb-2 text-sm font-medium text-gray-900"
-                                                            for="name">Seller Name</label>
-                                                        <input type="text" name="name" id="name"
+                                                            for="name">Seller Business Name</label>
+                                                        <input type="text" name="fname" id="name"
                                                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
-                                                            placeholder="Type seller name"
-                                                            value="{{ old('name', $seller->user->name) }}">
-                                                    </div>
+                                                            placeholder="Type seller business name"
+                                                            value="{{ old('name', $seller->user->fname) }}">
+                                                    </div> 
                                                     <div class="col-span-2">
                                                         <label class="block mb-2 text-sm font-medium text-gray-900"
                                                             for="name">Seller Document File</label>
-                                                        <img src="{{ asset('seller/documents/' . $seller->document_file) }}"
-                                                            alt="Seller Document File"
-                                                            class="w-36 h-36 object-cover">
+                                                            @php
+                                                                $documentFiles = json_decode($seller->document_file, true);
+                                                            @endphp
+                                                            @if (is_array($documentFiles))
+                                                                @foreach ($documentFiles as $file)
+                                                                <img src="{{ asset('seller/documents/' . $file) }}"
+                                                                    alt="Seller Document File"
+                                                                    class="w-36 h-36 object-cover">
+                                                                @endforeach
+                                                            @endif
                                                     </div>
                                                     <div class="col-span-2">
                                                         <label class="block mb-2 text-sm font-medium text-gray-900"

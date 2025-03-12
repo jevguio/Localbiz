@@ -34,8 +34,8 @@
                             @endif
                         @endforeach
 
-                    @elseif ($seller && $seller->document_file && $seller->logo && $seller->is_approved == 0)
-                        <div role="alert" class="alert alert-success text-white">
+                    @elseif ($seller && $seller->document_file   && $seller->is_approved == 0)
+                        <div role="alert" class="alert alert-warning text-white">
                             <i class='bx bx-check-circle shrink-0 stroke-current text-lg'></i>
                             <span>Your documents have been uploaded. Please wait for approval from the
                                 government agency.</span>
@@ -47,14 +47,14 @@
                             <div class="grid grid-cols-2 gap-4">
                                 <fieldset class="fieldset">
                                     <legend class="fieldset-legend">Document File</legend>
-                                    <input type="file" class="file-input w-full" name="document_file"
-                                        id="document_file" required accept="image/*"/>
+                                    <input type="file" class="file-input w-full" name="document_file[]"
+                                        id="document_file" required accept="image/*" multiple/>
                                 </fieldset>
-                                <fieldset class="fieldset">
+                                <!-- <fieldset class="fieldset">
                                     <legend class="fieldset-legend">Valid ID</legend>
                                     <input type="file" class="file-input w-full" name="logo" id="logo"
                                         required accept="image/*"/>
-                                </fieldset>
+                                </fieldset> -->
                             </div>
                             <hr class="my-4">
                             <button type="submit"
