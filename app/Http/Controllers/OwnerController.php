@@ -243,7 +243,7 @@ class OwnerController extends Controller
         // Save report to database
         $report = Reports::create([
             'seller_id' => Auth::user()->id,
-            'report_name' => 'Inventory Report',
+            'report_name' => 'Sales Report',
             'report_type' => 'pdf',
             'content' => $fileName,
         ]);
