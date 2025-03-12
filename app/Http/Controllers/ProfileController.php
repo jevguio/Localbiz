@@ -34,9 +34,9 @@ class ProfileController extends Controller
             $filename = $avatar->getClientOriginalName();
             $avatar->move(public_path('avatar'), $filename);
             $user->avatar = $filename;
-            $user->save();
         }
 
+        $user->save();
         return Redirect::route('profile.edit')->with('status', 'profile-updated');
     }
 
