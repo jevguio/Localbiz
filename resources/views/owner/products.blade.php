@@ -2,10 +2,7 @@
     <div class="p-4 sm:ml-64">
         <div class="p-4 border-2 border-gray-200 border-dashed rounded-lg">
             <div class="flex justify-between items-center">
-                <h2 class="text-xl font-bold text-gray-900 sm:text-2xl">Products & Inventory</h2>
-                <a href="{{ route('owner.products.export') }}"
-                    class="btn btn-primary bg-blue-700 hover:bg-blue-800 text-white px-4 py-2 rounded-md">Generate
-                    Products</a>
+                <h2 class="text-xl font-bold text-gray-900 sm:text-2xl">Products & Inventory</h2> 
             </div>
             <div class="relative overflow-x-auto mt-10 bg-white p-4 rounded-lg">
                 <form class="max-w-md ml-0 mb-4">
