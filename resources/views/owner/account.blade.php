@@ -80,7 +80,7 @@
                                     </button>
                                     @else 
                                     <button data-modal-target="ToggleModal{{ $user->id }}"
-                                        class="font-medium bg-white p-2 text-black hover:underline" type="button" style="border-radius:5px">
+                                        class="font-medium bg-white p-2 {{$user->role == 'Customer'?'w-28':''}} text-black hover:underline" type="button" style="border-radius:5px">
                                         Enable
                                     </button>
                                     @endif
