@@ -22,7 +22,7 @@
     <thead>
         <tr>
             <th>Rank</th>
-            <th>Seller Name</th>
+            <th>Seller Business Name</th>
             <th>Total Orders</th>
             <th>Total Units Sold</th>
             <th>Revenue ($)</th>
@@ -33,7 +33,7 @@
         @foreach ($topSellers as $index => $seller)
             <tr>
                 <td>{{ $index + 1 }}</td>
-                <td>{{ $seller->fname }} {{ $seller->lname }}</td>
+                <td>{{ $seller->fname }}  </td>
                 <td>{{ $seller->total_order }}</td>
                 <td>{{ $seller->total_units_sold }}</td>
                 <td>${{ number_format($seller->revenue, 2) }}</td>

@@ -47,7 +47,7 @@
                         @foreach ($users as $user)
                             <tr class="{{ $user->is_active == 1 ? 'bg-white' :'bg-error' }} border-b border-gray-200 hover:{{ $user->is_active == 1 ? 'bg-gray-50' :'bg-warning-50' }}" >
                                 <th scope="row" class="px-6 py-4 font-medium {{ $user->is_active == 1 ? 'text-gray-900' :'text-white' }}   whitespace-nowrap">
-                                    {{ $user->fname ." " .$user->lname }}
+                                    {{ $user->fname ." " .($user->role!="Seller"? $user->lname : "") }}
                                 </th>
                                 <td class="px-6 py-4 {{ $user->is_active == 1 ? 'text-gray-900' :'text-white' }}">
                                     {{ $user->email }}
@@ -298,14 +298,14 @@
                                     @method('POST')
                                     <div class="grid gap-4 mb-4 grid-cols-2">
                                     <div class="col-span-2">
-                                            <label class="block mb-2 text-sm font-medium text-gray-900"
+                                            <label class="block mb-2 text-sm font-medium text-gray-900" id="firstName_add"
                                                 for="fname">First Name</label>
-                                            <input type="text" name="fname" id="fname"
+                                            <input type="text" name="fname" id="fname_input"
                                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
                                                 placeholder="Type First name" value="{{ old('fname') }}">
                                         </div>
-                                        <div class="col-span-2">
-                                            <label class="block mb-2 text-sm font-medium text-gray-900"
+                                        <div class="col-span-2" id="lastName_container">
+                                            <label class="block mb-2 text-sm font-medium text-gray-900" id="lastName_add"
                                                 for="lname">Last Name</label>
                                             <input type="text" name="lname" id="lname"
                                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
@@ -342,12 +342,37 @@
                                         <div class="col-span-2">
                                             <label class="block mb-2 text-sm font-medium text-gray-900"
                                                 for="role">Role</label>
-                                            <select name="role" id="role"
+                                            <select name="role" id="add_seller_role" onchange="onRoleSeller(event)"
                                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5">
                                                 <option value="Seller">Seller</option>
                                                 <option value="GovernmentAgency">Government Agency</option>
                                             </select>
                                         </div>
+                                        <script>
+                                            onRoleSeller(null);
+                                            function onRoleSeller(event){
+                                                const add_seller_role = document.getElementById('add_seller_role');
+
+                                                const firstName_add = document.getElementById('firstName_add'); 
+                                                const lastName_add = document.getElementById('lastName_add'); 
+                                                const lastName_container = document.getElementById('lastName_container'); 
+
+                                                const fname = document.getElementById('fname_input'); 
+                                                const isTrue=event?event.target.value=="Seller":true;
+                                                
+                                                if(isTrue){
+                                                    lastName_add.value=" ";
+                                                    lastName_container.style.display="none";
+                                                    fname.setAttribute('placeholder','Seller Business Name');
+                                                    firstName_add.innerHTML="Seller Business Name";
+                                                }else{
+                                                    lastName_add.value="";
+                                                    lastName_container.style.display="block";
+                                                    fname.setAttribute('placeholder','First Name');
+                                                    firstName_add.innerHTML="First Name";
+                                                }
+                                            }
+                                            </script>
                                     </div>
                                     <hr class="my-4">
                                     <div class="flex justify-end gap-2">

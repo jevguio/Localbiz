@@ -23,16 +23,17 @@
         </fieldset>
         
         <fieldset class="fieldset">
-            <legend class="fieldset-legend">First Name</legend>
+            <legend class="fieldset-legend">{{ $user->role=="Seller"?"Seller Business Name":"First Name" }}</legend>
             <input type="text" name="fname" class="input w-full" placeholder="Type your name"
                 value="{{ $user->fname }}" required />
         </fieldset>
+        @if($user->role!="Seller")
         <fieldset class="fieldset">
             <legend class="fieldset-legend">Last Name</legend>
             <input type="text" name="lname" class="input w-full" placeholder="Type your name"
                 value="{{ $user->lname }}" required />
         </fieldset>
-
+        @endif
         <fieldset class="fieldset">
             <legend class="fieldset-legend">Email</legend>
             <input type="email" name="email" class="input w-full" placeholder="Type your email"

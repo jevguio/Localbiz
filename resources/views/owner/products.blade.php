@@ -81,11 +81,11 @@
                                             <div class="col-span-1">
                                                 <label for="seller_id"
                                                     class="block mb-2 text-sm font-medium text-gray-900">Seller
-                                                    Name</label>
+                                                    Business Name</label>
                                                 <input type="text" name="seller_id" id="seller_id"
                                                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
                                                     placeholder="Type seller name"
-                                                    value="{{ $product->seller->user->name }}" readonly>
+                                                    value="{{ $product->seller->user->fname }}" readonly>
                                             </div>
                                             <div class="col-span-1">
                                                 <label for="product_name"

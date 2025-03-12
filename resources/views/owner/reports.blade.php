@@ -107,7 +107,7 @@
             <thead>
                 <tr>
                     <th>ID</th>
-                    <th>seller Name</th>
+                    <th>Seller Business Name</th>
                     <th>Address</th> 
                     <th>Action</th> 
                 </tr>
@@ -116,7 +116,7 @@
                 @foreach ($sellers as $index => $seller)
                     <tr>
                     <td>{{ $seller->id }}</td> 
-                        <td>{{ $seller->fname." ".$seller->lname }}</td>
+                        <td>{{ $seller->fname}}</td>
                         <td>{{ $seller->address  }}</td> 
                         <td>
                         <a id="generateReportBtn{{ $seller->id }}"
@@ -166,7 +166,7 @@
             <thead>
                 <tr>
                     <th>ID</th>
-                    <th>seller Name</th>
+                    <th>Seller Business Name</th>
                     <th>Address</th> 
                     <th>Action</th> 
                 </tr>
@@ -175,7 +175,7 @@
                 @foreach ($sellers as $index => $seller)
                     <tr>
                     <td>{{ $seller->id }}</td> 
-                        <td>{{ $seller->fname." ".$seller->lname }}</td>
+                        <td>{{ $seller->fname }}</td>
                         <td>{{ $seller->address  }}</td> 
                         <td>
                         <a id="generateSalesReportBtn{{ $seller->id }}"
