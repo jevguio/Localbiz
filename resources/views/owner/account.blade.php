@@ -67,9 +67,7 @@
                                     <button data-modal-target="editModal{{ $user->id }}"
                                         class="font-medium bg-primary p-2  text-white hover:underline" type="button" style="border-radius:5px">
                                         Edit
-                                    </button>
-                                    @else
-                                    <div class="font-medium bg-white p-2  text-white opacity-0" >Edit</div>
+                                    </button> 
                                     @endif
                                     <!-- <button data-modal-target="deleteModal{{ $user->id }}"
                                         class="font-medium text-red-600 hover:underline" type="button">
@@ -77,7 +75,7 @@
                                     </button> -->
                                     @if ($user->is_active == 1)
                                     <button data-modal-target="ToggleModal{{ $user->id }}"
-                                        class="font-medium bg-error p-2 text-white hover:underline" type="button" style="border-radius:5px">
+                                        class="font-medium bg-error {{$user->role == 'Customer'?'w-28':''}} p-2 text-white hover:underline" type="button" style="border-radius:5px">
                                         Disable
                                     </button>
                                     @else 
