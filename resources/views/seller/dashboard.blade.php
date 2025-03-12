@@ -46,7 +46,15 @@
                             @csrf
                             <div class="grid grid-cols-2 gap-4">
                                 <fieldset class="fieldset">
-                                    <legend class="fieldset-legend">Document File</legend>
+                                    <legend class="fieldset-legend">Attach here the following required documents</legend>
+                                    <ul class="list-disc pl-5">
+                                        <li>BIR</li>
+                                        <li>Mayor's Permit</li>
+                                        <li>Business Permit</li>
+                                        <li>Barangay Clearance</li>
+                                        <li>Sanitary Permit</li>
+                                        <li>Valid ID</li>
+                                    </ul>
                                     <input type="file" class="file-input w-full" name="document_file[]"
                                         id="document_file" required accept="image/*" multiple/>
                                 </fieldset>
