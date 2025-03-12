@@ -136,6 +136,7 @@ class OwnerController extends Controller
             tbl_products.price,
             MAX(tbl_order_items.created_at) AS order_date
         ') 
+        ->where('tbl_sellers.user_id', $request->id)
         ->groupBy('tbl_products.id', 'tbl_products.name', 'tbl_products.stock', 'tbl_products.price')
         ->get();
         $is_view=false;
@@ -193,6 +194,7 @@ class OwnerController extends Controller
             tbl_products.price,
             MAX(tbl_order_items.created_at) AS order_date
         ') 
+        ->where('tbl_sellers.user_id', $request->id)
         ->groupBy('tbl_products.id', 'tbl_products.name', 'tbl_products.stock', 'tbl_products.price')
         ->get();
         $is_view=false;
