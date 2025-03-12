@@ -307,7 +307,7 @@
                                         <div class="col-span-2" id="lastName_container">
                                             <label class="block mb-2 text-sm font-medium text-gray-900" id="lastName_add"
                                                 for="lname">Last Name</label>
-                                            <input type="text" name="lname" id="lname"
+                                            <input type="text" name="lname" id="lname_input"
                                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
                                                 placeholder="Type last name" value="{{ old('lname') }}">
                                         </div>
@@ -354,14 +354,14 @@
                                                 const add_seller_role = document.getElementById('add_seller_role');
 
                                                 const firstName_add = document.getElementById('firstName_add'); 
-                                                const lastName_add = document.getElementById('lastName_add'); 
+                                                const lastName_add = document.getElementById('lname_input'); 
                                                 const lastName_container = document.getElementById('lastName_container'); 
 
                                                 const fname = document.getElementById('fname_input'); 
                                                 const isTrue=event?event.target.value=="Seller":true;
                                                 
                                                 if(isTrue){
-                                                    lastName_add.value=" ";
+                                                    lastName_add.value="NA";
                                                     lastName_container.style.display="none";
                                                     fname.setAttribute('placeholder','Seller Business Name');
                                                     firstName_add.innerHTML="Seller Business Name";

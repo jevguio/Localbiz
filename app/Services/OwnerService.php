@@ -22,6 +22,8 @@ class OwnerService
     public function storeAccount($data)
     {
         try {
+            
+            \Log::info($data);
             $user = User::create($data);
 
             if ($user->role == 'Seller') {
@@ -37,7 +39,7 @@ class OwnerService
                     'is_approved' => 0,
                 ]);
             }
-
+            \Log::info(MyConstant::SUCCESS_CODE);
             session()->flash('success', 'Account created successfully');
             return response()->json([
                 'error_code' => MyConstant::SUCCESS_CODE,
@@ -46,6 +48,7 @@ class OwnerService
             ]);
         } catch (\Exception $e) {
             session()->flash('error', 'Failed to create account.');
+            \Log::info(MyConstant::SUCCESS_CODE);
             return response()->json([
                 'error_code' => MyConstant::FAILED_CODE,
                 'status_code' => MyConstant::FAILED_CODE,
