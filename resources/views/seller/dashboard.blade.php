@@ -48,12 +48,12 @@
                                 <fieldset class="fieldset">
                                     <legend class="fieldset-legend">Document File</legend>
                                     <input type="file" class="file-input w-full" name="document_file"
-                                        id="document_file" required />
+                                        id="document_file" required accept="image/*"/>
                                 </fieldset>
                                 <fieldset class="fieldset">
                                     <legend class="fieldset-legend">Valid ID</legend>
                                     <input type="file" class="file-input w-full" name="logo" id="logo"
-                                        required />
+                                        required accept="image/*"/>
                                 </fieldset>
                             </div>
                             <hr class="my-4">
