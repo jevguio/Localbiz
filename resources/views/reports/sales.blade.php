@@ -45,7 +45,7 @@
 
 <p>Seller: {{$selectedSeller? $selectedSeller->fname  :'NULL'}}</p>
 <p id="SalesDateStartEnd">Generated Date/s: {{ isset($startDate)? $startDate:''  }} - {{ isset($endDate)? $endDate:''  }}</p>
-<p id="SalesDateStartEnd1">Date: {{ now()->format('F j, Y, g:i a') }}</p>
+<p id="SalesDateStartEnd1">Date: {{ now()->format('F j, Y') }}</p>
     
     <table class="table">
         <thead >
