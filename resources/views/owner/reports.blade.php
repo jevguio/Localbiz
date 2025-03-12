@@ -230,10 +230,10 @@
 
                                     let DateStartEnd = document.getElementById("DateStartEnd"); 
                                     let baseUrl = "{{ route('owner.inventory.export') }}"; // Blade generates this correctly
-                                    let sellerId = "{{ $seller->id }}"; // Get seller ID from Blade 
+                                    const id = urlParams.get("id");  
                                     let start=DateStartEnd.getAttribute('start');
                                     let end=DateStartEnd.getAttribute('end');
-                                    let url = `${baseUrl}?id=${sellerId}&sales=true&start_date=${start}&end_date=${end}`;
+                                    let url = `${baseUrl}?id=${id}&sales=true&start_date=${start}&end_date=${end}`;
                                     window.location.href = url; // Redirect dynamically
                                 });
                             });
@@ -261,10 +261,11 @@
 
                                     let DateStartEnd = document.getElementById("DateStartEnd"); 
                                     let baseUrl = "{{ route('owner.sales.export') }}"; // Blade generates this correctly
-                                    let sellerId = "{{ $seller->id }}"; // Get seller ID from Blade 
+                                    
+                                    const id = urlParams.get("id");  
                                     let start=DateStartEnd.getAttribute('start');
                                     let end=DateStartEnd.getAttribute('end');
-                                    let url = `${baseUrl}?id=${sellerId}&sales=true&start_date=${start}&end_date=${end}`;
+                                    let url = `${baseUrl}?id=${id}&sales=true&start_date=${start}&end_date=${end}`;
                                     window.location.href = url; // Redirect dynamically
                                 });
                             });

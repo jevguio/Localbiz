@@ -127,17 +127,35 @@ class OwnerController extends Controller
 
         $selectedSeller = User::where('role', 'seller')->where('id', $request->id)->get()->first();
         $items = Products::leftJoin('tbl_order_items', 'tbl_products.id', '=', 'tbl_order_items.product_id')
+        ->leftJoin('tbl_sellers', 'tbl_products.seller_id', '=', 'tbl_sellers.id')
+        ->leftJoin('tbl_users', 'tbl_sellers.user_id', '=', 'tbl_users.id')
         ->selectRaw('
             tbl_products.id,
             tbl_products.name AS name,
             tbl_products.seller_id AS seller_id,
             tbl_products.stock AS stock,
+            tbl_products.description AS description,
             COALESCE(SUM(tbl_order_items.quantity), 0) AS sold,
             tbl_products.price,
-            MAX(tbl_order_items.created_at) AS order_date
+            MAX(tbl_order_items.created_at) AS order_date,
+            tbl_sellers.is_approved AS seller_approved,
+            tbl_users.fname AS seller_fname,
+            tbl_users.lname AS seller_lname,
+            tbl_users.email AS seller_email,
+            tbl_users.phone AS seller_phone
         ') 
-        ->where('tbl_sellers.user_id', $request->id)
-        ->groupBy('tbl_products.id', 'tbl_products.name', 'tbl_products.stock', 'tbl_products.price')
+        ->where('tbl_sellers.user_id', $request->id) // Filtering by seller_id
+        ->groupBy(
+            'tbl_products.id', 
+            'tbl_products.name', 
+            'tbl_products.stock', 
+            'tbl_products.price',
+            'tbl_sellers.is_approved',
+            'tbl_users.fname',
+            'tbl_users.lname',
+            'tbl_users.email',
+            'tbl_users.phone'
+        )
         ->get();
         $is_view=false;
         // Generate PDF
@@ -185,17 +203,35 @@ class OwnerController extends Controller
 
         $selectedSeller = User::where('role', 'seller')->where('id', $request->id)->get()->first();
         $items = Products::leftJoin('tbl_order_items', 'tbl_products.id', '=', 'tbl_order_items.product_id')
+        ->leftJoin('tbl_sellers', 'tbl_products.seller_id', '=', 'tbl_sellers.id')
+        ->leftJoin('tbl_users', 'tbl_sellers.user_id', '=', 'tbl_users.id')
         ->selectRaw('
             tbl_products.id,
             tbl_products.name AS name,
             tbl_products.seller_id AS seller_id,
             tbl_products.stock AS stock,
+            tbl_products.description AS description,
             COALESCE(SUM(tbl_order_items.quantity), 0) AS sold,
             tbl_products.price,
-            MAX(tbl_order_items.created_at) AS order_date
+            MAX(tbl_order_items.created_at) AS order_date,
+            tbl_sellers.is_approved AS seller_approved,
+            tbl_users.fname AS seller_fname,
+            tbl_users.lname AS seller_lname,
+            tbl_users.email AS seller_email,
+            tbl_users.phone AS seller_phone
         ') 
-        ->where('tbl_sellers.user_id', $request->id)
-        ->groupBy('tbl_products.id', 'tbl_products.name', 'tbl_products.stock', 'tbl_products.price')
+        ->where('tbl_sellers.user_id', $request->id) // Filtering by seller_id
+        ->groupBy(
+            'tbl_products.id', 
+            'tbl_products.name', 
+            'tbl_products.stock', 
+            'tbl_products.price',
+            'tbl_sellers.is_approved',
+            'tbl_users.fname',
+            'tbl_users.lname',
+            'tbl_users.email',
+            'tbl_users.phone'
+        )
         ->get();
         $is_view=false;
         // Generate PDF
