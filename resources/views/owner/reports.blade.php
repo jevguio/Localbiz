@@ -120,7 +120,7 @@
                         <td>{{ $seller->address  }}</td> 
                         <td>
                         <a id="generateReportBtn{{ $seller->id }}"
-                        class="btn btn-primary bg-blue-700 hover:bg-blue-800 text-white px-4 py-2 rounded-md">
+                        class="btn btn-primary bg-blue-700 hover:bg-blue-800 text-white px-2 py-1 m-1 rounded-md">
                         Generate Report
                         </a>
 
@@ -179,7 +179,7 @@
                         <td>{{ $seller->address  }}</td> 
                         <td>
                         <a id="generateSalesReportBtn{{ $seller->id }}"
-                        class="btn btn-primary bg-blue-700 hover:bg-blue-800 text-white px-4 py-2 rounded-md">
+                        class="btn btn-primary bg-blue-700 hover:bg-blue-800 text-white px-2 py-1 m-1 rounded-md">
                         Generate Report
                         </a>
 

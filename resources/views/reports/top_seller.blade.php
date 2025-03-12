@@ -1,8 +1,8 @@
 <x-app-layout>
    <div class="p-4 sm:ml-64 ">
    <div class="mb-4 mt-4">
-        <a href="{{route('owner.reports')}}" class="bg-info p-2 mb-4" style="border-radius: 10px;">
-           Back
+        <a href="{{route('owner.reports')}}" class="bg-info p-2 mb-4 pt-4" style="border-radius: 10px;">
+            <i class="bx bx-chevron-left text-white" style="font-size:x-large"></i>
         </a>
         <label for="monthpicker" class="block text-sm font-medium text-gray-700 mt-3">Select Month & Year:</label>
         <input type="month" id="monthpicker" name="monthpicker"

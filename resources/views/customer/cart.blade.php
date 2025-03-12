@@ -152,13 +152,26 @@
                                             <div class="fieldset">
                                                 <legend class="fieldset-legend">Delivery Method</legend>
                                                 <select class="select select-bordered w-full" name="delivery_method"
-                                                    id="deliveryMethod" required>
+                                                    id="deliveryMethod" onchange="onChangePickup(event)" required>
                                                     <option disabled selected>Pick a Delivery method</option> 
                                                     <option value="COD">Cash on Delivery</option>
                                                     <option value="Pick Up">Pick Up</option>
                                                 </select>
                                             </div>
                                         </div>
+                                        <script>
+                                            function onChangePickup(event){
+                                                console.log(event.target.value);
+                                                const courier_id=document.getElementById('courier_id');
+                                                if(event.target.value=="Pick Up"){
+                                                    courier_id.style.display="none";
+                                                }else{
+                                                    
+                                                    courier_id.style.display="block";
+                                                }
+
+                                            }
+                                            </script>
                                         @foreach ($seller as $seller)
                                             <div class="gcash-details" style="display: none;">
                                                 <p class="text-base font-medium text-gray-900">Seller Name:
@@ -174,9 +187,9 @@
                                             </div>
                                         @endforeach
                                         <div class="courier-selection">
-                                            <div class="fieldset">
+                                            <div class="fieldset" id="courier_id">
                                                 <legend class="fieldset-legend">Courier</legend>
-                                                <select class="select select-bordered w-full" name="courier_id">
+                                                <select class="select select-bordered w-full" name="courier_id" >
                                                     <option disabled selected>Pick a courier</option>
                                                     @foreach ($couriers as $courier)
                                                         <option value="{{ $courier->id }}">{{ $courier->name }}
