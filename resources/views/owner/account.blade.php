@@ -112,16 +112,18 @@
                                                 <div class="grid gap-4 mb-4 grid-cols-2">
                                                 <div class="col-span-2">
                                                         <label class="block mb-2 text-sm font-medium text-gray-900"
-                                                            for="fname">First Name</label>
+                                                            for="fname">{{$user->role!="Seller"?"First Name":"Seller Business Name"}}</label>
                                                         <input type="text" name="fname" id="fname"
                                                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
-                                                            placeholder="Type first name" value="{{ $user->fname }}">
+                                                            placeholder='{{$user->role!="Seller"?"First Name":"Seller Business Name"}}' value="{{ $user->fname }}">
                                                     </div><div class="col-span-2">
+                                                        @if($user->role!="Seller")
                                                         <label class="block mb-2 text-sm font-medium text-gray-900"
                                                             for="lname">Last Name</label>
                                                         <input type="text" name="lname" id="lname"
                                                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
                                                             placeholder="Type last name" value="{{ $user->lname }}">
+                                                            @endif
                                                     </div>
                                                     <div class="col-span-2">
                                                         <label class="block mb-2 text-sm font-medium text-gray-900"
