@@ -102,10 +102,10 @@
                                 class="text-sm text-gray-700 hover:text-gray-900">Processed</a></li>
                         <li class="dropdown-item"><a href="{{ route('customer.tracking.receiving') }}"
                                 class="text-sm text-gray-700 hover:text-gray-900">To Receive</a></li>
+                        <li class="dropdown-item"><a href="{{ route('customer.tracking.delivered') }}"
+                                class="text-sm text-gray-700 hover:text-gray-900">Completed</a></li>
                         <li class="dropdown-item"><a href="{{ route('customer.tracking.cancelled') }}"
                                 class="text-sm text-gray-700 hover:text-gray-900">Cancelled</a></li>
-                        <li class="dropdown-item"><a href="{{ route('customer.tracking.delivered') }}"
-                                class="text-sm text-gray-700 hover:text-gray-900">Delivered</a></li>
                     </ul>
                 </li>
                 <li>

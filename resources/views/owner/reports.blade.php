@@ -100,7 +100,7 @@
         <div class="p-4  relative rounded-lg" style="width:60%; margin-left:auto;margin-right:auto; background-color:white;height:80%" onclick="">
              
              
-        <div class="header">Seller Inventory Management</div> 
+        <div class="header">List of Sellers</div> 
         <button  onclick="CloseInventorySeller()" 
         class="absolute top-5 right-5 "
         >
@@ -156,7 +156,7 @@
         <div class="p-4  relative rounded-lg" style="width:60%; margin-left:auto;margin-right:auto; background-color:white;height:80%" onclick="">
              
              
-        <div class="header">Seller Sales Management</div> 
+        <div class="header">List of Sellers</div> 
 
         @if($is_view)
 <button  onclick="CloseSalesSeller()" 
