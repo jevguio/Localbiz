@@ -219,7 +219,7 @@
                     <ul class="dropdown-menu" style="display: none;">
                         <!-- <li class="dropdown-item"><a href="{{ route('seller.tracking.pending') }}"
                                 class="text-sm text-gray-700 hover:text-gray-900">Pending</a></li> -->
-                        <li class="dropdown-item"><a href="{{ route('seller.tracking.pending') }}"
+                        <li class="dropdown-item"><a href="{{ route('seller.tracking.processed') }}"
                                 class="text-sm text-gray-700 hover:text-gray-900">Processing</a></li>
                         <li class="dropdown-item"><a href="{{ route('seller.tracking.receiving') }}"
                                 class="text-sm text-gray-700 hover:text-gray-900">To Receive</a></li>

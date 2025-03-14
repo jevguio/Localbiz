@@ -143,7 +143,7 @@
                                                 <select class="select select-bordered w-full" name="payment_method"
                                                     id="paymentMethod" required>
                                                     <option disabled selected>Pick a payment method</option>
-                                                    <option value="Credit Card">Credit Card</option>
+                                                    <option value="Bank Transfer">Bank Transfer</option>
                                                     <option value="Gcash">Gcash</option> 
                                                 </select>
                                             </div>
@@ -256,7 +256,7 @@
                 if (selectedMethod === 'Gcash') {
                     $('.gcash-details').show();
                     $('.credit-card-details').hide();
-                } else if (selectedMethod === 'Credit Card') {
+                } else if (selectedMethod === 'Bank Transfer') {
                     $('.credit-card-details').show();
                     $('.gcash-details').hide();
                 } else {

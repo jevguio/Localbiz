@@ -5,16 +5,25 @@
                 <h2 class="mt-3 text-xl font-bold text-gray-900 sm:text-2xl">Reports Management</h2>
             </div>
             <div class="relative overflow-x-auto mt-10 bg-white p-4 rounded-lg">
-                <form class="max-w-md ml-0 mb-4">
+                <form class=" ml-0 mb-4  w-full">
                     <label for="table-search" class="mb-2 text-sm font-medium text-gray-900 sr-only">Search</label>
-                    <div class="relative">
+                    
+                <div class="flex justify-between items-center w-full">
+                    <div class="relative  w-120">
                         <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
                             <i class='bx bx-search text-gray-500 text-2xl'></i>
                         </div>
                         <input type="search" id="table-search"
-                            class="block w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500"
+                            class="block w-full p-4 ps-10 text-sm  text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500"
                             placeholder="Search for reports....">
                     </div>
+                    <div class="flex gap-2 my-4">
+                        <a href="{{ route('cashier.sales.export') }}"
+                            class="btn btn-primary bg-blue-700 hover:bg-blue-800 text-white px-4 py-2 rounded-md">
+                            Generate Payment Transactions
+                        </a>
+                    </div>
+                </div>
                 </form>
                 <table class="w-full text-sm text-left rtl:text-right text-gray-500">
                     <thead class="text-xs text-gray-700 uppercase bg-gray-50">
@@ -54,12 +63,6 @@
                         @endforeach
                     </tbody>
                 </table>
-                <div class="flex gap-2 my-4">
-                    <a href="{{ route('cashier.sales.export') }}"
-                        class="btn btn-primary bg-blue-700 hover:bg-blue-800 text-white px-4 py-2 rounded-md">
-                        Generate Payment Transactions
-                    </a>
-                </div>
                 <nav class="flex items-center flex-column flex-wrap md:flex-row justify-between pt-4"
                     aria-label="Table navigation">
                     <span
