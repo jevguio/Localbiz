@@ -25,12 +25,17 @@ class AuthenticatedSessionController extends Controller
      */
     public function store(LoginRequest $request): RedirectResponse
     {
-        $request->authenticate();
-
+        $error = $request->authenticate();
+        if ($error) {
+            return redirect()
+                ->route('login')
+                ->with('error', $error);
+        }
         $user = Auth::user();
 
         if ($user->is_active == 0) {
             Auth::logout();
+            
             return redirect()
                 ->route('login')
                 ->with('error', 'Your account is not active. Please contact the administrator.');
@@ -53,6 +58,7 @@ class AuthenticatedSessionController extends Controller
         }
 
         return redirect()->intended(route('dashboard', absolute: false));
+
     }
 
     /**
