@@ -43,7 +43,7 @@
                                     {{ $order->order_number }}
                                 </th>
                                 <td class="px-6 py-4">
-                                {{ $order->user->name . " " . $order->user->lname}}
+                                {{ $order->user->name . " " . $order->user->fname}}
                                 </td>
                                 <td class="px-6 py-4">
                                     {{ $order->orderItems->first()->product->name ?? 'N/A' }}
@@ -77,7 +77,7 @@
                                         <div class="grid grid-cols-2 gap-4 mb-4 p-4">
                                             <div class="col-span-1">
                                                 <label for="customer_id"
-                                                    class="block mb-2 text-sm font-medium text-gray-900">Customer
+                                                    class="block mb-2 text-sm font-medium text-gray-900">
                                                     First Name</label>
                                                 <input type="text" name="customer_id" id="customer_id"
                                                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
@@ -86,7 +86,7 @@
                                             </div> 
                                             <div class="col-span-1">
                                                 <label for="customer_id"
-                                                    class="block mb-2 text-sm font-medium text-gray-900">Customer
+                                                    class="block mb-2 text-sm font-medium text-gray-900">
                                                     Last Name</label>
                                                 <input type="text" name="customer_id" id="customer_id"
                                                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
@@ -95,7 +95,7 @@
                                             </div>
                                             <div class="col-span-1">
                                                 <label for="customer_id"
-                                                    class="block mb-2 text-sm font-medium text-gray-900">Customer
+                                                    class="block mb-2 text-sm font-medium text-gray-900">
                                                     Address</label>
                                                 <input type="text" name="customer_id" id="customer_id"
                                                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
@@ -104,7 +104,7 @@
                                             </div>
                                             <div class="col-span-1">
                                                 <label for="customer_id"
-                                                    class="block mb-2 text-sm font-medium text-gray-900">Customer
+                                                    class="block mb-2 text-sm font-medium text-gray-900">
                                                     Contact Number</label>
                                                 <input type="text" name="customer_id" id="customer_id"
                                                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
@@ -198,7 +198,7 @@
                                             </div>
                                             <div class="col-span-1">
                                                 <label for="payment_amount"
-                                                    class="block mb-2 text-sm font-medium text-gray-900">Payment
+                                                    class="block mb-2 text-sm font-medium text-gray-900">Total
                                                     Amount</label>
                                                 <input type="number" name="payment_amount" id="payment_amount"
                                                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
