@@ -38,6 +38,9 @@ Route::middleware(['auth', 'Owner'])->group(function () {
     Route::get('/owner/sales/export', [OwnerController::class, 'exportSales'])->name('owner.sales.export');
     Route::get('/owner/products/export', [OwnerController::class, 'exportProducts'])->name('owner.products.export');
     
+    Route::get('/owner/toppurchase', [OwnerController::class, 'TopPurchase'])->name('owner.toppurchase');
+    Route::get('/owner/toppurchase/export', [OwnerController::class, 'exportTopPurchase'])->name('owner.toppurchase.export');
+
     Route::get('/owner/topseller', [OwnerController::class, 'TopSeller'])->name('owner.topseller');
     Route::get('/owner/topseller/export', [OwnerController::class, 'exportTopSeller'])->name('owner.topseller.export');
 

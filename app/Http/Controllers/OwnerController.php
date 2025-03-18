@@ -92,12 +92,14 @@ class OwnerController extends Controller
 
     public function orders()
     {
-        $orders = Orders::with(['user', 'orderItems.product', 'payments'])->paginate(10);
+        $orders = Orders::with(['user', 'orderItems.product', 'payments'])->latest()->paginate(10);
+
         $orderItems = OrderItems::all();
+        $couriers = Courier::all();
         $payments = Payments::all();
         $products = Products::all();
         $categories = Categories::all();
-        return view('owner.orders', compact('orders', 'orderItems', 'payments', 'products', 'categories'));
+        return view('owner.orders', compact('orders', 'orderItems', 'payments', 'products', 'categories','couriers'));
     }
 
     public function inventory()
@@ -386,4 +388,45 @@ class OwnerController extends Controller
         // Return PDF for download
         return $pdf->download($fileName); 
     }
+
+//////////////////////////////////
+
+
+
+
+
+    public function TopPurchase(){
+
+        $topSellers = Products::orderBy('created_at', 'desc') 
+        ->limit(10) // Get top 10 sellers
+        ->get(); 
+        $isViewBTN=true;
+        return view('reports.top_purchase', compact('topSellers','isViewBTN'));
+    }
+    public function exportTopPurchase(){
+        $isViewBTN=false;
+        $topSellers = Orders::where('role', 'seller')
+        ->limit(10) // Get top 10 sellers
+        ->get();
+        
+        $fileName = Auth::user()->fname . '_' . Auth::user()->lname . '_' . now()->format('YmdHis') . '.pdf';
+        $pdf = Pdf::loadView('reports.top_purchase_component', compact('topSellers','isViewBTN'))->setPaper('a4', 'portrait');
+
+        $filePath = 'reports/' . $fileName;
+        // Store PDF in storage
+        Storage::disk('public')->put($filePath, $pdf->output());
+
+        // Save report to database
+        $report = Reports::create([
+            'seller_id' => Auth::user()->id,
+            'report_name' => 'Inventory Report',
+            'report_type' => 'pdf',
+            'content' => $fileName,
+        ]);
+
+        // Return PDF for download
+        return $pdf->download($fileName); 
+    }
+
+
 }

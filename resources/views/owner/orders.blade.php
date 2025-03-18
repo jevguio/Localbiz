@@ -14,6 +14,10 @@
                         <input type="search" id="table-search"
                             class="block w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500"
                             placeholder="Search for products....">
+                        <button type="button" id="filter-btn"
+                            class="absolute inset-y-0 end-0 flex items-center px-3 text-gray-600 hover:text-gray-900">
+                            <i class='bx bx-filter text-2xl'></i>
+                        </button>
                     </div>
                 </form>
                 <table class="w-full text-sm text-left rtl:text-right text-gray-500">
@@ -214,6 +218,33 @@
                                                     value="{{ $order->payments->first() ? \Carbon\Carbon::parse($order->payments->first()->payment_date)->format('F d, Y') : 'N/A' }}"
                                                     readonly>
                                             </div>
+                                            <div class="col-span-1">
+                                                <label for="payment_date"
+                                                    class="block mb-2 text-sm font-medium text-gray-900">Order
+                                                    Date</label>
+                                                <input type="text" name="order_date" id="payment_date"
+                                                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                                                    value="{{ $order->first() ? \Carbon\Carbon::parse($order->first()->created_at)->format('F d, Y') : 'N/A' }}"
+                                                    readonly>
+                                            </div>
+                                            <div class="col-span-1">
+                                                <label for="payment_date"
+                                                    class="block mb-2 text-sm font-medium text-gray-900">Delivery Method</label>
+                                                    <div name="status" id="status" 
+                                                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5">
+                                                @foreach($couriers as $courier)
+                                                    @if(optional($order->payments->first())->courier_id != null)
+
+                                                        @if($order->payments->first()->courier_id  == $courier->id)
+                                                            <div value="{{$courier->id }}" 
+                                                                {{ $order->payments->first()->courier_id  == $courier->id ? 'selected' : '' }}>
+                                                                {{$courier->name}}
+                                                            </div> 
+                                                        @endif
+                                                    @endif
+                                                @endforeach
+                                                </div>
+                                            </div>
                                             <div class="col-span-2">
                                                 <label for="feedback"
                                                     class="block mb-2 text-sm font-bold text-gray-900">Feedback</label>
@@ -257,6 +288,28 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
         $(document).ready(function() {
+            let asc = true; // Toggle between ascending and descending order
+
+            $("#filter-btn").click(function () {
+                let rows = $("#order-table-body tr").get();
+
+                rows.sort(function (a, b) {
+                    let valA = $(a).children("td").eq(2).text().toLowerCase(); // Get category column (2nd column)
+                    let valB = $(b).children("td").eq(2).text().toLowerCase();
+
+                    if (asc) {
+                        return valA.localeCompare(valB); // Ascending order
+                    } else {
+                        return valB.localeCompare(valA); // Descending order
+                    }
+                });
+
+                asc = !asc; // Toggle sorting order
+
+                $.each(rows, function (index, row) {
+                    $("#order-table-body").append(row);
+                });
+            });
             $('#table-search').on('keyup', function() {
                 const searchInput = $(this).val().toLowerCase();
                 $('#order-table-body tr').filter(function() {

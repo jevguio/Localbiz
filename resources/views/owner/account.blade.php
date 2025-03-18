@@ -4,25 +4,45 @@
         <div class="p-4 border-2 border-gray-200 border-dashed rounded-lg">
             <div class="flex justify-between items-center">
                 <h2 class="mt-3 text-xl font-bold text-gray-900 sm:text-2xl">Account Management</h2>
-                <button data-modal-target="addModal" class="btn btn-primary" type="button">
+                <button data-modal-target="addModal" class="btn btn-primary text-lg px-6 py-3" type="button">
                     Add Account
                 </button>
             </div>
             <div class="relative overflow-x-auto mt-10 bg-white p-4 rounded-lg">
-                <form class="max-w-md ml-0 mb-4">
-                    <label for="table-search" class="mb-2 text-sm font-medium text-gray-900 sr-only">Search</label>
-                    <div class="relative">
-                        <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
-                            <i class='bx bx-search text-gray-500 text-2xl'></i>
-                        </div>
-                        <input type="search" id="table-search"
-                            class="block w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500"
-                            placeholder="Search for account....">
-                    </div>
-                </form>
+            <form class="max-w-md ml-0 mb-4 relative">
+    <label for="table-search" class="mb-2 text-sm font-medium text-gray-900 sr-only">Search</label>
+    <div class="relative">
+        <!-- Search Icon -->
+        <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
+            <i class='bx bx-search text-gray-500 text-2xl'></i>
+        </div>
+        <!-- Search Input -->
+        <input type="search" id="table-search"
+            class="block w-full p-4 ps-10 pr-14 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500"
+            placeholder="Search for account....">
+        
+        <!-- Filter Button -->
+        <button type="button" id="filter-btn"
+            class="absolute inset-y-0 end-0 flex items-center px-3 text-gray-600 hover:text-gray-900">
+            <i class='bx bx-filter text-2xl'></i>
+        </button>
+
+        <!-- Filter Dropdown -->
+        <div id="filter-dropdown"
+            class="hidden absolute right-0 mt-2 w-40 bg-white border border-gray-300 rounded-lg shadow-lg">
+            <ul class="py-2 text-sm text-gray-700">
+                <li class="px-4 py-2 hover:bg-gray-100 cursor-pointer filter-option" data-filter="All">All</li>
+                <li class="px-4 py-2 hover:bg-gray-100 cursor-pointer filter-option" data-filter="Seller">Sellers</li>
+        </div>
+    </div>
+</form>
+
+<!-- JavaScript to toggle dropdown -->
+ 
+
                 <table class="w-full text-sm text-left rtl:text-right text-gray-500">
                     <thead class="text-xs text-gray-700 uppercase bg-gray-50">
-                        <tr>
+                        <tr >
                             <th scope="col" class="px-6 py-3">
                                 Name
                             </th>
@@ -45,20 +65,23 @@
                     </thead>
                     <tbody id="account-table-body">
                         @foreach ($users as $user)
-                            <tr class="{{ $user->is_active == 1 ? 'bg-white' :'bg-error' }} border-b border-gray-200 hover:{{ $user->is_active == 1 ? 'bg-gray-50' :'bg-warning-50' }}" >
-                                <th scope="row" class="px-6 py-4 font-medium {{ $user->is_active == 1 ? 'text-gray-900' :'text-white' }}   whitespace-nowrap">
+                            <tr class="{{ $user->is_active == 1 ? 'bg-white' :'bg-white ' }} 
+                            border-b border-gray-200 hover:{{ $user->is_active == 1 ? 'bg-gray-50' :'bg-warning-50' }}" 
+                            data-category="{{ $user->role }}"
+                            >
+                                <th scope="row" class="px-6 py-4 font-medium {{ $user->is_active == 1 ? 'text-gray-900' :'text-gray-900' }}   whitespace-nowrap">
                                     {{ $user->fname ." " .($user->role!="Seller"? $user->lname : "") }}
                                 </th>
-                                <td class="px-6 py-4 {{ $user->is_active == 1 ? 'text-gray-900' :'text-white' }}">
+                                <td class="px-6 py-4 {{ $user->is_active == 1 ? 'text-gray-900' :'text-gray-900' }}">
                                     {{ $user->email }}
                                 </td>
-                                <td class="px-6 py-4 {{ $user->is_active == 1 ? 'text-gray-900' :'text-white' }}">
+                                <td class="px-6 py-4 {{ $user->is_active == 1 ? 'text-gray-900' :'text-gray-900' }}">
                                     {{ $user->role }}
                                 </td>
-                                <td class="px-6 py-4 {{ $user->is_active == 1 ? 'text-gray-900' :'text-white' }}">
+                                <td class="px-6 py-4 {{ $user->is_active == 1 ? 'text-gray-900' :'text-gray-900' }}">
                                     {{ $user->is_active==1?'Active':'Disable' }}
                                 </td>
-                                <td class="px-6 py-4 {{ $user->is_active == 1 ? 'text-gray-900' :'text-white' }}">
+                                <td class="px-6 py-4 {{ $user->is_active == 1 ? 'text-gray-900' :'text-gray-900' }}">
                                     {{ \Carbon\Carbon::parse($user->last_login)->format('M d, Y') }}
                                 </td>
                                 <td class="px-6 py-4 flex gap-2">
@@ -80,7 +103,7 @@
                                     </button>
                                     @else 
                                     <button data-modal-target="ToggleModal{{ $user->id }}"
-                                        class="font-medium bg-white p-2 {{$user->role == 'Customer'?'w-28':''}} text-black hover:underline" type="button" style="border-radius:5px">
+                                        class="font-medium bg-success p-2 {{$user->role == 'Customer'?'w-28':''}} text-black hover:underline" type="button" style="border-radius:5px">
                                         Enable
                                     </button>
                                     @endif
@@ -298,6 +321,15 @@
                                     @method('POST')
                                     <div class="grid gap-4 mb-4 grid-cols-2">
                                     <div class="col-span-2">
+                                            <label class="block mb-2 text-sm font-medium text-gray-900"
+                                                for="role">Role</label>
+                                            <select name="role" id="add_seller_role" onchange="onRoleSeller(event)"
+                                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5">
+                                                <option value="Seller">Seller</option>
+                                                <option value="GovernmentAgency">Government Agency</option>
+                                            </select>
+                                        </div>
+                                    <div class="col-span-2">
                                             <label class="block mb-2 text-sm font-medium text-gray-900" id="firstName_add"
                                                 for="fname">First Name</label>
                                             <input type="text" name="fname" id="fname_input"
@@ -339,15 +371,7 @@
                                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
                                                 placeholder="Type phone number" value="{{ old('phone') }}">
                                         </div>
-                                        <div class="col-span-2">
-                                            <label class="block mb-2 text-sm font-medium text-gray-900"
-                                                for="role">Role</label>
-                                            <select name="role" id="add_seller_role" onchange="onRoleSeller(event)"
-                                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5">
-                                                <option value="Seller">Seller</option>
-                                                <option value="GovernmentAgency">Government Agency</option>
-                                            </select>
-                                        </div>
+                                      
                                         <script>
                                             onRoleSeller(null);
                                             function onRoleSeller(event){
@@ -397,6 +421,45 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
         $(document).ready(function() {
+            let selectedFilter = "All"; // Default filter
+
+        // Toggle filter dropdown
+        $("#filter-btn").click(function (event) {
+            event.preventDefault();
+            $("#filter-dropdown").toggleClass("hidden");
+        });
+
+        // Search and filter function
+        function filterTable() {
+            const searchInput = $("#table-search").val().toLowerCase();
+
+            $("#account-table-body tr").each(function () {
+                const rowText = $(this).text().toLowerCase();
+                const rowCategory = $(this).data("category");
+
+                const matchesSearch = rowText.indexOf(searchInput) > -1;
+                const matchesFilter = selectedFilter === "All" || rowCategory === selectedFilter;
+
+                $(this).toggle(matchesSearch && matchesFilter);
+            });
+        }
+
+        // Apply search
+        $("#table-search").on("keyup", filterTable);
+
+        // Apply filter
+        $(".filter-option").click(function () {
+            selectedFilter = $(this).data("filter");
+            $("#filter-dropdown").addClass("hidden"); // Hide dropdown after selection
+            filterTable();
+        });
+
+        // Close dropdown when clicking outside
+        $(document).click(function (event) {
+            if (!$(event.target).closest("#filter-btn, #filter-dropdown").length) {
+                $("#filter-dropdown").addClass("hidden");
+            }
+        });
             $('#table-search').on('keyup', function() {
                 const searchInput = $(this).val().toLowerCase();
                 $('#account-table-body tr').filter(function() {
@@ -413,5 +476,6 @@
                 $(`#${modalId}`).addClass('hidden');
             });
         });
+         
     </script>
 </x-app-layout>

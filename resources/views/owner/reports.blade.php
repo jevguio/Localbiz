@@ -17,6 +17,12 @@
                                 <input type="search" id="table-search"
                                     class="block w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500"
                                     placeholder="Search for reports....">
+                                    
+                                <button type="button" id="filter-btn"
+                                    class="absolute inset-y-0 end-0 flex items-center px-3 text-gray-600 hover:text-gray-900">
+                                    <i class='bx bx-filter text-2xl'></i>
+                                </button>
+
                             </div>
                             <div class=" flex gap-2 my-2 mx-2">
                             <a href="#" onclick="openInventorySeller()"
@@ -115,7 +121,7 @@
                     <th>Action</th> 
                 </tr>
             </thead>
-            <tbody>
+            <tbody >
                 @foreach ($sellers as $index => $seller)
                     <tr>
                     <td>{{ $seller->id }}</td> 
@@ -290,6 +296,12 @@
  
 </style> 
     <script> 
+    function openTopProducts(){
+        let baseUrl = "{{ route('owner.toppurchase') }}"; // Blade generates this correctly
+        let sellerId = "{{ $seller->id }}"; // Get seller ID from Blade 
+        let url = `${baseUrl}?id=${sellerId}&inventory=true`;
+        window.location.href = url; // Redirect dynamically
+    }
         const Seller = document.getElementById('Seller_Inventory_Management');
          
          const datePicker = document.createElement("input"); 
@@ -313,7 +325,28 @@
         //   -------------------------------Inventory--------------------------------------
         
 
+        let asc = true; // Toggle between ascending and descending order
 
+        $("#filter-btn").click(function () {
+            let rows = $("#reports-table-body tr").get();
+
+            rows.sort(function (a, b) {
+                let valA = $(a).children("th").eq(0).text().toLowerCase(); // Get category column (2nd column)
+                let valB = $(b).children("th").eq(0).text().toLowerCase();
+
+                if (asc) {
+                    return valA.localeCompare(valB); // Ascending order
+                } else {
+                    return valB.localeCompare(valA); // Descending order
+                }
+            });
+
+            asc = !asc; // Toggle sorting order
+
+            $.each(rows, function (index, row) {
+                $("#reports-table-body").append(row);
+            });
+        });
 
          function openInventoryReport(event){ 
             

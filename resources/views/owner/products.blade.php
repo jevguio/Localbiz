@@ -14,7 +14,27 @@
                         <input type="search" id="table-search"
                             class="block w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500"
                             placeholder="Search for products....">
+                            <!-- Filter Button -->
+                        <button type="button" id="filter-btn"
+                            class="absolute inset-y-0 end-0 flex items-center px-3 text-gray-600 hover:text-gray-900">
+                            <i class='bx bx-filter text-2xl'></i>
+                        </button>
+
+                        <!-- Filter Dropdown -->
+                        <div id="filter-dropdown"
+                            class="hidden absolute right-0 mt-2 w-40 bg-white border border-gray-300 rounded-lg shadow-lg">
+                            <ul class="py-2 text-sm text-gray-700">
+                                <li class="px-4 py-2 hover:bg-gray-100 cursor-pointer filter-option" data-filter="All">All</li>
+                                <li class="px-4 py-2 hover:bg-gray-100 cursor-pointer filter-option" data-filter="GovernmentAgency">DTI</li>
+                                <li class="px-4 py-2 hover:bg-gray-100 cursor-pointer filter-option" data-filter="Owner">Admin</li>
+                                <li class="px-4 py-2 hover:bg-gray-100 cursor-pointer filter-option" data-filter="Seller">Sellers</li>
+                                <li class="px-4 py-2 hover:bg-gray-100 cursor-pointer filter-option" data-filter="Customer">Customer</li>
+                                <li class="px-4 py-2 hover:bg-gray-100 cursor-pointer filter-option" data-filter="Cashier">Cashier</li>
+                                <li class="px-4 py-2 hover:bg-gray-100 cursor-pointer filter-option" data-filter="DeliveryRider">Delivery Rider</li>
+                            </ul>
+                        </div>
                     </div>
+                    
                 </form>
                 <table class="w-full text-sm text-left rtl:text-right text-gray-500">
                     <thead class="text-xs text-gray-700 uppercase bg-gray-50">
@@ -30,6 +50,9 @@
                             </th>
                             <th scope="col" class="px-6 py-3">
                                 Product Stock
+                            </th>
+                            <th scope="col" class="px-6 py-3 hidden" >
+                                Seller
                             </th>
                             <th scope="col" class="px-6 py-3">
                                 Action
@@ -51,6 +74,9 @@
                                 </td>
                                 <td class="px-6 py-4">
                                     {{ $product->stock }}
+                                </td>
+                                <td class="px-6 py-4 hidden">
+                                    {{ $product->seller->user->fname }}
                                 </td>
                                 <td class="px-6 py-4">
                                     <button data-modal-target="viewModal{{ $product->id }}"
@@ -186,6 +212,28 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
         $(document).ready(function() {
+            let asc = true; // Toggle between ascending and descending order
+
+            $("#filter-btn").click(function () {
+                let rows = $("#product-table-body tr").get();
+
+                rows.sort(function (a, b) {
+                    let valA = $(a).children("td").eq(4).text().toLowerCase(); // Get category column (2nd column)
+                    let valB = $(b).children("td").eq(4).text().toLowerCase();
+
+                    if (asc) {
+                        return valA.localeCompare(valB); // Ascending order
+                    } else {
+                        return valB.localeCompare(valA); // Descending order
+                    }
+                });
+
+                asc = !asc; // Toggle sorting order
+
+                $.each(rows, function (index, row) {
+                    $("#product-table-body").append(row);
+                });
+            });
             $('#table-search').on('keyup', function() {
                 const searchInput = $(this).val().toLowerCase();
                 $('#product-table-body tr').filter(function() {
