@@ -32,7 +32,13 @@
             class="hidden absolute right-0 mt-2 w-40 bg-white border border-gray-300 rounded-lg shadow-lg">
             <ul class="py-2 text-sm text-gray-700">
                 <li class="px-4 py-2 hover:bg-gray-100 cursor-pointer filter-option" data-filter="All">All</li>
+                <li class="px-4 py-2 hover:bg-gray-100 cursor-pointer filter-option" data-filter="Owner">Admin</li>
+                <li class="px-4 py-2 hover:bg-gray-100 cursor-pointer filter-option" data-filter="GovernmentAgency">DTI</li>
                 <li class="px-4 py-2 hover:bg-gray-100 cursor-pointer filter-option" data-filter="Seller">Sellers</li>
+                <li class="px-4 py-2 hover:bg-gray-100 cursor-pointer filter-option" data-filter="Customer">Customer</li>
+                <li class="px-4 py-2 hover:bg-gray-100 cursor-pointer filter-option" data-filter="Cashier">Cashier</li>
+                <li class="px-4 py-2 hover:bg-gray-100 cursor-pointer filter-option" data-filter="DeliveryRider">Delivery Rider</li>
+            </ul>        
         </div>
     </div>
 </form>
