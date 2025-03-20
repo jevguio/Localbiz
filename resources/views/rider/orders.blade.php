@@ -47,7 +47,7 @@
                                         {{ $order->user->fname." ".$order->user->lname }}
                                     </td>
                                     <td class="px-6 py-4">
-                                        {{ $order->created_at }}
+                                        {{ $order->created_at->format('F d, Y h:i:s A') }}
                                     </td>
                                     <td class="px-6 py-4">
                                         {{ $order->status }}

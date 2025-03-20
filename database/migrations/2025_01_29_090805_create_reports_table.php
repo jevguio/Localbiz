@@ -13,7 +13,9 @@ return new class extends Migration
     {
         Schema::create('tbl_reports', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('seller_id')->constrained('tbl_sellers')->nullable();
+            $table->unsignedBigInteger('seller_id')->nullable()->default(null);
+            $table->foreign('seller_id')->references('id')->on('tbl_sellers');
+
             $table->string('report_name');
             $table->string('report_type');
             $table->text('content');
