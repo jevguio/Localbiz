@@ -169,8 +169,7 @@ class OwnerController extends Controller
         Storage::disk('public')->put($filePath, $pdf->output());
     
         // Save report to database
-        $report = Reports::create([
-            'seller_id' => Auth::user()->id,
+        $report = Reports::create([ 
             'report_name' => 'Inventory Report',
             'report_type' => 'pdf',
             'content' => $fileName,
@@ -187,8 +186,7 @@ class OwnerController extends Controller
 
         Excel::store(new AdminProductsExport(), $filePath, 'public');
 
-        $report = Reports::create([
-            'seller_id' => Auth::user()->id,
+        $report = Reports::create([ 
             'report_name' => 'Products Report',
             'report_type' => 'excel',
             'content' => $fileName,
@@ -245,8 +243,7 @@ class OwnerController extends Controller
         Storage::disk('public')->put($filePath, $pdf->output());
     
         // Save report to database
-        $report = Reports::create([
-            'seller_id' => Auth::user()->id,
+        $report = Reports::create([ 
             'report_name' => 'Sales Report',
             'report_type' => 'pdf',
             'content' => $fileName,
@@ -381,8 +378,7 @@ class OwnerController extends Controller
         Storage::disk('public')->put($filePath, $pdf->output());
     
         // Save report to database
-        $report = Reports::create([
-            'seller_id' => Auth::user()->id,
+        $report = Reports::create([     
             'report_name' => 'Top Seller Report',
             'report_type' => 'pdf',
             'content' => $fileName,
@@ -471,8 +467,7 @@ class OwnerController extends Controller
         $filePath = 'reports/' . $fileName;
         Storage::disk('public')->put($filePath, $pdf->output());
     
-        Reports::create([
-            'seller_id' => Auth::user()->id,
+        Reports::create([ 
             'report_name' => 'Top Purchase Report',
             'report_type' => 'pdf',
             'content' => $fileName,
