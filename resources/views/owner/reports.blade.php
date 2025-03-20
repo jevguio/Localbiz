@@ -27,10 +27,10 @@
                                     class="hidden absolute right-0 mt-2 w-40 bg-white border border-gray-300 rounded-lg shadow-lg">
                                     <ul class="py-2 text-sm text-gray-700">
                                         <li class="px-4 py-2 hover:bg-gray-100 cursor-pointer filter-option" data-filter="All">All</li>
-                                        <li class="px-4 py-2 hover:bg-gray-100 cursor-pointer filter-option" data-filter="Products Report">Products Report</li>
+                                        <li class="px-4 py-2 hover:bg-gray-100 cursor-pointer filter-option" data-filter="Sales Report">Sales Report</li>
                                         <li class="px-4 py-2 hover:bg-gray-100 cursor-pointer filter-option" data-filter="Inventory Report">Inventory Report</li>
-                                        <li class="px-4 py-2 hover:bg-gray-100 cursor-pointer filter-option" data-filter="Top Seller">Top Seller</li>
-                                        <li class="px-4 py-2 hover:bg-gray-100 cursor-pointer filter-option" data-filter="Top Purchase">Top Purchase</li> 
+                                        <li class="px-4 py-2 hover:bg-gray-100 cursor-pointer filter-option" data-filter="Top Seller Report">Top Seller Report</li>
+                                        <li class="px-4 py-2 hover:bg-gray-100 cursor-pointer filter-option" data-filter="Top Purchase Report">Top Purchase Report</li> 
                                     </ul>
                                 </div>
                             </div>

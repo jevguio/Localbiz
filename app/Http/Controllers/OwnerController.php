@@ -261,7 +261,8 @@ class OwnerController extends Controller
     }
     public function reports(Request $request)
     { 
-        $reports = Reports::paginate(10);
+        $reports = Reports::orderBy('created_at', 'desc')->paginate(10);
+
         $startDate= $request->startDate;
         $endDate= $request->endDate;
         $products = Products::paginate(10); 
@@ -382,7 +383,7 @@ class OwnerController extends Controller
         // Save report to database
         $report = Reports::create([
             'seller_id' => Auth::user()->id,
-            'report_name' => 'Inventory Report',
+            'report_name' => 'Top Seller Report',
             'report_type' => 'pdf',
             'content' => $fileName,
         ]);
