@@ -400,20 +400,35 @@ class OwnerController extends Controller
     public function TopPurchase(){
  
         $topProducts = OrderItems::join('tbl_products', 'tbl_order_items.product_id', '=', 'tbl_products.id')
-            ->select(
-                'tbl_products.name',
-                'tbl_order_items.product_id', 
-                'tbl_order_items.price', // ✅ No need for DB::raw()
-                DB::raw('COUNT(DISTINCT tbl_order_items.order_id) as total_orders'), // Total orders count
-                DB::raw('SUM(tbl_order_items.quantity) as total_sold'), // Total units sold
-                DB::raw('SUM(tbl_order_items.price * tbl_order_items.quantity) as total_revenue'), // Total revenue
-                DB::raw('AVG(tbl_order_items.price * tbl_order_items.quantity) as avg_order_value') // Average order value
-            )
-            ->groupBy('tbl_order_items.product_id', 'tbl_products.name', 'tbl_order_items.price') // ✅ Include price in GROUP BY
-            ->orderByDesc('total_sold') // Order by highest sold quantity
-            ->take(10) // Get top 10
-            ->get();
-        
+        ->select(
+            'tbl_products.name',
+            'tbl_order_items.product_id',
+            DB::raw('DATE_FORMAT(tbl_order_items.created_at, "%Y-%m") as month'), // Get month format
+            DB::raw('COUNT(DISTINCT tbl_order_items.order_id) as total_orders'),
+            DB::raw('SUM(tbl_order_items.quantity) as total_sold'),
+            DB::raw('SUM(tbl_order_items.price * tbl_order_items.quantity) as total_revenue'),
+            DB::raw('MAX(tbl_order_items.price) as price'), // Use MAX() instead of just price
+            DB::raw('AVG(tbl_order_items.price * tbl_order_items.quantity) as avg_order_value')
+        )
+        ->groupBy('month', 'tbl_order_items.product_id', 'tbl_products.name')
+        ->orderBy('month', 'ASC')
+        ->limit(10)
+        ->get();
+        $topProductsByMonth = DB::table('tbl_order_items')
+        ->join('tbl_products', 'tbl_order_items.product_id', '=', 'tbl_products.id')
+        ->select(
+            'tbl_products.name as product_name',
+            DB::raw('DATE_FORMAT(tbl_order_items.created_at, "%Y-%m") as month'),
+            DB::raw('SUM(tbl_order_items.quantity) as total_sold')
+        )
+        ->groupBy('month', 'tbl_order_items.product_id', 'tbl_products.name')
+        ->orderBy('month', 'ASC')
+        ->get();
+    
+        $chartData = [];
+        foreach ($topProductsByMonth as $data) {
+            $chartData[$data->month][$data->product_name] = $data->total_sold;
+        }
         $products = Products::whereIn('id', $topProducts->pluck('product_id'))->get()->keyBy('id');
 
         // Merge product details into topProducts collection
@@ -424,7 +439,7 @@ class OwnerController extends Controller
             }
         });
         $isViewBTN=true;
-        return view('reports.top_purchase', compact('products','topProducts','isViewBTN'));
+        return view('reports.top_purchase', compact('chartData','topProducts','isViewBTN'));
     }
     public function exportTopPurchase()
     {
@@ -435,12 +450,14 @@ class OwnerController extends Controller
                 'tbl_products.name',
                 'tbl_order_items.product_id', 
                 'tbl_order_items.price',
+                DB::raw('DATE_FORMAT(tbl_order_items.created_at, "%Y-%m") as month'),
                 DB::raw('COUNT(DISTINCT tbl_order_items.order_id) as total_orders'),
                 DB::raw('SUM(tbl_order_items.quantity) as total_sold'),
                 DB::raw('SUM(tbl_order_items.price * tbl_order_items.quantity) as total_revenue'),
                 DB::raw('AVG(tbl_order_items.price * tbl_order_items.quantity) as avg_order_value')
             )
-            ->groupBy('tbl_order_items.product_id', 'tbl_products.name', 'tbl_order_items.price')
+            ->groupBy('month', 'tbl_order_items.product_id', 'tbl_products.name')
+            ->orderBy('month', 'ASC')
             ->orderByDesc('total_sold')
             ->take(10)
             ->get();
