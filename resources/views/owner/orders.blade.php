@@ -39,11 +39,11 @@
                                 Order Number
                             </th>
                             <th scope="col" class="px-6 py-3">
-                                Customer Name
-                            </th>
-                            <th scope="col" class="px-6 py-3">
                                 Order Date
                             </th> 
+                            <th scope="col" class="px-6 py-3">
+                                Customer Name
+                            </th>
                             <th scope="col" class="px-6 py-3">
                                 Status
                             </th>
@@ -60,10 +60,10 @@
                                     {{ $order->order_number }}
                                 </th>
                                 <td class="px-6 py-4">
-                                {{ $order->user->name . " " . $order->user->fname}}
+                                    {{ $order->created_at }}
                                 </td>
                                 <td class="px-6 py-4">
-                                    {{ $order->created_at }}
+                                {{ $order->user->name . " " . $order->user->fname}}
                                 </td>
                                 <td class="px-6 py-4">
                                     {{ $order->status }}
