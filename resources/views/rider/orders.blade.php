@@ -26,7 +26,7 @@
                                 Customer Name
                             </th>
                             <th scope="col" class="px-6 py-3">
-                                Product Name
+                                Order Date
                             </th>
                             <th scope="col" class="px-6 py-3">
                                 Status
@@ -47,7 +47,7 @@
                                         {{ $order->user->fname." ".$order->user->lname }}
                                     </td>
                                     <td class="px-6 py-4">
-                                        {{ $order->orderItems->first()->product->name ?? 'N/A' }}
+                                        {{ $order->created_at }}
                                     </td>
                                     <td class="px-6 py-4">
                                         {{ $order->status }}
