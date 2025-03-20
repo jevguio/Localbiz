@@ -14,8 +14,7 @@
         .hidden_table { width: 100%; border-collapse: collapse; margin-top: 10px; }
         .hidden_table th, .hidden_table td { padding: 8px; text-align: left; }
         .hidden_table th { background-color: #f2f2f2; }
-    </style>
-<div class="header">Localbiz</div>
+    </style> 
 <div class="subheader" id="subheader" style="background-color:rgb(161, 124, 0); width:100%; color:white;padding:10px ">Top Purchase's Report</div>
  
 @php
