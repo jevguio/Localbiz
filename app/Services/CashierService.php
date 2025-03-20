@@ -19,7 +19,8 @@ class CashierService
             $seller = Seller::where('user_id', Auth::user()->id)->first();
 
             $user = User::create([
-                'name' => $request->name,
+                'fname' => $request->fname,
+                'lname' => $request->lname,
                 'email' => $request->email,
                 'password' => Hash::make('password'),
                 'address' => $request->address,
@@ -41,6 +42,7 @@ class CashierService
                 'message' => 'Cashier added successfully.',
             ]);
         } catch (\Exception $e) {
+            \Log::info($e);
             session()->flash('error', 'Failed to add cashier.');
             return response()->json([
                 'error_code' => MyConstant::FAILED_CODE,

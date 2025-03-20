@@ -206,10 +206,17 @@
                                     <div class="grid gap-4 mb-4 grid-cols-2">
                                         <div class="col-span-2">
                                             <label class="block mb-2 text-sm font-medium text-gray-900"
-                                                for="name">Name</label>
-                                            <input type="text" name="name" id="name"
+                                                for="fname">Frist Name</label>
+                                            <input type="text" name="fname" id="fname"
                                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
-                                                placeholder="Type name" value="{{ old('name') }}">
+                                                placeholder="Type first name" value="{{ old('fname') }}">
+                                        </div>
+                                        <div class="col-span-2">
+                                            <label class="block mb-2 text-sm font-medium text-gray-900"
+                                                for="lname">Name</label>
+                                            <input type="text" name="lname" id="lname"
+                                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                                                placeholder="Type last name" value="{{ old('lname') }}">
                                         </div>
                                         <div class="col-span-2">
                                             <label class="block mb-2 text-sm font-medium text-gray-900"
