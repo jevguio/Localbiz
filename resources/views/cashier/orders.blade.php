@@ -216,7 +216,7 @@
                                                         value="{{ $order->payments->first() ? \Carbon\Carbon::parse($order->payments->first()->payment_date)->format('F d, Y') : 'N/A' }}"
                                                         readonly>
                                                 </div>
-                                                <div class="col-span-2">
+                                                <!-- <div class="col-span-2">
                                                     <label for="feedback"
                                                         class="block mb-2 text-sm font-bold text-gray-900">Feedback</label>
                                                     <ul class="bg-gray-50 border border-gray-300 rounded-lg p-2">
@@ -227,7 +227,7 @@
                                                                 {{ $order->orderItems->first()->feedback->rating ?? 'No rating yet' }})</span>
                                                         </li>
                                                     </ul>
-                                                </div>
+                                                </div> -->
                                                 <div class="col-span-2 flex justify-around gap-2">
                                                     <div class="col-span-1">
                                                         <label for="proof_of_delivery"

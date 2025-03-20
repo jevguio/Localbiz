@@ -45,7 +45,7 @@ class CashierController extends Controller
             $query->whereHas('product', function ($query) use ($seller_id) {
                 $query->where('seller_id', $seller_id);
             });
-        })
+        })->orderBy('created_at', 'desc')
             ->with(['user', 'orderItems.product', 'payments'])
             ->paginate(10);
 
