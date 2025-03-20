@@ -19,7 +19,8 @@ class RiderService
             $seller = Seller::where('user_id', Auth::user()->id)->first();
 
             $user = User::create([
-                'name' => $request->name,
+                'fname' => $request->fname,
+                'lname' => $request->lname,
                 'email' => $request->email,
                 'password' => Hash::make('password'),
                 'address' => $request->address,

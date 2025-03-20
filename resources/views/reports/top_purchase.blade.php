@@ -1,6 +1,6 @@
 <x-app-layout>
-   <div class="p-4 sm:ml-64 ">
-   <div class="mb-4 mt-4">
+   <div class="p-4 sm:ml-64 relative">
+   <div class="mb-4 mt-4 w-80">
         <a href="{{route('owner.reports')}}" class="bg-info p-2 mb-4 pt-4" style="border-radius: 10px;">
             <i class="bx bx-chevron-left text-white" style="font-size:x-large"></i>
         </a>
@@ -14,7 +14,8 @@
     @if($isViewBTN)
         <a href="{{ route('owner.toppurchase.export') }}" id="export_topseller"
             class="btn btn-primary bg-blue-700 hover:bg-blue-800 text-white px-4 py-2 rounded-md"
-            style="position:absolute;right:21%; bottom:23%">Download PDF</a>
+            style="position:absolute;right:5%; bottom:5%">Download PDF</a>
     @endif
+    
 </div>
 </x-app-layout>

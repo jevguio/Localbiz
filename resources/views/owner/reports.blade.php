@@ -23,6 +23,16 @@
                                     <i class='bx bx-filter text-2xl'></i>
                                 </button>
 
+                                <div id="filter-dropdown"
+                                    class="hidden absolute right-0 mt-2 w-40 bg-white border border-gray-300 rounded-lg shadow-lg">
+                                    <ul class="py-2 text-sm text-gray-700">
+                                        <li class="px-4 py-2 hover:bg-gray-100 cursor-pointer filter-option" data-filter="All">All</li>
+                                        <li class="px-4 py-2 hover:bg-gray-100 cursor-pointer filter-option" data-filter="Products Report">Products Report</li>
+                                        <li class="px-4 py-2 hover:bg-gray-100 cursor-pointer filter-option" data-filter="Inventory Report">Inventory Report</li>
+                                        <li class="px-4 py-2 hover:bg-gray-100 cursor-pointer filter-option" data-filter="Top Seller">Top Seller</li>
+                                        <li class="px-4 py-2 hover:bg-gray-100 cursor-pointer filter-option" data-filter="Top Purchase">Top Purchase</li> 
+                                    </ul>
+                                </div>
                             </div>
                             <div class=" flex gap-2 my-2 mx-2">
                             <a href="#" onclick="openInventorySeller()"
@@ -64,7 +74,7 @@
                     </thead>
                     <tbody id="reports-table-body">
                         @foreach ($reports as $report)
-                            <tr class="bg-white border-b border-gray-200 hover:bg-gray-50">
+                            <tr class="bg-white border-b border-gray-200 hover:bg-gray-50"  data-category="{{ $report->report_name }}">
                                 <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
                                     {{ $report->report_name }}
                                 </th>
@@ -325,28 +335,42 @@
         //   -------------------------------Inventory--------------------------------------
         
 
-        let asc = true; // Toggle between ascending and descending order
+        let selectedFilter = "All"; // Default filter
 
-        $("#filter-btn").click(function () {
-            let rows = $("#reports-table-body tr").get();
-
-            rows.sort(function (a, b) {
-                let valA = $(a).children("th").eq(0).text().toLowerCase(); // Get category column (2nd column)
-                let valB = $(b).children("th").eq(0).text().toLowerCase();
-
-                if (asc) {
-                    return valA.localeCompare(valB); // Ascending order
-                } else {
-                    return valB.localeCompare(valA); // Descending order
-                }
-            });
-
-            asc = !asc; // Toggle sorting order
-
-            $.each(rows, function (index, row) {
-                $("#reports-table-body").append(row);
-            });
+        // Toggle filter dropdown
+        $("#filter-btn").click(function (event) {
+            event.preventDefault();
+            $("#filter-dropdown").toggleClass("hidden");
         });
+
+        // Search and filter function
+        function filterTable() {
+            const searchInput = $("#table-search").val().toLowerCase();
+
+            $("#reports-table-body tr").each(function () {
+                const rowText = $(this).text().toLowerCase();
+                const rowCategory = $(this).data("category");
+
+                const matchesSearch = rowText.indexOf(searchInput) > -1;
+                const matchesFilter = selectedFilter === "All" || rowCategory === selectedFilter;
+
+                $(this).toggle(matchesSearch && matchesFilter);
+            });
+        }
+        // Apply filter
+        $(".filter-option").click(function () {
+            selectedFilter = $(this).data("filter");
+            $("#filter-dropdown").addClass("hidden"); // Hide dropdown after selection
+            filterTable();
+        });
+
+        // Close dropdown when clicking outside
+        $(document).click(function (event) {
+            if (!$(event.target).closest("#filter-btn, #filter-dropdown").length) {
+                $("#filter-dropdown").addClass("hidden");
+            }
+        });
+
 
          function openInventoryReport(event){ 
             

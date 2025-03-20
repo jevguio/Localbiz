@@ -38,27 +38,28 @@
                     </thead>
                     <tbody id="order-table-body">
                         @foreach ($orders as $order)
-                            <tr class="bg-white border-b border-gray-200 hover:bg-gray-50">
-                                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
-                                    {{ $order->order_number }}
-                                </th>
-                                <td class="px-6 py-4">
-                                    {{ $order->user->name }}
-                                </td>
-                                <td class="px-6 py-4">
-                                    {{ $order->orderItems->first()->product->name ?? 'N/A' }}
-                                </td>
-                                <td class="px-6 py-4">
-                                    {{ $order->status }}
-                                </td>
-                                <td class="px-6 py-4">
-                                    <button data-modal-target="editModal{{ $order->id }}"
-                                        class="font-medium text-blue-600 hover:underline" type="button">
-                                        Edit
-                                    </button>
+                            @if($order->status=="receiving")
+                                <tr class="bg-white border-b border-gray-200 hover:bg-gray-50">
+                                    <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
+                                        {{ $order->order_number }}
+                                    </th>
+                                    <td class="px-6 py-4">
+                                        {{ $order->user->fname." ".$order->user->lname }}
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        {{ $order->orderItems->first()->product->name ?? 'N/A' }}
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        {{ $order->status }}
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <button data-modal-target="editModal{{ $order->id }}"
+                                            class="font-medium text-blue-600 hover:underline" type="button">
+                                            Edit
+                                        </button>
 
-                                </td>
-                            </tr>
+                                    </td>
+                                </tr>
 
                             <div id="editModal{{ $order->id }}" tabindex="-1" aria-hidden="true"
                                 class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-screen max-h-full bg-black bg-opacity-50">
@@ -232,6 +233,7 @@
                                     </div>
                                 </div>
                             </div>
+                            @endif
                         @endforeach
                     </tbody>
                 </table>
