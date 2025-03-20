@@ -18,6 +18,14 @@ class RiderService
         try {
             $seller = Seller::where('user_id', Auth::user()->id)->first();
 
+            if (User::where('email', $request->email)->exists()) {
+                session()->flash('error', 'Email Already Taken');
+                return response()->json([
+                    'error_code' => MyConstant::FAILED_CODE,
+                    'status_code' => MyConstant::FAILED_CODE,
+                    'message' => 'Email already exists.',
+                ], 400);
+            }
             $user = User::create([
                 'fname' => $request->fname,
                 'lname' => $request->lname,
