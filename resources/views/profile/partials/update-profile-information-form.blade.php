@@ -68,7 +68,7 @@
         <fieldset class="fieldset">
             <legend class="fieldset-legend">Phone</legend>
             <input type="tel" name="phone" class="input w-full" placeholder="Type your phone number"
-                value="{{ $user->phone }}" required />
+                value="{{ $user->phone }}" required max="11"/>
         </fieldset>
 
         @if ($user->role == 'Seller')
