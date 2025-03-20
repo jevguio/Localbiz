@@ -30,6 +30,7 @@
                                 <li class="px-4 py-2 hover:bg-gray-100 cursor-pointer filter-option" data-filter="completed">Completed</li>
                                 <li class="px-4 py-2 hover:bg-gray-100 cursor-pointer filter-option" data-filter="delivered">Delivered</li> 
                                 <li class="px-4 py-2 hover:bg-gray-100 cursor-pointer filter-option" data-filter="cancelled">Cancelled</li> 
+                            </ul>
                         </div>
                     </div>
                 </form>

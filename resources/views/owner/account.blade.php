@@ -37,13 +37,7 @@
                 <li class="px-4 py-2 hover:bg-gray-100 cursor-pointer filter-option" data-filter="Seller">Sellers</li>
                 <li class="px-4 py-2 hover:bg-gray-100 cursor-pointer filter-option" data-filter="Customer">Customer</li>
                 <li class="px-4 py-2 hover:bg-gray-100 cursor-pointer filter-option" data-filter="Cashier">Cashier</li>
-                <li class="px-4 py-2 hover:bg-gray-100 cursor-pointer filter-option" data-filter="DeliveryRider">Delivery Rider</li>
-            </ul>        
-                <li class="px-4 py-2 hover:bg-gray-100 cursor-pointer filter-option" data-filter="Cashier">Cashier</li>
-                <li class="px-4 py-2 hover:bg-gray-100 cursor-pointer filter-option" data-filter="Owner">Admin</li>
-                <li class="px-4 py-2 hover:bg-gray-100 cursor-pointer filter-option" data-filter="GovernmentAgency">Government Agency</li>
-                <li class="px-4 py-2 hover:bg-gray-100 cursor-pointer filter-option" data-filter="DeliveryRider">Delivery Rider</li>
-                <li class="px-4 py-2 hover:bg-gray-100 cursor-pointer filter-option" data-filter="Customer">Customer</li> 
+                <li class="px-4 py-2 hover:bg-gray-100 cursor-pointer filter-option" data-filter="DeliveryRider">Delivery Rider</li> 
             </ul>
         </div>
     </div>
