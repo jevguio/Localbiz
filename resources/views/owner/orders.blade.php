@@ -55,6 +55,7 @@
                     </thead>
                     <tbody id="order-table-body">
                         @foreach ($orders as $order)
+                            @if($order->status!="on-cart")
                             <tr class="bg-white border-b border-gray-200 hover:bg-gray-50" data-category="{{ $order->status }}">
                                 <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
                                     {{ $order->order_number }}
@@ -281,6 +282,7 @@
                                     </div>
                                 </div>
                             </div>
+                            @endif
                         @endforeach
                     </tbody>
                 </table>
