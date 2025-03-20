@@ -24,6 +24,7 @@ use Illuminate\Support\Facades\Auth;
 use Maatwebsite\Excel\Facades\Excel;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\DB;
 
 class OwnerController extends Controller
 {
@@ -62,7 +63,8 @@ class OwnerController extends Controller
     {
         $products = Products::where('seller_id', Auth::user()->id)->paginate(10);
         $categories = Categories::all();
-        return view('owner.products', compact('products', 'categories'));
+        $sellers = Seller::all();
+        return view('owner.products', compact('products', 'categories','sellers'));
     }
 
     public function courier()
@@ -396,37 +398,70 @@ class OwnerController extends Controller
 
 
     public function TopPurchase(){
-
-        $topSellers = Products::orderBy('created_at', 'desc') 
-        ->limit(10) // Get top 10 sellers
-        ->get(); 
-        $isViewBTN=true;
-        return view('reports.top_purchase', compact('topSellers','isViewBTN'));
-    }
-    public function exportTopPurchase(){
-        $isViewBTN=false;
-        $topSellers = Orders::where('role', 'seller')
-        ->limit(10) // Get top 10 sellers
-        ->get();
+ 
+        $topProducts = OrderItems::join('tbl_products', 'tbl_order_items.product_id', '=', 'tbl_products.id')
+            ->select(
+                'tbl_products.name',
+                'tbl_order_items.product_id', 
+                'tbl_order_items.price', // ✅ No need for DB::raw()
+                DB::raw('COUNT(DISTINCT tbl_order_items.order_id) as total_orders'), // Total orders count
+                DB::raw('SUM(tbl_order_items.quantity) as total_sold'), // Total units sold
+                DB::raw('SUM(tbl_order_items.price * tbl_order_items.quantity) as total_revenue'), // Total revenue
+                DB::raw('AVG(tbl_order_items.price * tbl_order_items.quantity) as avg_order_value') // Average order value
+            )
+            ->groupBy('tbl_order_items.product_id', 'tbl_products.name', 'tbl_order_items.price') // ✅ Include price in GROUP BY
+            ->orderByDesc('total_sold') // Order by highest sold quantity
+            ->take(10) // Get top 10
+            ->get();
         
+        $products = Products::whereIn('id', $topProducts->pluck('product_id'))->get()->keyBy('id');
+
+        // Merge product details into topProducts collection
+        $topProducts->each(function ($item) use ($products) {
+            $product = $products[$item->product_id] ?? null;
+            if ($product) {
+                $item->name = $product->name;
+            }
+        });
+        $isViewBTN=true;
+        return view('reports.top_purchase', compact('products','topProducts','isViewBTN'));
+    }
+    public function exportTopPurchase()
+    {
+        $isViewBTN = false;
+    
+        $topProducts = OrderItems::join('tbl_products', 'tbl_order_items.product_id', '=', 'tbl_products.id')
+            ->select(
+                'tbl_products.name',
+                'tbl_order_items.product_id', 
+                'tbl_order_items.price',
+                DB::raw('COUNT(DISTINCT tbl_order_items.order_id) as total_orders'),
+                DB::raw('SUM(tbl_order_items.quantity) as total_sold'),
+                DB::raw('SUM(tbl_order_items.price * tbl_order_items.quantity) as total_revenue'),
+                DB::raw('AVG(tbl_order_items.price * tbl_order_items.quantity) as avg_order_value')
+            )
+            ->groupBy('tbl_order_items.product_id', 'tbl_products.name', 'tbl_order_items.price')
+            ->orderByDesc('total_sold')
+            ->take(10)
+            ->get();
+    
+        // Generate PDF
         $fileName = Auth::user()->fname . '_' . Auth::user()->lname . '_' . now()->format('YmdHis') . '.pdf';
-        $pdf = Pdf::loadView('reports.top_purchase_component', compact('topSellers','isViewBTN'))->setPaper('a4', 'portrait');
-
+        $pdf = Pdf::loadView('reports.top_purchase_component', compact('topProducts', 'isViewBTN'))
+                  ->setPaper('a4', 'landscape');
+    
         $filePath = 'reports/' . $fileName;
-        // Store PDF in storage
         Storage::disk('public')->put($filePath, $pdf->output());
-
-        // Save report to database
-        $report = Reports::create([
+    
+        Reports::create([
             'seller_id' => Auth::user()->id,
-            'report_name' => 'Inventory Report',
+            'report_name' => 'Top Purchase Report',
             'report_type' => 'pdf',
             'content' => $fileName,
         ]);
-
-        // Return PDF for download
-        return $pdf->download($fileName); 
+    
+        return $pdf->download($fileName);
     }
-
+    
 
 }

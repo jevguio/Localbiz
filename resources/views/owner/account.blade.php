@@ -33,6 +33,12 @@
             <ul class="py-2 text-sm text-gray-700">
                 <li class="px-4 py-2 hover:bg-gray-100 cursor-pointer filter-option" data-filter="All">All</li>
                 <li class="px-4 py-2 hover:bg-gray-100 cursor-pointer filter-option" data-filter="Seller">Sellers</li>
+                <li class="px-4 py-2 hover:bg-gray-100 cursor-pointer filter-option" data-filter="Cashier">Cashier</li>
+                <li class="px-4 py-2 hover:bg-gray-100 cursor-pointer filter-option" data-filter="Owner">Admin</li>
+                <li class="px-4 py-2 hover:bg-gray-100 cursor-pointer filter-option" data-filter="GovernmentAgency">Government Agency</li>
+                <li class="px-4 py-2 hover:bg-gray-100 cursor-pointer filter-option" data-filter="DeliveryRider">Delivery Rider</li>
+                <li class="px-4 py-2 hover:bg-gray-100 cursor-pointer filter-option" data-filter="Customer">Customer</li> 
+            </ul>
         </div>
     </div>
 </form>
@@ -78,7 +84,7 @@
                                 <td class="px-6 py-4 {{ $user->is_active == 1 ? 'text-gray-900' :'text-gray-900' }}">
                                     {{ $user->role }}
                                 </td>
-                                <td class="px-6 py-4 {{ $user->is_active == 1 ? 'text-gray-900' :'text-gray-900' }}">
+                                <td class="px-6 py-4 {{ $user->is_active == 1 ? 'text-gray-900' :'text-gray-900' }} {{ $user->is_active==1?' text-green-700':' text-orange-700' }}">
                                     {{ $user->is_active==1?'Active':'Disable' }}
                                 </td>
                                 <td class="px-6 py-4 {{ $user->is_active == 1 ? 'text-gray-900' :'text-gray-900' }}">
@@ -443,10 +449,6 @@
                 $(this).toggle(matchesSearch && matchesFilter);
             });
         }
-
-        // Apply search
-        $("#table-search").on("keyup", filterTable);
-
         // Apply filter
         $(".filter-option").click(function () {
             selectedFilter = $(this).data("filter");
@@ -460,6 +462,10 @@
                 $("#filter-dropdown").addClass("hidden");
             }
         });
+
+        // Apply search
+        $("#table-search").on("keyup", filterTable);
+
             $('#table-search').on('keyup', function() {
                 const searchInput = $(this).val().toLowerCase();
                 $('#account-table-body tr').filter(function() {

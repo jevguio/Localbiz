@@ -24,13 +24,10 @@
                         <div id="filter-dropdown"
                             class="hidden absolute right-0 mt-2 w-40 bg-white border border-gray-300 rounded-lg shadow-lg">
                             <ul class="py-2 text-sm text-gray-700">
-                                <li class="px-4 py-2 hover:bg-gray-100 cursor-pointer filter-option" data-filter="All">All</li>
-                                <li class="px-4 py-2 hover:bg-gray-100 cursor-pointer filter-option" data-filter="GovernmentAgency">DTI</li>
-                                <li class="px-4 py-2 hover:bg-gray-100 cursor-pointer filter-option" data-filter="Owner">Admin</li>
-                                <li class="px-4 py-2 hover:bg-gray-100 cursor-pointer filter-option" data-filter="Seller">Sellers</li>
-                                <li class="px-4 py-2 hover:bg-gray-100 cursor-pointer filter-option" data-filter="Customer">Customer</li>
-                                <li class="px-4 py-2 hover:bg-gray-100 cursor-pointer filter-option" data-filter="Cashier">Cashier</li>
-                                <li class="px-4 py-2 hover:bg-gray-100 cursor-pointer filter-option" data-filter="DeliveryRider">Delivery Rider</li>
+                                
+                            @foreach ($sellers as $seller)
+                                <li class="px-4 py-2 hover:bg-gray-100 cursor-pointer filter-option" data-filter="{{$seller->user->fname}}">{{$seller->user->fname}}</li>
+                            @endforeach 
                             </ul>
                         </div>
                     </div>
@@ -61,7 +58,7 @@
                     </thead>
                     <tbody id="product-table-body">
                         @foreach ($products as $product)
-                            <tr class="bg-white border-b border-gray-200 hover:bg-gray-50">
+                            <tr class="bg-white border-b border-gray-200 hover:bg-gray-50"  data-category="{{ $product->seller->user->fname }}">
                                 <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
                                     <img src="{{ asset('assets/' . $product->image) }}" alt="Product Image"
                                         class="w-10 h-10">
@@ -212,28 +209,43 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
         $(document).ready(function() {
-            let asc = true; // Toggle between ascending and descending order
+           
+            let selectedFilter = "All"; // Default filter
 
-            $("#filter-btn").click(function () {
-                let rows = $("#product-table-body tr").get();
+        // Toggle filter dropdown
+        $("#filter-btn").click(function (event) {
+            event.preventDefault();
+            $("#filter-dropdown").toggleClass("hidden");
+        });
 
-                rows.sort(function (a, b) {
-                    let valA = $(a).children("td").eq(4).text().toLowerCase(); // Get category column (2nd column)
-                    let valB = $(b).children("td").eq(4).text().toLowerCase();
+        // Search and filter function
+        function filterTable() {
+            const searchInput = $("#table-search").val().toLowerCase();
 
-                    if (asc) {
-                        return valA.localeCompare(valB); // Ascending order
-                    } else {
-                        return valB.localeCompare(valA); // Descending order
-                    }
-                });
+            $("#product-table-body tr").each(function () {
+                const rowText = $(this).text().toLowerCase();
+                const rowCategory = $(this).data("category");
 
-                asc = !asc; // Toggle sorting order
+                const matchesSearch = rowText.indexOf(searchInput) > -1;
+                const matchesFilter = selectedFilter === "All" || rowCategory === selectedFilter;
 
-                $.each(rows, function (index, row) {
-                    $("#product-table-body").append(row);
-                });
+                $(this).toggle(matchesSearch && matchesFilter);
             });
+        }
+        // Apply filter
+        $(".filter-option").click(function () {
+            selectedFilter = $(this).data("filter");
+            $("#filter-dropdown").addClass("hidden"); // Hide dropdown after selection
+            filterTable();
+        });
+
+        // Close dropdown when clicking outside
+        $(document).click(function (event) {
+            if (!$(event.target).closest("#filter-btn, #filter-dropdown").length) {
+                $("#filter-dropdown").addClass("hidden");
+            }
+        });
+            
             $('#table-search').on('keyup', function() {
                 const searchInput = $(this).val().toLowerCase();
                 $('#product-table-body tr').filter(function() {

@@ -18,6 +18,19 @@
                             class="absolute inset-y-0 end-0 flex items-center px-3 text-gray-600 hover:text-gray-900">
                             <i class='bx bx-filter text-2xl'></i>
                         </button>
+                        
+                        <div id="filter-dropdown"
+                            class="hidden absolute right-0 mt-2 w-40 bg-white border border-gray-300 rounded-lg shadow-lg">
+                            <ul class="py-2 text-sm text-gray-700">
+                                <li class="px-4 py-2 hover:bg-gray-100 cursor-pointer filter-option" data-filter="All">All</li>
+                                <li class="px-4 py-2 hover:bg-gray-100 cursor-pointer filter-option" data-filter="pending">Pending</li>
+                                <li class="px-4 py-2 hover:bg-gray-100 cursor-pointer filter-option" data-filter="on-cart">On-cart</li>
+                                <li class="px-4 py-2 hover:bg-gray-100 cursor-pointer filter-option" data-filter="processing">Processing</li>
+                                <li class="px-4 py-2 hover:bg-gray-100 cursor-pointer filter-option" data-filter="receiving">Receiving</li>
+                                <li class="px-4 py-2 hover:bg-gray-100 cursor-pointer filter-option" data-filter="completed">Completed</li>
+                                <li class="px-4 py-2 hover:bg-gray-100 cursor-pointer filter-option" data-filter="delivered">Delivered</li> 
+                                <li class="px-4 py-2 hover:bg-gray-100 cursor-pointer filter-option" data-filter="cancelled">Cancelled</li> 
+                        </div>
                     </div>
                 </form>
                 <table class="w-full text-sm text-left rtl:text-right text-gray-500">
@@ -288,28 +301,40 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
         $(document).ready(function() {
-            let asc = true; // Toggle between ascending and descending order
+        $("#filter-btn").click(function (event) {
+            event.preventDefault();
+            $("#filter-dropdown").toggleClass("hidden");
+        });
 
-            $("#filter-btn").click(function () {
-                let rows = $("#order-table-body tr").get();
+        // Search and filter function
+        function filterTable() {
+            const searchInput = $("#table-search").val().toLowerCase();
 
-                rows.sort(function (a, b) {
-                    let valA = $(a).children("td").eq(2).text().toLowerCase(); // Get category column (2nd column)
-                    let valB = $(b).children("td").eq(2).text().toLowerCase();
+            $("#order-table-body tr").each(function () {
+                const rowText = $(this).text().toLowerCase();
+                const rowCategory = $(this).data("category");
 
-                    if (asc) {
-                        return valA.localeCompare(valB); // Ascending order
-                    } else {
-                        return valB.localeCompare(valA); // Descending order
-                    }
-                });
+                const matchesSearch = rowText.indexOf(searchInput) > -1;
+                const matchesFilter = selectedFilter === "All" || rowCategory === selectedFilter;
 
-                asc = !asc; // Toggle sorting order
-
-                $.each(rows, function (index, row) {
-                    $("#order-table-body").append(row);
-                });
+                $(this).toggle(matchesSearch && matchesFilter);
             });
+        }
+        
+        // Apply filter
+        $(".filter-option").click(function () {
+            selectedFilter = $(this).data("filter");
+            $("#filter-dropdown").addClass("hidden"); // Hide dropdown after selection
+            filterTable();
+        });
+
+        // Close dropdown when clicking outside
+        $(document).click(function (event) {
+            if (!$(event.target).closest("#filter-btn, #filter-dropdown").length) {
+                $("#filter-dropdown").addClass("hidden");
+            }
+        });
+
             $('#table-search').on('keyup', function() {
                 const searchInput = $(this).val().toLowerCase();
                 $('#order-table-body tr').filter(function() {
