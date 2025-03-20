@@ -19,7 +19,7 @@ class RiderService
             $seller = Seller::where('user_id', Auth::user()->id)->first();
 
             if (User::where('email', $request->email)->exists()) {
-                session()->flash('error', 'Email Already Taken');
+                session()->flash('error', 'An account with this email is Already exist');
                 return response()->json([
                     'error_code' => MyConstant::FAILED_CODE,
                     'status_code' => MyConstant::FAILED_CODE,
