@@ -215,7 +215,7 @@
                                 </div>
                                 <hr class="my-4">
                                 <div class="flex justify-end gap-2">
-                                    <button type="button" onclick="window.location.href='{{ route('owner.orders') }}'"
+                                    <button type="button" onclick="window.location.href='{{ route('customer.tracking.processed') }}'"
                                         class="btn bg-red-700 hover:bg-red-800 text-white inline-flex items-center focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center m-4">
                                         Close
                                     </button>
