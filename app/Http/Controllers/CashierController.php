@@ -90,7 +90,7 @@ class CashierController extends Controller
     
         $report = Reports::create([
             'user_id' => $cashier->seller_id,
-            'report_name' => 'Sales Report',
+            'report_name' => 'Payment Transactions',
             'report_type' => 'pdf',
             'content' => $fileName,
         ]);
