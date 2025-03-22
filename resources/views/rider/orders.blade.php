@@ -154,6 +154,15 @@
                                                         readonly>
                                                 </div>
                                                 <div class="col-span-1">
+                                                    <label for="price"
+                                                        class="block mb-2 text-sm font-medium text-gray-900">Total Price</label>
+                                                    <input type="number" name="price" id="price"
+                                                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                                                        placeholder="$2999"
+                                                        value="{{ $order->orderItems->first()->quantity * $order->orderItems->first()->product->price ?? 'N/A' }}"
+                                                        readonly>
+                                                </div>
+                                                <div class="col-span-1">
                                                     <label for="category"
                                                         class="block mb-2 text-sm font-medium text-gray-900">Category</label>
                                                     <div id="category" name="category_id"
@@ -204,13 +213,22 @@
                                                         readonly>
                                                 </div>
                                                 <div class="col-span-1">
+                                                    <label for="payment_date"
+                                                        class="block mb-2 text-sm font-medium text-gray-900">Order
+                                                        Date</label>
+                                                    <input type="text" name="payment_date" id="payment_date"
+                                                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                                                        value="{{  \Carbon\Carbon::parse($order->created_at)->format('F d, Y')  }}"
+                                                        readonly>
+                                                </div>
+                                                <div class="col-span-1">
                                                     <label for="proof_of_delivery"
                                                         class="block mb-2 text-sm font-medium text-gray-900">Proof of
                                                         Delivery</label>
                                                     <input type="file" name="proof_of_delivery"
                                                         id="proof_of_delivery"
                                                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
-                                                        value="{{ $order->proof_of_delivery }}">
+                                                        value="{{ $order->proof_of_delivery }}" required>
                                                 </div>
                                                 <div class="col-span-2 flex justify-around gap-2">
                                                     <div class="col-span-1">
@@ -219,7 +237,7 @@
                                                             of
                                                             Delivery</label>
                                                         <img src="{{ asset('delivery_receipt/' . $order->proof_of_delivery) }}"
-                                                            alt="Proof of Delivery" class="w-60 object-cover">
+                                                            alt="Proof of Delivery" class="w-60 object-cover" >
                                                     </div>
                                                     <div class="col-span-1">
                                                         <label for="receipt_file"
