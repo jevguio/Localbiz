@@ -106,7 +106,7 @@
                                                     <input type="text" name="customer_id" id="customer_id"
                                                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
                                                         placeholder="Type customer name"
-                                                        value="{{ $order->user->name }}" readonly>
+                                                        value="{{ $order->user->fname." ".$order->user->lname }}" readonly>
                                                 </div>
                                                 <div class="col-span-1">
                                                     <label for="customer_id"
@@ -156,34 +156,34 @@
                                                 <div class="col-span-1">
                                                     <label for="category"
                                                         class="block mb-2 text-sm font-medium text-gray-900">Category</label>
-                                                    <select id="category" name="category_id"
+                                                    <div id="category" name="category_id"
                                                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5"
-                                                        disabled>
-                                                        <option selected="">Select category</option>
+                                                        disabled> 
                                                         @foreach ($categories as $category)
-                                                            <option value="{{ $category->id }}"
-                                                                {{ $order->orderItems->first()->product->category_id == $category->id ? 'selected' : '' }}>
-                                                                {{ $category->name }}</option>
+                                                            @if($order->orderItems->first()->product->category_id == $category->id)
+                                                                <div  >
+                                                                {{ $category->name }}</div>
+                                                                @endif
                                                         @endforeach
-                                                    </select>
+                                                    </div>
                                                 </div>
                                                 <div class="col-span-1">
                                                     <label for="status"
                                                         class="block mb-2 text-sm font-medium text-gray-900">Status</label>
                                                     <select name="status" id="status"
                                                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5">
-                                                        <!-- <option value="pending"
+                                                         {{-- <option value="pending"
                                                             {{ $order->orderItems->first()->product->status == 'pending' ? 'selected' : '' }}>
                                                             Pending
                                                         </option>
                                                         <option value="processing"
                                                             {{ $order->status == 'processing' ? 'selected' : '' }}>
                                                             Processing
-                                                        </option>
+                                                        </option> --}}
                                                         <option value="receiving"
                                                             {{ $order->status == 'receiving' ? 'selected' : '' }}>
                                                             Receiving
-                                                        </option> -->
+                                                        </option> 
                                                         <option value="delivered"
                                                             {{ $order->status == 'delivered' ? 'selected' : '' }}>
                                                             Delivered
