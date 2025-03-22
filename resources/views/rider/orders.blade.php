@@ -177,9 +177,9 @@
                                                     </div>
                                                 </div>
                                                 <div class="col-span-1">
-                                                    <label for="status"
+                                                    <label for="status{{ $order->id }}"
                                                         class="block mb-2 text-sm font-medium text-gray-900">Status</label>
-                                                    <select name="status" id="status"
+                                                    <select name="status" id="status{{ $order->id }}" onchange="onChangeStatus(event)"
                                                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5">
                                                          {{-- <option value="pending"
                                                             {{ $order->orderItems->first()->product->status == 'pending' ? 'selected' : '' }}>
@@ -203,6 +203,21 @@
                                                         </option>
                                                     </select>
                                                 </div>
+                                                <script>
+                                                    document.getElementById('status{{ $order->id }}').addEventListener('change', function() { 
+                                                        const proofOfDelivery = document.getElementById('proof_of_delivery{{ $order->id }}');
+
+                                                        if (this.value === "cancelled") {
+                                                            // proofOfDelivery.classList.add('hidden');
+                                                            proofOfDelivery.removeAttribute('required');
+                                                        } else {
+                                                            // proofOfDelivery.classList.remove('hidden');
+                                                            proofOfDelivery.setAttribute('required', 'true');
+                                                        }
+ 
+                                                    });
+
+                                                    </script>
                                                 <div class="col-span-1">
                                                     <label for="payment_date"
                                                         class="block mb-2 text-sm font-medium text-gray-900">Payment
@@ -222,17 +237,17 @@
                                                         readonly>
                                                 </div>
                                                 <div class="col-span-1">
-                                                    <label for="proof_of_delivery"
+                                                    <label for="proof_of_delivery{{ $order->id }}"
                                                         class="block mb-2 text-sm font-medium text-gray-900">Proof of
                                                         Delivery</label>
-                                                    <input type="file" name="proof_of_delivery"
-                                                        id="proof_of_delivery"
+                                                    <input type="file" name="proof_of_delivery{{ $order->id }}"
+                                                        id="proof_of_delivery{{ $order->id }}"
                                                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
                                                         value="{{ $order->proof_of_delivery }}" required>
                                                 </div>
                                                 <div class="col-span-2 flex justify-around gap-2">
                                                     <div class="col-span-1">
-                                                        <label for="proof_of_delivery"
+                                                        <label for="proof_of_delivery{{ $order->id }}"
                                                             class="block mb-2 text-sm font-medium text-gray-900">Proof
                                                             of
                                                             Delivery</label>
@@ -341,10 +356,21 @@
                 $(`#${modalId}`).addClass('hidden');
             });
 
-            $('#status').on('change', function() {
-                const proofOfDeliveryContainer = $('#proof-of-delivery-container');
-                proofOfDeliveryContainer.toggle($(this).val() === 'delivered');
-            });
+            function onChangeStatus(event) {
+                // const proofOfDeliveryContainer = document.getElementById('proof-of-delivery-container');
+                const proofOfDelivery = document.getElementById('proof_of_delivery');
+
+                if (this.value === "cancelled") {
+                    proofOfDelivery.classList.add('hidden');
+                    proofOfDelivery.removeAttribute('required');
+                } else {
+                    proofOfDelivery.classList.remove('hidden');
+                    proofOfDelivery.setAttribute('required', 'true');
+                }
+
+                // proofOfDeliveryContainer.style.display = (this.value == 'delivered') ? 'block' : 'none';
+            };
+
         });
     </script>
 </x-app-layout>

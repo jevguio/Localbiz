@@ -20,6 +20,7 @@ class OrderService
                     'message' => 'Order not found',
                 ]);
             }
+            $order->status = $request->status;
 
             if ($request->hasFile('proof_of_delivery')) {
                 $image = $request->file('proof_of_delivery');
@@ -28,7 +29,6 @@ class OrderService
                 $order->proof_of_delivery = $filename;
             }
 
-            $order->status = $request->status;
             $order->save();
 
             session()->flash('success', 'Proof of Delivery updated successfully.');
@@ -39,8 +39,7 @@ class OrderService
                 'message' => 'Proof of Delivery updated successfully.',
             ]);
         } catch (\Exception $e) {
-            session()->flash('error', 'Failed to update proof of delivery.');
-            Log::error('Failed to update proof of delivery: ' . $e->getMessage());
+            \Log::error('Order update failed: ' . $e->getMessage()); // Log for debugging
             return response()->json([
                 'error_code' => MyConstant::FAILED_CODE,
                 'status_code' => MyConstant::FAILED_CODE,
