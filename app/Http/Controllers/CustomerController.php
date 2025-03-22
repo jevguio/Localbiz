@@ -42,8 +42,11 @@ class CustomerController extends Controller
 
     public function orderHistory()
     {
-        $orders = Orders::withCount('orderItems')->where('user_id', Auth::id())->paginate(15);
-        $categories = Categories::all();
+        $orders = Orders::withCount('orderItems')
+        ->where('user_id', Auth::id())
+        ->whereIn('status', ['delivered', 'cancelled']) // Correct way to filter multiple statuses
+        ->paginate(15);
+      $categories = Categories::all();
         $couriers = Courier::all();
         return view('customer.order-history', compact('orders', 'categories', 'couriers'));
     }

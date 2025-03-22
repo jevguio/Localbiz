@@ -84,7 +84,7 @@
                                                     Name</label>
                                                 <input type="text" name="customer_id" id="customer_id"
                                                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
-                                                    placeholder="Type customer name" value="{{ $order->user->name }}"
+                                                    placeholder="Type customer name" value="{{ $order->user->fname." ".$order->user->lname }}"
                                                     readonly>
                                             </div>
                                             <div class="col-span-1">
@@ -146,16 +146,16 @@
                                             <div class="col-span-1">
                                                 <label for="category"
                                                     class="block mb-2 text-sm font-medium text-gray-900">Category</label>
-                                                <select id="category" name="category_id"
+                                                <div id="category" name="category_id"
                                                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5"
-                                                    disabled>
-                                                    <option selected="">Select category</option>
+                                                    disabled> 
                                                     @foreach ($categories as $category)
-                                                        <option value="{{ $category->id }}"
-                                                            {{ $order->orderItems->first() && $order->orderItems->first()->product->category_id == $category->id ? 'selected' : '' }}>
-                                                            {{ $category->name }}</option>
+                                                        @if($order->orderItems->first() && $order->orderItems->first()->product->category_id == $category->id)
+                                                            <div value="{{ $category->id }}">
+                                                            {{ $category->name }}</div>
+                                                            @endif
                                                     @endforeach
-                                                </select>
+                                                </div>
                                             </div>
                                             <div class="col-span-1">
                                                 <label for="status"
@@ -173,6 +173,8 @@
                                                     value="{{ $order->payments->first() ? \Carbon\Carbon::parse($order->payments->first()->payment_date)->format('F d, Y') : 'N/A' }}"
                                                     readonly>
                                             </div>
+                                            
+                                    {{-- {{ $order->created_at->format('d M Y') }} --}}
                                             <div class="col-span-1">
                                                 <label for="courier"
                                                     class="block mb-2 text-sm font-medium text-gray-900">Courier</label>
