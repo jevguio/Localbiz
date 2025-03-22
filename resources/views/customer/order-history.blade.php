@@ -21,10 +21,7 @@
                         <tr>
                             <th scope="col" class="px-6 py-3">
                                 Order Number
-                            </th>
-                            <th scope="col" class="px-6 py-3">
-                                Customer Name
-                            </th>
+                            </th> 
                             <th scope="col" class="px-6 py-3">
                                 Order Date
                             </th>
@@ -46,10 +43,7 @@
                             <tr class="bg-white border-b border-gray-200 hover:bg-gray-50">
                                 <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
                                     {{ $order->order_number }}
-                                </th>
-                                <td class="px-6 py-4">
-                                    {{ $order->user->name }}
-                                </td>
+                                </th> 
                                 <td class="px-6 py-4">
                                     {{ $order->created_at->format('d M Y') }}
 
