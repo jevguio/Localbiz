@@ -39,12 +39,15 @@ class RiderController extends Controller
         $orders = Orders::whereHas('orderItems.product', function ($query) use ($seller_id) {
             $query->where('seller_id', $seller_id);
         })
+        ->latest()
             ->with(['user', 'orderItems.product', 'payments'])
             ->paginate(10);
 
         $orderItems = OrderItems::whereHas('product', function ($query) use ($seller_id) {
             $query->where('seller_id', $seller_id);
-        })->get();
+        })
+        ->latest()
+        ->get();
 
         $payments = Payments::all();
         $products = Products::all();

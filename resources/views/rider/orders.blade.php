@@ -20,7 +20,7 @@
                             <i class='bx bx-filter text-2xl'></i>
                         </button>
                         
-                        <div id="filter-dropdown"
+                        {{-- <div id="filter-dropdown"
                             class="hidden absolute right-0 mt-2 w-40 bg-white border border-gray-300 rounded-lg shadow-lg">
                             <ul class="py-2 text-sm text-gray-700">
                                 <li class="px-4 py-2 hover:bg-gray-100 cursor-pointer filter-option" data-filter="All">All</li>
@@ -30,7 +30,7 @@
                                 <li class="px-4 py-2 hover:bg-gray-100 cursor-pointer filter-option" data-filter="delivered">Delivered</li> 
                                 <li class="px-4 py-2 hover:bg-gray-100 cursor-pointer filter-option" data-filter="cancelled">Cancelled</li> 
                             </ul>
-                        </div>
+                        </div> --}}
                     </div>
                 </form>
                 <table class="w-full text-sm text-left rtl:text-right text-gray-500">
@@ -273,10 +273,10 @@
     <script>
         $(document).ready(function() {
             
-        $("#filter-btn").click(function (event) {
-            event.preventDefault();
-            $("#filter-dropdown").toggleClass("hidden");
-        });
+        // $("#filter-btn").click(function (event) {
+        //     event.preventDefault();
+        //     $("#filter-dropdown").toggleClass("hidden");
+        // });
 
         // Search and filter function
         function filterTable() {
@@ -294,11 +294,11 @@
         }
         
         // Apply filter
-        $(".filter-option").click(function () {
-            selectedFilter = $(this).data("filter");
-            $("#filter-dropdown").addClass("hidden"); // Hide dropdown after selection
-            filterTable();
-        });
+        // $(".filter-option").click(function () {
+        //     selectedFilter = $(this).data("filter");
+        //     $("#filter-dropdown").addClass("hidden"); // Hide dropdown after selection
+        //     filterTable();
+        // });
 
         // Close dropdown when clicking outside
         $(document).click(function (event) {
