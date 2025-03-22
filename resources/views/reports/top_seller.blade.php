@@ -7,8 +7,7 @@
         <label for="monthpicker" class="block text-sm font-medium text-gray-700 mt-3">Select Month & Year:</label>
         <input type="month" id="monthpicker" name="monthpicker"
             class="mt-1 p-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 w-64"  max="{{ now()->format('Y-m') }}">
-    </div>
-
+    </div> 
     @include('reports.top_seller_component')
 
     @if($isViewBTN)
