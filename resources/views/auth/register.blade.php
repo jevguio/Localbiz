@@ -41,9 +41,9 @@
                         <!-- Phone Number -->
                         <div>
                             <label class="text-gray-800 text-sm mb-2 block">Phone</label>
-                            <input id="phone" name="phone" type="text" required
+                            <input id="phone" name="phone" type="tel" required
                                 class="w-full text-gray-800 text-sm border border-gray-300 px-4 py-3 rounded-md outline-blue-600"
-                                placeholder="Enter phone number" />
+                                placeholder="Enter phone number" maxlength="11"/>
                         </div>
 
                         <!-- Password -->
