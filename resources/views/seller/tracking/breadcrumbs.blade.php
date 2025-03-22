@@ -3,21 +3,21 @@
     <li class="px-4 py-2.5 rounded-lg text-sm font-bold cursor-pointer flex items-center
          hover:bg-gray-100 
         {{ Route::currentRouteName() == 'seller.tracking.processed' ? 'border-b-2 border-blue-500 text-blue-600' : 'text-gray-400 ' }}">
-        <a href="{{ route('seller.tracking.processed') }}">Processing</a>
+        <a href="{{ route('seller.tracking.processed') }}?filter=all">Processing</a>
     </li>
     <li class="px-4 py-2.5 rounded-lg text-sm font-bold cursor-pointer flex items-center
         hover:bg-gray-100 
         {{ Route::currentRouteName() == 'seller.tracking.receiving' ? 'border-b-2 border-blue-500 text-blue-600' : 'text-gray-400 ' }}">
-        <a href="{{ route('seller.tracking.receiving') }}">To Receive</a>
+        <a href="{{ route('seller.tracking.receiving') }}?filter=all">To Receive</a>
     </li>
     <li class="px-4 py-2.5 rounded-lg text-sm font-bold cursor-pointer flex items-center
         hover:bg-gray-100 
         {{ Route::currentRouteName() == 'seller.tracking.delivered' ? 'border-b-2 border-blue-500 text-blue' : 'text-gray-400 ' }}">
-        <a href="{{ route('seller.tracking.delivered') }}">Completed</a>
+        <a href="{{ route('seller.tracking.delivered') }}?filter=all">Completed</a>
     </li>
     <li class="px-4 py-2.5 rounded-lg text-sm font-bold cursor-pointer flex items-center
          hover:bg-gray-100 
         {{ Route::currentRouteName() == 'seller.tracking.cancelled' ? 'border-b-2 border-blue-500 text-blue-600' : 'text-gray-400 ' }}">
-        <a href="{{ route('seller.tracking.cancelled') }}">Cancelled</a>
+        <a href="{{ route('seller.tracking.cancelled') }}?filter=all">Cancelled</a>
     </li>
 </ul>
