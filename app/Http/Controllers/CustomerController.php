@@ -90,33 +90,43 @@ class CustomerController extends Controller
 
     public function trackingPending()
     {
+        $categories = Categories::all();
+        $couriers = Courier::all();
         $cartItems = OrderItems::whereHas('order', fn($query) => $query->where('user_id', Auth::id())->where('status', 'pending'))->get();
-        return view('customer.tracking.pending', compact('cartItems'));
+        return view('customer.tracking.pending', compact('cartItems','categories','couriers'));
     }
 
     public function trackingProcessed()
     {
+        $categories = Categories::all();
+        $couriers = Courier::all();
         $cartItems = OrderItems::whereHas('order', fn($query) => $query->where('user_id', Auth::id())->where('status', 'processing'))->get();
-        return view('customer.tracking.processed', compact('cartItems'));
+        return view('customer.tracking.processed', compact('cartItems','categories','couriers'));
     }
 
     public function trackingToReceive()
     {
+        $couriers = Courier::all();
+        $categories = Categories::all();
         $cartItems = OrderItems::whereHas('order', fn($query) => $query->where('user_id', Auth::id())->where('status', 'receiving'))->get();
-        return view('customer.tracking.receiving', compact('cartItems'));
+        return view('customer.tracking.receiving', compact('cartItems','categories','couriers'));
     }
 
     public function trackingCancelled()
     {
+        $categories = Categories::all();
+        $couriers = Courier::all();
         $cartItems = OrderItems::whereHas('order', fn($query) => $query->where('user_id', Auth::id())->where('status', 'cancelled'))->get();
-        return view('customer.tracking.cancelled', compact('cartItems'));
+        return view('customer.tracking.cancelled', compact('cartItems','categories','couriers'));
     }
 
     public function trackingDelivered()
     {
+        $categories = Categories::all();
+        $couriers = Courier::all();
         $cartItems = OrderItems::whereHas('order', fn($query) => $query->where('user_id', Auth::id())->where('status', 'delivered'))->get();
         $feedback = Feedback::where('user_id', Auth::id())->get();
-        return view('customer.tracking.delivered', compact('cartItems', 'feedback'));
+        return view('customer.tracking.delivered', compact('cartItems', 'feedback','categories','couriers'));
     }
 
     public function uploadFeedback(Request $request)
