@@ -58,6 +58,13 @@
             </tr>
         </thead>
         <tbody>
+            
+            @php
+            $units=['pcs','packs','sets'];
+            $unit=['pc','pack','set']; 
+            $randomUnit = $units[array_rand($units)]; 
+            $randomUnits = $units[array_rand($units)]; 
+        @endphp
         @php $totalPrice = 0; @endphp
         @php $QuantityPrice = 0; @endphp
             @foreach ($items as $index => $item)
@@ -66,8 +73,8 @@
                 @if ($item->seller_id == 1)
                 <tr>
                     <td>{{ $item->sold }}</td>
+                    <td>{{ $item->sold }} {{ $item->sold>1?$randomUnits:$randomUnit }}</td>
                     <td>{{ $item->name }}</td>
-                    <td>{{ $item->description }}</td>
                     <td>{{ $item->price }}</td>
                     <td>${{ ($item->sold * $QuantityPrice)}}</td>
                 </tr>

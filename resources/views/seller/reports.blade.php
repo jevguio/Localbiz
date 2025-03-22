@@ -87,7 +87,11 @@
     </div> 
     <div class="p-4 " id="Sales_Management" style="position:fixed; top:0;left:0;background-color:rgba(0,0,0,0.3);width:100%;height:100%" onclick="CloseSales(event)">
         <div class="p-4   rounded-lg" style="width:60%; margin-left:auto;margin-right:auto; background-color:white;height:80%">
-           
+            <button type="button" onclick="CloseSales2()"
+            class="text-gray-400 bg-transparent hover:bg-gray-200 right-4  absolute hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center"
+             style="cursor: pointer; z-index: 9;">
+            <i class='bx bx-x text-gray-500 text-2xl'></i>
+            </button>
                 @include('reports.sales')
         
                 <a href="{{ route('seller.inventory.export') }}" id="export_sales"
@@ -236,6 +240,7 @@
              
         }
         function CloseSales2(){ 
+            event.stopPropagation();
                 const Product_Management =document.getElementById('Sales_Management');
                 Product_Management.style.display="none";
             
