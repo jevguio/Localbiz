@@ -48,7 +48,7 @@
                                     {{ $order->order_number }}
                                 </th>
                                 <td class="px-6 py-4">
-                                    {{ $order->user->name }}
+                                    {{ $order->user->fname." ".$order->user->fname }}
                                 </td>
                                 <td class="px-6 py-4">
                                     {{ $order->created_at->format('d M Y') }}
@@ -198,6 +198,15 @@
                                                         value="{{ $order->payments->first()->courier->name ?? 'N/A' }}"
                                                         readonly>
                                                 </div>
+                                                
+                                                <div class="col-span-1">
+                                                    <label for="payment_method"
+                                                        class="block mb-2 text-sm font-medium text-gray-900">Total Amount</label>
+                                                    <input type="text" name="payment_method" id="payment_method"
+                                                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                                                        value="{{ $order->payments->first() ? $order->payments->first()->payment_amount : 'N/A' }}"
+                                                        readonly>
+                                                </div>
                                                 <div class="col-span-1">
                                                     <label for="payment_method"
                                                         class="block mb-2 text-sm font-medium text-gray-900">Mode of
@@ -215,6 +224,30 @@
                                                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
                                                         value="{{ $order->payments->first() ? \Carbon\Carbon::parse($order->payments->first()->payment_date)->format('F d, Y') : 'N/A' }}"
                                                         readonly>
+                                                </div>
+                                                <div class="col-span-1">
+                                                    <label for="status"
+                                                        class="block mb-2 text-sm font-medium text-gray-900">Status</label>
+                                                    <select id="status" name="status"
+                                                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5">
+                                                        <option value="processing"
+                                                            {{ $order->status == 'processing' ? 'selected' : '' }}>
+                                                            Processing
+                                                        </option>
+                                                        <option value="pending"
+                                                            {{ $order->status == 'pending' ? 'selected' : '' }}>
+                                                            Pending
+                                                        </option>
+                                                        <!-- 
+                                                        <option value="delivered"
+                                                            {{ $order->status == 'delivered' ? 'selected' : '' }}>
+                                                            Completed/Delivered
+                                                        </option>
+                                                        <option value="canceled"
+                                                            {{ $order->status == 'canceled' ? 'selected' : '' }}>
+                                                            Canceled
+                                                        </option> -->
+                                                    </select>
                                                 </div>
                                                 <!-- <div class="col-span-2">
                                                     <label for="feedback"
