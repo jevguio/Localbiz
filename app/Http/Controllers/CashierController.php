@@ -16,6 +16,8 @@ use App\Services\CashierService;
 use App\Services\OrderService;
 use Illuminate\Support\Facades\Auth;
 use Maatwebsite\Excel\Facades\Excel;
+use Barryvdh\DomPDF\Facade\Pdf;
+use Illuminate\Support\Facades\Storage;
 
 class CashierController extends Controller
 {
@@ -74,19 +76,26 @@ class CashierController extends Controller
     public function exportSales()
     {
         $cashier = Auth::user()->cashier;
-        $fileName = 'Sales_' . now()->format('YmdHis') . '.xlsx';
+        $fileName = 'Sales_' . now()->format('YmdHis') . '.pdf';
         $filePath = 'reports/' . $fileName;
-
-        Excel::store(new OrdersExport(), $filePath, 'public');
-
+        $orders = OrderItems::with(['order', 'product'])
+        ->whereHas('product', function ($query) {
+            $query->where('seller_id', auth()->user()->cashier->seller->id);
+        })
+        ->get();
+        $pdf = Pdf::loadView('cashier.reports.reports', compact('orders'))
+                  ->setPaper('a4', 'landscape');
+     
+        Storage::disk('public')->put($filePath, $pdf->output());
+    
         $report = Reports::create([
             'user_id' => $cashier->seller_id,
             'report_name' => 'Sales Report',
-            'report_type' => 'excel',
+            'report_type' => 'pdf',
             'content' => $fileName,
         ]);
 
-        return Excel::download(new OrdersExport(), $fileName);
+        return $pdf->download('orders.pdf');
     }
 
     public function updateOrder(Request $request, $id)
