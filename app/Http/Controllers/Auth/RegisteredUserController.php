@@ -29,6 +29,10 @@ class RegisteredUserController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
+        if (User::where('email', $request->email)->exists()) {
+            session()->flash('error', 'This email is already registered.');
+            return back()->withErrors(['email' => 'This email is already registered.'])->withInput();
+        }
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'address' => ['required', 'string', 'max:255'],
