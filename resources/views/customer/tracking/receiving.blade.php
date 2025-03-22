@@ -32,6 +32,7 @@
                         </div>
                     </div>
                         
+                        
                     <div id="viewModal{{ $item->id }}" tabindex="-1" aria-hidden="true"
                         class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-screen max-h-full bg-black bg-opacity-50">
                         <div class="relative p-4 w-full max-w-5xl max-h-full mx-auto">
@@ -39,7 +40,7 @@
                                 <div
                                     class="flex items-center justify-between p-4 md:p-5 border-b rounded-t border-gray-200">
                                     <h3 class="text-lg font-bold text-gray-900">
-                                        Order Details
+                                        View Order Details
                                     </h3>
                                     <button type="button"
                                         class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center"
@@ -50,16 +51,25 @@
                                 <div class="grid grid-cols-2 gap-4 mb-4 p-4">
                                     <div class="col-span-1">
                                         <label for="customer_id"
-                                            class="block mb-2 text-sm font-medium text-gray-900">Customer
-                                            Name</label>
+                                            class="block mb-2 text-sm font-medium text-gray-900">
+                                            First Name</label>
                                         <input type="text" name="customer_id" id="customer_id"
                                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
-                                            placeholder="Type customer name" value="{{ $item->order->user->name }}"
+                                            placeholder="Type customer first name" value="{{ $item->order->user->fname }}"
+                                            readonly>
+                                    </div> 
+                                    <div class="col-span-1">
+                                        <label for="customer_id"
+                                            class="block mb-2 text-sm font-medium text-gray-900">
+                                            Last Name</label>
+                                        <input type="text" name="customer_id" id="customer_id"
+                                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                                            placeholder="Type customer last name" value="{{ $item->order->user->lname }}"
                                             readonly>
                                     </div>
                                     <div class="col-span-1">
                                         <label for="customer_id"
-                                            class="block mb-2 text-sm font-medium text-gray-900">Customer
+                                            class="block mb-2 text-sm font-medium text-gray-900">
                                             Address</label>
                                         <input type="text" name="customer_id" id="customer_id"
                                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
@@ -68,7 +78,7 @@
                                     </div>
                                     <div class="col-span-1">
                                         <label for="customer_id"
-                                            class="block mb-2 text-sm font-medium text-gray-900">Customer
+                                            class="block mb-2 text-sm font-medium text-gray-900">
                                             Contact Number</label>
                                         <input type="text" name="customer_id" id="customer_id"
                                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
@@ -82,8 +92,7 @@
                                         <input type="text" name="name" id="name"
                                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
                                             placeholder="Type product name"
-                                            value="{{ $item->order->orderItems->first() ? $item->order->orderItems->first()->product->name : 'N/A' }}"
-                                            readonly>
+                                            value="{{  $item->order->orderItems->first() ? $item->order->orderItems->first()->product->name : 'N/A'}}" readonly>
                                     </div>
                                     <div class="col-span-1">
                                         <label for="quantity"
@@ -91,7 +100,7 @@
                                         <input type="number" name="quantity" id="quantity"
                                             class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500"
                                             placeholder="Type quantity" name="quantity"
-                                            value="{{ $item->order->orderItems->first()->quantity }}" readonly>
+                                            value="{{  $item->order->orderItems->first() ? $item->order->orderItems->first()->product->name : 'N/A'}}" readonly>
                                     </div>
                                     <div class="col-span-1">
                                         <label for="price"
@@ -99,72 +108,62 @@
                                         <input type="number" name="price" id="price"
                                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
                                             placeholder="$2999"
-                                            value="{{ $item->order->orderItems->first()->product->price ?? 'N/A' }}"
+                                            value="{{ $item->order->orderItems->first()->product->price ?? 'N/A'}}"
                                             readonly>
                                     </div>
                                     <div class="col-span-1">
                                         <label for="category"
                                             class="block mb-2 text-sm font-medium text-gray-900">Category</label>
-                                        <select id="category" name="category_id"
+                                        <div id="category" name="category_id"
                                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5"
-                                            readonly>
-                                            <option selected="">Select category</option>
+                                            disabled> 
                                             @foreach ($categories as $category)
-                                                <option value="{{ $category->id }}"
-                                                    {{ $item->order->orderItems->first()->product->category_id == $category->id ? 'selected' : '' }}>
-                                                    {{ $category->name }} </option>
+                                            @if($item->order->orderItems->first()->product->category_id ==$category->id) 
+                                                    <div value="{{ $category->id }}"
+                                                    >
+                                                    {{ $category->name }}</div>
+                                                @endif
                                             @endforeach
-                                        </select>
+                                        </div>
                                     </div>
+                                   
                                     <div class="col-span-1">
                                         <label for="status"
                                             class="block mb-2 text-sm font-medium text-gray-900">Status</label>
-                                        <select name="status" id="status"
+                                        <div name="status" id="status"
                                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
                                             readonly>
-                                            <option value="pending"
-                                                {{ $item->order->orderItems->first()->product->status == 'pending' ? 'selected' : '' }}>
-                                                Pending
-                                            </option>
-                                            <option value="processing"
-                                                {{ $item->order->status == 'processing' ? 'selected' : '' }}>
-                                                Processing
-                                            </option>
-                                            <option value="receiving"
-                                                {{ $item->order->status == 'receiving' ? 'selected' : '' }}>
-                                                Receiving
-                                            </option>
-                                            <option value="delivered"
-                                                {{ $item->order->status == 'delivered' ? 'selected' : '' }}>
-                                                Delivered
-                                            </option>
-                                            <option value="cancelled"
-                                                {{ $item->order->status == 'cancelled' ? 'selected' : '' }}>
-                                                Cancelled
-                                            </option>
-                                        </select>
+                                            <div value="pending">
+                                                {{ $item->order->status}}
+                                            </div>
+                                           
+                                        </div>
                                     </div>
                                     <div class="col-span-1">
-                                        <label for="payment_date"
+                                        <label for="payment_method"
                                             class="block mb-2 text-sm font-medium text-gray-900">Payment
                                             Method</label>
                                         <input type="text" name="payment_method" id="payment_method"
                                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
-                                            value="{{ $item->order->payments->first() ? $item->order->payments->first()->payment_method : 'N/A' }}"
+                                            placeholder="Payment Method"
+                                            value="{{ $item->order->payments->first() ? $item->order->payments->first()->payment_method : 'N/A' }}" readonly>
+                                    </div>
+                                    <div class="col-span-1">
+                                        <label for="courier"
+                                            class="block mb-2 text-sm font-medium text-gray-900">Courier</label>
+                                        <input type="text" name="courier" id="courier"
+                                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                                            value="{{ $item->order->payments->first()->courier->name ?? 'N/A' }}"
                                             readonly>
                                     </div>
                                     <div class="col-span-1">
-                                        <label for="payment_date"
-                                            class="block mb-2 text-sm font-medium text-gray-900">Courier</label>
-                                        <select name="courier" id="courier"
+                                        <label for="payment_amount"
+                                            class="block mb-2 text-sm font-medium text-gray-900">Total
+                                            Amount</label>
+                                        <input type="number" name="payment_amount" id="payment_amount"
                                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
-                                            readonly>
-                                            @foreach ($couriers as $courier)
-                                                <option value="{{ $courier->id }}"
-                                                    {{ $item->order->payments->first()->courier_id == $courier->id ? 'selected' : '' }}>
-                                                    {{ $courier->name }}</option>
-                                            @endforeach
-                                        </select>
+                                            placeholder="Payment Amount"
+                                            value="{{ $item->order->payments->first() ? $item->order->payments->first()->payment_amount : 'N/A' }}" readonly>
                                     </div>
                                     <div class="col-span-1">
                                         <label for="payment_date"
@@ -176,41 +175,51 @@
                                             readonly>
                                     </div>
                                     <div class="col-span-1">
+                                        <label for="payment_date"
+                                            class="block mb-2 text-sm font-medium text-gray-900">Order
+                                            Date</label>
+                                        <input type="text" name="order_date" id="payment_date"
+                                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                                            value="{{ $item->first() ? \Carbon\Carbon::parse($item->first()->created_at)->format('F d, Y') : 'N/A' }}"
+                                            readonly>
+                                    </div>
+                                    <div class="col-span-1">
+                                        <label for="payment_date"
+                                            class="block mb-2 text-sm font-medium text-gray-900">Delivery Method</label>
+                                            <div name="status" id="status" 
+                                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5">
+                                        @foreach($couriers as $courier)
+                                            @if(optional($item->order->payments->first())->courier_id != null)
+
+                                                @if($item->order->payments->first()->courier_id  == $courier->id)
+                                                    <div value="{{$courier->id }}" 
+                                                        {{ $item->order->payments->first()->courier_id  == $courier->id ? 'selected' : '' }}>
+                                                        {{$courier->name}}
+                                                    </div> 
+                                                @endif
+                                            @endif
+                                        @endforeach
+                                        </div>
+                                    </div>
+                                    <div class="col-span-2">
                                         <label for="feedback"
                                             class="block mb-2 text-sm font-bold text-gray-900">Feedback</label>
                                         <ul class="bg-gray-50 border border-gray-300 rounded-lg p-2">
                                             <li class="mb-2">
-                                                <strong>{{ $item->order->user->name }}:</strong>
+                                                <strong>{{ $item->order->user->fname ." ".$item->order->user->lname }}:</strong>
                                                 <span>{{ $item->order->orderItems->first()->feedback->comment ?? 'No feedback yet' }}</span>
                                                 <span class="text-gray-500"> (Rating:
                                                     {{ $item->order->orderItems->first()->feedback->rating ?? 'No rating yet' }})</span>
                                             </li>
                                         </ul>
                                     </div>
-                                    <div class="col-span-2 flex justify-around gap-2">
-                                        <div class="col-span-1">
-                                            <label for="proof_of_delivery"
-                                                class="block mb-2 text-sm font-medium text-gray-900">Proof of
-                                                Delivery</label>
-                                            <img src="{{ asset('delivery_receipt/' . $item->order->proof_of_delivery) }}"
-                                                alt="Proof of Delivery" class="w-60 object-cover">
-                                        </div>
-                                        <div class="col-span-1">
-                                            <label for="receipt_file"
-                                                class="block mb-2 text-sm font-medium text-gray-900">Receipt
-                                                File</label>
-                                            <img src="{{ asset('receipt_file/' . $item->order->payments->first()->receipt_file) }}"
-                                                alt="Receipt File" class="w-60 object-cover">
-                                        </div>
-                                    </div>
-                                    <hr class="my-4">
-                                    <div class="flex justify-end gap-2">
-                                        <button type="button"
-                                            data-modal-toggle="viewModal{{ $item->id }}"
-                                            class="btn btn-error text-white inline-flex items-center bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">
-                                            Close
-                                        </button>
-                                    </div>
+                                </div>
+                                <hr class="my-4">
+                                <div class="flex justify-end gap-2">
+                                    <button type="button" onclick="window.location.href='{{ route('owner.orders') }}'"
+                                        class="btn bg-red-700 hover:bg-red-800 text-white inline-flex items-center focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center m-4">
+                                        Close
+                                    </button>
                                 </div>
                             </div>
                         </div>
