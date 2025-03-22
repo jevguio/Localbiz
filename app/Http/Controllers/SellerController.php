@@ -364,7 +364,10 @@ class SellerController extends Controller
             })
             ->latest()
             ->get();
-        return view('seller.tracking.delivered', compact('cartItems'));
+            
+        $categories = Categories::all();
+        $couriers = Courier::all();
+        return view('seller.tracking.delivered', compact('cartItems','categories','couriers'));
     }
 
     public function orderHistory()
