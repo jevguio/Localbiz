@@ -382,6 +382,7 @@ class SellerController extends Controller
                 $subQuery->where('seller_id', $seller->id);
             });
         })
+        ->whereIn('status', [ 'processing', 'receiving', 'completed', 'delivered', 'cancelled']) 
         ->latest()
             ->orderBy('created_at', 'desc')
             ->paginate(10);
