@@ -39,7 +39,7 @@
 
                     <tbody id="product-table-body">
                         @foreach ($orders as $order)
-                        @if($order->status=="delivered" || $order->status=="cancelled")
+                        {{-- @if($order->status=="delivered" || $order->status=="cancelled") --}}
                             <tr class="bg-white border-b border-gray-200 hover:bg-gray-50">
                                 <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
                                     {{ $order->order_number }}
@@ -244,7 +244,7 @@
                                     </div>
                                 </div>
                             </div>
-                            @endif
+                            {{-- @endif --}}
                         @endforeach
                     </tbody>
                 </table>
