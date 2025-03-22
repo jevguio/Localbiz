@@ -29,7 +29,7 @@
             @foreach ($orders as $orderItem)
                 <tr>
                     <td>{{ $orderItem->order->order_number }}</td>
-                    <td>{{ $orderItem->order->user->name }}</td>
+                    <td>{{ $orderItem->order->user->fname." ".$orderItem->order->user->lname  }}</td>
                     <td>{{ $orderItem->product->name }}</td>
                     <td>{{ $orderItem->price }}</td>
                     <td>{{ $orderItem->product->location->name }}</td>
