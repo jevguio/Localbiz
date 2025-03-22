@@ -72,7 +72,7 @@
                         $randomUnits = $units[array_rand($units)]; 
                     @endphp
                     <td>{{ $item->sold }}</td>
-                    <td>{{ $item->sold }} {{ $item->sold>1?$randomUnits:$randomUnit }}</td>
+                    <td> {{ $item->sold>1?$randomUnits:$randomUnit }}</td>
                     <td>{{ $item->name }}</td>
                     <td>{{ $item->stock }}</td>
                     <td>${{ $QuantityPrice }}</td>

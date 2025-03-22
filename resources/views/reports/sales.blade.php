@@ -73,7 +73,7 @@
                 @if ($item->seller_id == 1)
                 <tr>
                     <td>{{ $item->sold }}</td>
-                    <td>{{ $item->sold }} {{ $item->sold>1?$randomUnits:$randomUnit }}</td>
+                    <td> {{ $item->sold>1?$randomUnits:$randomUnit }}</td>
                     <td>{{ $item->name }}</td>
                     <td>{{ $item->price }}</td>
                     <td>${{ ($item->sold * $QuantityPrice)}}</td>
