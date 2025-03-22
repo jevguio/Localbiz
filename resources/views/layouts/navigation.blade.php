@@ -75,7 +75,7 @@
                         <a href="{{ route('customer.products') }}"
                             class="text-gray-800 text-sm flex items-center group-hover:text-blue-600 transition-all">
                             <i class='bx bxs-package text-2xl mr-4 text-gray-400 group-hover:text-blue-600'></i>
-                            <span>Products</span>
+                            <span>Home</span>
                         </a>
                     </div>
                 </li>
