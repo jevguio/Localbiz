@@ -26,7 +26,7 @@
     
     <style> 
     .flatpickr-calendar {
-            padding:1%;
+            padding:0%;
             position: fixed !important;
             top: 50% !important;
             left: 50% !important;
@@ -50,6 +50,12 @@
             font-size: 16px;
             margin: 5px;
             background: #dc3545;
+        }
+        .flatpickr-calendar::before{
+            display: none !important;   
+        }
+        .flatpickr-calendar::after{
+            display: none !important;   
         }
         #confirm-picker { 
             
