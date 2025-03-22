@@ -176,48 +176,8 @@
                                                         @endforeach
                                                     </div>
                                                 </div>
-                                                <div class="col-span-1">
-                                                    <label for="status{{ $order->id }}"
-                                                        class="block mb-2 text-sm font-medium text-gray-900">Status</label>
-                                                    <select name="status" id="status{{ $order->id }}" onchange="onChangeStatus(event)"
-                                                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5">
-                                                         {{-- <option value="pending"
-                                                            {{ $order->orderItems->first()->product->status == 'pending' ? 'selected' : '' }}>
-                                                            Pending
-                                                        </option>
-                                                        <option value="processing"
-                                                            {{ $order->status == 'processing' ? 'selected' : '' }}>
-                                                            Processing
-                                                        </option> --}}
-                                                        <option value="receiving"
-                                                            {{ $order->status == 'receiving' ? 'selected' : '' }}>
-                                                            Receiving
-                                                        </option> 
-                                                        <option value="delivered"
-                                                            {{ $order->status == 'delivered' ? 'selected' : '' }}>
-                                                            Delivered
-                                                        </option>
-                                                        <option value="cancelled"
-                                                            {{ $order->status == 'cancelled' ? 'selected' : '' }}>
-                                                            Cancelled
-                                                        </option>
-                                                    </select>
-                                                </div>
-                                                <script>
-                                                    document.getElementById('status{{ $order->id }}').addEventListener('change', function() { 
-                                                        const proofOfDelivery = document.getElementById('proof_of_delivery{{ $order->id }}');
-
-                                                        if (this.value === "cancelled") {
-                                                            // proofOfDelivery.classList.add('hidden');
-                                                            proofOfDelivery.removeAttribute('required');
-                                                        } else {
-                                                            // proofOfDelivery.classList.remove('hidden');
-                                                            proofOfDelivery.setAttribute('required', 'true');
-                                                        }
- 
-                                                    });
-
-                                                    </script>
+                                                
+                                               
                                                 <div class="col-span-1">
                                                     <label for="payment_date"
                                                         class="block mb-2 text-sm font-medium text-gray-900">Payment
@@ -237,6 +197,47 @@
                                                         readonly>
                                                 </div>
                                                 <div class="col-span-1">
+                                                    <label for="status{{ $order->id }}"
+                                                        class="block mb-2 text-sm font-medium text-gray-900">Status</label>
+                                                    <select name="status" id="status{{ $order->id }}" onchange="onChangeStatus(event)"
+                                                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5">
+                                                         {{-- <option value="pending"
+                                                            {{ $order->orderItems->first()->product->status == 'pending' ? 'selected' : '' }}>
+                                                            Pending
+                                                        </option>
+                                                        <option value="processing"
+                                                            {{ $order->status == 'processing' ? 'selected' : '' }}>
+                                                            Processing
+                                                        </option> --}}
+                                                        <option value="receiving"
+                                                            {{ $order->status == 'receiving' ? 'selected' : '' }} disabled>
+                                                            Receiving
+                                                        </option> 
+                                                        <option value="delivered"
+                                                            {{ $order->status == 'delivered' ? 'selected' : '' }}>
+                                                            Delivered
+                                                        </option>
+                                                        <option value="cancelled"
+                                                            {{ $order->status == 'cancelled' ? 'selected' : '' }}>
+                                                            Cancelled
+                                                        </option>
+                                                    </select>
+                                                </div> <script>
+                                                    document.getElementById('status{{ $order->id }}').addEventListener('change', function() { 
+                                                        const proofOfDelivery = document.getElementById('proof_of_delivery{{ $order->id }}');
+
+                                                        if (this.value === "cancelled") {
+                                                            proofOfDelivery.classList.add('hidden');
+                                                            proofOfDelivery.removeAttribute('required');
+                                                        } else {
+                                                            proofOfDelivery.classList.remove('hidden');
+                                                            proofOfDelivery.setAttribute('required', 'true');
+                                                        }
+ 
+                                                    });
+
+                                                    </script>
+                                                <div class="col-span-1">
                                                     <label for="proof_of_delivery{{ $order->id }}"
                                                         class="block mb-2 text-sm font-medium text-gray-900">Proof of
                                                         Delivery</label>
@@ -245,6 +246,7 @@
                                                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
                                                         value="{{ $order->proof_of_delivery }}" required>
                                                 </div>
+                                                
                                                 <div class="col-span-2 flex justify-around gap-2">
                                                     <div class="col-span-1">
                                                         <label for="proof_of_delivery{{ $order->id }}"
