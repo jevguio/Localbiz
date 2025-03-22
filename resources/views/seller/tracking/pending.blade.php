@@ -17,6 +17,9 @@
                         <div class="w-full">
                             <h3 class="text-sm lg:text-base text-gray-800 font-bold">{{ $item->product->name }}</h3>
                             <ul class="text-xs text-gray-800 space-y-1 mt-3">
+                                <li class="flex flex-wrap gap-4">Order Date <span
+                                        class="ml-auto font-bold">{{ $item->order->created_at->format('F d, Y') }}</span>
+                                </li>
                                 <li class="flex flex-wrap gap-4">Order Number <span
                                         class="ml-auto font-bold">{{ $item->order->order_number }}</span>
                                 </li>
@@ -118,16 +121,16 @@
                                         <div class="col-span-1">
                                             <label for="category"
                                                 class="block mb-2 text-sm font-medium text-gray-900">Category</label>
-                                            <select id="category" name="category_id"
+                                            <div id="category" name="category_id"
                                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5"
-                                                readonly disabled>
-                                                <option selected="">Select category</option>
+                                                readonly disabled> 
                                                 @foreach ($categories as $category)
-                                                    <option value="{{ $category->id }}"
-                                                        {{ $item->order->orderItems->first()->product->category_id == $category->id ? 'selected' : '' }}>
-                                                        {{ $category->name }} </option>
+                                                    @if($item->order->orderItems->first()->product->category_id == $category->id )
+                                                        <div value="{{ $category->id }}" >
+                                                            {{ $category->name }} </div>
+                                                    @endif
                                                 @endforeach
-                                            </select>
+                                            </div>
                                         </div>
                                         <div class="col-span-1">
                                             <label for="status"
@@ -169,15 +172,17 @@
                                         <div class="col-span-1">
                                             <label for="payment_date"
                                                 class="block mb-2 text-sm font-medium text-gray-900">Courier</label>
-                                            <select name="courier" id="courier"
+                                            <div name="courier" id="courier"
                                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
-                                                readonly disabled>
+                                                 >
                                                 @foreach ($couriers as $courier)
-                                                    <option value="{{ $courier->id }}"
-                                                        {{ $item->order->payments->first()->courier_id == $courier->id ? 'selected' : '' }}>
-                                                        {{ $courier->name }}</option>
+                                                @if( $item->order->payments->first()->courier_id == $courier->id)
+                                                    <div value="{{ $courier->id }}"
+                                                        >
+                                                        {{ $courier->name }}</div>
+                                                        @endif
                                                 @endforeach
-                                            </select>
+                                            </div>
                                         </div>
                                         <div class="col-span-1">
                                             <label for="payment_date"

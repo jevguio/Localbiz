@@ -18,6 +18,9 @@
                         <div class="w-full">
                             <h3 class="text-sm lg:text-base text-gray-800 font-bold">{{ $item->product->name }}</h3>
                             <ul class="text-xs text-gray-800 space-y-1 mt-3">
+                                <li class="flex flex-wrap gap-4">Order Date <span
+                                        class="ml-auto font-bold">{{ $item->order->created_at->format('F d, Y') }}</span>
+                                </li>
                                 <li class="flex flex-wrap gap-4">Order Number <span
                                         class="ml-auto font-bold">{{ $item->order->order_number }}</span>
                                 </li>
@@ -109,44 +112,26 @@
                                                 <div class="col-span-1">
                                                     <label for="category"
                                                         class="block mb-2 text-sm font-medium text-gray-900">Category</label>
-                                                    <select id="category" name="category_id"
+                                                    <div id="category" name="category_id"
                                                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5"
-                                                        readonly disabled>
-                                                        <option selected="">Select category</option>
+                                                        readonly disabled> 
                                                         @foreach ($categories as $category)
-                                                            <option value="{{ $category->id }}"
-                                                                {{ $item->order->orderItems->first()->product->category_id == $category->id ? 'selected' : '' }}>
-                                                                {{ $category->name }} </option>
+                                                            @if($item->order->orderItems->first()->product->category_id == $category->id )
+                                                                <div value="{{ $category->id }}" >
+                                                                    {{ $category->name }} </div>
+                                                            @endif
                                                         @endforeach
-                                                    </select>
+                                                    </div>
                                                 </div>
+                                              
                                                 <div class="col-span-1">
                                                     <label for="status"
                                                         class="block mb-2 text-sm font-medium text-gray-900">Status</label>
-                                                    <select name="status" id="status"
+                                                    <div name="status" id="status"
                                                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
                                                         readonly >
-                                                        <option value="pending"
-                                                            {{ $item->order->orderItems->first()->product->status == 'pending' ? 'selected' : '' }}>
-                                                            Pending
-                                                        </option>
-                                                        <option value="processing"
-                                                            {{ $item->order->status == 'processing' ? 'selected' : '' }}>
-                                                            Processing
-                                                        </option>
-                                                        <option value="receiving"
-                                                            {{ $item->order->status == 'receiving' ? 'selected' : '' }}>
-                                                            Receiving
-                                                        </option>
-                                                        <option value="delivered"
-                                                            {{ $item->order->status == 'delivered' ? 'selected' : '' }}>
-                                                            Delivered
-                                                        </option>
-                                                        <option value="cancelled"
-                                                            {{ $item->order->status == 'cancelled' ? 'selected' : '' }}>
-                                                            Cancelled
-                                                        </option>
-                                                    </select>
+                                                        {{ $item->order->status }}
+                                                    </div>
                                                 </div>
                                                 <div class="col-span-1">
                                                     <label for="payment_date"
@@ -160,15 +145,17 @@
                                                 <div class="col-span-1">
                                                     <label for="payment_date"
                                                         class="block mb-2 text-sm font-medium text-gray-900">Courier</label>
-                                                    <select name="courier" id="courier"
+                                                    <div name="courier" id="courier"
                                                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
-                                                        readonly disabled>
+                                                         >
                                                         @foreach ($couriers as $courier)
-                                                            <option value="{{ $courier->id }}"
-                                                                {{ $item->order->payments->first()->courier_id == $courier->id ? 'selected' : '' }}>
-                                                                {{ $courier->name }}</option>
+                                                        @if( $item->order->payments->first()->courier_id == $courier->id)
+                                                            <div value="{{ $courier->id }}"
+                                                                >
+                                                                {{ $courier->name }}</div>
+                                                                @endif
                                                         @endforeach
-                                                    </select>
+                                                    </div>
                                                 </div>
                                                 <div class="col-span-1">
                                                     <label for="payment_date"
@@ -208,11 +195,7 @@
                                                     </div>
                                                 </div>
                                                 <hr class="my-4">
-                                                <div class="flex justify-end gap-2">
-                                                    <button type="submit" 
-                                                        class="btn btn-info text-white inline-flex items-center bg-info-700 hover:bg-info-800 focus:ring-4 focus:outline-none focus:ring-info-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">
-                                                        Save
-                                                    </button>
+                                                <div class="flex justify-end gap-2"> 
                                                     <button type="button"
                                                         data-modal-toggle="viewModal{{ $item->id }}"
                                                         class="btn btn-error text-white inline-flex items-center bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">
