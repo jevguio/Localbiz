@@ -85,8 +85,8 @@ Route::middleware(['auth', 'Seller'])->group(function () {
     Route::get('/seller/locations', [SellerController::class, 'locations'])->name('seller.locations');
     Route::get('/seller/cashier', [SellerController::class, 'cashier'])->name('seller.cashier');
     Route::get('/seller/rider', [SellerController::class, 'rider'])->name('seller.rider');
-    Route::get('/seller/reports', [SellerController::class, 'reports'])->name('seller.reports');
-    Route::get('/seller/order-history', [SellerController::class, 'orderHistory'])->name('seller.order-history');
+    Route::get('/seller/reports', [SellerController::class, 'reports'])->name('seller.reports'); 
+    Route::get('/seller/order-history', [SellerController::class, 'orderHistoryFilter'])->name('seller.order-history');
 
     Route::get('/seller/inventory/export', [SellerController::class, 'exportInventory'])->name('seller.inventory.export');
     Route::get('/seller/sales/export', [SellerController::class, 'exportSales'])->name('seller.sales.export');

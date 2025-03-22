@@ -1,10 +1,10 @@
 <x-app-layout>
     <div class="p-4 sm:ml-64">
-        <div class="p-4 border-2 border-gray-200 border-dashed rounded-lg">
+        <div class="p-4 border-2 border-gray-200 border-dashed rounded-lg" >
             <div class="flex justify-between items-center">
                 <h2 class="mt-3 text-xl font-bold text-gray-900 sm:text-2xl">Order History</h2>
             </div>
-            <div class="relative overflow-x-auto mt-10 bg-white p-4 rounded-lg">
+            <div class="relative overflow-x-auto mt-10 bg-white p-4 rounded-lg" style="min-height: 800px">
                 <form class="max-w-md ml-0 mb-4">
                     <label for="table-search" class="mb-2 text-sm font-medium text-gray-900 sr-only">Search</label>
                     <div class="relative">
@@ -18,18 +18,17 @@
                         <button type="button" id="filter-btn"
                             class="absolute inset-y-0 end-0 flex items-center px-3 text-gray-600 hover:text-gray-900">
                             <i class='bx bx-filter text-2xl'></i>
-                        </button>
-                        
-                        <div id="filter-dropdown"
-                            class="hidden absolute right-0 mt-2 w-40 bg-white border border-gray-300 rounded-lg shadow-lg">
-                            <ul class="py-2 text-sm text-gray-700">
-                                <li class="px-4 py-2 hover:bg-gray-100 cursor-pointer filter-option" data-filter="All">All</li> 
-                                <li class="px-4 py-2 hover:bg-gray-100 cursor-pointer filter-option" data-filter="processing">Processing</li>
-                                <li class="px-4 py-2 hover:bg-gray-100 cursor-pointer filter-option" data-filter="receiving">Receiving</li> 
-                                <li class="px-4 py-2 hover:bg-gray-100 cursor-pointer filter-option" data-filter="delivered">Delivered</li> 
-                                <li class="px-4 py-2 hover:bg-gray-100 cursor-pointer filter-option" data-filter="cancelled">Cancelled</li> 
-                            </ul>
-                        </div>
+                        </button> 
+                            <div id="filter-dropdown"
+                                class="hidden absolute right-0 mt-2 w-40 bg-white border border-gray-300 rounded-lg shadow-lg">
+                                <ul class="py-2 text-sm text-gray-700">
+                                    <a href="{{ route('seller.order-history') }}?filter=all" class="block w-full px-4 py-2 hover:bg-gray-100 cursor-pointer">All</a> 
+                                    <a href="{{ route('seller.order-history') }}?filter=processing" class="block w-full px-4 py-2 hover:bg-gray-100 cursor-pointer">Processing</a>
+                                    <a href="{{ route('seller.order-history') }}?filter=receiving" class="block w-full px-4 py-2 hover:bg-gray-100 cursor-pointer">Receiving</a> 
+                                    <a href="{{ route('seller.order-history') }}?filter=delivered" class="block w-full px-4 py-2 hover:bg-gray-100 cursor-pointer">Delivered</a> 
+                                    <a href="{{ route('seller.order-history') }}?filter=cancelled" class="block w-full px-4 py-2 hover:bg-gray-100 cursor-pointer">Cancelled</a> 
+                                    </ul>
+                            </div> 
                     </div>
                 </form>
                 <table class="w-full text-sm text-left rtl:text-right text-gray-500">
