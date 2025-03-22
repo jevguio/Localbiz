@@ -63,6 +63,23 @@ class SellerController extends Controller
         return view('seller.products', compact('products', 'categories', 'locations'));
     }
 
+    public function inventory()
+    {
+        $seller = Seller::where('user_id', Auth::id())->first();
+        if (!$seller || !$seller->is_approved || $seller->user->is_active == 0) {
+            session()->flash('error', 'You are not approved to access this page.');
+            return redirect()->route('seller.dashboard');
+        }
+        if ($seller->user->is_active == 0) {
+            session()->flash('error', 'Your account is not active. Please contact the administrator.');
+            return redirect()->route('seller.dashboard');
+        }
+        $products = $seller->products()->orderBy('created_at', 'desc')->paginate(10);
+        $categories = Categories::all();
+        $locations = Location::all();
+        return view('seller.inventory', compact('products', 'categories', 'locations'));
+    }
+
     public function storeProduct(Request $request)
     {
         $result = (new ProductService())->storeProduct($request);

@@ -32,10 +32,10 @@
                                 Product Price
                             </th>
                             <th scope="col" class="px-6 py-3">
-                                Remaining Stock
+                                Product Stock
                             </th>
                             <th scope="col" class="px-6 py-3">
-                                Sold
+                                Action
                             </th>
                         </tr>
                     </thead>
@@ -56,17 +56,14 @@
                                     {{ $product->stock }}
                                 </td>
                                 <td class="px-6 py-4 flex gap-2">
-                                     @php
-                                     $totalQuantity=0;
-                                          
-                                     foreach($product->orderItems as $orderItem){
-                                        if($orderItem->order->status!="on-cart"){
-                                            $totalQuantity+=$orderItem->quantity;
-                                        }
-                                        
-                                     }
-                                     @endphp
-                                    {{  $totalQuantity}}
+                                    <button data-modal-target="editModal{{ $product->id }}"
+                                        class="font-medium text-blue-600 hover:underline" type="button">
+                                        Edit
+                                    </button>
+                                    <button data-modal-target="deleteModal{{ $product->id }}"
+                                        class="font-medium text-red-600 hover:underline" type="button">
+                                        Delete
+                                    </button>
                                 </td>
                             </tr>
 
