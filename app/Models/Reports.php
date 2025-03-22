@@ -9,6 +9,7 @@ class Reports extends Model
     protected $table = 'tbl_reports';
     protected $fillable = [
         'seller_id',
+        'user_id',
         'report_name',
         'report_type',
         'content',

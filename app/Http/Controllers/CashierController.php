@@ -68,10 +68,9 @@ class CashierController extends Controller
             return redirect()->route('cashier.dashboard');
         }
 
-        $reports = Reports::where('seller_id', $cashier->seller_id)->where('report_name', 'Orders Report')->paginate(10);
+        $reports = Reports::where('user_id', $cashier->id)->latest()->paginate(10);
         return view('cashier.reports', compact('reports'));
-    }
-
+    } 
     public function exportSales()
     {
         $cashier = Auth::user()->cashier;
@@ -81,7 +80,7 @@ class CashierController extends Controller
         Excel::store(new OrdersExport(), $filePath, 'public');
 
         $report = Reports::create([
-            'seller_id' => $cashier->seller_id,
+            'user_id' => $cashier->seller_id,
             'report_name' => 'Sales Report',
             'report_type' => 'excel',
             'content' => $fileName,

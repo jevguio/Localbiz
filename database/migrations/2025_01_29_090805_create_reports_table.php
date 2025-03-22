@@ -15,6 +15,8 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('seller_id')->nullable()->default(null);
             $table->foreign('seller_id')->references('id')->on('tbl_sellers');
+            $table->unsignedBigInteger('user_id')->nullable()->default(null);
+            $table->foreign('user_id')->references('id')->on('tbl_users');
 
             $table->string('report_name');
             $table->string('report_type');
