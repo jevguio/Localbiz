@@ -10,7 +10,7 @@
                 <p>No Orders found. </p>
             @else 
                 @foreach ($cartItems as $item )
-                    <div class="flex items-start gap-4"  data-modal-target="viewModal{{ $item->id }}" >
+                    <div class="flex items-start gap-4 border border-gray-200 hover:bg-gray-50 p-5 my-5"  data-modal-target="viewModal{{ $item->id }}" >
                         <div class="w-32 h-28 max-lg:w-24 max-lg:h-24 flex p-3 shrink-0 rounded-md">
                             <img src='{{ asset('assets/' . $item->product->image) }}' class="w-full object-contain" />
                         </div>

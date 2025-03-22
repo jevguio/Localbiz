@@ -249,6 +249,7 @@ class SellerController extends Controller
                 $subQuery->where('seller_id', $seller->id);
             });
         })
+        ->latest()
         ->get();
         if ($seller->is_approved == 0 || $seller->user->is_active == 0) {
             session()->flash('error', 'You are not approved to access this page.');
@@ -260,6 +261,7 @@ class SellerController extends Controller
             ->whereHas('product', function ($query) use ($seller) {
                 $query->where('seller_id', $seller->id);
             })
+            ->latest()
             ->get();
         return view('seller.tracking.pending', compact('cartItems','categories','couriers','orders'));
     }
@@ -274,6 +276,7 @@ class SellerController extends Controller
                 $subQuery->where('seller_id', $seller->id);
             });
         })
+        ->latest()
         ->get();
         if ($seller->is_approved == 0 || $seller->user->is_active == 0) {
             session()->flash('error', 'You are not approved to access this page.');
@@ -285,6 +288,7 @@ class SellerController extends Controller
             ->whereHas('product', function ($query) use ($seller) {
                 $query->where('seller_id', $seller->id);
             })
+            ->latest()
             ->get();
         return view('seller.tracking.processed', compact('cartItems','categories','couriers','orders'));
     }
@@ -300,6 +304,7 @@ class SellerController extends Controller
                 $subQuery->where('seller_id', $seller->id);
             });
         })
+        ->latest()
         ->get();
         if ($seller->is_approved == 0 || $seller->user->is_active == 0) {
             session()->flash('error', 'You are not approved to access this page.');
@@ -311,6 +316,7 @@ class SellerController extends Controller
             ->whereHas('product', function ($query) use ($seller) {
                 $query->where('seller_id', $seller->id);
             })
+            ->latest()
             ->get();
         return view('seller.tracking.receiving', compact('cartItems','categories','couriers','orders'));
     }
@@ -326,6 +332,7 @@ class SellerController extends Controller
                 $subQuery->where('seller_id', $seller->id);
             });
         })
+        ->latest()
         ->get();
         if ($seller->is_approved == 0 || $seller->user->is_active == 0) {
             session()->flash('error', 'You are not approved to access this page.');
@@ -337,6 +344,7 @@ class SellerController extends Controller
             ->whereHas('product', function ($query) use ($seller) {
                 $query->where('seller_id', $seller->id);
             })
+            ->latest()
             ->get();
         return view('seller.tracking.cancelled', compact('cartItems','categories','couriers','orders'));
     }
@@ -354,6 +362,7 @@ class SellerController extends Controller
             ->whereHas('product', function ($query) use ($seller) {
                 $query->where('seller_id', $seller->id);
             })
+            ->latest()
             ->get();
         return view('seller.tracking.delivered', compact('cartItems'));
     }
@@ -370,6 +379,7 @@ class SellerController extends Controller
                 $subQuery->where('seller_id', $seller->id);
             });
         })
+        ->latest()
             ->orderBy('created_at', 'desc')
             ->paginate(10);
 
