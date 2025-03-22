@@ -219,13 +219,13 @@
                     <ul class="dropdown-menu" style="display: none;">
                         <!-- <li class="dropdown-item"><a href="{{ route('seller.tracking.pending') }}"
                                 class="text-sm text-gray-700 hover:text-gray-900">Pending</a></li> -->
-                        <li class="dropdown-item"><a href="{{ route('seller.tracking.processed') }}"
+                        <li class="dropdown-item"><a href="{{ route('seller.tracking.processed') }}?filter=all"
                                 class="text-sm text-gray-700 hover:text-gray-900">Processing</a></li>
-                        <li class="dropdown-item"><a href="{{ route('seller.tracking.receiving') }}"
+                        <li class="dropdown-item"><a href="{{ route('seller.tracking.receiving') }}?filter=all"
                                 class="text-sm text-gray-700 hover:text-gray-900">To Receive</a></li>
-                        <li class="dropdown-item"><a href="{{ route('seller.tracking.delivered') }}"
+                        <li class="dropdown-item"><a href="{{ route('seller.tracking.delivered') }}?filter=all"
                                 class="text-sm text-gray-700 hover:text-gray-900">Completed</a></li>
-                        <li class="dropdown-item"><a href="{{ route('seller.tracking.cancelled') }}"
+                        <li class="dropdown-item"><a href="{{ route('seller.tracking.cancelled') }}?filter=all"
                                 class="text-sm text-gray-700 hover:text-gray-900">Cancelled</a></li>
                     </ul>
                 </li>
