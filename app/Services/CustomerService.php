@@ -89,13 +89,13 @@ class CustomerService
         try {
             $orderItem = OrderItems::findOrFail($request->id);
             $order = $orderItem->order;
-    
+
             $orderItem->delete();
 
             if ($order && $order->orderItems()->count() === 0) {
                 $order->delete();
             }
-    
+
             session()->flash('success', 'Product removed from cart successfully.');
             return response()->json([
                 'error_code' => MyConstant::SUCCESS_CODE,
@@ -110,7 +110,7 @@ class CustomerService
                 'message' => $e->getMessage(),
             ]);
         }
-    }    
+    }
 
     public function updateSelectionCart($request)
     {
@@ -139,14 +139,14 @@ class CustomerService
     public function updateCart($request)
     {
         try {
-            $orderItem = OrderItems::findOrFail($request->id); 
+            $orderItem = OrderItems::findOrFail($request->id);
             // $order = Orders::where('user_id', Auth::id())->where('status', 'pending')->firstOrFail();
 
             if ($request->increment) {
                 $orderItem->increment('quantity');
             } elseif ($request->decrement && $orderItem->quantity > 1) {
                 $orderItem->decrement('quantity');
-            } 
+            }
             $orderItem->price = $orderItem->product->price * $orderItem->quantity;
             $orderItem->save();
 
@@ -178,8 +178,7 @@ class CustomerService
 
             $receipt = $request->file('receipt_file');
             $filename = $receipt->getClientOriginalName();
-            $receipt->move(public_path('receipt_file'), $filename);
-
+            $receipt->move(public_path('receipt_file'), $filename); 
             foreach ($orders as $order) {
                 $totalAmount += $order->total_amount;
 
@@ -191,6 +190,7 @@ class CustomerService
                         'payment_method' => $request->payment_method,
                         'payment_amount' => $orderItem->price,
                         'receipt_file' => $filename,
+                        'message' => $request->message,
                         'payment_date' => Carbon::now()->timezone('Asia/Manila'),
                         'paid_at' => Carbon::now()->timezone('Asia/Manila'),
                     ]);

@@ -18,6 +18,7 @@ class Payments extends Model
         'payment_amount',
         'receipt_file',
         'payment_date',
+        'message',
         'paid_at',
     ];
 

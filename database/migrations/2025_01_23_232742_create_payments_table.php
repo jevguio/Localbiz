@@ -19,6 +19,7 @@ return new class extends Migration {
             $table->decimal('payment_amount', 10, 2);
             $table->string('receipt_file');
             $table->dateTime('payment_date');
+            $table->string('message')->nullable();
             $table->dateTime('paid_at');
             $table->timestamps();
         });

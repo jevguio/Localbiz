@@ -232,6 +232,15 @@
                                                     </li>
                                                 </ul>
                                             </div>
+                                            <div class="col-span-1">
+                                                <label for="feedback"
+                                                    class="block mb-2 text-sm font-bold text-gray-900">Message</label>
+                                                <ul class="bg-gray-50 border border-gray-300 rounded-lg p-2">
+                                                    <li class="mb-2"> 
+                                                        <span>{{ $order->payments->first()->message ?? 'No Message' }}</span> 
+                                                    </li>
+                                                </ul>
+                                            </div>
                                             <div class="col-span-2 flex justify-around gap-2">
                                                 <div class="col-span-1">
                                                     <label for="proof_of_delivery"
