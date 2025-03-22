@@ -100,7 +100,7 @@ class CustomerController extends Controller
     {
         $categories = Categories::all();
         $couriers = Courier::all();
-        $cartItems = OrderItems::whereHas('order', fn($query) => $query->where('user_id', Auth::id())->where('status', 'processing'))->latest()->get();
+        $cartItems = OrderItems::whereHas('order', fn($query) => $query->where('user_id', Auth::id())->where('status', ['processing']))->latest()->get();
         return view('customer.tracking.processed', compact('cartItems','categories','couriers'));
     }
 

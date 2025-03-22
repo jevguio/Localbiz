@@ -135,30 +135,14 @@
                                         <div class="col-span-1">
                                             <label for="status"
                                                 class="block mb-2 text-sm font-medium text-gray-900">Status</label>
-                                            <select name="status" id="status"
+                                            <div name="status" id="status"
                                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
                                                 readonly >
-                                                <option value="pending"
-                                                    {{ $item->order->orderItems->first()->product->status == 'pending' ? 'selected' : '' }}>
-                                                    Pending
-                                                </option>
-                                                <option value="processing"
-                                                    {{ $item->order->status == 'processing' ? 'selected' : '' }}>
-                                                    Processing
-                                                </option>
-                                                <option value="receiving"
-                                                    {{ $item->order->status == 'receiving' ? 'selected' : '' }}>
-                                                    Receiving
-                                                </option>
-                                                <option value="delivered"
-                                                    {{ $item->order->status == 'delivered' ? 'selected' : '' }}>
-                                                    Delivered
-                                                </option>
-                                                <option value="cancelled"
-                                                    {{ $item->order->status == 'cancelled' ? 'selected' : '' }}>
-                                                    Cancelled
-                                                </option>
-                                            </select>
+                                                <div 
+                                                    >
+                                                    {{ $item->order->status}}
+                                                </div> 
+                                            </div>
                                         </div>
                                         <div class="col-span-1">
                                             <label for="payment_date"
@@ -196,7 +180,7 @@
                                         <div class="col-span-1">
                                             <label for="payment_date"
                                                 class="block mb-2 text-sm font-medium text-gray-900">Order Date
-                                                Date</label>
+                                                 </label>
                                             <input type="text" name="Order_date" id="Ordert_date"
                                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
                                                 value="{{  \Carbon\Carbon::parse($item->order->created_at)->format('F d, Y')  }}"

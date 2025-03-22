@@ -196,7 +196,7 @@
                                         <div class="col-span-1">
                                             <label for="payment_date"
                                                 class="block mb-2 text-sm font-medium text-gray-900">Order Date
-                                                Date</label>
+                                                </label>
                                             <input type="text" name="Order_date" id="Ordert_date"
                                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
                                                 value="{{  \Carbon\Carbon::parse($item->order->created_at)->format('F d, Y')  }}"
