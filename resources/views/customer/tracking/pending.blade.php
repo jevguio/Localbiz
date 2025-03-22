@@ -37,7 +37,7 @@
                                 @csrf
                                 @method('PUT')
                                 <input type="hidden" name="order_id" value="{{ $item->order->id }}">
-                                <button class="mt-2 px-4 py-2 bg-red-500 text-white rounded-md hover:bg-red-600">
+                                <button class="btn mt-2 px-4 py-2 bg-red-500 text-white rounded-md hover:bg-red-600">
                                     Cancel
                                 </button>
                             </form>
@@ -255,6 +255,10 @@
             $('[data-modal-toggle]').on('click', function() {
                 const modalId = $(this).data('modal-toggle');
                 $(`#${modalId}`).addClass('hidden');
+            });
+            
+            $('.btn').on('click', function (event) {
+                event.stopPropagation(); // Stops the click event from reaching the parent
             });
         });
     </script>

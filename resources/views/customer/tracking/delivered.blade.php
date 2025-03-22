@@ -272,6 +272,9 @@
                 const modalId = $(this).data('modal-toggle');
                 $(`#${modalId}`).addClass('hidden');
             });
+            $('.btn').on('click', function (event) {
+                event.stopPropagation(); // Stops the click event from reaching the parent
+            });
         });
     </script>
 </x-app-layout>
