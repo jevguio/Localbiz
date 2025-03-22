@@ -26,7 +26,7 @@
     
     <style> 
     .flatpickr-calendar {
-            padding:5%;
+            padding:1%;
             position: fixed !important;
             top: 50% !important;
             left: 50% !important;
