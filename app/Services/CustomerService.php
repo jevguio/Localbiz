@@ -117,8 +117,7 @@ class CustomerService
         try {
             $orderItem = OrderItems::findOrFail($request->id);
             $orderItem->is_checked = $request->is_checked;
-            $orderItem->save();
-            session()->flash('success', 'Product updated in cart successfully.');
+            $orderItem->save(); 
             Log::info("success $request");
             return response()->json([
                 'error_code' => MyConstant::SUCCESS_CODE,
@@ -127,8 +126,7 @@ class CustomerService
             ]);
 
         } catch (\Exception $e) {
-            Log::error($e->getMessage());
-            session()->flash('error', 'Failed to update product in cart.');
+            Log::error($e->getMessage()); 
             return response()->json([
                 'error_code' => MyConstant::FAILED_CODE,
                 'status_code' => MyConstant::INTERNAL_SERVER_ERROR,
@@ -139,8 +137,7 @@ class CustomerService
     public function updateCart($request)
     {
         try {
-            $orderItem = OrderItems::findOrFail($request->id);
-            // $order = Orders::where('user_id', Auth::id())->where('status', 'pending')->firstOrFail();
+            $orderItem = OrderItems::findOrFail($request->id); 
 
             if ($request->increment) {
                 $orderItem->increment('quantity');
@@ -152,16 +149,14 @@ class CustomerService
 
             // $order->total_amount = $order->orderItems->sum('price');
             // $order->save();
-
-            session()->flash('success', 'Product updated in cart successfully.');
+ 
             return response()->json([
                 'error_code' => MyConstant::SUCCESS_CODE,
                 'status_code' => MyConstant::SUCCESS_CODE,
                 'message' => 'Product updated in cart successfully.',
             ]);
         } catch (\Exception $e) {
-            Log::info($e->getMessage());
-            session()->flash('error', 'Failed to update product in cart.');
+            Log::info($e->getMessage()); 
             return response()->json([
                 'error_code' => MyConstant::FAILED_CODE,
                 'status_code' => MyConstant::INTERNAL_SERVER_ERROR,
@@ -173,7 +168,13 @@ class CustomerService
     public function checkout($request)
     {
         try {
-            $orders = Orders::where('user_id', Auth::id())->where('status', 'on-cart')->get();
+            $orders = Orders::where('user_id', Auth::id())
+            ->where('status', 'on-cart')
+            ->whereHas('orderItems', function ($query) {
+                $query->where('is_checked', true);
+            })
+            ->get();
+        
             $totalAmount = 0;
 
             $receipt = $request->file('receipt_file');

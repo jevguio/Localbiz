@@ -73,13 +73,13 @@ class CustomerController extends Controller
     public function updateSelectionCart(Request $request)
     {
         $result = (new CustomerService())->updateSelectionCart($request);
-        return redirect()->back()->with('success', 'Product updated in cart successfully');
+        return redirect()->back();
     }
 
     public function updateCart(Request $request)
     { 
         $result = (new CustomerService())->updateCart($request);
-        return redirect()->back()->with('success', 'Product updated in cart successfully');
+        return redirect()->back();
     }
 
     public function checkout(Request $request)
