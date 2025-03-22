@@ -199,15 +199,15 @@
                                                         of
                                                         Delivery</label>
                                                     <img src="{{ asset('delivery_receipt/' . $order->proof_of_delivery) }}"
-                                                        alt="Proof of Delivery" class="w-60 object-cover">
+                                                        alt="Proof of Delivery" class="w-60 object-cover" onclick="openModal(this.src)">
                                                 </div>
                                                 <div class="col-span-1">
                                                     <label for="receipt_file"
                                                         class="block mb-2 text-sm font-medium text-gray-900">Receipt
-                                                        File</label>
+                                                        File</label> 
                                                     @if ($order->payments->first() && $order->payments->first()->receipt_file)
                                                         <img src="{{ asset('receipt_file/' . $order->payments->first()->receipt_file) }}"
-                                                            alt="Receipt File" class="w-60 object-cover">
+                                                            alt="Receipt File" class="w-60 object-cover" onclick="openModal(this.src)">
                                                     @else
                                                         <p>No receipt file available.</p>
                                                     @endif
@@ -265,7 +265,110 @@
             </div>
         </div>
     </div>
-
+    <style> 
+   
+        .myModalthumbnail {  width: 150px; height: 100px; cursor: pointer; object-fit: cover; }
+        
+        .myModalmyModal {display:none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8);  } 
+        
+        .myModal-content { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(1); max-width: 90%; max-height: 90%; transition: transform 0.3s; }
+        .myModalclose { position: absolute; top: 15px; right: 25px; color: white; font-size: 30px; cursor: pointer;}
+     </style>
+         <div id="myModalmyModal"  class="myModalmyModal" >
+             <span class="myModalclose" onclick="closeModal()">&times;</span>
+             <img id="modalImg" class="myModal-content" onwheel="zoom(event)">
+         </div>
+                                                         
+     
+         <script>
+              let modalImg= document.getElementById("modalImg");
+              let scale = 1; // Initial zoom scale
+     let posX = 0, posY = 0; // Initial position
+     let isDragging = false;
+     let startX, startY;
+             function openModal(src) {
+                 let modal = document.getElementById("myModalmyModal"); 
+                 modalImg = document.getElementById("modalImg");
+                 modalImg.src = src;
+                 modalImg.style.zIndex = "99";
+                 modalImg.style.display = "block"; 
+     
+                 modal.style.zIndex = "99";
+                 modal.style.display = "block"; 
+                 console.log(modal);
+                             
+                 modalImg.addEventListener("wheel", zoom);
+                 modalImg.addEventListener("mousedown", startDrag);
+                 window.addEventListener("mousemove", drag);
+                 window.addEventListener("mouseup", stopDrag);
+                 modalImg.addEventListener("mouseup", stopDrag);
+             }
+             function closeModal() {
+                 document.getElementById("myModalmyModal").style.display="none";
+             }
+             function zoom(event) {
+         event.preventDefault();
+     
+         let zoomFactor = 0.1;
+         let newScale = scale + (event.deltaY > 0 ? -zoomFactor : zoomFactor);
+     
+         // Clamp zoom scale between 1 and 3
+         scale = Math.min(Math.max(1, newScale), 3);
+     
+         // Apply transform
+         updateTransform();
+     }
+     
+     // Start dragging
+     function startDrag(event) {
+         if (scale === 1) return; // Disable dragging when not zoomed
+         isDragging = true;
+         startX = event.clientX - posX;
+         startY = event.clientY - posY;
+         modalImg.style.cursor = "grabbing";
+     }
+     
+     // Drag image
+     function drag(event) {
+         if (!isDragging) return;
+         posX = event.clientX - startX;
+         posY = event.clientY - startY;
+         updateTransform();
+     }
+     
+     // Stop dragging
+     function stopDrag() {
+         isDragging = false;
+         modalImg.style.cursor = "grab";
+     }
+     
+     // Apply zoom and panning transformations
+     function updateTransform() {
+         modalImg.style.transformOrigin = "center center";
+         modalImg.style.transform = `translate(-50%, -50%) translate(${posX}px, ${posY}px) scale(${scale})`;
+     }
+     
+         </script>
+         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+         <script>
+             $(document).ready(function() {
+                 $('#table-search').on('keyup', function() {
+                     const searchInput = $(this).val().toLowerCase();
+                     $('#seller-table-body tr').filter(function() {
+                         $(this).toggle($(this).text().toLowerCase().indexOf(searchInput) > -1);
+                     });
+                 });
+     
+                 $('[data-modal-target]').on('click', function() {
+                     const modalId = $(this).data('modal-target');
+                     $(`#${modalId}`).removeClass('hidden');
+                 });
+                 $('[data-modal-toggle]').on('click', function() {
+                     const modalId = $(this).data('modal-toggle');
+                     $(`#${modalId}`).addClass('hidden');
+                 });
+             });
+         </script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
         $(document).ready(function() {
