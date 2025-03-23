@@ -15,11 +15,12 @@
         .hidden_table th, .hidden_table td { padding: 8px; text-align: left; }
         .hidden_table th { background-color: #f2f2f2; }
     </style> 
-<div class="subheader" id="subheader" style="background-color:rgb(161, 124, 0); width:100%; color:white;padding:10px ">Top Purchase's Report</div>
+    
+<!-- <div class="subheader" id="subheader" style="background-color:rgb(161, 124, 0); width:100%; color:white;padding:10px ">Top Purchase's Report</div> -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <div class="bg-white p-5 rounded-lg shadow-md">
-    <h2 class="text-xl font-bold mb-4">Top 10 Product</h2>
+    <h2 class="text-xl font-bold mb-4">Top 10 Products</h2>
     <canvas id="topProductsChart"></canvas>
 </div>
 <script>

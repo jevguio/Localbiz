@@ -36,7 +36,8 @@
             Product_Management.style.display="none";
         }
         </script>
-<div class="subheader" id="subheader" style="background-color:rgb(161, 124, 0); width:100%; color:white;padding:10px ">Inventory Report</div>
+<div class="subheader" id="subheader" style="background-color:rgb(161, 124, 0); width:100%; color:white;padding:10px ">INVENTORY REPORT</div>
+
 @if($is_view)
 <button  onclick="CloseInventoryThis()" 
         class="absolute top-2 right-5 "
@@ -51,10 +52,10 @@
     <table class="table">
         <thead >
             <tr>
-            <th>Quantity Sold</th>
-            <th>Unit</th>
-                <th>Description</th>
-                <th>Remaining</th>
+            <th>Remaining Stock</th>
+            <th>Number of Sold</th>
+                <th>Unit Price</th>
+                <th>Product Name</th>
                 <th>Total Amount</th>
             </tr>
         </thead>
@@ -70,12 +71,18 @@
                         $unit=['pc','pack','set']; 
                         $randomUnit = $units[array_rand($units)]; 
                         $randomUnits = $units[array_rand($units)]; 
+
+                        $totalquantity=0;
+                        foreach($item->orderItems as $order){
+                        $totalquantity+=$order->quantity;
+                        }
                     @endphp
-                    <td>{{ $item->sold }}</td>
-                    <td> {{ $item->sold>1?$randomUnits:$randomUnit }}</td>
-                    <td>{{ $item->name }}</td>
+
                     <td>{{ $item->stock }}</td>
-                    <td>${{ $QuantityPrice }}</td>
+                    <td> {{ $totalquantity }}</td>
+                    <td>{{ $item->price?? "No Data" }}</td>
+                    <td>{{ $item->name }}</td>
+                    <td>₱{{ $QuantityPrice }}</td>
                 </tr>
                 @endif 
             @endforeach

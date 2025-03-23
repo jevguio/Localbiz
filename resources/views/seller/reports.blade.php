@@ -22,13 +22,13 @@
                             <a href="#" onclick="openInventory(event)"
                                 class="btn btn-primary bg-blue-700 hover:bg-blue-800 text-white px-4 py-2 rounded-md ">Generate
                                 Inventory</a>
-                            <a href="{{ route('seller.products.export') }}"
-                                class="btn btn-primary bg-blue-700 hover:bg-blue-800 text-white px-4 py-2 rounded-md">
-                                Generate Products
-                            </a>
                             <a  href="#" onclick="openSales(event)"
                                 class="btn btn-primary bg-blue-700 hover:bg-blue-800 text-white px-4 py-2 rounded-md">
                                 Generate Sales
+                            </a>
+                            <a href="{{ route('seller.products.export') }}"
+                                class="btn btn-primary bg-blue-700 hover:bg-blue-800 text-white px-4 py-2 rounded-md">
+                                Generate Top Purchased Products
                             </a>
                         </div>
                    </div> 
@@ -95,7 +95,7 @@
                 @include('reports.sales')
         
                 <a href="{{ route('seller.inventory.export') }}" id="export_sales"
-                        class="btn btn-primary bg-blue-700 hover:bg-blue-800 text-white px-4 py-2 rounded-md" style="position:absolute;right:21%; bottom:23%">Download PDF</a>
+                        class="btn btn-primary bg-blue-700 hover:bg-blue-800 text-white px-4 py-2 rounded-md" style="position:absolute;right:21%; bottom:5%;">Download PDF</a>
                         <script>
                             document.addEventListener("DOMContentLoaded", function () {
                                 let export_sales = document.getElementById("export_sales"); 

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sales Report</title>
+    <title>SALES REPORT</title>
 </head>
 <body>
     <style>
@@ -33,7 +33,7 @@
             invent.style.display="none";
         }
         </script>
-<div class="subheader" id="subheader" style="background-color:rgb(161, 124, 0); width:100%; color:white;padding:10px ">Sales Report</div>
+<div class="subheader" id="subheader" style="background-color:rgb(161, 124, 0); width:100%; color:white;padding:10px ">SALES REPORT</div>
 
 @if($is_view)
 <button  onclick="CloseSalesThis()" 
@@ -52,8 +52,8 @@
             <tr>
             <th>Quantity Sold</th>
             <th>Unit</th>
-                <th>Descriptsion</th>
-                <th>Selling Price</th>
+                <th>Product Description</th>
+                <th>Unit Price</th>
                 <th>Total Amount</th>
             </tr>
         </thead>
@@ -76,7 +76,7 @@
                     <td> {{ $item->sold>1?$randomUnits:$randomUnit }}</td>
                     <td>{{ $item->name }}</td>
                     <td>{{ $item->price }}</td>
-                    <td>${{ ($item->sold * $QuantityPrice)}}</td>
+                    <td>₱{{ $QuantityPrice}}</td>
                 </tr>
                 @endif
                 @php $totalPrice += ($item->sold * $QuantityPrice); @endphp

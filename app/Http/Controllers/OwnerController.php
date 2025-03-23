@@ -25,6 +25,7 @@ use Maatwebsite\Excel\Facades\Excel;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\DB;
+use App\Models\Location;
 
 class OwnerController extends Controller
 {
@@ -61,7 +62,7 @@ class OwnerController extends Controller
 
     public function products()
     {
-        $products = Products::where('seller_id', Auth::user()->id)->paginate(10);
+        $products = Products::paginate(10);
         $categories = Categories::all();
         $sellers = Seller::all();
         return view('owner.products', compact('products', 'categories','sellers'));
@@ -116,9 +117,10 @@ class OwnerController extends Controller
             $query->whereIn('seller_id', $sellers->pluck('id'));
         })->sum('total_amount');
 
-        $products = Products::whereIn('seller_id', $sellers->pluck('id'))->get();
-
-        return view('owner.inventory', compact('orders', 'products', 'totalSales'));
+        $products = Products::whereIn('seller_id', $sellers->pluck('id'))->paginate(10);
+        $categories = Categories::all();
+        $locations = Location::all();
+        return view('owner.inventory', compact('orders', 'products', 'totalSales', 'categories', 'locations', 'sellers'));
     }
 
     public function exportInventory(Request $request)

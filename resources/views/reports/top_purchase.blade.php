@@ -14,7 +14,7 @@
     @if($isViewBTN)
         <a href="{{ route('owner.toppurchase.export') }}" id="export_topseller"
             class="btn btn-primary bg-blue-700 hover:bg-blue-800 text-white px-4 py-2 rounded-md"
-            style="position:absolute;right:5%; bottom:5%">Download PDF</a>
+            style="position:absolute;right:3%; bottom:2.5%">Download PDF</a>
     @endif
     
 </div>
