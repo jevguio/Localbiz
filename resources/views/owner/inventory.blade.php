@@ -1,12 +1,12 @@
 <x-app-layout>
-    <div class="p-4 sm:ml-64">
-        <div class="p-4 border-2 border-gray-200 border-dashed rounded-lg">
+    <div class="p-4 sm:ml-64 ">
+        <div class="p-4 border-2 border-gray-200 border-dashed rounded-lg ">
             <div class="flex justify-between items-center">
                 <h2 class="text-xl font-bold text-gray-900 sm:text-2xl">Inventory</h2>
                  
             </div>
-            <div class="relative overflow-x-auto mt-10 bg-white p-4 rounded-lg">
-                <form class="max-w-md ml-0 mb-4">
+            <div class="relative overflow-x-auto mt-10 bg-white p-4 rounded-lg ">
+                <form class="max-w-md ml-0 mb-4 ">
                     <label for="table-search" class="mb-2 text-sm font-medium text-gray-900 sr-only">Search</label>
                     <div class="relative">
                         <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
@@ -23,20 +23,20 @@
       
                               <!-- Filter Dropdown -->
                               <div id="filter-dropdown"
-                                  class="hidden absolute right-0 mt-2 w-40 bg-white border border-gray-300 rounded-lg shadow-lg">
-                                  <ul class="py-2 text-sm text-gray-700"> 
-                                  <li class="px-4 py-2 hover:bg-gray-100 cursor-pointer filter-option" data-filter="All">All</li>
-                                 
-                                  @foreach ($sellers as $seller)
-                                      <li class="px-4 py-2 hover:bg-gray-100 cursor-pointer filter-option" data-filter="{{$seller->user->fname}}">{{$seller->user->fname}}</li>
-                                  @endforeach 
-                                  </ul>
+                                  class="hidden absolute right-0 mt-2 w-40 bg-white border border-gray-300 rounded-lg shadow-lg  ">
+                                  <div class="py-2 text-sm text-gray-700"> 
+                                    <a href="{{ route('owner.inventory') }}?filter=all" class="block px-4 py-2 hover:bg-gray-100 w-full cursor-pointer filter-option" data-filter="All">All</a>
+                                    
+                                    @foreach ($sellers as $seller)
+                                        <a href="{{ route('owner.inventory') }}?filter={{$seller->user->id}}" class="block px-4 py-2 w-full hover:bg-gray-100 cursor-pointer filter-option" data-filter="{{$seller->user->fname}}">{{$seller->user->fname}}</a>
+                                    @endforeach 
+                                  </div>
                               </div>
                     </div>
 
 
                 </form>
-                <table class="w-full text-sm text-left rtl:text-right text-gray-500">
+                <table class="w-full text-sm text-left rtl:text-right text-gray-500 h-100">
                     <thead class="text-xs text-gray-700 uppercase bg-gray-50">
                         <tr>
                             <th scope="col" class="px-6 py-3">
@@ -261,6 +261,32 @@
                 });
             }); 
         });
+        $("#filter-btn").click(function (event) {
+            event.preventDefault();
+            $("#filter-dropdown").toggleClass("hidden");
+        });
+
+        // Search and filter function
+        function filterTable() {
+            const searchInput = $("#table-search").val().toLowerCase();
+
+            $("#account-table-body tr").each(function () {
+                const rowText = $(this).text().toLowerCase();
+                const rowCategory = $(this).data("category");
+
+                const matchesSearch = rowText.indexOf(searchInput) > -1;
+                const matchesFilter = selectedFilter === "All" || rowCategory === selectedFilter;
+
+                $(this).toggle(matchesSearch && matchesFilter);
+            });
+        } 
+        // Close dropdown when clicking outside
+        $(document).click(function (event) {
+            if (!$(event.target).closest("#filter-btn, #filter-dropdown").length) {
+                $("#filter-dropdown").addClass("hidden");
+            }
+        });
+
                                          function categoryChange(e) { 
                                             let bestBeforeDiv = document.getElementById('bestBeforeDateDiv');
                                             bestBeforeDiv.style.display = e.target.value == 'food' ? 'block' : 'none';

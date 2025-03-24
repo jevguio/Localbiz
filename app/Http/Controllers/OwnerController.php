@@ -65,7 +65,7 @@ class OwnerController extends Controller
         $products = Products::paginate(10);
         $categories = Categories::all();
         $sellers = Seller::all();
-        return view('owner.products', compact('products', 'categories','sellers'));
+        return view('owner.products', compact('products', 'categories', 'sellers'));
     }
 
     public function courier()
@@ -102,29 +102,44 @@ class OwnerController extends Controller
         $payments = Payments::all();
         $products = Products::all();
         $categories = Categories::all();
-        return view('owner.orders', compact('orders', 'orderItems', 'payments', 'products', 'categories','couriers'));
+        return view('owner.orders', compact('orders', 'orderItems', 'payments', 'products', 'categories', 'couriers'));
     }
-
-    public function inventory()
+    public function inventory(Request $request)
     {
         $sellers = Seller::all();
-
-        $orders = Orders::whereHas('orderItems.product', function ($query) use ($sellers) {
-            $query->whereIn('seller_id', $sellers->pluck('id'));
+        $orders = null;
+        $totalSales = 0;
+        $products = null;
+    
+        if ($request->filter == 'all') {
+            $sellerIds = $sellers->pluck('id'); // Get all seller IDs
+        } else {
+            $filteredSellers = Seller::where('user_id', $request->filter)->get();
+            $sellerIds = $filteredSellers->pluck('id'); // Get filtered seller IDs
+        }
+    
+        // Retrieve orders for the given seller IDs
+        $orders = Orders::whereHas('orderItems.product', function ($query) use ($sellerIds) {
+            $query->whereIn('seller_id', $sellerIds);
         })->paginate(10);
-
-        $totalSales = Orders::whereHas('orderItems.product', function ($query) use ($sellers) {
-            $query->whereIn('seller_id', $sellers->pluck('id'));
+    
+        // Sum total sales for given sellers
+        $totalSales = Orders::whereHas('orderItems.product', function ($query) use ($sellerIds) {
+            $query->whereIn('seller_id', $sellerIds);
         })->sum('total_amount');
-
-        $products = Products::whereIn('seller_id', $sellers->pluck('id'))->paginate(10);
+    
+        // Retrieve products for the given sellers
+        $products = Products::whereIn('seller_id', $sellerIds)->paginate(10);
+    
+        // Retrieve categories and locations
         $categories = Categories::all();
         $locations = Location::all();
+    
         return view('owner.inventory', compact('orders', 'products', 'totalSales', 'categories', 'locations', 'sellers'));
     }
-
+    
     public function exportInventory(Request $request)
-    { 
+    {
         $startDate = $request->input('start_date');
         $endDate = $request->input('end_date');
         // return Excel::download(new AdminInventoryExport(), $fileName);
@@ -133,9 +148,9 @@ class OwnerController extends Controller
 
         $selectedSeller = User::where('role', 'seller')->where('id', $request->id)->get()->first();
         $items = Products::leftJoin('tbl_order_items', 'tbl_products.id', '=', 'tbl_order_items.product_id')
-        ->leftJoin('tbl_sellers', 'tbl_products.seller_id', '=', 'tbl_sellers.id')
-        ->leftJoin('tbl_users', 'tbl_sellers.user_id', '=', 'tbl_users.id')
-        ->selectRaw('
+            ->leftJoin('tbl_sellers', 'tbl_products.seller_id', '=', 'tbl_sellers.id')
+            ->leftJoin('tbl_users', 'tbl_sellers.user_id', '=', 'tbl_users.id')
+            ->selectRaw('
             tbl_products.id,
             tbl_products.name AS name,
             tbl_products.seller_id AS seller_id,
@@ -149,46 +164,46 @@ class OwnerController extends Controller
             tbl_users.lname AS seller_lname,
             tbl_users.email AS seller_email,
             tbl_users.phone AS seller_phone
-        ') 
-        ->where('tbl_sellers.user_id', $request->id) // Filtering by seller_id
-        ->groupBy(
-            'tbl_products.id', 
-            'tbl_products.name', 
-            'tbl_products.stock', 
-            'tbl_products.price',
-            'tbl_sellers.is_approved',
-            'tbl_users.fname',
-            'tbl_users.lname',
-            'tbl_users.email',
-            'tbl_users.phone'
-        )
-        ->get();
-        $is_view=false;
+        ')
+            ->where('tbl_sellers.user_id', $request->id) // Filtering by seller_id
+            ->groupBy(
+                'tbl_products.id',
+                'tbl_products.name',
+                'tbl_products.stock',
+                'tbl_products.price',
+                'tbl_sellers.is_approved',
+                'tbl_users.fname',
+                'tbl_users.lname',
+                'tbl_users.email',
+                'tbl_users.phone'
+            )
+            ->get();
+        $is_view = false;
         // Generate PDF
-        $pdf = Pdf::loadView('reports.inventory', compact('items','selectedSeller','is_view','startDate','endDate'))->setPaper('a4', 'portrait');
-    
+        $pdf = Pdf::loadView('reports.inventory', compact('items', 'selectedSeller', 'is_view', 'startDate', 'endDate'))->setPaper('a4', 'portrait');
+
         // Store PDF in storage
         Storage::disk('public')->put($filePath, $pdf->output());
-    
+
         // Save report to database
-        $report = Reports::create([ 
+        $report = Reports::create([
             'report_name' => 'Inventory Report',
             'report_type' => 'pdf',
             'content' => $fileName,
         ]);
-    
+
         // Return PDF for download
         return $pdf->download($fileName);
     }
 
     public function exportProducts()
     {
-        $fileName =  Auth::user()->fname . '_' . Auth::user()->lname . '_' . now()->format('YmdHis') . '.xlsx';
+        $fileName = Auth::user()->fname . '_' . Auth::user()->lname . '_' . now()->format('YmdHis') . '.xlsx';
         $filePath = 'reports/' . $fileName;
 
         Excel::store(new AdminProductsExport(), $filePath, 'public');
 
-        $report = Reports::create([ 
+        $report = Reports::create([
             'report_name' => 'Products Report',
             'report_type' => 'excel',
             'content' => $fileName,
@@ -207,9 +222,9 @@ class OwnerController extends Controller
 
         $selectedSeller = User::where('role', 'seller')->where('id', $request->id)->get()->first();
         $items = Products::leftJoin('tbl_order_items', 'tbl_products.id', '=', 'tbl_order_items.product_id')
-        ->leftJoin('tbl_sellers', 'tbl_products.seller_id', '=', 'tbl_sellers.id')
-        ->leftJoin('tbl_users', 'tbl_sellers.user_id', '=', 'tbl_users.id')
-        ->selectRaw('
+            ->leftJoin('tbl_sellers', 'tbl_products.seller_id', '=', 'tbl_sellers.id')
+            ->leftJoin('tbl_users', 'tbl_sellers.user_id', '=', 'tbl_users.id')
+            ->selectRaw('
             tbl_products.id,
             tbl_products.name AS name,
             tbl_products.seller_id AS seller_id,
@@ -223,54 +238,55 @@ class OwnerController extends Controller
             tbl_users.lname AS seller_lname,
             tbl_users.email AS seller_email,
             tbl_users.phone AS seller_phone
-        ') 
-        ->where('tbl_sellers.user_id', $request->id) // Filtering by seller_id
-        ->groupBy(
-            'tbl_products.id', 
-            'tbl_products.name', 
-            'tbl_products.stock', 
-            'tbl_products.price',
-            'tbl_sellers.is_approved',
-            'tbl_users.fname',
-            'tbl_users.lname',
-            'tbl_users.email',
-            'tbl_users.phone'
-        )
-        ->get();
-        $is_view=false;
+        ')
+            ->where('tbl_sellers.user_id', $request->id) // Filtering by seller_id
+            ->groupBy(
+                'tbl_products.id',
+                'tbl_products.name',
+                'tbl_products.stock',
+                'tbl_products.price',
+                'tbl_sellers.is_approved',
+                'tbl_users.fname',
+                'tbl_users.lname',
+                'tbl_users.email',
+                'tbl_users.phone'
+            )
+            ->get();
+        $is_view = false;
         // Generate PDF
-        $pdf = Pdf::loadView('reports.sales', compact('items','selectedSeller','is_view','startDate','endDate'))->setPaper('a4', 'portrait');
-    
+        $pdf = Pdf::loadView('reports.sales', compact('items', 'selectedSeller', 'is_view', 'startDate', 'endDate'))->setPaper('a4', 'portrait');
+
         // Store PDF in storage
         Storage::disk('public')->put($filePath, $pdf->output());
-    
+
         // Save report to database
-        $report = Reports::create([ 
+        $report = Reports::create([
             'report_name' => 'Sales Report',
             'report_type' => 'pdf',
             'content' => $fileName,
         ]);
-    
+
         // Return PDF for download
         return $pdf->download($fileName);
     }
-    public function daterangepicker(){
-        
+    public function daterangepicker()
+    {
+
         return view('reports.daterangepicker');
     }
     public function reports(Request $request)
-    { 
+    {
         $reports = Reports::orderBy('created_at', 'desc')->paginate(10);
 
-        $startDate= $request->startDate;
-        $endDate= $request->endDate;
-        $products = Products::paginate(10); 
+        $startDate = $request->startDate;
+        $endDate = $request->endDate;
+        $products = Products::paginate(10);
         $sellers = User::where('role', 'seller')->get();
         $selectedSeller = User::where('role', 'seller')->where('id', $request->id)->get()->first();
         $items = Products::leftJoin('tbl_order_items', 'tbl_products.id', '=', 'tbl_order_items.product_id')
-        ->leftJoin('tbl_sellers', 'tbl_products.seller_id', '=', 'tbl_sellers.id')
-        ->leftJoin('tbl_users', 'tbl_sellers.user_id', '=', 'tbl_users.id')
-        ->selectRaw('
+            ->leftJoin('tbl_sellers', 'tbl_products.seller_id', '=', 'tbl_sellers.id')
+            ->leftJoin('tbl_users', 'tbl_sellers.user_id', '=', 'tbl_users.id')
+            ->selectRaw('
             tbl_products.id,
             tbl_products.name AS name,
             tbl_products.seller_id AS seller_id,
@@ -284,25 +300,25 @@ class OwnerController extends Controller
             tbl_users.lname AS seller_lname,
             tbl_users.email AS seller_email,
             tbl_users.phone AS seller_phone
-        ') 
-        ->where('tbl_sellers.user_id', $request->id) // Filtering by seller_id
-        ->groupBy(
-            'tbl_products.id', 
-            'tbl_products.name', 
-            'tbl_products.stock', 
-            'tbl_products.price',
-            'tbl_sellers.is_approved',
-            'tbl_users.fname',
-            'tbl_users.lname',
-            'tbl_users.email',
-            'tbl_users.phone'
-        )
-        ->get();
+        ')
+            ->where('tbl_sellers.user_id', $request->id) // Filtering by seller_id
+            ->groupBy(
+                'tbl_products.id',
+                'tbl_products.name',
+                'tbl_products.stock',
+                'tbl_products.price',
+                'tbl_sellers.is_approved',
+                'tbl_users.fname',
+                'tbl_users.lname',
+                'tbl_users.email',
+                'tbl_users.phone'
+            )
+            ->get();
         $topSellers = User::where('role', 'seller')
-        ->leftJoin('tbl_sellers', 'tbl_users.id', '=', 'tbl_sellers.user_id')
-        ->leftJoin('tbl_products', 'tbl_sellers.id', '=', 'tbl_products.seller_id')
-        ->leftJoin('tbl_order_items', 'tbl_products.id', '=', 'tbl_order_items.product_id')
-        ->selectRaw('
+            ->leftJoin('tbl_sellers', 'tbl_users.id', '=', 'tbl_sellers.user_id')
+            ->leftJoin('tbl_products', 'tbl_sellers.id', '=', 'tbl_products.seller_id')
+            ->leftJoin('tbl_order_items', 'tbl_products.id', '=', 'tbl_order_items.product_id')
+            ->selectRaw('
             tbl_users.id,
             tbl_users.fname,
             tbl_users.lname,
@@ -315,20 +331,21 @@ class OwnerController extends Controller
                 ELSE 0 
             END AS avg_order_value
         ')
-        ->groupBy('tbl_users.id', 'tbl_users.fname', 'tbl_users.lname')
-        ->orderByDesc('revenue') // Sort by highest revenue
-        ->limit(10) // Get top 10 sellers
-        ->get();
-        $is_view=true;
-        return view('owner.reports', compact('reports','products','items','sellers','is_view','topSellers','startDate','endDate','selectedSeller'));
+            ->groupBy('tbl_users.id', 'tbl_users.fname', 'tbl_users.lname')
+            ->orderByDesc('revenue') // Sort by highest revenue
+            ->limit(10) // Get top 10 sellers
+            ->get();
+        $is_view = true;
+        return view('owner.reports', compact('reports', 'products', 'items', 'sellers', 'is_view', 'topSellers', 'startDate', 'endDate', 'selectedSeller'));
     }
-    
-    public function TopSeller(){
+
+    public function TopSeller()
+    {
         $topSellers = User::where('role', 'seller')
-        ->leftJoin('tbl_sellers', 'tbl_users.id', '=', 'tbl_sellers.user_id')
-        ->leftJoin('tbl_products', 'tbl_sellers.id', '=', 'tbl_products.seller_id')
-        ->leftJoin('tbl_order_items', 'tbl_products.id', '=', 'tbl_order_items.product_id')
-        ->selectRaw('
+            ->leftJoin('tbl_sellers', 'tbl_users.id', '=', 'tbl_sellers.user_id')
+            ->leftJoin('tbl_products', 'tbl_sellers.id', '=', 'tbl_products.seller_id')
+            ->leftJoin('tbl_order_items', 'tbl_products.id', '=', 'tbl_order_items.product_id')
+            ->selectRaw('
             tbl_users.id,
             tbl_users.fname,
             tbl_users.lname,
@@ -341,20 +358,21 @@ class OwnerController extends Controller
                 ELSE 0 
             END AS avg_order_value
         ')
-        ->groupBy('tbl_users.id', 'tbl_users.fname', 'tbl_users.lname')
-        ->orderByDesc('revenue') // Sort by highest revenue
-        ->limit(10) // Get top 10 sellers
-        ->get();
-        $isViewBTN=true;
-          return view('reports.top_seller', compact('topSellers','isViewBTN'));
+            ->groupBy('tbl_users.id', 'tbl_users.fname', 'tbl_users.lname')
+            ->orderByDesc('revenue') // Sort by highest revenue
+            ->limit(10) // Get top 10 sellers
+            ->get();
+        $isViewBTN = true;
+        return view('reports.top_seller', compact('topSellers', 'isViewBTN'));
     }
-    public function exportTopSeller(){
-        $isViewBTN=false;
+    public function exportTopSeller()
+    {
+        $isViewBTN = false;
         $topSellers = User::where('role', 'seller')
-        ->leftJoin('tbl_sellers', 'tbl_users.id', '=', 'tbl_sellers.user_id')
-        ->leftJoin('tbl_products', 'tbl_sellers.id', '=', 'tbl_products.seller_id')
-        ->leftJoin('tbl_order_items', 'tbl_products.id', '=', 'tbl_order_items.product_id')
-        ->selectRaw('
+            ->leftJoin('tbl_sellers', 'tbl_users.id', '=', 'tbl_sellers.user_id')
+            ->leftJoin('tbl_products', 'tbl_sellers.id', '=', 'tbl_products.seller_id')
+            ->leftJoin('tbl_order_items', 'tbl_products.id', '=', 'tbl_order_items.product_id')
+            ->selectRaw('
             tbl_users.id,
             tbl_users.fname,
             tbl_users.lname,
@@ -367,63 +385,64 @@ class OwnerController extends Controller
                 ELSE 0 
             END AS avg_order_value
         ')
-        ->groupBy('tbl_users.id', 'tbl_users.fname', 'tbl_users.lname')
-        ->orderByDesc('revenue') // Sort by highest revenue
-        ->limit(10) // Get top 10 sellers
-        ->get();
-        
+            ->groupBy('tbl_users.id', 'tbl_users.fname', 'tbl_users.lname')
+            ->orderByDesc('revenue') // Sort by highest revenue
+            ->limit(10) // Get top 10 sellers
+            ->get();
+
         $fileName = Auth::user()->fname . '_' . Auth::user()->lname . '_' . now()->format('YmdHis') . '.pdf';
-        $pdf = Pdf::loadView('reports.top_seller_component', compact('topSellers','isViewBTN'))->setPaper('a4', 'portrait');
-    
+        $pdf = Pdf::loadView('reports.top_seller_component', compact('topSellers', 'isViewBTN'))->setPaper('a4', 'portrait');
+
         $filePath = 'reports/' . $fileName;
         // Store PDF in storage
         Storage::disk('public')->put($filePath, $pdf->output());
-    
+
         // Save report to database
-        $report = Reports::create([     
+        $report = Reports::create([
             'report_name' => 'Top Seller Report',
             'report_type' => 'pdf',
             'content' => $fileName,
         ]);
-    
+
         // Return PDF for download
-        return $pdf->download($fileName); 
+        return $pdf->download($fileName);
     }
 
-//////////////////////////////////
+    //////////////////////////////////
 
 
 
 
 
-    public function TopPurchase(){
- 
+    public function TopPurchase()
+    {
+
         $topProducts = OrderItems::join('tbl_products', 'tbl_order_items.product_id', '=', 'tbl_products.id')
-        ->select(
-            'tbl_products.name',
-            'tbl_order_items.product_id',
-            DB::raw('DATE_FORMAT(tbl_order_items.created_at, "%Y-%m") as month'), // Get month format
-            DB::raw('COUNT(DISTINCT tbl_order_items.order_id) as total_orders'),
-            DB::raw('SUM(tbl_order_items.quantity) as total_sold'),
-            DB::raw('SUM(tbl_order_items.price * tbl_order_items.quantity) as total_revenue'),
-            DB::raw('MAX(tbl_order_items.price) as price'), // Use MAX() instead of just price
-            DB::raw('AVG(tbl_order_items.price * tbl_order_items.quantity) as avg_order_value')
-        )
-        ->groupBy('month', 'tbl_order_items.product_id', 'tbl_products.name')
-        ->orderBy('month', 'ASC')
-        ->limit(10)
-        ->get();
+            ->select(
+                'tbl_products.name',
+                'tbl_order_items.product_id',
+                DB::raw('DATE_FORMAT(tbl_order_items.created_at, "%Y-%m") as month'), // Get month format
+                DB::raw('COUNT(DISTINCT tbl_order_items.order_id) as total_orders'),
+                DB::raw('SUM(tbl_order_items.quantity) as total_sold'),
+                DB::raw('SUM(tbl_order_items.price * tbl_order_items.quantity) as total_revenue'),
+                DB::raw('MAX(tbl_order_items.price) as price'), // Use MAX() instead of just price
+                DB::raw('AVG(tbl_order_items.price * tbl_order_items.quantity) as avg_order_value')
+            )
+            ->groupBy('month', 'tbl_order_items.product_id', 'tbl_products.name')
+            ->orderBy('month', 'ASC')
+            ->limit(10)
+            ->get();
         $topProductsByMonth = DB::table('tbl_order_items')
-        ->join('tbl_products', 'tbl_order_items.product_id', '=', 'tbl_products.id')
-        ->select(
-            'tbl_products.name as product_name',
-            DB::raw('DATE_FORMAT(tbl_order_items.created_at, "%Y-%m") as month'),
-            DB::raw('SUM(tbl_order_items.quantity) as total_sold')
-        )
-        ->groupBy('month', 'tbl_order_items.product_id', 'tbl_products.name')
-        ->orderBy('month', 'ASC')
-        ->get();
-    
+            ->join('tbl_products', 'tbl_order_items.product_id', '=', 'tbl_products.id')
+            ->select(
+                'tbl_products.name as product_name',
+                DB::raw('DATE_FORMAT(tbl_order_items.created_at, "%Y-%m") as month'),
+                DB::raw('SUM(tbl_order_items.quantity) as total_sold')
+            )
+            ->groupBy('month', 'tbl_order_items.product_id', 'tbl_products.name')
+            ->orderBy('month', 'ASC')
+            ->get();
+
         $chartData = [];
         foreach ($topProductsByMonth as $data) {
             $chartData[$data->month][$data->product_name] = $data->total_sold;
@@ -437,17 +456,17 @@ class OwnerController extends Controller
                 $item->name = $product->name;
             }
         });
-        $isViewBTN=true;
-        return view('reports.top_purchase', compact('chartData','topProducts','isViewBTN'));
+        $isViewBTN = true;
+        return view('reports.top_purchase', compact('chartData', 'topProducts', 'isViewBTN'));
     }
     public function exportTopPurchase()
     {
         $isViewBTN = false;
-    
+
         $topProducts = OrderItems::join('tbl_products', 'tbl_order_items.product_id', '=', 'tbl_products.id')
             ->select(
                 'tbl_products.name',
-                'tbl_order_items.product_id', 
+                'tbl_order_items.product_id',
                 'tbl_order_items.price',
                 DB::raw('DATE_FORMAT(tbl_order_items.created_at, "%Y-%m") as month'),
                 DB::raw('COUNT(DISTINCT tbl_order_items.order_id) as total_orders'),
@@ -460,23 +479,23 @@ class OwnerController extends Controller
             ->orderByDesc('total_sold')
             ->take(10)
             ->get();
-    
+
         // Generate PDF
         $fileName = Auth::user()->fname . '_' . Auth::user()->lname . '_' . now()->format('YmdHis') . '.pdf';
         $pdf = Pdf::loadView('reports.top_purchase_component', compact('topProducts', 'isViewBTN'))
-                  ->setPaper('a4', 'landscape');
-    
+            ->setPaper('a4', 'landscape');
+
         $filePath = 'reports/' . $fileName;
         Storage::disk('public')->put($filePath, $pdf->output());
-    
-        Reports::create([ 
+
+        Reports::create([
             'report_name' => 'Top Purchase Report',
             'report_type' => 'pdf',
             'content' => $fileName,
         ]);
-    
+
         return $pdf->download($fileName);
     }
-    
+
 
 }
