@@ -68,7 +68,7 @@
         @php $totalPrice = 0; @endphp
         @php $QuantityPrice = 0; @endphp
             @foreach ($items as $index => $item)
-                @php $QuantityPrice += $item->price * $item->sold; @endphp
+                @php $QuantityPrice = $item->price * $item->sold; @endphp
 
                 @if ($item->seller_id == 1)
                 <tr>
@@ -79,7 +79,7 @@
                     <td>₱{{ $QuantityPrice}}</td>
                 </tr>
                 @endif
-                @php $totalPrice += ($item->sold * $QuantityPrice); @endphp
+                @php $totalPrice += ($QuantityPrice); @endphp
             @endforeach
 
         </tbody>  
@@ -87,17 +87,17 @@
             <tr>
                 <td colspan="3" > </td>
                 <td colspan="1" >Sub-Total</td>
-                <td colspan="1" >${{ $totalPrice}} </td>
+                <td colspan="1" >₱{{ $totalPrice}} </td>
             </tr>
             <tr>
                 <td colspan="3" > </td>
                 <td colspan="1" >Less 40%</td>
-                <td colspan="1" >-${{ $totalPrice -($totalPrice *(1- 0.4))}} </td>
+                <td colspan="1" >-₱{{ $totalPrice -($totalPrice *(1- 0.4))}} </td>
             </tr>
             <tr> 
                 <td colspan="3" > </td>
                 <td colspan="1" >Total Sales: </td>
-                <td colspan="1" >${{ $totalPrice - ($totalPrice * 0.4) }} </td>
+                <td colspan="1" >₱{{ $totalPrice - ($totalPrice * 0.4) }} </td>
             </tr>
         </tfoot>
     </table>
