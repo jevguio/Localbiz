@@ -15,25 +15,25 @@
                         <input type="search" id="table-search"
                             class="block w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500"
                             placeholder="Search for products....">
+                            <!-- Filter Button -->
+                            <button type="button" id="filter-btn"
+                                  class="absolute inset-y-0 end-0 flex items-center px-3 text-gray-600 hover:text-gray-900">
+                                  <i class='bx bx-filter text-2xl'></i>
+                              </button>
+      
+                              <!-- Filter Dropdown -->
+                              <div id="filter-dropdown"
+                                  class="hidden absolute right-0 mt-2 w-40 bg-white border border-gray-300 rounded-lg shadow-lg">
+                                  <ul class="py-2 text-sm text-gray-700"> 
+                                  <li class="px-4 py-2 hover:bg-gray-100 cursor-pointer filter-option" data-filter="All">All</li>
+                                 
+                                  @foreach ($sellers as $seller)
+                                      <li class="px-4 py-2 hover:bg-gray-100 cursor-pointer filter-option" data-filter="{{$seller->user->fname}}">{{$seller->user->fname}}</li>
+                                  @endforeach 
+                                  </ul>
+                              </div>
                     </div>
 
-                      <!-- Filter Button -->
-                      <button type="button" id="filter-btn"
-                            class="absolute inset-y-0 end-0 flex items-center px-3 text-gray-600 hover:text-gray-900">
-                            <i class='bx bx-filter text-2xl'></i>
-                        </button>
-
-                        <!-- Filter Dropdown -->
-                        <div id="filter-dropdown"
-                            class="hidden absolute right-0 mt-2 w-40 bg-white border border-gray-300 rounded-lg shadow-lg">
-                            <ul class="py-2 text-sm text-gray-700"> 
-                            <li class="px-4 py-2 hover:bg-gray-100 cursor-pointer filter-option" data-filter="All">All</li>
-                           
-                            @foreach ($sellers as $seller)
-                                <li class="px-4 py-2 hover:bg-gray-100 cursor-pointer filter-option" data-filter="{{$seller->user->fname}}">{{$seller->user->fname}}</li>
-                            @endforeach 
-                            </ul>
-                        </div>
 
                 </form>
                 <table class="w-full text-sm text-left rtl:text-right text-gray-500">
