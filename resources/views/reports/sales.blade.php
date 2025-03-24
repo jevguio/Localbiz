@@ -7,7 +7,8 @@
 </head>
 <body>
     <style>
-        body { font-family: Arial, sans-serif; }
+        body { font-family: Arial, sans-serif, 'DejaVu Sans', sans-serif; }
+         
         .header { text-align: center; font-size: 18px; font-weight: bold; margin-bottom: 20px;  }
         #subheader { 
             text-align: center; 
@@ -19,7 +20,7 @@
             height:auto;
         }
         .table { width: 100%; border-collapse: collapse; margin-top: 10px; }
-        .table th, .table td { border: 1px solid #000; padding: 8px; text-align: left; }
+        .table th, .table td { border: 1px solid #000; padding: 8px; text-align: left; font-family: Arial, sans-serif, 'DejaVu Sans', sans-serif; }
         .table th { background-color: #f2f2f2; }
     </style>
     
@@ -76,7 +77,7 @@
                     <td> {{ $item->sold>1?$randomUnits:$randomUnit }}</td>
                     <td>{{ $item->name }}</td>
                     <td>{{ $item->price }}</td>
-                    <td>₱{{ $QuantityPrice}}</td>
+                    <td>{!! html_entity_decode('&#8369;') !!}{{ $QuantityPrice}}</td>
                 </tr>
                 @endif
                 @php $totalPrice += ($QuantityPrice); @endphp
@@ -87,17 +88,17 @@
             <tr>
                 <td colspan="3" > </td>
                 <td colspan="1" >Sub-Total</td>
-                <td colspan="1" >₱{{ $totalPrice}} </td>
+                <td colspan="1" >{!! html_entity_decode('&#8369;') !!}{{ $totalPrice}} </td>
             </tr>
             <tr>
                 <td colspan="3" > </td>
                 <td colspan="1" >Less 40%</td>
-                <td colspan="1" >-₱{{ $totalPrice -($totalPrice *(1- 0.4))}} </td>
+                <td colspan="1" >-{!! html_entity_decode('&#8369;') !!}{{ $totalPrice -($totalPrice *(1- 0.4))}} </td>
             </tr>
             <tr> 
                 <td colspan="3" > </td>
                 <td colspan="1" >Total Sales: </td>
-                <td colspan="1" >₱{{ $totalPrice - ($totalPrice * 0.4) }} </td>
+                <td colspan="1" >{!! html_entity_decode('&#8369;') !!}{{ $totalPrice - ($totalPrice * 0.4) }} </td>
             </tr>
         </tfoot>
     </table>

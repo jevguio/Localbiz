@@ -82,7 +82,7 @@
                     <td> {{ $totalquantity }}</td>
                     <td>{{ $item->price?? "No Data" }}</td>
                     <td>{{ $item->name }}</td>
-                    <td>₱{{ $QuantityPrice }}</td>
+                    <td>{!! html_entity_decode('&#8369;') !!}{{ $QuantityPrice }}</td>
                 </tr>
                 @endif 
             @endforeach

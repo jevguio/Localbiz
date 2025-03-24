@@ -91,8 +91,8 @@
             <th>Product</th>
             <th>Total Orders</th>
             <th>Total Units Sold</th>
-            <th>Revenue ($)</th>
-            <th>Average Order Value ($)</th>
+            <th>Revenue ({!! html_entity_decode('&#8369;') !!})</th>
+            <th>Average Order Value ({!! html_entity_decode('&#8369;') !!})</th>
         </tr>
     </thead>
     <tbody>
@@ -102,8 +102,8 @@
                 <td>{{ $product->name }}</td>
                 <td>{{ $product->total_orders  }}</td>
                 <td>{{  $product->total_sold }}</td>
-                <td>${{ number_format(($product->price * $product->total_sold), 2) }}</td>
-                <td>${{ number_format(($product->price * $product->total_orders) /$product->total_orders, 2) }}</td>
+                <td>{!! html_entity_decode('&#8369;') !!}{{ number_format(($product->price * $product->total_sold), 2) }}</td>
+                <td>{!! html_entity_decode('&#8369;') !!}{{ number_format(($product->price * $product->total_orders) /$product->total_orders, 2) }}</td>
             </tr>
         @endforeach
 

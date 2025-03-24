@@ -26,8 +26,8 @@
             <th>Seller Business Name</th>
             <th>Total Orders</th>
             <th>Total Units Sold</th>
-            <th>Revenue (₱)</th>
-            <th>Average Order Value (₱)</th>
+            <th>Revenue ({!! html_entity_decode('&#8369;') !!})</th>
+            <th>Average Order Value ({!! html_entity_decode('&#8369;') !!})</th>
         </tr>
     </thead>
     <tbody>
@@ -37,8 +37,8 @@
                 <td>{{ $seller->fname }}  </td>
                 <td>{{ $seller->total_order }}</td>
                 <td>{{ $seller->total_units_sold }}</td>
-                <td>₱{{ number_format($seller->revenue, 2) }}</td>
-                <td>₱{{ number_format($seller->avg_order_value, 2) }}</td>
+                <td>{!! html_entity_decode('&#8369;') !!}{{ number_format($seller->revenue, 2) }}</td>
+                <td>{!! html_entity_decode('&#8369;') !!}{{ number_format($seller->avg_order_value, 2) }}</td>
             </tr>
         @endforeach
     </tbody>
