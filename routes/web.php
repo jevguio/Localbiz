@@ -93,6 +93,10 @@ Route::middleware(['auth', 'Seller'])->group(function () {
     Route::get('/seller/sales/export', [SellerController::class, 'exportSales'])->name('seller.sales.export');
     Route::get('/seller/products/export', [SellerController::class, 'exportProducts'])->name('seller.products.export');
 
+
+    Route::get('/seller/toppurchase', [SellerController::class, 'TopPurchase'])->name('seller.toppurchase');
+    Route::get('/seller/toppurchase/export', [OwnerController::class, 'exportTopPurchase'])->name('seller.toppurchase.export');
+
     Route::get('/seller/tracking/pending', [SellerController::class, 'trackingPending'])->name('seller.tracking.pending');
     Route::get('/seller/tracking/processed', [SellerController::class, 'trackingProcessed'])->name('seller.tracking.processed');
     Route::get('/seller/tracking/receiving', [SellerController::class, 'trackingToReceive'])->name('seller.tracking.receiving');

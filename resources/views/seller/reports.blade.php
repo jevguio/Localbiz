@@ -26,7 +26,7 @@
                                 class="btn btn-primary bg-blue-700 hover:bg-blue-800 text-white px-4 py-2 rounded-md">
                                 Generate Sales
                             </a>
-                            <a href="{{ route('seller.products.export') }}"
+                            <a href="{{ route('seller.toppurchase') }}"
                                 class="btn btn-primary bg-blue-700 hover:bg-blue-800 text-white px-4 py-2 rounded-md">
                                 Generate Top Purchased Products
                             </a>

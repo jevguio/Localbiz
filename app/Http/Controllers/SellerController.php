@@ -28,7 +28,7 @@ use App\Services\RiderService;
 use App\Services\SellerService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Maatwebsite\Excel\Facades\Excel;
+use Illuminate\Support\Facades\DB;
 
 class SellerController extends Controller
 {
@@ -91,25 +91,90 @@ class SellerController extends Controller
         $result = (new ProductService())->updateProduct($request, $id);
         return redirect()->back();
     }
+    public function TopPurchase()
+    {
 
+        $topProducts = OrderItems::join('tbl_products', 'tbl_order_items.product_id', '=', 'tbl_products.id')
+            ->select(
+                'tbl_products.name',
+                'tbl_order_items.product_id',
+                DB::raw('DATE_FORMAT(tbl_order_items.created_at, "%Y-%m") as month'), // Get month format
+                DB::raw('COUNT(DISTINCT tbl_order_items.order_id) as total_orders'),
+                DB::raw('SUM(tbl_order_items.quantity) as total_sold'),
+                DB::raw('SUM(tbl_order_items.price * tbl_order_items.quantity) as total_revenue'),
+                DB::raw('MAX(tbl_order_items.price) as price'), // Use MAX() instead of just price
+                DB::raw('AVG(tbl_order_items.price * tbl_order_items.quantity) as avg_order_value')
+            )->where('tbl_products.seller_id', '=', Seller::where('user_id', '=', Auth::id())->first()->id)
+            ->groupBy('month', 'tbl_order_items.product_id', 'tbl_products.name')
+            ->orderBy('month', 'ASC')
+            ->limit(10)
+            ->get();
+        $topProductsByMonth = DB::table('tbl_order_items')
+            ->join('tbl_products', 'tbl_order_items.product_id', '=', 'tbl_products.id')
+            ->select(
+                'tbl_products.name as product_name',
+                DB::raw('DATE_FORMAT(tbl_order_items.created_at, "%Y-%m") as month'),
+                DB::raw('SUM(tbl_order_items.quantity) as total_sold')
+            )
+            ->groupBy('month', 'tbl_order_items.product_id', 'tbl_products.name')
+            ->orderBy('month', 'ASC')
+            ->get();
+
+        $chartData = [];
+        foreach ($topProductsByMonth as $data) {
+            $chartData[$data->month][$data->product_name] = $data->total_sold;
+        }
+        $products = Products::whereIn('id', $topProducts->pluck('product_id'))->get()->keyBy('id');
+
+        // Merge product details into topProducts collection
+        $topProducts->each(function ($item) use ($products) {
+            $product = $products[$item->product_id] ?? null;
+            if ($product) {
+                $item->name = $product->name;
+            }
+        });
+        $isViewBTN = true;
+        return view('reports.top_purchase', compact('chartData', 'topProducts', 'isViewBTN'));
+    }
     public function exportProducts()
     {
-        $seller = Seller::where('user_id', Auth::user()->id)->first();
-        $fileName = $seller->user->name . '_' . now()->format('YmdHis') . '.xlsx';
+        $isViewBTN = false;
+
+        $topProducts = Seller::with(['products.orderItems', ''])->where('user_id', Auth::user()->id)->get();
+        $topProducts = OrderItems::join('tbl_products', 'tbl_order_items.product_id', '=', 'tbl_products.id')
+            ->select(
+                'tbl_products.name',
+                'tbl_order_items.product_id',
+                'tbl_order_items.price',
+                DB::raw('DATE_FORMAT(tbl_order_items.created_at, "%Y-%m") as month'),
+                DB::raw('COUNT(DISTINCT tbl_order_items.order_id) as total_orders'),
+                DB::raw('SUM(tbl_order_items.quantity) as total_sold'),
+                DB::raw('SUM(tbl_order_items.price * tbl_order_items.quantity) as total_revenue'),
+                DB::raw('AVG(tbl_order_items.price * tbl_order_items.quantity) as avg_order_value')
+            )
+            ->groupBy('month', 'tbl_order_items.product_id', 'tbl_products.name')
+            ->orderBy('month', 'ASC')
+            ->orderByDesc('total_sold')
+            ->take(10)
+            ->get();
+
+        // Generate PDF
+        $fileName = Auth::user()->fname . '_' . Auth::user()->lname . '_' . now()->format('YmdHis') . '.pdf';
+        $pdf = Pdf::loadView('reports.top_purchase_component', compact('topProducts', 'isViewBTN'))
+            ->setPaper('a4', 'landscape');
+
         $filePath = 'reports/' . $fileName;
+        Storage::disk('public')->put($filePath, $pdf->output());
 
-        Excel::store(new ProductsExport(), $filePath, 'public');
-
-        $report = Reports::create([
-            'seller_id' => $seller->id,
-            'report_name' => 'Products Report',
-            'report_type' => 'excel',
+        Reports::create([
+            'seller_id' => Auth::user()->id,
+            'report_name' => 'Top Purchase Report',
+            'report_type' => 'pdf',
             'content' => $fileName,
         ]);
 
-        return Excel::download(new ProductsExport(), $fileName);
+        return $pdf->download($fileName);
     }
-
     public function destroyProduct($id)
     {
         $result = (new ProductService())->destroyProduct($id);
@@ -479,7 +544,8 @@ class SellerController extends Controller
             ->groupBy('tbl_products.id', 'tbl_products.name', 'tbl_products.stock', 'tbl_products.price')
             ->get();
         // Generate PDF
-        $pdf = Pdf::loadView('reports.inventory', compact('items', 'selectedSeller'))->setPaper('a4', 'portrait');
+        $is_view = false;
+        $pdf = Pdf::loadView('reports.inventory', compact('items', 'selectedSeller', 'is_view'))->setPaper('a4', 'portrait');
 
         // Store PDF in storage
         Storage::disk('public')->put($filePath, $pdf->output());
@@ -518,8 +584,10 @@ class SellerController extends Controller
         ')
             ->groupBy('tbl_products.id', 'tbl_products.name', 'tbl_products.stock', 'tbl_products.price')
             ->get();
+
+        $is_view = false;
         // Generate PDF
-        $pdf = Pdf::loadView('reports.sales', compact('items', 'selectedSeller'))->setPaper('a4', 'portrait');
+        $pdf = Pdf::loadView('reports.sales', compact('items', 'selectedSeller', 'is_view'))->setPaper('a4', 'portrait');
 
         // Store PDF in storage
         Storage::disk('public')->put($filePath, $pdf->output());

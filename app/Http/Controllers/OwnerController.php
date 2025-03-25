@@ -480,8 +480,7 @@ class OwnerController extends Controller
             ->orderBy('month', 'ASC')
             ->orderByDesc('total_sold')
             ->take(10)
-            ->get();
-
+            ->get(); 
         // Generate PDF
         $fileName = Auth::user()->fname . '_' . Auth::user()->lname . '_' . now()->format('YmdHis') . '.pdf';
         $pdf = Pdf::loadView('reports.top_purchase_component', compact('topProducts', 'isViewBTN'))
@@ -494,8 +493,7 @@ class OwnerController extends Controller
             'report_name' => 'Top Purchase Report',
             'report_type' => 'pdf',
             'content' => $fileName,
-        ]);
-
+        ]); 
         return $pdf->download($fileName);
     }
 
