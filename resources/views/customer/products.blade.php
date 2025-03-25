@@ -70,7 +70,7 @@
                         <p class="text-gray-500 font-semibold">Location: {{ $product->location->name }}</p>
                         <p class="text-gray-500 font-semibold">Stock: {{ $product->stock }}</p>
                         <h2 class="font-bold text-lg">Payment Information</h2>
-                        <p class="text-gray-500 font-semibold">Seller: {{ $product->seller->user->name }}</p>
+                        <p class="text-gray-500 font-semibold">Seller: {{ $product->seller->user->fname }}</p>
                         <p class="text-gray-500 font-semibold">Gcash Number / Inquiry Number:
                             {{ $product->seller->user->gcash_number }}
                         </p>

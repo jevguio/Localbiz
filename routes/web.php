@@ -111,6 +111,7 @@ Route::middleware(['auth', 'Seller'])->group(function () {
     Route::put('/seller/products/update/{id}', [SellerController::class, 'updateProduct'])->name('seller.products.update');
     Route::put('/seller/locations/update/{id}', [SellerController::class, 'updateLocation'])->name('seller.locations.update');
     Route::put('/seller/cashier/update/{id}', [SellerController::class, 'updateCashier'])->name('seller.cashier.update');
+    Route::put('/seller/cashier/toggle/{id}', [SellerController::class, 'ToggleCashier'])->name('seller.cashier.toggle');
     Route::put('/seller/rider/update/{id}', [SellerController::class, 'updateRider'])->name('seller.rider.update');
    
     Route::delete('/seller/cashier/destroy/{id}', [SellerController::class, 'destroyCashier'])->name('seller.cashier.destroy');

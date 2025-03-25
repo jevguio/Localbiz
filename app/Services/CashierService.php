@@ -58,6 +58,30 @@ class CashierService
             ]);
         }
     }
+    
+    public function ToggleCashier($request, $id)
+    {
+        try {
+            $cashier = Cashier::find($id);
+            $cashier->update([
+                'is_approved' => !$cashier->is_approved,
+            ]);
+
+            session()->flash('success', 'Cashier updated successfully');
+            return response()->json([
+                'error_code' => MyConstant::SUCCESS_CODE,
+                'status_code' => MyConstant::SUCCESS_CODE,
+                'message' => 'Cashier updated successfully.',
+            ]);
+        } catch (\Exception $e) {
+            Log::error('Failed to update cashier: ' . $e->getMessage());
+            return response()->json([
+                'error_code' => MyConstant::FAILED_CODE,
+                'status_code' => MyConstant::FAILED_CODE,
+                'message' => 'Failed to update cashier.',
+            ]);
+        }
+    }
 
     public function updateCashier($request, $id)
     {

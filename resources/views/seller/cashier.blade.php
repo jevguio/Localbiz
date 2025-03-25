@@ -37,10 +37,10 @@
                         @foreach ($cashiers as $cashier)
                             <tr class="bg-white border-b border-gray-200 hover:bg-gray-50">
                                 <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
-                                    {{ $cashier->user->fname." ". $cashier->user->lname }}
+                                    {{ $cashier->user->fname . ' ' . $cashier->user->lname }}
                                 </th>
                                 <td class="px-6 py-4">
-                                    {{ $cashier->is_approved ? 'Approved' : 'Pending' }}
+                                    {{ $cashier->is_approved ? 'Active' : 'Inactive' }}
                                 </td>
                                 <td class="flex gap-2 px-6 py-4">
                                     <button data-modal-target="editModal{{ $cashier->id }}"
@@ -49,7 +49,8 @@
                                     </button>
                                     <button data-modal-target="deleteModal{{ $cashier->id }}"
                                         class="font-medium text-red-600 hover:underline" type="button">
-                                        Delete
+
+                                        {{ $cashier->is_approved ? 'Disable' : 'Enable' }}
                                     </button>
                                 </td>
                             </tr>
@@ -93,8 +94,7 @@
                                                     </div>
                                                     <div class="col-span-2">
                                                         <img src="{{ asset('cashier/documents/' . $cashier->document_file) }}"
-                                                            alt="Cashier Document File"
-                                                            class="w-36 h-36 object-cover">
+                                                            alt="Cashier Document File" class="w-36 h-36 object-cover">
                                                     </div>
                                                     <div class="col-span-2">
                                                         <label class="block mb-2 text-sm font-medium text-gray-900"
@@ -136,7 +136,7 @@
                                         <div
                                             class="flex items-center justify-between p-4 md:p-5 border-b rounded-t border-gray-200">
                                             <h3 class="text-lg font-bold text-gray-900">
-                                                Delete Cashier
+                                                {{ $cashier->is_approved ? 'Disable Cashier' : 'Enable Cashier' }}
                                             </h3>
                                             <button type="button"
                                                 class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center"
@@ -145,18 +145,20 @@
                                             </button>
                                         </div>
                                         <div class="grid gap-4 mb-4 p-4">
-                                            <div class="grid gap-4 mb-4 grid-cols-2">
-                                                <form action="{{ route('seller.cashier.destroy', $cashier->id) }}"
+                                            <div class="grid gap-4 mb-4 grid-cols-1">
+                                                <form action="{{ route('seller.cashier.toggle', $cashier->id) }}"
                                                     method="POST" enctype="multipart/form-data">
                                                     @csrf
-                                                    @method('DELETE')
-                                                    <p class="text-gray-900">Are you sure you want to delete this
+                                                    @method('put')
+                                                    <p class="text-gray-900 block">Are you sure you want to
+                                                        {{ $cashier->is_approved ? 'disable' : 'enable' }} this
                                                         cashier?</p>
-                                                    <hr class="my-4">
+                                                    <hr class="my-4 w-full">
                                                     <div class="flex justify-end gap-2">
                                                         <button type="submit"
                                                             class="btn btn-error text-white inline-flex items-center bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">
-                                                            Delete
+
+                                                            {{ $cashier->is_approved ? 'Disable' : 'Enable' }}
                                                         </button>
                                                         <button type="button"
                                                             data-modal-toggle="deleteModal{{ $cashier->id }}"
@@ -238,7 +240,8 @@
                                                 for="phone">Contact Number</label>
                                             <input type="text" name="phone" id="phone"
                                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
-                                                placeholder="Type contact number" value="{{ old('phone') }}"  maxlength="11">
+                                                placeholder="Type contact number" value="{{ old('phone') }}"
+                                                maxlength="11">
                                         </div>
                                     </div>
                                     <hr class="my-4">

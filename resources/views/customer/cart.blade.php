@@ -8,25 +8,52 @@
                 <div class="mx-auto w-full flex-none">
                     <div class="space-y-6">
                         @php $is_active_checkout=false; @endphp
+                        <div class="rounded-lg border border-gray-300 bg-white p-6 shadow-md md:p-8">
+                            <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-1">
+                                <div class="md:order-1">
+                                    Select
+                                </div>
+                                <div class="space-x-3 md:order-2">
+                                    Item
+                                </div>
+                                <div class="md:order-2  "> 
+                                </div>
+                                <div class="md:order-2   md:space-x-1"> 
+                                </div>
+                                <div class="md:order-3  space-x-3">
+                                     Action
+                                </div>
+                                <div class="md:order-2  space-x-2">
+                                    Price/Action
+                                </div>
+                                <div class="md:order-1  "> 
+                                </div>
+                                <div class="md:order-2  "> 
+                                </div>
+                                <div class="md:order-3  "> 
+                                </div>
+                                <div class="md:order-5  "> 
+                                </div>
+                            </div>
+                        </div>
                         @foreach ($cartItems as $item)
                             <div class="rounded-lg border border-gray-300 bg-white p-6 shadow-md md:p-8">
                                 <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-1">
-                                    
-                                <div class="flex items-center space-x-1 md:order-1">
-                                    <form action="{{ route('customer.updateSelectionCart') }}"
-                                            method="POST" class="inline-flex items-center space-x-2">
+
+                                    <div class="flex items-center space-x-1 md:order-1">
+                                        <form action="{{ route('customer.updateSelectionCart') }}" method="POST"
+                                            class="inline-flex items-center space-x-2">
                                             @csrf
                                             @method('PUT')
 
                                             <input type="hidden" name="id" value="{{ $item->id }}" />
                                             <input type="hidden" name="is_checked" value="0" />
 
-                                            <input type="checkbox" name="is_checked" style="transform: scale(2);" value="1"
-                                                onchange="setTimeout(() => this.form.submit(), 300)"
-                                                {{ $item->is_checked ? 'checked' : '' }} 
-                                                /> 
+                                            <input type="checkbox" name="is_checked" style="transform: scale(2);"
+                                                value="1" onchange="setTimeout(() => this.form.submit(), 300)"
+                                                {{ $item->is_checked ? 'checked' : '' }} />
                                         </form>
-                                    </div>  
+                                    </div>
                                     <div class="flex items-center space-x-4 md:order-2">
                                         <a href="#" class="shrink-0">
                                             <img class="h-24 w-24 rounded-lg border border-gray-300 object-cover"
@@ -38,7 +65,7 @@
                                             </p>
                                             <p class="text-sm text-gray-700">{{ $item->product->description }}</p>
                                             <p class="text-sm text-gray-700">Seller:
-                                                {{ $item->product->seller->user->name ?? 'N/A' }}</p>
+                                                {{ $item->product->seller->user->fname ?? 'N/A' }}</p>
                                             <p class="text-sm text-gray-700">Gcash Number:
                                                 {{ $item->product->seller->user->gcash_number ?? 'N/A' }}</p>
                                             <p class="text-sm text-gray-700">Bank Name:
@@ -49,8 +76,8 @@
                                     </div>
 
                                     <div class="flex flex-row items-center md:order-3 space-x-4">
-                                        <form action="{{ route('customer.updateCart') }}"
-                                            method="POST" class="inline-flex items-center space-x-2">
+                                        <form action="{{ route('customer.updateCart') }}" method="POST"
+                                            class="inline-flex items-center space-x-2">
                                             @csrf
                                             @method('PUT')
                                             <input type="hidden" name="id" value="{{ $item->id }}">
@@ -73,7 +100,7 @@
 
                                     <div class="flex flex-col md:order-2 md:w-32 space-y-2 md:space-y-0 md:space-x-4">
                                         <p class="text-lg font-bold text-gray-900">₱
-                                            {{ $item->product->price * $item->quantity }}</p>
+                                            {{ $item->product->price }}</p>
                                         <form action="{{ route('customer.removeCart', $item->id) }}" method="POST">
                                             @csrf
                                             @method('DELETE')
@@ -83,19 +110,18 @@
                                                 <i class='bx bx-trash text-lg me-1.5'></i> Remove
                                             </button>
                                         </form>
-                                    </div> 
-                                    
-                                <div class="flex items-center space-x-1 md:order-4">
-                                </div>
+                                    </div>
+
+                                    <div class="flex items-center space-x-1 md:order-4">
+                                    </div>
                                 </div>
                             </div>
-                            
-                        @php 
-                            if($item->is_checked){
 
-                                $is_active_checkout=true; 
-                            }
-                        @endphp
+                            @php
+                                if ($item->is_checked) {
+                                    $is_active_checkout = true;
+                                }
+                            @endphp
                         @endforeach
                         @if ($cartItems->isNotEmpty())
                             <div class="mx-auto mt- flex-1 space-y-6 lg:mt-0 lg:w-full">
@@ -117,17 +143,15 @@
                                                     <dt class="text-base font-bold text-gray-900">Total</dt>
                                                     <dd class="text-base font-bold text-gray-900">
                                                         ₱
-                                                        {{ $cartItems->sum(fn($item) => $item->product->price * $item->quantity* $item->is_checked) }}
+                                                        {{ $cartItems->sum(fn($item) => $item->product->price * $item->quantity * $item->is_checked) }}
                                                     </dd>
                                                 </dl>
                                             </div>
                                         </div>
                                     </div>
-                                </div> 
+                                </div>
                                 <div x-data="{ paymentMethod: '' }">
-                                    <button id="proceedToCheckout" @if(!$is_active_checkout) 
-                                    disabled
-                                    @endif 
+                                    <button id="proceedToCheckout" @if (!$is_active_checkout) disabled @endif
                                         class="flex w-full items-center justify-center rounded-lg btn btn-primary px-5 py-2.5 text-sm font-medium text-white">
                                         Proceed to Checkout
                                     </button>
@@ -144,7 +168,7 @@
                                                     id="paymentMethod" required>
                                                     <option disabled selected>Pick a payment method</option>
                                                     <option value="Bank Transfer">Bank Transfer</option>
-                                                    <option value="Gcash">Gcash</option> 
+                                                    <option value="Gcash">Gcash</option>
                                                 </select>
                                             </div>
                                         </div>
@@ -153,29 +177,29 @@
                                                 <legend class="fieldset-legend">Delivery Method</legend>
                                                 <select class="select select-bordered w-full" name="delivery_method"
                                                     id="deliveryMethod" onchange="onChangePickup(event)" required>
-                                                    <option disabled selected>Pick a Delivery method</option> 
+                                                    <option disabled selected>Pick a Delivery method</option>
                                                     <option value="COD">Cash on Delivery</option>
                                                     <option value="Pick Up">Pick Up</option>
                                                 </select>
                                             </div>
                                         </div>
                                         <script>
-                                            function onChangePickup(event){
+                                            function onChangePickup(event) {
                                                 console.log(event.target.value);
-                                                const courier_id=document.getElementById('courier_id');
-                                                if(event.target.value=="Pick Up"){
-                                                    courier_id.style.display="none";
-                                                }else{
-                                                    
-                                                    courier_id.style.display="block";
+                                                const courier_id = document.getElementById('courier_id');
+                                                if (event.target.value == "Pick Up") {
+                                                    courier_id.style.display = "none";
+                                                } else {
+
+                                                    courier_id.style.display = "block";
                                                 }
 
                                             }
-                                            </script>
+                                        </script>
                                         @foreach ($seller as $seller)
                                             <div class="gcash-details" style="display: none;">
                                                 <p class="text-base font-medium text-gray-900">Seller Name:
-                                                    {{ $seller->user->name }}</p>
+                                                    {{ $seller->user->fname }}</p>
                                                 <p class="text-base font-medium text-gray-900">Gcash Number:
                                                     {{ $seller->user->gcash_number }}</p>
                                             </div>
@@ -189,7 +213,7 @@
                                         <div class="courier-selection">
                                             <div class="fieldset" id="courier_id">
                                                 <legend class="fieldset-legend">Courier</legend>
-                                                <select class="select select-bordered w-full" name="courier_id" >
+                                                <select class="select select-bordered w-full" name="courier_id">
                                                     <option disabled selected>Pick a courier</option>
                                                     @foreach ($couriers as $courier)
                                                         <option value="{{ $courier->id }}">{{ $courier->name }}
@@ -204,17 +228,17 @@
                                                 accept="image/*" name="receipt_file" required />
                                             <label class="fieldset-label">Max size 2MB</label>
                                         </div>
-                                        
+
                                         <div class="fieldset">
                                             <legend class="fieldset-legend">Message:</legend>
                                             <textarea rows="8" class="p-2" name="message"></textarea>
                                         </div>
-                                        
+
                                         <button type="submit"
                                             class="flex w-full items-center justify-center rounded-lg btn btn-secondary px-5 py-2.5 text-sm font-medium text-white">Submit</button>
                                     </form>
                                 </div>
-                                
+
                             </div>
                         @endif
 
