@@ -76,6 +76,12 @@ class CustomerController extends Controller
         return redirect()->back();
     }
 
+    public function updateSelectAllCart(Request $request)
+    {
+        $result = (new CustomerService())->updateSelectAllCart($request);
+        return redirect()->back();
+    }
+
     public function updateCart(Request $request)
     { 
         $result = (new CustomerService())->updateCart($request);

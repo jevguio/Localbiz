@@ -8,10 +8,10 @@
             <div class="flex flex-col bg-white p-4 rounded-lg mt-4">
                 
             @if ($cartItems->isEmpty())
-                <p>No Orders found. </p>
+                <p>No orders found</p>
             @else
                 @foreach ($cartItems as $item)
-                    <div class=" border border-gray-200 hover:bg-gray-50 flex items-start gap-4 p-5 my-5"  data-modal-target="viewModal{{ $item->id }}">
+                    <div class="border border-gray-200 bg-white p-6 shadow-md md:p-8 hover:bg-gray-50 flex items-start gap-4 p-5 my-5"  data-modal-target="viewModal{{ $item->id }}">
                         <div class="w-32 h-28 max-lg:w-24 max-lg:h-24 flex p-3 shrink-0 rounded-md">
                             <img src='{{ asset('assets/' . $item->product->image) }}' class="w-full object-contain" />
                         </div>
@@ -32,15 +32,17 @@
                                 <img src="{{ asset('receipt_file/' . $item->order->payments->first()->receipt_file) }}"
                                     alt="Receipt" class="w-60">
                             </ul>
+                            <div class="flex justify-end">
                             <form action="{{ route('customer.cancelled') }}" method="POST"
                                 enctype="multipart/form-data">
                                 @csrf
                                 @method('PUT')
                                 <input type="hidden" name="order_id" value="{{ $item->order->id }}">
-                                <button class="btn mt-2 px-4 py-2 bg-red-500 text-white rounded-md hover:bg-red-600">
+                                <button class="btn mt-2 px-6 py-3 text-lg bg-red-500 text-white rounded-md hover:bg-red-600">
                                     Cancel
                                 </button>
                             </form>
+                            </div>
                         </div>
                     </div>
                         

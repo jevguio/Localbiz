@@ -3,7 +3,7 @@
     <div class="p-4 sm:ml-64">
         <div class="p-4 border-2 border-gray-200 border-dashed rounded-lg">
             <div class="flex justify-between items-center">
-                <h2 class="mt-3 text-xl font-bold text-gray-900 sm:text-2xl">Account Management</h2>
+                <h2 class="mt-3 text-xl font-bold text-gray-900 sm:text-3xl">Account Management</h2>
                 <button data-modal-target="addModal" class="btn btn-primary text-lg px-6 py-3" type="button">
                     Add Account
                 </button>
@@ -61,10 +61,10 @@
                             <th scope="col" class="px-6 py-3">
                                 Status
                             </th>
-                            <th scope="col" class="px-6 py-3">
+                            <th scope="col" class="px-6 py-3 pl-14">
                                 Last Login
                             </th>
-                            <th scope="col" class="px-6 py-3">
+                            <th scope="col" class="px-6 py-3 pl-13">
                                 Action
                             </th>
                         </tr>
@@ -87,7 +87,7 @@
                                 <td class="px-6 py-4 {{ $user->is_active == 1 ? 'text-gray-900' :'text-gray-900' }} {{ $user->is_active==1?' text-green-700':' text-orange-700' }}">
                                     {{ $user->is_active==1?'Active':'Inactive' }}
                                 </td>
-                                <td class="px-6 py-4 {{ $user->is_active == 1 ? 'text-gray-900' :'text-gray-900' }}">
+                                <td class="px-6 py-4 pl-13 {{ $user->is_active == 1 ? 'text-gray-900' :'text-gray-900' }}">
                                     {{ \Carbon\Carbon::parse($user->last_login)->format('M d, Y') }}
                                 </td>
                                 <td class="px-6 py-4 flex gap-2">
@@ -104,12 +104,12 @@
                                     </button> -->
                                     @if ($user->is_active == 1)
                                     <button data-modal-target="ToggleModal{{ $user->id }}"
-                                        class="font-medium bg-error {{$user->role == 'Customer'?'w-28':''}} p-2 text-white hover:underline" type="button" style="border-radius:5px">
+                                        class="font-medium {{$user->role == 'Customer'?'w-28':''}} p-2 bg-red-600 text-white hover:underline" type="button" style="border-radius:5px">
                                         Disable
                                     </button>
                                     @else 
                                     <button data-modal-target="ToggleModal{{ $user->id }}"
-                                        class="font-medium bg-success p-2 {{$user->role == 'Customer'?'w-28':''}} text-black hover:underline" type="button" style="border-radius:5px">
+                                        class="font-medium p-2 {{$user->role == 'Customer'?'w-28':''}} bg-green-600 text-white hover:underline" type="button" style="border-radius:5px">
                                         Enable
                                     </button>
                                     @endif

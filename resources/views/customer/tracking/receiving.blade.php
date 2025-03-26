@@ -8,10 +8,10 @@
             <div class="flex flex-col bg-white p-4 rounded-lg mt-4">
                 
             @if ($cartItems->isEmpty())
-                <p>No Orders found. </p>
+                <p>No orders found</p>
             @else
                 @foreach ($cartItems as $item)
-                    <div class=" border-b border-gray-200 hover:bg-gray-50 flex items-start gap-4 p-5 my-5"  data-modal-target="viewModal{{ $item->id }}">
+                    <div class="border border-gray-200 bg- white p-6 shadow-md md:p-8 hover:bg-gray-50 flex items-start gap-4 p-5 my-5"  data-modal-target="viewModal{{ $item->id }}">
                         <div class="w-32 h-28 max-lg:w-24 max-lg:h-24 flex p-3 shrink-0 rounded-md">
                             <img src='{{ asset('assets/' . $item->product->image) }}' class="w-full object-contain" />
                         </div>

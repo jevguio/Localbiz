@@ -2,7 +2,7 @@
     <div class="p-4 sm:ml-64">
         <div class="p-4 border-2 border-gray-200 border-dashed rounded-lg">
             <div class="flex justify-between items-center">
-                <h2 class="mt-3 text-xl font-bold text-gray-900 sm:text-2xl">Cashier Management</h2>
+                <h2 class="mt-3 text-xl font-bold text-gray-900 sm:text-3xl">Cashier Management</h2>
                 <button data-modal-target="addModal" class="btn btn-primary" type="button">
                     Add Cashier
                 </button>
@@ -26,7 +26,7 @@
                                 Cashier Name
                             </th>
                             <th scope="col" class="px-6 py-3">
-                                Is Approved
+                                Status
                             </th>
                             <th scope="col" class="px-6 py-3">
                                 Action
@@ -39,7 +39,7 @@
                                 <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
                                     {{ $cashier->user->fname . ' ' . $cashier->user->lname }}
                                 </th>
-                                <td class="px-6 py-4">
+                                <td class="px-6 py-4 {{ $cashier->is_active == 1 ? 'text-gray-900' :'text-gray-900' }} {{ $cashier->is_active==1?' text-green-700':' text-red-700' }}">
                                     {{ $cashier->is_approved ? 'Active' : 'Inactive' }}
                                 </td>
                                 <td class="flex gap-2 px-6 py-4">
@@ -92,7 +92,8 @@
                                                             placeholder="Type cashier last name"
                                                             value="{{ old('lname', $cashier->user->lname) }}">
                                                     </div>
-                                                    <div class="col-span-2">
+                                                    
+                                                    <!-- <div class="col-span-2">
                                                         <img src="{{ asset('cashier/documents/' . $cashier->document_file) }}"
                                                             alt="Cashier Document File" class="w-36 h-36 object-cover">
                                                     </div>
@@ -109,7 +110,8 @@
                                                                 {{ !$cashier->is_approved ? 'selected' : '' }}>Pending
                                                             </option>
                                                         </select>
-                                                    </div>
+                                                    </div> -->
+
                                                     <hr class="my-4">
                                                     <div class="flex justify-end gap-2">
                                                         <button type="submit"

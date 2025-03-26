@@ -2,7 +2,7 @@
     <div class="p-4 sm:ml-64">
         <div class="p-4 border-2 border-gray-200 border-dashed rounded-lg">
             <div class="flex justify-between items-center">
-                <h2 class="text-xl font-bold text-gray-900 sm:text-2xl">Products</h2>
+                <h2 class="text-xl font-bold text-gray-900 sm:text-3xl">Products</h2>
                 <button data-modal-target="addModal" 
     class="btn btn-primary text-lg px-6 py-6 w-full md:w-auto rounded-lg"
     type="button">
@@ -37,7 +37,7 @@
                             <th scope="col" class="px-6 py-3">
                                 Product Stock
                             </th>
-                            <th scope="col" class="px-6 py-3">
+                            <th scope="col" class="px-6 py-3 pl-9">
                                 Action
                             </th>
                         </tr>
@@ -49,13 +49,13 @@
                                     <img src="{{ asset('assets/' . $product->image) }}" alt="Product Image"
                                         class="w-10 h-10">
                                 </th>
-                                <td class="px-6 py-4">
+                                <td class="px-6 py-4 pl-6">
                                     {{ $product->name }}
                                 </td>
-                                <td class="px-6 py-4">
+                                <td class="px-6 py-4 pl-12">
                                     {{ $product->price }}
                                 </td>
-                                <td class="px-6 py-4">
+                                <td class="px-6 py-4 pl-15">
                                     {{ $product->stock }}
                                 </td>
                                 <td class="px-6 py-4 flex gap-2">

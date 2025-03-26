@@ -134,6 +134,28 @@ class CustomerService
             ]);
         }
     }
+
+    public function updateSelectAllCart($request)
+    {
+        try {
+            $orderItem = OrderItems::query()->update(['is_active' => DB::raw('NOT is_active')]);
+            Log::info("success $request");
+            return response()->json([
+                'error_code' => MyConstant::SUCCESS_CODE,
+                'status_code' => MyConstant::SUCCESS_CODE,
+                'message' => 'Product updated in cart successfully.',
+            ]);
+
+        } catch (\Exception $e) {
+            Log::error($e->getMessage()); 
+            return response()->json([
+                'error_code' => MyConstant::FAILED_CODE,
+                'status_code' => MyConstant::INTERNAL_SERVER_ERROR,
+                'message' => $e->getMessage(),
+            ]);
+        }
+    }
+
     public function updateCart($request)
     {
         try {

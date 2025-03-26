@@ -2,8 +2,7 @@
     <div class="p-4 sm:ml-64 ">
         <div class="p-4 border-2 border-gray-200 border-dashed rounded-lg ">
             <div class="flex justify-between items-center">
-                <h2 class="text-xl font-bold text-gray-900 sm:text-2xl">Inventory</h2>
-                 
+                <h2 class="text-xl font-bold text-gray-900 sm:text-3xl">Inventory</h2>
             </div>
             <div class="relative overflow-x-auto mt-10 bg-white p-4 rounded-lg ">
                 <form class="max-w-md ml-0 mb-4 ">
@@ -66,13 +65,13 @@
                                 <td class="px-6 py-4">
                                     {{ $product->name }}
                                 </td>
-                                <td class="px-6 py-4">
+                                <td class="px-6 py-4 pl-11">
                                     {{ $product->price }}
                                 </td>
-                                <td class="px-6 py-4">
+                                <td class="px-6 py-4 pl-16">
                                     {{ $product->stock }}
                                 </td>
-                                <td class="px-6 py-4 flex gap-2">
+                                <td class="px-6 py-4 flex pl-8">
                                      @php
                                      $totalQuantity=0;
                                           

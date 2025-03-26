@@ -8,36 +8,53 @@
                 <div class="mx-auto w-full flex-none">
                     <div class="space-y-6">
                         @php $is_active_checkout=false; @endphp
-                        <div class="rounded-lg border border-gray-300 bg-white p-6 shadow-md md:p-8">
-                            <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-1">
-                                <div class="md:order-1">
-                                    Select
+                        <div class="border border-gray-300 bg-white p-6 shadow-md md:p-8">
+                            <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-1">  
+                
+                                    @php
+                                        $allActive = $cartItems->every(fn($item) => $item->is_active);
+                                    @endphp
+                            
+                                    <form action="{{ route('customer.updateSelectAllCart') }}" method="POST"
+                                            class="inline-flex items-center space-x-2">
+                                            @csrf
+                                            @method('PUT')
+
+                                            <input type="hidden" name="is_checked" value="0" />
+
+                                            <input type="checkbox" name="is_checked" style="transform: scale(2);"
+                                                value="1" onchange="setTimeout(() => this.form.submit(), 300)"
+                                                {{ $allActive ? 'checked' : '' }} />
+                                        </form>
+                                    
+                                <div class="text-left -ml-30">
+                                    Select All
                                 </div>
-                                <div class="space-x-3 md:order-2">
-                                    Item
-                                </div>
+                                
                                 <div class="md:order-2  "> 
                                 </div>
                                 <div class="md:order-2   md:space-x-1"> 
                                 </div>
-                                <div class="md:order-3  space-x-3">
-                                     Action
+                                <div class="md:order-3 -ml-40">
+                                     Quantity
                                 </div>
-                                <div class="md:order-2  space-x-2">
-                                    Price/Action
+                                <div class="md:order-2  space-x-2 -ml-20">
+                                    Unit Price
                                 </div>
-                                <div class="md:order-1  "> 
+                                <div class="md:order-1  ">
                                 </div>
                                 <div class="md:order-2  "> 
                                 </div>
-                                <div class="md:order-3  "> 
+                                <div class="md:order-3 -ml-12"> 
+                                    Total Price
                                 </div>
-                                <div class="md:order-5  "> 
+                                <div class="md:order-5 -ml-12">
+                                    Action
                                 </div>
                             </div>
                         </div>
                         @foreach ($cartItems as $item)
-                            <div class="rounded-lg border border-gray-300 bg-white p-6 shadow-md md:p-8">
+                            <div class="border border-gray-300 bg-white p-6 shadow-md md:p-8">
                                 <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-1">
 
                                     <div class="flex items-center space-x-1 md:order-1">
@@ -75,6 +92,11 @@
                                         </div>
                                     </div>
 
+                                    <div class="flex flex-col md:order-2 md:w-32 space-y-2 md:space-y-0 md:space-x-2">
+                                        <p class="text-lg text-gray-900">₱
+                                            {{ $item->product->price }}</p>
+                                    </div>
+
                                     <div class="flex flex-row items-center md:order-3 space-x-4">
                                         <form action="{{ route('customer.updateCart') }}" method="POST"
                                             class="inline-flex items-center space-x-2">
@@ -98,9 +120,22 @@
                                         </form>
                                     </div>
 
-                                    <div class="flex flex-col md:order-2 md:w-32 space-y-2 md:space-y-0 md:space-x-4">
+                                    <div class="flex flex-col md:order-3 md:w-32 space-y-2 md:space-y-0 md:space-x-2">
                                         <p class="text-lg font-bold text-gray-900">₱
-                                            {{ $item->product->price }}</p>
+                                        {{ $item->product->price * $item->quantity }}</p>
+                                    </div>
+
+                                        <!-- <form action="{{ route('customer.removeCart', $item->id) }}" method="POST">
+                                            @csrf
+                                            @method('DELETE')
+                                            <input type="hidden" name="id" value="{{ $item->id }}">
+                                            <button type="submit"
+                                                class="text-red-600 text-sm font-medium hover:underline flex items-center">
+                                                <i class='bx bx-trash text-lg me-1.5'></i> Remove
+                                            </button>
+                                        </form> -->
+
+                                    <div class="flex items-center space-x-1 md:order-4">
                                         <form action="{{ route('customer.removeCart', $item->id) }}" method="POST">
                                             @csrf
                                             @method('DELETE')
@@ -110,9 +145,6 @@
                                                 <i class='bx bx-trash text-lg me-1.5'></i> Remove
                                             </button>
                                         </form>
-                                    </div>
-
-                                    <div class="flex items-center space-x-1 md:order-4">
                                     </div>
                                 </div>
                             </div>
@@ -125,7 +157,7 @@
                         @endforeach
                         @if ($cartItems->isNotEmpty())
                             <div class="mx-auto mt- flex-1 space-y-6 lg:mt-0 lg:w-full">
-                                <div class="space-y-4 rounded-lg border border-gray-200 bg-white p-4 shadow-sm sm:p-6">
+                                <div class="space-y-4 border border-gray-200 bg-white p-4 shadow-sm sm:p-6">
                                     <p class="text-xl font-semibold text-gray-900">Order Summary</p>
 
                                     <div class="space-y-4">
@@ -134,7 +166,7 @@
                                                 <dt class="text-base font-normal text-gray-500">Original Price</dt>
                                                 <dd class="text-base font-medium text-gray-900">
                                                     ₱
-                                                    {{ $cartItems->sum(fn($item) => $item->product->price * $item->quantity * $item->is_checked) }}
+                                                    {{ $cartItems->sum(fn($item) => $item->product->price * $item->is_checked) }}
                                                 </dd>
                                             </dl>
                                             <div>

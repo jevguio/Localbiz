@@ -2,12 +2,12 @@
     <div class="p-4 sm:ml-64">
         <div class="p-4 border-2 border-gray-200 border-dashed rounded-lg">
             <div class="grid grid-cols-3 gap-4 mb-4">
-                <h2 class="mt-3 text-xl font-bold text-gray-900 sm:text-2xl">Order Tracking</h2>
+                <h2 class="mt-3 text-xl font-bold text-gray-900 sm:text-3xl">Order Tracking</h2>
             </div>
             @include('seller.tracking.breadcrumbs')
             <div class="flex flex-col bg-white p-4 rounded-lg mt-4">
             @if ($cartItems->isEmpty())
-            <p style="text-align: center;">No Orders found.</p>
+            <p style="text-align: center;">No orders found</p>
             @else 
                 @foreach ($cartItems as $item )
                     <div class="flex items-start gap-4 border border-gray-200 hover:bg-gray-50 p-5 my-5" style="cursor:pointer" data-modal-target="viewModal{{ $item->id }}"  >
@@ -139,22 +139,22 @@
                                                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
                                                         readonly >
                                                         
-                                                        <option value="processing"
+                                                        <option value="Processing"
                                                             {{ $item->order->status == 'processing' ? 'selected' : '' }}>
                                                             Processing
                                                         </option> 
-                                                        <option value="receiving"
+                                                        <option value="Receiving"
                                                             {{ $item->order->status == 'receiving' ? 'selected' : '' }}>
                                                             Receiving
                                                         </option>
-                                                        {{-- <option value="delivered"
+                                                        <!-- {{-- <option value="Delivered"
                                                             {{ $item->order->status == 'delivered' ? 'selected' : '' }}>
                                                             Delivered
                                                         </option>
                                                         <option value="cancelled"
                                                             {{ $item->order->status == 'cancelled' ? 'selected' : '' }}>
                                                             Cancelled
-                                                        </option> --}}
+                                                        </option> --}} -->
                                                     </select>
                                                 </div>
                                                 <div class="col-span-1">
@@ -230,7 +230,7 @@
                                                 <hr class="my-4">
                                                 <div class="flex justify-end gap-2">
                                                     <button type="submit" 
-                                                        class="btn btn-info text-white inline-flex items-center bg-info-700 hover:bg-info-800 focus:ring-4 focus:outline-none focus:ring-info-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">
+                                                        class="btn btn-info text-white inline-flex items-center bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-info-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">
                                                         Save
                                                     </button>
                                                     <button type="button"

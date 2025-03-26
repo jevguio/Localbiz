@@ -47,7 +47,7 @@
                     <p class="text-gray-500 font-semibold">Location: {{ $product->location->name }}</p>
                     <p class="text-gray-500 font-bold">₱ {{ number_format($product->price, 2, '.', ',') }}</p>
                     <div class="flex justify-between items-center mt-2">
-                        <button class="btn btn-secondary mt-2"
+                        <button class="btn mt-2 px-4 py-2 bg-red-900 text-white rounded-md hover:bg-red-800"
                             onclick="productModal{{ $product->id }}.showModal()">View</button>
                         <p class="text-gray-500">Stock: {{ $product->stock }}</p>
                     </div>
@@ -94,7 +94,7 @@
                             <form action="{{ route('customer.addToCart') }}" method="POST">
                                 @csrf
                                 <input type="hidden" name="product_id" value="{{ $product->id }}">
-                                <button class="btn btn-primary px-4 py-2 rounded-md">Add to Cart</button>
+                                <button class="btn px-4 py-2 bg-red-900 text-white rounded-md hover:bg-red-800">Add to Cart</button>
                             </form>
                             <!-- <button class="btn btn-secondary"
                                 onclick="productModal{{ $product->id }}.close()">Close</button> -->

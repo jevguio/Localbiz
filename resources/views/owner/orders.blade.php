@@ -2,7 +2,7 @@
     <div class="p-4 sm:ml-64">
         <div class="p-4 border-2 border-gray-200 border-dashed rounded-lg">
             <div class="grid grid-cols-3 items-center gap-4">
-                <h2 class="text-xl font-bold text-gray-900 sm:text-2xl">Order Management</h2>
+                <h2 class="text-xl font-bold text-gray-900 sm:text-3xl">Order Management</h2>
             </div>
             <div class="relative overflow-x-auto mt-10 bg-white p-4 rounded-lg">
                 <form class="max-w-md ml-0 mb-4">
@@ -38,13 +38,13 @@
                             <th scope="col" class="px-6 py-3">
                                 Order Number
                             </th>
-                            <th scope="col" class="px-6 py-3">
+                            <th scope="col" class="px-6 py-3 pl-14">
                                 Order Date
                             </th> 
                             <th scope="col" class="px-6 py-3">
                                 Customer Name
                             </th>
-                            <th scope="col" class="px-6 py-3">
+                            <th scope="col" class="px-6 py-3 pl-8">
                                 Status
                             </th>
                             <th scope="col" class="px-6 py-3">
@@ -62,7 +62,7 @@
                                 <td class="px-6 py-4">
                                     {{ $order->created_at->format('F d, Y h:i:s A') }}
                                 </td>
-                                <td class="px-6 py-4">
+                                <td class="px-6 py-4 pl-8">
                                 {{ $order->user->fname . " " . $order->user->lname}}
                                 </td>
                                 <td class="px-6 py-4">

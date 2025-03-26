@@ -2,7 +2,7 @@
     <div class="p-4 sm:ml-64">
         <div class="p-4 border-2 border-gray-200 border-dashed rounded-lg" >
             <div class="flex justify-between items-center">
-                <h2 class="mt-3 text-xl font-bold text-gray-900 sm:text-2xl">Order History</h2>
+                <h2 class="mt-3 text-xl font-bold text-gray-900 sm:text-3xl">Order History</h2>
             </div>
             <div class="relative overflow-x-auto mt-10 bg-white p-4 rounded-lg" style="min-height: 800px">
                 <form class="max-w-md ml-0 mb-4">
@@ -64,13 +64,13 @@
                                     {{ $order->created_at->format('d M Y') }}
 
                                 </td>
-                                <td class="px-6 py-4">
+                                <td class="px-6 py-4 pl-12">
                                     {{ $order->total_amount }}
                                 </td>
-                                <td class="px-6 py-4">
+                                <td class="px-6 py-4 -ml-6">
                                     {{ $order->status }}
                                 </td>
-                                <td class="px-6 py-4">
+                                <td class="px-6 py-4 pl-8">
                                     <button data-modal-target="viewModal{{ $order->id }}"
                                         class="font-medium text-green-600 hover:underline" type="button">
                                         View
