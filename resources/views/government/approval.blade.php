@@ -2,7 +2,7 @@
     <div class="p-4 sm:ml-64">
         <div class="p-4 border-2 border-gray-200 border-dashed rounded-lg">
             <div class="flex justify-between items-center">
-                <h2 class="mt-3 text-xl font-bold text-gray-900 sm:text-2xl">Seller Approval Management</h2>
+                <h2 class="mt-3 text-xl font-bold text-gray-900 sm:text-3xl">Seller Approval Management</h2>
             </div>
             <div class="relative overflow-x-auto mt-10 bg-white p-4 rounded-lg">
                 <form class="max-w-md ml-0 mb-4">
@@ -22,13 +22,13 @@
                             <th scope="col" class="px-6 py-3">
                                 Seller Business Name
                             </th>
-                            <th scope="col" class="px-6 py-3">
+                            <!-- <th scope="col" class="px-6 py-3">
                                 Is Active
+                            </th> -->
+                            <th scope="col" class="px-8 py-3">
+                                Status
                             </th>
-                            <th scope="col" class="px-6 py-3">
-                                Is Approved
-                            </th>
-                            <th scope="col" class="px-6 py-3">
+                            <th scope="col" class="px-8 py-3">
                                 Action
                             </th>
                         </tr>
@@ -39,13 +39,13 @@
                                 <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
                                     {{ $seller->user->fname }}
                                 </th>
-                                <td class="px-6 py-4">
+                                <!-- <td class="px-6 py-4">
                                     {{ $seller->user->is_active ? 'Active' : 'Inactive' }}
-                                </td>
+                                </td> -->
                                 <td class="px-6 py-4">
                                     {{ $seller->is_approved ? 'Approved' : 'Pending' }}
                                 </td>
-                                <td class="px-6 py-4">
+                                <td class="px-6 py-4 pl-10">
                                     <button data-modal-target="editModal{{ $seller->id }}"
                                         class="font-medium text-green-600 hover:underline" type="button">
                                         Edit
@@ -97,7 +97,7 @@
                                                                 @endforeach
                                                             @endif
                                                     </div> 
-                                                    <div class="col-span-2">
+                                                    <!-- <div class="col-span-2">
                                                         <label class="block mb-2 text-sm font-medium text-gray-900"
                                                             for="name">Is Active</label>
                                                         <select name="is_active" id="is_active"
@@ -113,10 +113,10 @@
                                                                 Inactive
                                                             </option>
                                                         </select>
-                                                    </div>
+                                                    </div> -->
                                                     <div class="col-span-2">
                                                         <label class="block mb-2 text-sm font-medium text-gray-900"
-                                                            for="name">Is Approved</label>
+                                                            for="name">Status</label>
                                                         <select name="is_approved" id="is_approved"
                                                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
                                                             value="{{ old('is_approved', $seller->is_approved ? 'Approved' : 'Pending') }}">

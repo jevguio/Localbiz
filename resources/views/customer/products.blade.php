@@ -2,7 +2,7 @@
     <div class="p-4 sm:ml-64">
         <div class="p-4 border-2 border-gray-200 border-dashed rounded-lg">
             <div class="grid grid-cols-3 gap-4 mb-4">
-                <h2 class="mt-3 text-xl font-bold text-gray-900 sm:text-2xl">Products</h2>
+                <h2 class="mt-3 text-xl font-bold text-gray-900 sm:text-3xl">Products</h2>
             </div>
             <div class="flex items-center space-x-4">
                 <form method="GET" action="{{ route('customer.products') }}">
