@@ -32,9 +32,9 @@ class Orders extends Model
         return $this->hasMany(OrderItems::class, 'order_id', 'id');
     }
 
-    public function payments(): HasMany
+    public function payments(): HasOne
     {
-        return $this->hasMany(Payments::class, 'order_id', 'id');
+        return $this->hasOne(Payments::class, 'order_id', 'id');
     }
 
     public function deliveryTracking(): HasMany

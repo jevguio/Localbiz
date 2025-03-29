@@ -43,7 +43,7 @@ class CashierController extends Controller
             return redirect()->route('cashier.dashboard');
         }
 
-        $orders = Orders::whereHas('orderItems', function ($query) use ($seller_id) {
+        $orders = Orders::with(['orderItems','payments'])->whereHas('orderItems', function ($query) use ($seller_id) {
             $query->whereHas('product', function ($query) use ($seller_id) {
                 $query->where('seller_id', $seller_id);
             });
