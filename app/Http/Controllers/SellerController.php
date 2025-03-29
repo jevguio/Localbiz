@@ -609,7 +609,7 @@ class SellerController extends Controller
             ->get();
         // Generate PDF
         $is_view = false;
-        $pdf = Pdf::loadView('reports.inventory', compact('items', 'selectedSeller', 'is_view'))->setPaper('a4', 'portrait');
+        $pdf = Pdf::loadView('reports.inventory', compact('items', 'selectedSeller','startDate', 'endDate', 'is_view'))->setPaper('a4', 'portrait');
 
         // Store PDF in storage
         Storage::disk('public')->put($filePath, $pdf->output());
@@ -651,7 +651,7 @@ class SellerController extends Controller
 
         $is_view = false;
         // Generate PDF
-        $pdf = Pdf::loadView('reports.sales', compact('items', 'selectedSeller', 'is_view'))->setPaper('a4', 'portrait');
+        $pdf = Pdf::loadView('reports.sales', compact('items', 'selectedSeller','startDate', 'endDate', 'is_view'))->setPaper('a4', 'portrait');
 
         // Store PDF in storage
         Storage::disk('public')->put($filePath, $pdf->output());

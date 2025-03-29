@@ -86,7 +86,7 @@
         </div>
     </div> 
     <div class="p-4 " id="Sales_Management" style="position:fixed; top:0;left:0;background-color:rgba(0,0,0,0.3);width:100%;height:100%" onclick="CloseSales(event)">
-        <div class="p-4   rounded-lg" style="width:60%; margin-left:auto;margin-right:auto; background-color:white;height:80%">
+        <div class="p-4  relative rounded-lg" style="width:60%; margin-left:auto;margin-right:auto; background-color:white;height:80%">
             <button type="button" onclick="CloseSales2()"
             class="text-gray-400 bg-transparent hover:bg-gray-200 right-4  absolute hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center"
              style="cursor: pointer; z-index: 9;">
@@ -94,7 +94,7 @@
             </button>
                 @include('reports.sales')
         
-                <a href="{{ route('seller.inventory.export') }}" id="export_sales"
+                <a  id="export_sales"
                         class="btn btn-primary bg-blue-700 hover:bg-blue-800 text-white px-4 py-2 rounded-md" style="position:absolute;right:21%; bottom:5%;">Download PDF</a>
                         <script>
                             document.addEventListener("DOMContentLoaded", function () {
@@ -106,8 +106,10 @@
                                     let DateStartEnd = document.getElementById("DateStartEnd"); 
                                     let baseUrl = "{{ route('seller.sales.export') }}"; // Blade generates this correctly
                                     let sellerId = "{{ $selectedSeller->id }}"; // Get seller ID from Blade 
+                                    
                                     let start=DateStartEnd.getAttribute('start');
                                     let end=DateStartEnd.getAttribute('end');
+                                    console.log(`start_date=${start}&end_date=${end}`);
                                     let url = `${baseUrl}?id=${sellerId}&sales=true&start_date=${start}&end_date=${end}`;
                                     window.location.href = url; // Redirect dynamically
                                 });
@@ -132,8 +134,8 @@
             </button>
                 @include('reports.inventory')
         
-                <a href="{{ route('seller.inventory.export') }}" id="export_inventory"
-                        class="btn btn-primary bg-blue-700 hover:bg-blue-800 text-white px-4 py-2 rounded-md" style="position:absolute;right:21%; bottom:23%">Download PDF</a>
+                <a id="export_inventory"
+                        class="btn btn-primary bg-blue-700 hover:bg-blue-800 text-white px-4 py-2 rounded-md" style="position:absolute;right:21%; bottom:5%">Download PDF</a>
                         <script>
                             document.addEventListener("DOMContentLoaded", function () {
                                 let export_inventory = document.getElementById("export_inventory"); 
@@ -145,7 +147,7 @@
                                     let baseUrl = "{{ route('seller.inventory.export') }}"; // Blade generates this correctly
                                     let sellerId = "{{ $selectedSeller->id }}"; // Get seller ID from Blade 
                                     let start=DateStartEnd.getAttribute('start');
-                                    let end=DateStartEnd.getAttribute('end');
+                                    let end=DateStartEnd.getAttribute('end'); 
                                     let url = `${baseUrl}?id=${sellerId}&sales=true&start_date=${start}&end_date=${end}`;
                                     window.location.href = url; // Redirect dynamically
                                 });

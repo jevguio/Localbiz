@@ -367,9 +367,11 @@ class OwnerController extends Controller
         $isViewBTN = true;
         return view('reports.top_seller', compact('topSellers', 'isViewBTN'));
     }
-    public function exportTopSeller()
+    public function exportTopSeller(Request $request)
     {
         $isViewBTN = false;
+        $startDate = $request->startDate;
+        $endDate = $request->endDate;
         $topSellers = User::where('role', 'seller')
             ->leftJoin('tbl_sellers', 'tbl_users.id', '=', 'tbl_sellers.user_id')
             ->leftJoin('tbl_products', 'tbl_sellers.id', '=', 'tbl_products.seller_id')
@@ -393,7 +395,7 @@ class OwnerController extends Controller
             ->get();
 
         $fileName = Auth::user()->fname . '_' . Auth::user()->lname . '_' . now()->format('YmdHis') . '.pdf';
-        $pdf = Pdf::loadView('reports.top_seller_component', compact('topSellers', 'isViewBTN'))->setPaper('a4', 'portrait');
+        $pdf = Pdf::loadView('reports.top_seller_component', compact('topSellers', 'startDate', 'endDate','isViewBTN'))->setPaper('a4', 'portrait');
 
         $filePath = 'reports/' . $fileName;
         // Store PDF in storage
@@ -416,9 +418,11 @@ class OwnerController extends Controller
 
 
 
-    public function TopPurchase()
+    public function TopPurchase(Request $request)
     {
 
+        $startDate = $request->startDate;
+        $endDate = $request->endDate;
         $topProducts = OrderItems::join('tbl_products', 'tbl_order_items.product_id', '=', 'tbl_products.id')
             ->select(
                 'tbl_products.name',
@@ -459,13 +463,15 @@ class OwnerController extends Controller
             }
         });
         $isViewBTN = true;
-        return view('reports.top_purchase_seller', compact('chartData', 'topProducts', 'isViewBTN'));
+        return view('reports.top_purchase_seller', compact('chartData', 'topProducts', 'startDate', 'endDate','isViewBTN'));
     }
 
-    public function exportTopPurchase()
+    public function exportTopPurchase(Request $request)
     {
         $isViewBTN = false;
 
+        $startDate = $request->startDate;
+        $endDate = $request->endDate;
         $topProducts = OrderItems::join('tbl_products', 'tbl_order_items.product_id', '=', 'tbl_products.id')
             ->select(
                 'tbl_products.name',
@@ -506,7 +512,7 @@ class OwnerController extends Controller
         });
         // Generate PDF
         $fileName = Auth::user()->fname . '_' . Auth::user()->lname . '_' . now()->format('YmdHis') . '.pdf';
-        $pdf = Pdf::loadView('reports.top_purchase_component', compact('topProducts', 'isViewBTN', 'chartData'))
+        $pdf = Pdf::loadView('reports.top_purchase_component', compact('topProducts', 'isViewBTN','startDate', 'endDate', 'chartData'))
             ->setPaper('a4', 'landscape');
 
         $filePath = 'reports/' . $fileName;
