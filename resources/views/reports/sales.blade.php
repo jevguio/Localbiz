@@ -104,16 +104,14 @@
                 @php $QuantityPrice = 0; @endphp
                 @foreach ($items as $index => $item)
                     @php $QuantityPrice = $item->price * $item->sold; @endphp
-
-                    @if ($item->seller_id == 1)
+ 
                         <tr>
                             <td>{{ $item->sold }}</td>
                             <td> {{ $item->sold > 1 ? $randomUnits : $randomUnit }}</td>
                             <td>{{ $item->name }}</td>
                             <td>{{ $item->price }}</td>
                             <td>&#8369;{{ $QuantityPrice }}</td>
-                        </tr>
-                    @endif
+                        </tr> 
                     @php $totalPrice += ($QuantityPrice); @endphp
                 @endforeach
 

@@ -106,14 +106,10 @@
                 @php $QuantityPrice = 0; @endphp
                 @foreach ($items as $index => $item)
                     @php $QuantityPrice = $item->price * $item->sold; @endphp
-
-                    @if ($item->seller_id == 1)
+ 
                         <tr>
                             @php
-                                $units = ['pcs', 'packs', 'sets'];
-                                $unit = ['pc', 'pack', 'set'];
-                                $randomUnit = $units[array_rand($units)];
-                                $randomUnits = $units[array_rand($units)];
+                                $units = ['pcs', 'packs', 'sets']; 
 
                                 $totalquantity = 0;
                                 foreach ($item->orderItems as $order) {
@@ -126,8 +122,7 @@
                             <td>{{ $item->price ?? 'No Data' }}</td>
                             <td>{{ $item->name }}</td>
                             <td>&#8369;{{ $QuantityPrice }}</td>
-                        </tr>
-                    @endif
+                        </tr> 
                 @endforeach
 
             </tbody>

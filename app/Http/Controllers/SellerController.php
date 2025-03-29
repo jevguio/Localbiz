@@ -35,7 +35,7 @@ class SellerController extends Controller
     public function index()
     {
         $seller = Seller::where('user_id', Auth::user()->id)->first();
-        $lowStockProducts = Products::where('stock', '<=', 5)->get();
+        $lowStockProducts = Products::where('stock', '<=', 5)->where('seller_id', '=', $seller->id)->get();
 
         return view('seller.dashboard', compact('seller', 'lowStockProducts'));
     }
@@ -180,7 +180,7 @@ class SellerController extends Controller
         });
         // Generate PDF
         $fileName = Auth::user()->fname . '_' . Auth::user()->lname . '_' . now()->format('YmdHis') . '.pdf';
-        $pdf = Pdf::loadView('reports.top_purchase_component', compact('topProducts', 'isViewBTN','chartData'))
+        $pdf = Pdf::loadView('reports.top_purchase_component', compact('topProducts', 'isViewBTN', 'chartData'))
             ->setPaper('a4', 'landscape');
 
         $filePath = 'reports/' . $fileName;
@@ -609,7 +609,7 @@ class SellerController extends Controller
             ->get();
         // Generate PDF
         $is_view = false;
-        $pdf = Pdf::loadView('reports.inventory', compact('items', 'selectedSeller','startDate', 'endDate', 'is_view'))->setPaper('a4', 'portrait');
+        $pdf = Pdf::loadView('reports.inventory', compact('items', 'selectedSeller', 'startDate', 'endDate', 'is_view'))->setPaper('a4', 'portrait');
 
         // Store PDF in storage
         Storage::disk('public')->put($filePath, $pdf->output());
@@ -651,7 +651,7 @@ class SellerController extends Controller
 
         $is_view = false;
         // Generate PDF
-        $pdf = Pdf::loadView('reports.sales', compact('items', 'selectedSeller','startDate', 'endDate', 'is_view'))->setPaper('a4', 'portrait');
+        $pdf = Pdf::loadView('reports.sales', compact('items', 'selectedSeller', 'startDate', 'endDate', 'is_view'))->setPaper('a4', 'portrait');
 
         // Store PDF in storage
         Storage::disk('public')->put($filePath, $pdf->output());
@@ -712,6 +712,8 @@ class SellerController extends Controller
     }
     public function reports()
     {
+        $selectedSeller = User::where('role', 'seller')->where('id', Auth::user()->id)->get()->first();
+        $seller = Seller::where('user_id', Auth::user()->id)->first();
         $items = Products::leftJoin('tbl_order_items', 'tbl_products.id', '=', 'tbl_order_items.product_id')
             ->selectRaw('
             tbl_products.id,
@@ -721,11 +723,9 @@ class SellerController extends Controller
             COALESCE(SUM(tbl_order_items.quantity), 0) AS sold,
             tbl_products.price,
             MAX(tbl_order_items.created_at) AS order_date
-        ')
+        ')->where('seller_id', '=', $seller->id)
             ->groupBy('tbl_products.id', 'tbl_products.name', 'tbl_products.stock', 'tbl_products.price')
             ->get();
-        $selectedSeller = User::where('role', 'seller')->where('id', Auth::user()->id)->get()->first();
-        $seller = Seller::where('user_id', Auth::user()->id)->first();
         if (!$seller || !$seller->is_approved || $seller->user->is_active == 0) {
             session()->flash('error', 'You are not approved to access this page.');
             return redirect()->route('seller.dashboard');
