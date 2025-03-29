@@ -34,19 +34,27 @@ class CustomerController extends Controller
 
     public function cart()
     {
-        $cartItems = OrderItems::whereHas('order', fn($query) => $query->where('user_id', Auth::id())->where('status', 'on-cart'))->get();
+        $cartItems = OrderItems::whereHas('order', function ($query) {
+            $query->where('user_id', Auth::id())->where('status', 'on-cart');
+        })->get();
+
+        // Check if all cart items have `is_active` as true
+        $hasUncheckedItems = OrderItems::whereHas('order', function ($query) {
+            $query->where('user_id', Auth::id())->where('status', 'on-cart');
+        })->where('is_checked', true)->exists();
+        $allActive = $hasUncheckedItems ? true : false;
         $couriers = Courier::all();
         $seller = Seller::where('user_id', Auth::id())->get();
-        return view('customer.cart', compact('cartItems', 'couriers', 'seller'));
+        return view('customer.cart', compact('cartItems', 'couriers', 'seller', 'allActive'));
     }
 
     public function orderHistory()
     {
         $orders = Orders::withCount('orderItems')
-        ->where('user_id', Auth::id())
-        ->whereIn('status', ['delivered', 'cancelled']) // Correct way to filter multiple statuses
-        ->latest() 
-        ->paginate(15);
+            ->where('user_id', Auth::id())
+            ->whereIn('status', ['delivered', 'cancelled']) // Correct way to filter multiple statuses
+            ->latest()
+            ->paginate(15);
         $categories = Categories::all();
         $couriers = Courier::all();
         return view('customer.order-history', compact('orders', 'categories', 'couriers'));
@@ -69,7 +77,7 @@ class CustomerController extends Controller
         $result = (new CustomerService())->cancelOrder($request);
         return redirect()->back()->with('success', 'Order cancelled successfully');
     }
-    
+
     public function updateSelectionCart(Request $request)
     {
         $result = (new CustomerService())->updateSelectionCart($request);
@@ -83,7 +91,7 @@ class CustomerController extends Controller
     }
 
     public function updateCart(Request $request)
-    { 
+    {
         $result = (new CustomerService())->updateCart($request);
         return redirect()->back();
     }
@@ -99,7 +107,7 @@ class CustomerController extends Controller
         $categories = Categories::all();
         $couriers = Courier::all();
         $cartItems = OrderItems::whereHas('order', fn($query) => $query->where('user_id', Auth::id())->where('status', 'pending'))->latest()->get();
-        return view('customer.tracking.pending', compact('cartItems','categories','couriers'));
+        return view('customer.tracking.pending', compact('cartItems', 'categories', 'couriers'));
     }
 
     public function trackingProcessed()
@@ -107,7 +115,7 @@ class CustomerController extends Controller
         $categories = Categories::all();
         $couriers = Courier::all();
         $cartItems = OrderItems::whereHas('order', fn($query) => $query->where('user_id', Auth::id())->where('status', ['processing']))->latest()->get();
-        return view('customer.tracking.processed', compact('cartItems','categories','couriers'));
+        return view('customer.tracking.processed', compact('cartItems', 'categories', 'couriers'));
     }
 
     public function trackingToReceive()
@@ -115,7 +123,7 @@ class CustomerController extends Controller
         $couriers = Courier::all();
         $categories = Categories::all();
         $cartItems = OrderItems::whereHas('order', fn($query) => $query->where('user_id', Auth::id())->where('status', 'receiving'))->latest()->get();
-        return view('customer.tracking.receiving', compact('cartItems','categories','couriers'));
+        return view('customer.tracking.receiving', compact('cartItems', 'categories', 'couriers'));
     }
 
     public function trackingCancelled()
@@ -123,7 +131,7 @@ class CustomerController extends Controller
         $categories = Categories::all();
         $couriers = Courier::all();
         $cartItems = OrderItems::whereHas('order', fn($query) => $query->where('user_id', Auth::id())->where('status', 'cancelled'))->latest()->get();
-        return view('customer.tracking.cancelled', compact('cartItems','categories','couriers'));
+        return view('customer.tracking.cancelled', compact('cartItems', 'categories', 'couriers'));
     }
 
     public function trackingDelivered()
@@ -132,7 +140,7 @@ class CustomerController extends Controller
         $couriers = Courier::all();
         $cartItems = OrderItems::whereHas('order', fn($query) => $query->where('user_id', Auth::id())->where('status', 'delivered'))->latest()->get();
         $feedback = Feedback::where('user_id', Auth::id())->get();
-        return view('customer.tracking.delivered', compact('cartItems', 'feedback','categories','couriers'));
+        return view('customer.tracking.delivered', compact('cartItems', 'feedback', 'categories', 'couriers'));
     }
 
     public function uploadFeedback(Request $request)

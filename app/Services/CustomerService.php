@@ -9,9 +9,11 @@ use App\Models\Orders;
 use App\Models\Payments;
 use App\Models\Products;
 use App\Models\Receipt;
+use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\DB;
 
 class CustomerService
 {
@@ -117,7 +119,7 @@ class CustomerService
         try {
             $orderItem = OrderItems::findOrFail($request->id);
             $orderItem->is_checked = $request->is_checked;
-            $orderItem->save(); 
+            $orderItem->save();
             Log::info("success $request");
             return response()->json([
                 'error_code' => MyConstant::SUCCESS_CODE,
@@ -126,7 +128,7 @@ class CustomerService
             ]);
 
         } catch (\Exception $e) {
-            Log::error($e->getMessage()); 
+            Log::error($e->getMessage());
             return response()->json([
                 'error_code' => MyConstant::FAILED_CODE,
                 'status_code' => MyConstant::INTERNAL_SERVER_ERROR,
@@ -138,7 +140,16 @@ class CustomerService
     public function updateSelectAllCart($request)
     {
         try {
-            $orderItem = OrderItems::query()->update(['is_active' => DB::raw('NOT is_active')]);
+            $ownCart = User::with('orders.orderItems')->find(auth()->id()); // Assuming you want the authenticated user
+
+            if ($ownCart && $ownCart->orders->isNotEmpty()) {
+                // Collect all order item IDs from all orders
+                $orderItemIds = $ownCart->orders->flatMap(function ($order) {
+                    return $order->orderItems->pluck('id');
+                });
+
+                OrderItems::whereIn('id', $orderItemIds)->update(['is_checked' => $request->is_checked]);
+            }
             Log::info("success $request");
             return response()->json([
                 'error_code' => MyConstant::SUCCESS_CODE,
@@ -147,7 +158,7 @@ class CustomerService
             ]);
 
         } catch (\Exception $e) {
-            Log::error($e->getMessage()); 
+            Log::error($e->getMessage());
             return response()->json([
                 'error_code' => MyConstant::FAILED_CODE,
                 'status_code' => MyConstant::INTERNAL_SERVER_ERROR,
@@ -159,7 +170,7 @@ class CustomerService
     public function updateCart($request)
     {
         try {
-            $orderItem = OrderItems::findOrFail($request->id); 
+            $orderItem = OrderItems::findOrFail($request->id);
 
             if ($request->increment) {
                 $orderItem->increment('quantity');
@@ -171,14 +182,14 @@ class CustomerService
 
             // $order->total_amount = $order->orderItems->sum('price');
             // $order->save();
- 
+
             return response()->json([
                 'error_code' => MyConstant::SUCCESS_CODE,
                 'status_code' => MyConstant::SUCCESS_CODE,
                 'message' => 'Product updated in cart successfully.',
             ]);
         } catch (\Exception $e) {
-            Log::info($e->getMessage()); 
+            Log::info($e->getMessage());
             return response()->json([
                 'error_code' => MyConstant::FAILED_CODE,
                 'status_code' => MyConstant::INTERNAL_SERVER_ERROR,
@@ -191,17 +202,17 @@ class CustomerService
     {
         try {
             $orders = Orders::where('user_id', Auth::id())
-            ->where('status', 'on-cart')
-            ->whereHas('orderItems', function ($query) {
-                $query->where('is_checked', true);
-            })
-            ->get();
-        
+                ->where('status', 'on-cart')
+                ->whereHas('orderItems', function ($query) {
+                    $query->where('is_checked', true);
+                })
+                ->get();
+
             $totalAmount = 0;
 
             $receipt = $request->file('receipt_file');
             $filename = $receipt->getClientOriginalName();
-            $receipt->move(public_path('receipt_file'), $filename); 
+            $receipt->move(public_path('receipt_file'), $filename);
             foreach ($orders as $order) {
                 $totalAmount += $order->total_amount;
 

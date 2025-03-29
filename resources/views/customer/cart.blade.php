@@ -11,9 +11,7 @@
                         <div class="border border-gray-300 bg-white p-6 shadow-md md:p-8">
                             <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-1">  
                 
-                                    @php
-                                        $allActive = $cartItems->every(fn($item) => $item->is_active);
-                                    @endphp
+                                     
                             
                                     <form action="{{ route('customer.updateSelectAllCart') }}" method="POST"
                                             class="inline-flex items-center space-x-2">
