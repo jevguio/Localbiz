@@ -9,153 +9,113 @@
                     <div class="space-y-6">
                         @php $is_active_checkout=false; @endphp
                         <div class="border border-gray-300 bg-white p-6 shadow-md md:p-8">
-                            <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-1">  
-                
-                                     
-                            
-                                    <form action="{{ route('customer.updateSelectAllCart') }}" method="POST"
-                                            class="inline-flex items-center space-x-2">
-                                            @csrf
-                                            @method('PUT')
-
-                                            <input type="hidden" name="is_checked" value="0" />
-
-                                            <input type="checkbox" name="is_checked" style="transform: scale(2);"
-                                                value="1" onchange="setTimeout(() => this.form.submit(), 300)"
-                                                {{ $allActive ? 'checked' : '' }} />
-                                        </form>
-                                    
-                                <div class="text-left -ml-30">
-                                    Select All
-                                </div>
-                                
-                                <div class="md:order-2  "> 
-                                </div>
-                                <div class="md:order-2   md:space-x-1"> 
-                                </div>
-                                <div class="md:order-3 -ml-40">
-                                     Quantity
-                                </div>
-                                <div class="md:order-2  space-x-2 -ml-20">
-                                    Unit Price
-                                </div>
-                                <div class="md:order-1  ">
-                                </div>
-                                <div class="md:order-2  "> 
-                                </div>
-                                <div class="md:order-3 -ml-12"> 
-                                    Total Price
-                                </div>
-                                <div class="md:order-5 -ml-12">
-                                    Action
-                                </div>
-                            </div>
+                            <table class="w-full border-collapse  text-center ">
+                                <thead>
+                                    <tr class="bg-gray-100 border border-gray-300">
+                                        <th class="p-4  text-left">
+                                            <form action="{{ route('customer.updateSelectAllCart') }}" method="POST">
+                                                @csrf
+                                                @method('PUT')
+                                                <input type="hidden" name="is_checked" value="0" />
+                                                <input type="checkbox" name="is_checked" style="transform: scale(1.5);"
+                                                    value="1" onchange="setTimeout(() => this.form.submit(), 300)"
+                                                    {{ $allActive ? 'checked' : '' }} />
+                                                <div class="ml-4 inline"> Select All</div>
+                                            </form>
+                                        </th>
+                                        <th class="p-4 text-left ">Product</th>
+                                        <th class="p-4  ">Unit Price</th>
+                                        <th class="p-4  ">Quantity</th>
+                                        <th class="p-4  ">Total Price</th>
+                                        <th class="p-4 text-left">Action</th>
+                                    </tr>
+                                    <tr class="h-5">
+                                    </tr>
+                                </thead>
+                                <tbody class=" ">
+                                    @foreach ($cartItems as $item)
+                                        <tr class="my-4 border border-gray-300">
+                                            <td class="p-4 text-left ">
+                                                <form action="{{ route('customer.updateSelectionCart') }}"
+                                                    method="POST">
+                                                    @csrf
+                                                    @method('PUT')
+                                                    <input type="hidden" name="id" value="{{ $item->id }}" />
+                                                    <input type="hidden" name="is_checked" value="0" />
+                                                    <input type="checkbox" name="is_checked"
+                                                        style="transform: scale(1.5);" value="1"
+                                                        onchange="setTimeout(() => this.form.submit(), 300)"
+                                                        {{ $item->is_checked ? 'checked' : '' }} />
+                                                </form>
+                                            </td>
+                                            <td class="p-4  flex items-center space-x-4 text-left">
+                                                <div>
+                                                    <img class="h-16 w-16 rounded-lg border border-gray-300 object-cover"
+                                                        src="{{ asset('assets/' . $item->product->image) }}"
+                                                        alt="{{ $item->product->name }}" />
+                                                    <div>
+                                                        <p class="text-lg font-semibold">{{ $item->product->name }}</p>
+                                                        <p class="text-sm text-gray-700">
+                                                            {{ $item->product->description }}
+                                                        </p>
+                                                        <p class="text-sm text-gray-700">Seller:
+                                                            {{ $item->product->seller->user->fname ?? 'N/A' }}</p>
+                                                        <p class="text-sm text-gray-700">Gcash Number:
+                                                            {{ $item->product->seller->user->gcash_number ?? 'N/A' }}
+                                                        </p>
+                                                        <p class="text-sm text-gray-700">Bank Name:
+                                                            {{ $item->product->seller->user->bank_name ?? 'N/A' }}</p>
+                                                        <p class="text-sm text-gray-700">Account No.:
+                                                            {{ $item->product->seller->user->bank_account_number ?? 'N/A' }}
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td class="p-4  ">₱{{ $item->product->price }}</td>
+                                            <td class="p-4">
+                                                <form action="{{ route('customer.updateCart') }}" method="POST"
+                                                    class="flex items-center space-x-2">
+                                                    @csrf
+                                                    @method('PUT')
+                                                    <div class=" mx-auto ">
+                                                        <input type="hidden" name="id"
+                                                            value="{{ $item->id }}">
+                                                        <button type="submit" name="decrement" value="decrement"
+                                                            class="h-8 w-8 inline-flex items-center justify-center border border-gray-400 bg-gray-100 hover:bg-gray-200">
+                                                            <i class='bx bx-minus text-lg'></i>
+                                                        </button>
+                                                        <span
+                                                            class="text-base inline font-medium text-gray-900 text-center mx-2 ">{{ $item->quantity }}</span>
+                                                        <button type="submit" name="increment" value="increment"
+                                                            class="h-8 w-8 inline-flex items-center justify-center border border-gray-400 bg-gray-100 hover:bg-gray-200">
+                                                            <i class='bx bx-plus text-lg'></i>
+                                                        </button>
+                                                    </div>
+                                                </form>
+                                            </td>
+                                            <td class="p-4   font-bold">₱{{ $item->product->price * $item->quantity }}
+                                            </td>
+                                            <td class="p-4  ">
+                                                <form action="{{ route('customer.removeCart', $item->id) }}"
+                                                    method="POST">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="submit"
+                                                        class="text-red-600 font-medium hover:underline flex items-center">
+                                                        <i class='bx bx-trash text-lg me-1.5'></i> Remove
+                                                    </button>
+                                                </form>
+                                            </td>
+                                        </tr>
+                                        <tr class="h-5">
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
                         </div>
-                        @foreach ($cartItems as $item)
-                            <div class="border border-gray-300 bg-white p-6 shadow-md md:p-8">
-                                <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-1">
-
-                                    <div class="flex items-center space-x-1 md:order-1">
-                                        <form action="{{ route('customer.updateSelectionCart') }}" method="POST"
-                                            class="inline-flex items-center space-x-2">
-                                            @csrf
-                                            @method('PUT')
-
-                                            <input type="hidden" name="id" value="{{ $item->id }}" />
-                                            <input type="hidden" name="is_checked" value="0" />
-
-                                            <input type="checkbox" name="is_checked" style="transform: scale(2);"
-                                                value="1" onchange="setTimeout(() => this.form.submit(), 300)"
-                                                {{ $item->is_checked ? 'checked' : '' }} />
-                                        </form>
-                                    </div>
-                                    <div class="flex items-center space-x-4 md:order-2">
-                                        <a href="#" class="shrink-0">
-                                            <img class="h-24 w-24 rounded-lg border border-gray-300 object-cover"
-                                                src="{{ asset('assets/' . $item->product->image) }}"
-                                                alt="{{ $item->product->name }}" />
-                                        </a>
-                                        <div>
-                                            <p class="text-lg font-semibold text-gray-900">{{ $item->product->name }}
-                                            </p>
-                                            <p class="text-sm text-gray-700">{{ $item->product->description }}</p>
-                                            <p class="text-sm text-gray-700">Seller:
-                                                {{ $item->product->seller->user->fname ?? 'N/A' }}</p>
-                                            <p class="text-sm text-gray-700">Gcash Number:
-                                                {{ $item->product->seller->user->gcash_number ?? 'N/A' }}</p>
-                                            <p class="text-sm text-gray-700">Bank Name:
-                                                {{ $item->product->seller->user->bank_name ?? 'N/A' }}</p>
-                                            <p class="text-sm text-gray-700">Account No.:
-                                                {{ $item->product->seller->user->bank_account_number ?? 'N/A' }}</p>
-                                        </div>
-                                    </div>
-
-                                    <div class="flex flex-col md:order-2 md:w-32 space-y-2 md:space-y-0 md:space-x-2">
-                                        <p class="text-lg text-gray-900">₱
-                                            {{ $item->product->price }}</p>
-                                    </div>
-
-                                    <div class="flex flex-row items-center md:order-3 space-x-4">
-                                        <form action="{{ route('customer.updateCart') }}" method="POST"
-                                            class="inline-flex items-center space-x-2">
-                                            @csrf
-                                            @method('PUT')
-                                            <input type="hidden" name="id" value="{{ $item->id }}">
-
-                                            <button type="submit" name="decrement" value="decrement"
-                                                class="h-8 w-8 flex items-center justify-center rounded-md border border-gray-400 bg-gray-100 hover:bg-gray-200 transition">
-                                                <i class='bx bx-minus text-lg'></i>
-                                            </button>
-
-                                            <span class="text-base font-medium text-gray-900 text-center w-6">
-                                                {{ $item->quantity }}
-                                            </span>
-
-                                            <button type="submit" name="increment" value="increment"
-                                                class="h-8 w-8 flex items-center justify-center rounded-md border border-gray-400 bg-gray-100 hover:bg-gray-200 transition">
-                                                <i class='bx bx-plus text-lg'></i>
-                                            </button>
-                                        </form>
-                                    </div>
-
-                                    <div class="flex flex-col md:order-3 md:w-32 space-y-2 md:space-y-0 md:space-x-2">
-                                        <p class="text-lg font-bold text-gray-900">₱
-                                        {{ $item->product->price * $item->quantity }}</p>
-                                    </div>
-
-                                        <!-- <form action="{{ route('customer.removeCart', $item->id) }}" method="POST">
-                                            @csrf
-                                            @method('DELETE')
-                                            <input type="hidden" name="id" value="{{ $item->id }}">
-                                            <button type="submit"
-                                                class="text-red-600 text-sm font-medium hover:underline flex items-center">
-                                                <i class='bx bx-trash text-lg me-1.5'></i> Remove
-                                            </button>
-                                        </form> -->
-
-                                    <div class="flex items-center space-x-1 md:order-4">
-                                        <form action="{{ route('customer.removeCart', $item->id) }}" method="POST">
-                                            @csrf
-                                            @method('DELETE')
-                                            <input type="hidden" name="id" value="{{ $item->id }}">
-                                            <button type="submit"
-                                                class="text-red-600 text-sm font-medium hover:underline flex items-center">
-                                                <i class='bx bx-trash text-lg me-1.5'></i> Remove
-                                            </button>
-                                        </form>
-                                    </div>
-                                </div>
-                            </div>
-
-                            @php
-                                if ($item->is_checked) {
-                                    $is_active_checkout = true;
-                                }
-                            @endphp
-                        @endforeach
                         @if ($cartItems->isNotEmpty())
                             <div class="mx-auto mt- flex-1 space-y-6 lg:mt-0 lg:w-full">
-                                <div class="space-y-4 border border-gray-200 bg-white p-4 shadow-sm sm:p-6">
+                                <div class="space-y-4   bg-white p-4 shadow-sm sm:p-6">
                                     <p class="text-xl font-semibold text-gray-900">Order Summary</p>
 
                                     <div class="space-y-4">
