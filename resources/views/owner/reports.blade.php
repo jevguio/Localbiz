@@ -48,7 +48,7 @@
                                 Top Seller
                             </a>
                             
-                            <a href="#" onclick="openTopProducts()"
+                            <a href="{{ route('owner.toppurchase') }}" onclick="openTopProducts()"
                                 class="btn btn-primary bg-blue-700 hover:bg-blue-800 text-white px-4 py-2 rounded-md">
                                 Top Purchased Products
                             </a>
@@ -305,13 +305,7 @@
         }
  
 </style> 
-    <script> 
-    function openTopProducts(){
-        let baseUrl = "{{ route('owner.toppurchase') }}"; // Blade generates this correctly
-        let sellerId = "{{ $seller->id }}"; // Get seller ID from Blade 
-        let url = `${baseUrl}?id=${sellerId}&inventory=true`;
-        window.location.href = url; // Redirect dynamically
-    }
+    <script>  
         const Seller = document.getElementById('Seller_Inventory_Management');
          
          const datePicker = document.createElement("input"); 

@@ -463,7 +463,7 @@ class OwnerController extends Controller
             }
         });
         $isViewBTN = true;
-        return view('reports.top_purchase_seller', compact('chartData', 'topProducts', 'startDate', 'endDate','isViewBTN'));
+        return view('reports.top_purchase', compact('chartData', 'topProducts', 'startDate', 'endDate','isViewBTN'));
     }
 
     public function exportTopPurchase(Request $request)
