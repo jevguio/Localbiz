@@ -47,7 +47,9 @@ class LoginRequest extends FormRequest
     if (!$user) {
         return trans("Invalid Email. Please Try Again"); // Return error for non-existing email
     }
-
+    if (!$user->is_active==0) {
+        return trans("Account Inactive"); // Return error for non-existing email
+    }
     if (!Auth::attempt($credentials, $this->boolean('remember'))) {
         RateLimiter::hit($this->throttleKey());
         return trans("Incorrect Password. Please Try Again"); // Return error for wrong password
