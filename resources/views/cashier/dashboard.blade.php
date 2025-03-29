@@ -24,27 +24,11 @@
                             <i class='bx bx-check-circle shrink-0 stroke-current text-lg'></i>
                             <span>Your documents have been approved. You can now access the dashboard.</span>
                         </div>
-                    @elseif ($cashier && $cashier->document_file && $cashier->is_approved == 0)
-                        <div role="alert" class="alert alert-success text-white">
-                            <i class='bx bx-check-circle shrink-0 stroke-current text-lg'></i>
-                            <span>Your documents have been uploaded. Please wait for approval from the
-                                Seller.</span>
-                        </div>
                     @elseif ($cashier && $cashier->is_approved == 0)
-                        <form action="{{ route('cashier.dashboard.upload') }}" method="POST"
-                            enctype="multipart/form-data">
-                            @csrf
-                            <div class="grid grid-cols-2 gap-4">
-                                <fieldset class="fieldset">
-                                    <legend class="fieldset-legend">Document File</legend>
-                                    <input type="file" class="file-input w-full" name="document_file"
-                                        id="document_file" required />
-                                </fieldset>
-                            </div>
-                            <hr class="my-4">
-                            <button type="submit"
-                                class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center">Submit</button>
-                        </form>
+                        <div role="alert" class="alert alert-error text-white">
+                            <i class='bx bx-info-circle shrink-0 stroke-current text-lg'></i>
+                            <span>Account Disabled</span>
+                        </div> 
                     @endif
                 @endif
             </div>
