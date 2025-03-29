@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Constant\MyConstant;
 use App\Models\Cashier;
+use App\Models\Rider;
 use App\Models\Seller;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -59,6 +60,29 @@ class CashierService
         }
     }
     
+    public function ToggleRider($request, $id)
+    {
+        try {
+            $rider = Rider::find($id);
+            $rider->update([
+                'is_approved' => !$rider->is_approved,
+            ]);
+
+            session()->flash('success', 'Rider updated successfully');
+            return response()->json([
+                'error_code' => MyConstant::SUCCESS_CODE,
+                'status_code' => MyConstant::SUCCESS_CODE,
+                'message' => 'Rider updated successfully.',
+            ]);
+        } catch (\Exception $e) {
+            Log::error('Failed to update Rider: ' . $e->getMessage());
+            return response()->json([
+                'error_code' => MyConstant::FAILED_CODE,
+                'status_code' => MyConstant::FAILED_CODE,
+                'message' => 'Failed to update Rider.',
+            ]);
+        }
+    }
     public function ToggleCashier($request, $id)
     {
         try {

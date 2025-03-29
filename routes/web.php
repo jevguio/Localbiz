@@ -37,7 +37,7 @@ Route::middleware(['auth', 'Owner'])->group(function () {
     Route::get('/owner/inventory/export', [OwnerController::class, 'exportInventory'])->name('owner.inventory.export');
     Route::get('/owner/sales/export', [OwnerController::class, 'exportSales'])->name('owner.sales.export');
     Route::get('/owner/products/export', [OwnerController::class, 'exportProducts'])->name('owner.products.export');
-    
+
     Route::get('/owner/toppurchase', [OwnerController::class, 'TopPurchase'])->name('owner.toppurchase');
     Route::get('/owner/toppurchase/export', [OwnerController::class, 'exportTopPurchase'])->name('owner.toppurchase.export');
 
@@ -87,7 +87,7 @@ Route::middleware(['auth', 'Seller'])->group(function () {
     Route::get('/seller/locations', [SellerController::class, 'locations'])->name('seller.locations');
     Route::get('/seller/cashier', [SellerController::class, 'cashier'])->name('seller.cashier');
     Route::get('/seller/rider', [SellerController::class, 'rider'])->name('seller.rider');
-    Route::get('/seller/reports', [SellerController::class, 'reports'])->name('seller.reports'); 
+    Route::get('/seller/reports', [SellerController::class, 'reports'])->name('seller.reports');
     Route::get('/seller/order-history', [SellerController::class, 'orderHistoryFilter'])->name('seller.order-history');
 
     Route::get('/seller/inventory/export', [SellerController::class, 'exportInventory'])->name('seller.inventory.export');
@@ -116,9 +116,11 @@ Route::middleware(['auth', 'Seller'])->group(function () {
     Route::put('/seller/products/update/{id}', [SellerController::class, 'updateProduct'])->name('seller.products.update');
     Route::put('/seller/locations/update/{id}', [SellerController::class, 'updateLocation'])->name('seller.locations.update');
     Route::put('/seller/cashier/update/{id}', [SellerController::class, 'updateCashier'])->name('seller.cashier.update');
-    Route::put('/seller/cashier/toggle/{id}', [SellerController::class, 'ToggleCashier'])->name('seller.cashier.toggle');
     Route::put('/seller/rider/update/{id}', [SellerController::class, 'updateRider'])->name('seller.rider.update');
-   
+
+    Route::put('/seller/rider/toggle/{id}', [SellerController::class, 'ToggleRider'])->name('seller.rider.toggle');
+    Route::put('/seller/cashier/toggle/{id}', [SellerController::class, 'ToggleCashier'])->name('seller.cashier.toggle');
+
     Route::delete('/seller/cashier/destroy/{id}', [SellerController::class, 'destroyCashier'])->name('seller.cashier.destroy');
     Route::delete('/seller/rider/destroy/{id}', [SellerController::class, 'destroyRider'])->name('seller.rider.destroy');
     Route::delete('/seller/categories/destroy/{id}', [SellerController::class, 'destroyCategory'])->name('seller.categories.destroy');
@@ -161,8 +163,8 @@ Route::middleware(['auth', 'DeliveryRider'])->group(function () {
     Route::get('/rider/tracking/delivered', [RiderController::class, 'trackingDelivered'])->name('rider.tracking.delivered');
 
     Route::post('/rider/dashboard/upload', [RiderController::class, 'upload'])->name('rider.dashboard.upload');
-    
-    
+
+
     Route::put('/rider/orders/update/{id}', [RiderController::class, 'updateOrder'])->name('rider.orders.update');
 });
 

@@ -139,7 +139,8 @@
                                         <div
                                             class="flex items-center justify-between p-4 md:p-5 border-b rounded-t border-gray-200">
                                             <h3 class="text-lg font-bold text-gray-900">
-                                                Delete Rider
+                                                
+                                        {{ $rider->is_approved ? 'Disable' : 'Enable' }} Rider
                                             </h3>
                                             <button type="button"
                                                 class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center"
@@ -149,16 +150,18 @@
                                         </div>
                                         <div class="grid gap-4 mb-4 p-4">
                                             <div class="grid gap-4 mb-4 grid-cols-2">
-                                                <form action="{{ route('seller.rider.destroy', $rider->id) }}"
+                                                <form action="{{ route('seller.rider.toggle', $rider->id) }}"
                                                     method="POST" enctype="multipart/form-data">
                                                     @csrf
-                                                    @method('DELETE')
-                                                    <p class="text-gray-900">Are you sure you want to delete this rider?</p>
+                                                    @method('put')
+                                                    <p class="text-gray-900">Are you sure you want to 
+                                                        {{ $rider->is_approved ? 'disable' : 'enable' }} this rider?</p>
                                                     <hr class="my-4">
                                                     <div class="flex justify-end gap-2">
                                                         <button type="submit"
                                                             class="btn btn-error text-white inline-flex items-center bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">
-                                                            Delete
+                                                            
+                                        {{ $rider->is_approved ? 'Disable' : 'Enable' }}
                                                         </button>
                                                         <button type="button"
                                                             data-modal-toggle="deleteModal{{ $rider->id }}"

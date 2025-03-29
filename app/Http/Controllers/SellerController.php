@@ -292,6 +292,12 @@ class SellerController extends Controller
         return redirect()->back();
     }
 
+    public function ToggleRider(Request $request, $id)
+    {
+        $result = (new CashierService())->ToggleRider($request, $id);
+        return redirect()->back();
+    }
+
     public function destroyCashier($id)
     {
         $result = (new CashierService())->destroyCashier($id);
