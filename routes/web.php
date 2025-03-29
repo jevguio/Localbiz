@@ -96,7 +96,7 @@ Route::middleware(['auth', 'Seller'])->group(function () {
 
 
     Route::get('/seller/toppurchase', [SellerController::class, 'TopPurchase'])->name('seller.toppurchase');
-    Route::get('/seller/toppurchase/export', [OwnerController::class, 'exportTopPurchase'])->name('seller.toppurchase.export');
+    Route::get('/seller/toppurchase/export', [SellerController::class, 'exportTopPurchase'])->name('seller.toppurchase.export');
 
     Route::get('/seller/tracking/pending', [SellerController::class, 'trackingPending'])->name('seller.tracking.pending');
     Route::get('/seller/tracking/processed', [SellerController::class, 'trackingProcessed'])->name('seller.tracking.processed');

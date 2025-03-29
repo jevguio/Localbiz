@@ -110,34 +110,34 @@ class OwnerController extends Controller
         $orders = null;
         $totalSales = 0;
         $products = null;
-    
+
         if ($request->filter == 'all') {
             $sellerIds = $sellers->pluck('id'); // Get all seller IDs
         } else {
             $filteredSellers = Seller::where('user_id', $request->filter)->get();
             $sellerIds = $filteredSellers->pluck('id'); // Get filtered seller IDs
         }
-    
+
         // Retrieve orders for the given seller IDs
         $orders = Orders::whereHas('orderItems.product', function ($query) use ($sellerIds) {
             $query->whereIn('seller_id', $sellerIds);
         })->paginate(10);
-    
+
         // Sum total sales for given sellers
         $totalSales = Orders::whereHas('orderItems.product', function ($query) use ($sellerIds) {
             $query->whereIn('seller_id', $sellerIds);
         })->sum('total_amount');
-    
+
         // Retrieve products for the given sellers
         $products = Products::whereIn('seller_id', $sellerIds)->paginate(10);
-    
+
         // Retrieve categories and locations
         $categories = Categories::all();
         $locations = Location::all();
-    
+
         return view('owner.inventory', compact('orders', 'products', 'totalSales', 'categories', 'locations', 'sellers'));
     }
-    
+
     public function exportInventory(Request $request)
     {
         $startDate = $request->input('start_date');
@@ -254,7 +254,7 @@ class OwnerController extends Controller
             ->get();
         $is_view = false;
         // Generate PDF
-        $pdf = Pdf::loadView('reports.sales', compact('items', 'selectedSeller', 'is_view', 'startDate', 'endDate'),[
+        $pdf = Pdf::loadView('reports.sales', compact('items', 'selectedSeller', 'is_view', 'startDate', 'endDate'), [
             'encoding' => 'UTF-8'
         ])->setPaper('a4', 'portrait');
 
@@ -459,8 +459,9 @@ class OwnerController extends Controller
             }
         });
         $isViewBTN = true;
-        return view('reports.top_purchase', compact('chartData', 'topProducts', 'isViewBTN'));
+        return view('reports.top_purchase_seller', compact('chartData', 'topProducts', 'isViewBTN'));
     }
+
     public function exportTopPurchase()
     {
         $isViewBTN = false;
@@ -469,21 +470,43 @@ class OwnerController extends Controller
             ->select(
                 'tbl_products.name',
                 'tbl_order_items.product_id',
-                'tbl_order_items.price',
-                DB::raw('DATE_FORMAT(tbl_order_items.created_at, "%Y-%m") as month'),
+                DB::raw('DATE_FORMAT(tbl_order_items.created_at, "%Y-%m") as month'), // Get month format
                 DB::raw('COUNT(DISTINCT tbl_order_items.order_id) as total_orders'),
                 DB::raw('SUM(tbl_order_items.quantity) as total_sold'),
                 DB::raw('SUM(tbl_order_items.price * tbl_order_items.quantity) as total_revenue'),
+                DB::raw('MAX(tbl_order_items.price) as price'), // Use MAX() instead of just price
                 DB::raw('AVG(tbl_order_items.price * tbl_order_items.quantity) as avg_order_value')
             )
             ->groupBy('month', 'tbl_order_items.product_id', 'tbl_products.name')
             ->orderBy('month', 'ASC')
-            ->orderByDesc('total_sold')
-            ->take(10)
-            ->get(); 
+            ->limit(10)
+            ->get();
+        $topProductsByMonth = DB::table('tbl_order_items')
+            ->join('tbl_products', 'tbl_order_items.product_id', '=', 'tbl_products.id')
+            ->select(
+                'tbl_products.name as product_name',
+                DB::raw('DATE_FORMAT(tbl_order_items.created_at, "%Y-%m") as month'),
+                DB::raw('SUM(tbl_order_items.quantity) as total_sold')
+            )
+            ->groupBy('month', 'tbl_order_items.product_id', 'tbl_products.name')
+            ->orderBy('month', 'ASC')
+            ->get();
+        $chartData = [];
+        foreach ($topProductsByMonth as $data) {
+            $chartData[$data->month][$data->product_name] = $data->total_sold;
+        }
+        $products = Products::whereIn('id', $topProducts->pluck('product_id'))->get()->keyBy('id');
+
+        // Merge product details into topProducts collection
+        $topProducts->each(function ($item) use ($products) {
+            $product = $products[$item->product_id] ?? null;
+            if ($product) {
+                $item->name = $product->name;
+            }
+        });
         // Generate PDF
         $fileName = Auth::user()->fname . '_' . Auth::user()->lname . '_' . now()->format('YmdHis') . '.pdf';
-        $pdf = Pdf::loadView('reports.top_purchase_component', compact('topProducts', 'isViewBTN'))
+        $pdf = Pdf::loadView('reports.top_purchase_component', compact('topProducts', 'isViewBTN', 'chartData'))
             ->setPaper('a4', 'landscape');
 
         $filePath = 'reports/' . $fileName;
@@ -493,9 +516,10 @@ class OwnerController extends Controller
             'report_name' => 'Top Purchase Report',
             'report_type' => 'pdf',
             'content' => $fileName,
-        ]); 
+        ]);
         return $pdf->download($fileName);
     }
+
 
 
 }

@@ -134,8 +134,66 @@ class SellerController extends Controller
             }
         });
         $isViewBTN = true;
-        return view('reports.top_purchase', compact('chartData', 'topProducts', 'isViewBTN'));
+        return view('reports.top_purchase_seller', compact('chartData', 'topProducts', 'isViewBTN'));
     }
+    public function exportTopPurchase()
+    {
+        $isViewBTN = false;
+
+        $topProducts = OrderItems::join('tbl_products', 'tbl_order_items.product_id', '=', 'tbl_products.id')
+            ->select(
+                'tbl_products.name',
+                'tbl_order_items.product_id',
+                DB::raw('DATE_FORMAT(tbl_order_items.created_at, "%Y-%m") as month'), // Get month format
+                DB::raw('COUNT(DISTINCT tbl_order_items.order_id) as total_orders'),
+                DB::raw('SUM(tbl_order_items.quantity) as total_sold'),
+                DB::raw('SUM(tbl_order_items.price * tbl_order_items.quantity) as total_revenue'),
+                DB::raw('MAX(tbl_order_items.price) as price'), // Use MAX() instead of just price
+                DB::raw('AVG(tbl_order_items.price * tbl_order_items.quantity) as avg_order_value')
+            )
+            ->groupBy('month', 'tbl_order_items.product_id', 'tbl_products.name')
+            ->orderBy('month', 'ASC')
+            ->limit(10)
+            ->get();
+        $topProductsByMonth = DB::table('tbl_order_items')
+            ->join('tbl_products', 'tbl_order_items.product_id', '=', 'tbl_products.id')
+            ->select(
+                'tbl_products.name as product_name',
+                DB::raw('DATE_FORMAT(tbl_order_items.created_at, "%Y-%m") as month'),
+                DB::raw('SUM(tbl_order_items.quantity) as total_sold')
+            )
+            ->groupBy('month', 'tbl_order_items.product_id', 'tbl_products.name')
+            ->orderBy('month', 'ASC')
+            ->get();
+        $chartData = [];
+        foreach ($topProductsByMonth as $data) {
+            $chartData[$data->month][$data->product_name] = $data->total_sold;
+        }
+        $products = Products::whereIn('id', $topProducts->pluck('product_id'))->get()->keyBy('id');
+
+        // Merge product details into topProducts collection
+        $topProducts->each(function ($item) use ($products) {
+            $product = $products[$item->product_id] ?? null;
+            if ($product) {
+                $item->name = $product->name;
+            }
+        });
+        // Generate PDF
+        $fileName = Auth::user()->fname . '_' . Auth::user()->lname . '_' . now()->format('YmdHis') . '.pdf';
+        $pdf = Pdf::loadView('reports.top_purchase_component', compact('topProducts', 'isViewBTN','chartData'))
+            ->setPaper('a4', 'landscape');
+
+        $filePath = 'reports/' . $fileName;
+        Storage::disk('public')->put($filePath, $pdf->output());
+
+        Reports::create([
+            'report_name' => 'Top Purchase Report',
+            'report_type' => 'pdf',
+            'content' => $fileName,
+        ]);
+        return $pdf->download($fileName);
+    }
+
     public function exportProducts()
     {
         $isViewBTN = false;
