@@ -41,6 +41,7 @@
         .table td {
             padding: 8px;
             text-align: left;
+            font-family: Arial, sans-serif;
         }
 
         .table {

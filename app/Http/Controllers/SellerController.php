@@ -595,6 +595,7 @@ class SellerController extends Controller
         $filePath = 'reports/' . $fileName;
 
         $selectedSeller = Auth::user();
+        $seller = Seller::where('user_id', '=', $selectedSeller->id)->get()->first();
         $items = Products::leftJoin('tbl_order_items', 'tbl_products.id', '=', 'tbl_order_items.product_id')
             ->selectRaw('
             tbl_products.id,
@@ -604,7 +605,7 @@ class SellerController extends Controller
             COALESCE(SUM(tbl_order_items.quantity), 0) AS sold,
             tbl_products.price,
             MAX(tbl_order_items.created_at) AS order_date
-        ')
+        ')->where('seller_id', '=', $seller->id)
             ->groupBy('tbl_products.id', 'tbl_products.name', 'tbl_products.stock', 'tbl_products.price')
             ->get();
         // Generate PDF
@@ -636,6 +637,8 @@ class SellerController extends Controller
         $filePath = 'reports/' . $fileName;
 
         $selectedSeller = User::where('role', 'seller')->where('id', $request->id)->get()->first();
+
+        $seller = Seller::where('user_id', '=', $selectedSeller->id)->get()->first();
         $items = Products::leftJoin('tbl_order_items', 'tbl_products.id', '=', 'tbl_order_items.product_id')
             ->selectRaw('
             tbl_products.id,
@@ -645,7 +648,7 @@ class SellerController extends Controller
             COALESCE(SUM(tbl_order_items.quantity), 0) AS sold,
             tbl_products.price,
             MAX(tbl_order_items.created_at) AS order_date
-        ')
+        ')->where('seller_id', '=', $seller->id)
             ->groupBy('tbl_products.id', 'tbl_products.name', 'tbl_products.stock', 'tbl_products.price')
             ->get();
 
