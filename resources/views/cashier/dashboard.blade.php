@@ -27,7 +27,7 @@
                     @elseif ($cashier && $cashier->is_approved == 0)
                         <div role="alert" class="alert alert-error text-white">
                             <i class='bx bx-info-circle shrink-0 stroke-current text-lg'></i>
-                            <span>Account Disabled</span>
+                            <span>Account Inactive</span>
                         </div> 
                     @endif
                 @endif
