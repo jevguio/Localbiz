@@ -85,7 +85,7 @@
                                     {{ $user->role }}
                                 </td>
                                 <td class="px-6 py-4 {{ $user->is_active == 1 ? 'text-gray-900' :'text-gray-900' }} {{ $user->is_active==1?' text-green-700':' text-orange-700' }}">
-                                    {{ $user->is_active==1?'Active':'Inactive' }}
+                                    {{ $user->is_active==1?'Active':'Inactive' }} 
                                 </td>
                                 <td class="px-6 py-4 pl-13 {{ $user->is_active == 1 ? 'text-gray-900' :'text-gray-900' }}">
                                     {{ \Carbon\Carbon::parse($user->last_login)->format('M d, Y') }}
