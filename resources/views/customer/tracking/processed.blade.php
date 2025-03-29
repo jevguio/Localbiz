@@ -99,7 +99,7 @@
                                         <input type="number" name="quantity" id="quantity"
                                             class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500"
                                             placeholder="Type quantity" name="quantity"
-                                            value="{{  $item->order->orderItems->first() ? $item->order->orderItems->first()->product->name : 'N/A'}}" readonly>
+                                            value="{{  $item->quantity}}" readonly>
                                     </div>
                                     <div class="col-span-1">
                                         <label for="price"
