@@ -434,7 +434,7 @@ class SellerController extends Controller
             session()->flash('error', 'You are not approved to access this page.');
             return redirect()->route('seller.dashboard');
         }
-        $cartItems = OrderItems::whereHas('order', function ($query) {
+        $cartItems = OrderItems::with(['order.payments'])->whereHas('order', function ($query) {
             $query->whereIn('status', ['processing', 'pending']);
         })
             ->whereHas('product', function ($query) use ($seller) {
