@@ -6,8 +6,7 @@
             </div>
             <div class="mt-6 sm:mt-8 md:gap-6 lg:flex lg:items-start xl:gap-8">
                 <div class="mx-auto w-full flex-none">
-                    <div class="space-y-6">
-                        @php $is_active_checkout=false; @endphp
+                    <div class="space-y-6"> 
                         <div class="border border-gray-300 bg-white p-6 shadow-md md:p-8">
                             <table class="w-full border-collapse  text-center ">
                                 <thead>

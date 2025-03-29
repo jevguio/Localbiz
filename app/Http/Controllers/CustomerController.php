@@ -41,11 +41,24 @@ class CustomerController extends Controller
         // Check if all cart items have `is_active` as true
         $hasUncheckedItems = OrderItems::whereHas('order', function ($query) {
             $query->where('user_id', Auth::id())->where('status', 'on-cart');
-        })->where('is_checked', true)->exists();
-        $allActive = $hasUncheckedItems ? true : false;
+        })->where('is_checked', false)->exists();
+
+        // Check if all cart items have `is_active` as true
+        $totalItems = OrderItems::whereHas('order', function ($query) {
+            $query->where('user_id', Auth::id())->where('status', 'on-cart');
+        })->count();
+
+        $checkedItems = OrderItems::whereHas('order', function ($query) {
+            $query->where('user_id', Auth::id())->where('status', 'on-cart');
+        })->where('is_checked', true)->count();
+
+        $allActive = ($totalItems > 0) && ($totalItems == $checkedItems);
+        $hasActive = $checkedItems > 0 ? true : false;
+        $is_active_checkout = $hasActive;
         $couriers = Courier::all();
+
         $seller = Seller::where('user_id', Auth::id())->get();
-        return view('customer.cart', compact('cartItems', 'couriers', 'seller', 'allActive'));
+        return view('customer.cart', compact('cartItems', 'couriers', 'seller', 'allActive', 'is_active_checkout'));
     }
 
     public function orderHistory()
