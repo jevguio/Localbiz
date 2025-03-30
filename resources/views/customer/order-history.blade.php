@@ -26,8 +26,8 @@
                             class="hidden absolute right-0 mt-2 w-40 bg-white border border-gray-300 rounded-lg shadow-lg">
                             <ul class="py-2 text-sm text-gray-700">
                                 <li class="px-4 py-2 hover:bg-gray-100 cursor-pointer filter-option" data-filter="All">All</li>
-                                <li class="px-4 py-2 hover:bg-gray-100 cursor-pointer filter-option" data-filter="Owner">Delivered</li>
-                                <li class="px-4 py-2 hover:bg-gray-100 cursor-pointer filter-option" data-filter="GovernmentAgency">Cancelled</li>
+                                <li class="px-4 py-2 hover:bg-gray-100 cursor-pointer filter-option" data-filter="delivered">Delivered</li>
+                                <li class="px-4 py-2 hover:bg-gray-100 cursor-pointer filter-option" data-filter="cancelled">Cancelled</li>
                             </ul>
                         </div>    
                     </div>
@@ -258,7 +258,7 @@
                                                     </li>
                                                 </ul>
                                             </div> -->
-                                            
+
                                             <hr class="my-4">
                                             <div class="flex justify-end gap-2">
                                                 <button type="button"
@@ -343,6 +343,41 @@
          // Apply transform
          updateTransform();
      }
+
+        // Toggle filter dropdown
+            $("#filter-btn").click(function (event) {
+            event.preventDefault();
+            $("#filter-dropdown").toggleClass("hidden");
+        });
+
+        // Search and filter function
+        function filterTable() {
+            const searchInput = $("#table-search").val().toLowerCase();
+
+            $("#order-table-body tr").each(function () {
+                const rowText = $(this).text().toLowerCase();
+                const rowCategory = $(this).data("category");
+
+                const matchesSearch = rowText.indexOf(searchInput) > -1;
+                const matchesFilter = selectedFilter === "All" || rowCategory === selectedFilter;
+
+                $(this).toggle(matchesSearch && matchesFilter);
+            });
+        }
+        // Apply filter
+        $(".filter-option").click(function () {
+            selectedFilter = $(this).data("filter");
+            $("#filter-dropdown").addClass("hidden"); // Hide dropdown after selection
+            filterTable();
+        });
+
+        // Close dropdown when clicking outside
+        $(document).click(function (event) {
+            if (!$(event.target).closest("#filter-btn, #filter-dropdown").length) {
+                $("#filter-dropdown").addClass("hidden");
+            }
+        });
+
      
      // Start dragging
      function startDrag(event) {

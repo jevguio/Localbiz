@@ -246,7 +246,7 @@ let startX, startY;
 function filterTable() {
             const searchInput = $("#table-search").val().toLowerCase();
 
-            $("#account-table-body tr").each(function () {
+            $("#seller-table-body tr").each(function () {
                 const rowText = $(this).text().toLowerCase();
                 const rowCategory = $(this).data("category");
 
