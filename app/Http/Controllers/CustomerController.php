@@ -115,6 +115,21 @@ class CustomerController extends Controller
         return redirect()->back()->with('success', 'Checkout successful');
     }
 
+    public function trackingAll()
+    {
+        $categories = Categories::all();
+        $couriers = Courier::all();
+        $cartItems = OrderItems::with(['order.payments','product'])->whereHas(
+            'order',
+            fn($query) => $query->where('user_id', Auth::id())
+            ->where('status', '!=', 'on-cart')
+        )
+            ->latest()
+            ->get();
+        return view('customer.tracking.all', compact('cartItems', 'categories', 'couriers'));
+    }
+
+
     public function trackingPending()
     {
         $categories = Categories::all();

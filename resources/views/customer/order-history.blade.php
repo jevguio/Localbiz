@@ -14,6 +14,22 @@
                         <input type="search" id="table-search"
                             class="block w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500"
                             placeholder="Search for order....">
+
+                        <!-- Filter Button -->
+                        <button type="button" id="filter-btn"
+                            class="absolute inset-y-0 end-0 flex items-center px-3 text-gray-600 hover:text-gray-900">
+                            <i class='bx bx-filter text-2xl'></i>
+                        </button>
+
+                        <!-- Filter Dropdown -->
+                        <div id="filter-dropdown"
+                            class="hidden absolute right-0 mt-2 w-40 bg-white border border-gray-300 rounded-lg shadow-lg">
+                            <ul class="py-2 text-sm text-gray-700">
+                                <li class="px-4 py-2 hover:bg-gray-100 cursor-pointer filter-option" data-filter="All">All</li>
+                                <li class="px-4 py-2 hover:bg-gray-100 cursor-pointer filter-option" data-filter="Owner">Delivered</li>
+                                <li class="px-4 py-2 hover:bg-gray-100 cursor-pointer filter-option" data-filter="GovernmentAgency">Cancelled</li>
+                            </ul>
+                        </div>    
                     </div>
                 </form>
                 <table class="w-full text-sm text-left rtl:text-right text-gray-500">
@@ -80,7 +96,7 @@
                                         <div class="grid grid-cols-2 gap-4 mb-4 p-4">
                                             <div class="col-span-1">
                                                 <label for="customer_id"
-                                                    class="block mb-2 text-sm font-medium text-gray-900">Customer
+                                                    class="block mb-2 text-sm font-medium text-gray-900">
                                                     Name</label>
                                                 <input type="text" name="customer_id" id="customer_id"
                                                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
@@ -89,7 +105,7 @@
                                             </div>
                                             <div class="col-span-1">
                                                 <label for="customer_id"
-                                                    class="block mb-2 text-sm font-medium text-gray-900">Customer
+                                                    class="block mb-2 text-sm font-medium text-gray-900">
                                                     Address</label>
                                                 <input type="text" name="customer_id" id="customer_id"
                                                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
@@ -98,7 +114,7 @@
                                             </div>
                                             <div class="col-span-1">
                                                 <label for="customer_id"
-                                                    class="block mb-2 text-sm font-medium text-gray-900">Customer
+                                                    class="block mb-2 text-sm font-medium text-gray-900">
                                                     Contact Number</label>
                                                 <input type="text" name="customer_id" id="customer_id"
                                                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
@@ -127,23 +143,6 @@
                                                     readonly>
                                             </div>
                                             <div class="col-span-1">
-                                                <label for="quantity"
-                                                    class="block mb-2 text-sm font-medium text-gray-900">Quantity</label>
-                                                <input type="number" name="quantity" id="quantity"
-                                                    class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500"
-                                                    placeholder="Type quantity" name="quantity"
-                                                    value="{{ $order->orderItems->first() ? $order->orderItems->first()->quantity : 'N/A' }}" readonly>
-                                            </div>
-                                            <div class="col-span-1">
-                                                <label for="price"
-                                                    class="block mb-2 text-sm font-medium text-gray-900">Price</label>
-                                                <input type="number" name="price" id="price"
-                                                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
-                                                    placeholder="$2999"
-                                                    value="{{ $order->orderItems->first()->product->price ?? 'N/A' }}"
-                                                    readonly>
-                                            </div>
-                                            <div class="col-span-1">
                                                 <label for="category"
                                                     class="block mb-2 text-sm font-medium text-gray-900">Category</label>
                                                 <div id="category" name="category_id"
@@ -157,13 +156,36 @@
                                                     @endforeach
                                                 </div>
                                             </div>
+
                                             <div class="col-span-1">
-                                                <label for="status"
-                                                    class="block mb-2 text-sm font-medium text-gray-900">Status</label>
-                                                <input type="text" name="status" id="status"
+                                                <label for="price"
+                                                    class="block mb-2 text-sm font-medium text-gray-900">Price</label>
+                                                <input type="number" name="price" id="price"
                                                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
-                                                    value="{{ $order->status }}" readonly>
+                                                    placeholder="$2999"
+                                                    value="{{ $order->orderItems->first()->product->price ?? 'N/A' }}"
+                                                    readonly>
                                             </div>
+
+                                            <div class="col-span-1">
+                                                <label for="quantity"
+                                                    class="block mb-2 text-sm font-medium text-gray-900">Quantity</label>
+                                                <input type="number" name="quantity" id="quantity"
+                                                    class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500"
+                                                    placeholder="Type quantity" name="quantity"
+                                                    value="{{ $order->orderItems->first() ? $order->orderItems->first()->quantity : 'N/A' }}" readonly>
+                                            </div>
+
+                                            <div class="col-span-1">
+                                                <label for="payment_method"
+                                                    class="block mb-2 text-sm font-medium text-gray-900">
+                                                    Payment Method</label>
+                                                <input type="text" name="payment_method" id="payment_method"
+                                                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                                                    value="{{ $order->payments->first() ? $order->payments->first()->payment_method : 'N/A' }}"
+                                                    readonly>
+                                            </div>
+
                                             <div class="col-span-1">
                                                 <label for="payment_date"
                                                     class="block mb-2 text-sm font-medium text-gray-900">Payment
@@ -173,6 +195,15 @@
                                                     value="{{ $order->payments->first() ? \Carbon\Carbon::parse($order->payments->first()->payment_date)->format('F d, Y') : 'N/A' }}"
                                                     readonly>
                                             </div>
+                                        
+                                            <div class="col-span-1">
+                                                <label for="status"
+                                                    class="block mb-2 text-sm font-medium text-gray-900">Status</label>
+                                                <input type="text" name="status" id="status"
+                                                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                                                    value="{{ $order->status }}" readonly>
+                                            </div>
+                                            
                                             
                                     {{-- {{ $order->created_at->format('d M Y') }} --}}
                                             <div class="col-span-1">
@@ -183,15 +214,7 @@
                                                     value="{{ $order->payments->first()->courier->name ?? 'N/A' }}"
                                                     readonly>
                                             </div>
-                                            <div class="col-span-1">
-                                                <label for="payment_method"
-                                                    class="block mb-2 text-sm font-medium text-gray-900">Mode of
-                                                    Payment</label>
-                                                <input type="text" name="payment_method" id="payment_method"
-                                                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
-                                                    value="{{ $order->payments->first() ? $order->payments->first()->payment_method : 'N/A' }}"
-                                                    readonly>
-                                            </div>
+                                            
                                             <div class="col-span-2 flex justify-around gap-2">
                                                 <div class="col-span-1">
                                                     <label for="proof_of_delivery"
@@ -225,7 +248,8 @@
                                                     </li>
                                                 </ul>
                                             </div>
-                                            <div class="col-span-2">
+
+                                            <!-- <div class="col-span-2">
                                                 <label for="feedback"
                                                     class="block mb-2 text-sm font-bold text-gray-900">Message</label>
                                                 <ul class="bg-gray-50 border border-gray-300 rounded-lg p-2">
@@ -233,7 +257,8 @@
                                                         <span>{{$order->payments->first()->message ?? 'No Message'}}</span> 
                                                     </li>
                                                 </ul>
-                                            </div>
+                                            </div> -->
+                                            
                                             <hr class="my-4">
                                             <div class="flex justify-end gap-2">
                                                 <button type="button"

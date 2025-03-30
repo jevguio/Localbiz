@@ -14,6 +14,21 @@
                         <input type="search" id="table-search"
                             class="block w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500"
                             placeholder="Search for seller....">
+
+                         <!-- Filter Button -->
+                        <button type="button" id="filter-btn"
+                        class="absolute inset-y-0 end-0 flex items-center px-3 text-gray-600 hover:text-gray-900">
+                        <i class='bx bx-filter text-2xl'></i>
+                        </button>
+
+                        <div id="filter-dropdown"
+                            class="hidden absolute right-0 mt-2 w-40 bg-white border border-gray-300 rounded-lg shadow-lg">
+                            <ul class="py-2 text-sm text-gray-700">
+                                <li class="px-4 py-2 hover:bg-gray-100 cursor-pointer filter-option" data-filter="All">All</li>
+                                <li class="px-4 py-2 hover:bg-gray-100 cursor-pointer filter-option" data-filter="Pending">Pending</li>
+                                <li class="px-4 py-2 hover:bg-gray-100 cursor-pointer filter-option" data-filter="Approved">Approved</li>
+                        </ul>
+                    </div>
                     </div>
                 </form>
                 <table class="w-full text-sm text-left rtl:text-right text-gray-500">
@@ -35,7 +50,8 @@
                     </thead>
                     <tbody id="seller-table-body">
                         @foreach ($sellers as $seller)
-                            <tr class="bg-white border-b border-gray-200 hover:bg-gray-50">
+                            <tr class="bg-white border-b border-gray-200 hover:bg-gray-50" 
+                            data-category="{{ $seller->is_approved ? 'Approved' : 'Pending' }}">
                                 <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
                                     {{ $seller->user->fname }}
                                 </th>
@@ -80,7 +96,7 @@
                                                         <input type="text" name="fname" id="name"
                                                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
                                                             placeholder="Type seller business name"
-                                                            value="{{ old('name', $seller->user->fname) }}">
+                                                            value="{{ old('name', $seller->user->fname) }}" readonly disabled>
                                                     </div> 
 
                                                     <div class="col-span-2">
@@ -219,6 +235,41 @@ let startX, startY;
     // Apply transform
     updateTransform();
 }
+
+ // Toggle filter dropdown
+ $("#filter-btn").click(function (event) {
+            event.preventDefault();
+            $("#filter-dropdown").toggleClass("hidden");
+        });
+
+// Search and filter function
+function filterTable() {
+            const searchInput = $("#table-search").val().toLowerCase();
+
+            $("#account-table-body tr").each(function () {
+                const rowText = $(this).text().toLowerCase();
+                const rowCategory = $(this).data("category");
+
+                const matchesSearch = rowText.indexOf(searchInput) > -1;
+                const matchesFilter = selectedFilter === "All" || rowCategory === selectedFilter;
+
+                $(this).toggle(matchesSearch && matchesFilter);
+            });
+        }
+        // Apply filter
+        $(".filter-option").click(function () {
+            selectedFilter = $(this).data("filter");
+            $("#filter-dropdown").addClass("hidden"); // Hide dropdown after selection
+            filterTable();
+        });
+
+        // Close dropdown when clicking outside
+        $(document).click(function (event) {
+            if (!$(event.target).closest("#filter-btn, #filter-dropdown").length) {
+                $("#filter-dropdown").addClass("hidden");
+            }
+        });
+
 
 // Start dragging
 function startDrag(event) {

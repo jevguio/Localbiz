@@ -13,7 +13,7 @@
                 @foreach ($cartItems as $item)
                     <div class="border border-gray-200 bg-white p-6 shadow-md md:p-8 hover:bg-gray-50 flex items-start gap-4 p-5 my-5"  data-modal-target="viewModal{{ $item->id }}">
                         <div class="w-32 h-28 max-lg:w-24 max-lg:h-24 flex p-3 shrink-0 rounded-md">
-                            <img src='{{ asset('assets/' . $item->product->image) }}' class="w-full object-contain" />
+                            
                         </div>
                         <div class="w-full">
                             <h3 class="text-sm lg:text-base text-gray-800 font-bold">{{ $item->product->name }}</h3>
@@ -26,13 +26,12 @@
                                 <li class="flex flex-wrap gap-4">Total Price <span class="ml-auto font-bold">₱
                                         {{ number_format($item->product->price * $item->quantity, 2, '.', ',') }}</span>
                                 </li>
-                                {{-- <li class="flex flex-wrap gap-4">Location <span
+                                <!-- {{-- <li class="flex flex-wrap gap-4">Location <span
                                         class="ml-auto font-bold">{{ $item->product->location->name }}</span></li> --}}
                                 <h3 class="text-sm lg:text-base text-gray-800 font-bold">Receipt</h3>
-                                <img src="{{ asset('receipt_file/' . $item->order->payments->first()->receipt_file) }}"
-                                    alt="Receipt" class="w-60">
+                                    alt="Receipt" class="w-60"> -->
                             </ul>
-                            <div class="flex justify-end">
+                            <!-- <div class="flex justify-end">
                             <form action="{{ route('customer.cancelled') }}" method="POST"
                                 enctype="multipart/form-data">
                                 @csrf
@@ -42,7 +41,7 @@
                                     Cancel
                                 </button>
                             </form>
-                            </div>
+                            </div> -->
                         </div>
                     </div>
                         
@@ -109,7 +108,23 @@
                                             placeholder="Type product name"
                                             value="{{  $item->order->orderItems->first() ? $item->order->orderItems->first()->product->name : 'N/A'}}" readonly>
                                     </div>
-
+                                    <div class="col-span-1">
+                                        <label for="quantity"
+                                            class="block mb-2 text-sm font-medium text-gray-900">Quantity</label>
+                                        <input type="number" name="quantity" id="quantity"
+                                            class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500"
+                                            placeholder="Type quantity" name="quantity"
+                                            value="{{  $item->quantity}}" readonly>
+                                    </div>
+                                    <div class="col-span-1">
+                                        <label for="price"
+                                            class="block mb-2 text-sm font-medium text-gray-900">Price</label>
+                                        <input type="number" name="price" id="price"
+                                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                                            placeholder="$2999"
+                                            value="{{ $item->order->orderItems->first()->product->price ?? 'N/A'}}"
+                                            readonly>
+                                    </div>
                                     <div class="col-span-1">
                                         <label for="category"
                                             class="block mb-2 text-sm font-medium text-gray-900">Category</label>
@@ -125,36 +140,7 @@
                                             @endforeach
                                         </div>
                                     </div>
-
-                                    <div class="col-span-1">
-                                        <label for="price"
-                                            class="block mb-2 text-sm font-medium text-gray-900">Price</label>
-                                        <input type="number" name="price" id="price"
-                                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
-                                            placeholder="$2999"
-                                            value="{{ $item->order->orderItems->first()->product->price ?? 'N/A'}}"
-                                            readonly>
-                                    </div>
-
-                                    <div class="col-span-1">
-                                        <label for="quantity"
-                                            class="block mb-2 text-sm font-medium text-gray-900">Quantity</label>
-                                        <input type="number" name="quantity" id="quantity"
-                                            class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500"
-                                            placeholder="Type quantity" name="quantity"
-                                            value="{{  $item->quantity}}" readonly>
-                                    </div>
-
-                                    <div class="col-span-1">
-                                        <label for="payment_amount"
-                                            class="block mb-2 text-sm font-medium text-gray-900">Total
-                                            Amount</label>
-                                        <input type="number" name="payment_amount" id="payment_amount"
-                                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
-                                            placeholder="Payment Amount"
-                                            value="{{ $item->order->payments->first() ? $item->order->payments->first()->payment_amount : 'N/A' }}" readonly>
-                                    </div>
-                     
+                                   
                                     <div class="col-span-1">
                                         <label for="status"
                                             class="block mb-2 text-sm font-medium text-gray-900">Status</label>
@@ -174,24 +160,32 @@
                                         <input type="text" name="payment_method" id="payment_method"
                                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
                                             placeholder="Payment Method"
-                                            value="{{ $item->order->payments->first() ? $item->order->payments->first()->payment_method : 'N/A' }}" readonly>
+                                            value="{{ $item->order->payments ? $item->order->payments->payment_method : 'N/A' }}" readonly>
                                     </div>
                                     <div class="col-span-1">
                                         <label for="courier"
                                             class="block mb-2 text-sm font-medium text-gray-900">Courier</label>
                                         <input type="text" name="courier" id="courier"
                                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
-                                            value="{{ $item->order->payments->first()->courier->name ?? 'N/A' }}"
+                                            value="{{ $item->order->payments->courier->name ?? 'N/A' }}"
                                             readonly>
                                     </div>
-                                    
+                                    <div class="col-span-1">
+                                        <label for="payment_amount"
+                                            class="block mb-2 text-sm font-medium text-gray-900">Total
+                                            Amount</label>
+                                        <input type="number" name="payment_amount" id="payment_amount"
+                                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                                            placeholder="Payment Amount"
+                                            value="{{ $item->order->payments ? $item->order->payments->payment_amount : 'N/A' }}" readonly>
+                                    </div>
                                     <div class="col-span-1">
                                         <label for="payment_date"
                                             class="block mb-2 text-sm font-medium text-gray-900">Payment
                                             Date</label>
                                         <input type="text" name="payment_date" id="payment_date"
                                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
-                                            value="{{ $item->order->payments->first() ? \Carbon\Carbon::parse($item->order->payments->first()->payment_date)->format('F d, Y') : 'N/A' }}"
+                                            value="{{ $item->order->payments ? \Carbon\Carbon::parse($item->order->payments->payment_date)->format('F d, Y') : 'N/A' }}"
                                             readonly>
                                     </div>
                                     <div class="col-span-1">
@@ -209,7 +203,7 @@
                                             <div name="status" id="status" 
                                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5">
                                         @foreach($couriers as $courier)
-                                            @if(optional($item->order->payments->first())->courier_id != null)
+                                            @if(optional($item->order->payments)->courier_id != null)
 
                                                 @if($item->order->payments->first()->courier_id  == $courier->id)
                                                     <div value="{{$courier->id }}" 

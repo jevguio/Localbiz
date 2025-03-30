@@ -96,6 +96,8 @@
                         <span>Orders</span>
                     </a>
                     <ul class="dropdown-menu" style="display: none;">
+                        <li class="dropdown-item"><a href="{{ route('customer.tracking.all') }}"
+                            class="text-sm text-gray-700 hover:text-orange-900">All</a></li>
                         <li class="dropdown-item"><a href="{{ route('customer.tracking.pending') }}"
                                 class="text-sm text-gray-700 hover:text-orange-900">Pending</a></li>
                         <li class="dropdown-item"><a href="{{ route('customer.tracking.processed') }}"

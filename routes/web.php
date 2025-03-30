@@ -69,6 +69,7 @@ Route::middleware(['auth', 'Customer'])->group(function () {
     Route::delete('/customer/removeCart', [CustomerController::class, 'removeCart'])->name('customer.removeCart');
     Route::put('/customer/cancelled', [CustomerController::class, 'cancelOrder'])->name('customer.cancelled');
 
+    Route::get('/customer/tracking/all', [CustomerController::class, 'trackingAll'])->name('customer.tracking.all');
     Route::get('/customer/tracking/pending', [CustomerController::class, 'trackingPending'])->name('customer.tracking.pending');
     Route::get('/customer/tracking/processed', [CustomerController::class, 'trackingProcessed'])->name('customer.tracking.processed');
     Route::get('/customer/tracking/receiving', [CustomerController::class, 'trackingToReceive'])->name('customer.tracking.receiving');
