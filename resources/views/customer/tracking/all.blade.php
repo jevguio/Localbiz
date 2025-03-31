@@ -14,6 +14,7 @@
                     <div class="border border-gray-200 bg-white p-6 shadow-md md:p-8 hover:bg-gray-50 flex items-start gap-4 p-5 my-5"  data-modal-target="viewModal{{ $item->id }}">
                         <div class="w-32 h-28 max-lg:w-24 max-lg:h-24 flex p-3 shrink-0 rounded-md">
                             
+                            <img src='{{ asset('assets/' . $item->product->image) }}' class="w-full object-contain" />
                         </div>
                         <div class="w-full">
                             <h3 class="text-sm lg:text-base text-gray-800 font-bold">{{ $item->product->name }}</h3>

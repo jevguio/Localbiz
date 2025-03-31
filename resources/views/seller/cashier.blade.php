@@ -39,7 +39,8 @@
                                 <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
                                     {{ $cashier->user->fname . ' ' . $cashier->user->lname }}
                                 </th>
-                                <td class="px-6 py-4 {{ $cashier->is_active == 1 ? 'text-gray-900' :'text-gray-900' }} {{ $cashier->is_active==1?' text-green-700':' text-red-700' }}">
+                                <td
+                                    class="px-6 py-4 {{ $cashier->is_active == 1 ? 'text-gray-900' : 'text-gray-900' }} {{ $cashier->is_active == 1 ? ' text-green-700' : ' text-red-700' }}">
                                     {{ $cashier->is_approved ? 'Active' : 'Inactive' }}
                                 </td>
                                 <td class="flex gap-2 px-6 py-4">
@@ -72,7 +73,8 @@
                                         </div>
                                         <div class="grid gap-4 mb-4 p-4">
                                             <div class="grid gap-4 mb-4 grid-cols-2">
-                                                <form action="{{ route('seller.cashier.update', $cashier->id) }}"
+                                                <form
+                                                    action="{{ route('seller.cashier.update', ['id' => $cashier->id]) }}"
                                                     method="POST" enctype="multipart/form-data">
                                                     @csrf
                                                     @method('PUT')
@@ -92,7 +94,7 @@
                                                             placeholder="Type cashier last name"
                                                             value="{{ old('lname', $cashier->user->lname) }}">
                                                     </div>
-                                                    
+
                                                     <!-- <div class="col-span-2">
                                                         <img src="{{ asset('cashier/documents/' . $cashier->document_file) }}"
                                                             alt="Cashier Document File" class="w-36 h-36 object-cover">

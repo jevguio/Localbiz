@@ -59,7 +59,7 @@ class CashierService
             ]);
         }
     }
-    
+
     public function ToggleRider($request, $id)
     {
         try {
@@ -110,11 +110,18 @@ class CashierService
     public function updateCashier($request, $id)
     {
         try {
-            $cashier = Cashier::find($id);
-            $cashier->update([
-                'is_approved' => $request->is_approved,
-            ]);
+            $cashier = Cashier::find($request->id);
+            $user = User::find($cashier->user_id);
+            if ($request->is_approved) {
 
+                $cashier->update([
+                    'is_approved' => $request->is_approved,
+                ]);
+            }
+            $user->update([
+                'fname' => $request->fname,
+                'lname' => $request->lname,
+            ]);
             session()->flash('success', 'Cashier updated successfully');
             return response()->json([
                 'error_code' => MyConstant::SUCCESS_CODE,
