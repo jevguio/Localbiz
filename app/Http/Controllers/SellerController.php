@@ -115,7 +115,7 @@ class SellerController extends Controller
                 'tbl_products.name as product_name',
                 DB::raw('DATE_FORMAT(tbl_order_items.created_at, "%Y-%m") as month'),
                 DB::raw('SUM(tbl_order_items.quantity) as total_sold')
-            )
+            )->where('tbl_products.seller_id', '=', Seller::where('user_id', '=', Auth::id())->first()->id)
             ->groupBy('month', 'tbl_order_items.product_id', 'tbl_products.name')
             ->orderBy('month', 'ASC')
             ->get();
