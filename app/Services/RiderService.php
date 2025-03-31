@@ -63,11 +63,18 @@ class RiderService
     public function updateRider($request, $id)
     {
         try {
-            $rider = Rider::find($id);
-            $rider->update([
-                'is_approved' => $request->is_approved,
-            ]);
+            $rider = Rider::find($id); 
+            $user = User::find($rider->user_id);
+            if ($request->is_approved) {
 
+                $rider->update([
+                    'is_approved' => $request->is_approved,
+                ]);
+            }
+            $user->update([
+                'fname' => $request->fname,
+                'lname' => $request->lname,
+            ]);
             session()->flash('success', 'Rider updated successfully');
             return response()->json([
                 'error_code' => MyConstant::SUCCESS_CODE,
