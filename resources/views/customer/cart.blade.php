@@ -6,7 +6,7 @@
             </div>
             <div class="mt-6 sm:mt-8 md:gap-6 lg:flex lg:items-start xl:gap-8">
                 <div class="mx-auto w-full flex-none">
-                    <div class="space-y-6"> 
+                    <div class="space-y-6">
                         <div class="border border-gray-300 bg-white p-6 shadow-md md:p-8">
                             <table class="w-full border-collapse  text-center ">
                                 <thead>
@@ -95,7 +95,7 @@
                                             <td class="p-4   font-bold">₱{{ $item->product->price * $item->quantity }}
                                             </td>
                                             <td class="p-4  ">
-                                                <form action="{{ route('customer.removeCart', $item->id) }}"
+                                                <form action="{{ route('customer.removeCart', ['id' => $item->id]) }}"
                                                     method="POST">
                                                     @csrf
                                                     @method('DELETE')

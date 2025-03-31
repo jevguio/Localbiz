@@ -87,17 +87,16 @@ class CustomerService
     }
 
     public function removeCart($request)
-    {
+    { 
         try {
-            $orderItem = OrderItems::findOrFail($request->id);
+            $orderItem = OrderItems::with(['order'])->findOrFail($request->id);
             $order = $orderItem->order;
 
+
+            // if ($order && $order->orderItems()->count() === 0) {
+            //     $order->delete();
+            // }
             $orderItem->delete();
-
-            if ($order && $order->orderItems()->count() === 0) {
-                $order->delete();
-            }
-
             session()->flash('success', 'Product removed from cart successfully.');
             return response()->json([
                 'error_code' => MyConstant::SUCCESS_CODE,
@@ -105,6 +104,7 @@ class CustomerService
                 'message' => 'Product removed from cart successfully.',
             ]);
         } catch (\Exception $e) {
+            \Log::error($e->getMessage());
             session()->flash('error', 'Failed to remove product from cart.');
             return response()->json([
                 'error_code' => MyConstant::FAILED_CODE,
