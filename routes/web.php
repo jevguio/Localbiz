@@ -3,8 +3,7 @@
 use App\Http\Controllers\CashierController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\GovernmentController;
-use App\Http\Controllers\OwnerController;
-use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\OwnerController; 
 use App\Http\Controllers\RiderController;
 use App\Http\Controllers\SellerController;
 use Illuminate\Support\Facades\Route;
@@ -20,9 +19,9 @@ Route::get('/dashboard', function () {
     ->name('dashboard');
 
 Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    Route::get('/profile', [App\Http\Controllers\ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [App\Http\Controllers\ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [App\Http\Controllers\ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
 Route::middleware(['auth', 'Owner'])->group(function () {

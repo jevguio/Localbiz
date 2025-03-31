@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ProfileUpdateRequest;
+use Exception;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -26,9 +27,10 @@ class ProfileController extends Controller
      */
     public function update(ProfileUpdateRequest $request): RedirectResponse
     {
+
         $user = $request->user();
         $user->fill($request->validated());
-
+ 
         if ($request->hasFile('avatar')) {
             $avatar = $request->file('avatar');
             $filename = $avatar->getClientOriginalName();
@@ -39,6 +41,10 @@ class ProfileController extends Controller
         $user->save();
         session()->flash('success', 'Profile Updated Successfully');
         return Redirect::route('profile.edit')->with('status', 'profile-updated');
+        // }catch(Exception $e ){
+        //     \Log::error($e->getMessage());
+        //     session()->flash('success', 'Profile Updated Successfully'); 
+        // }
     }
 
     /**
