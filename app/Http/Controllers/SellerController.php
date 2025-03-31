@@ -106,7 +106,7 @@ class SellerController extends Controller
                 DB::raw('AVG(tbl_order_items.price * tbl_order_items.quantity) as avg_order_value')
             )->where('tbl_products.seller_id', '=', Seller::where('user_id', '=', Auth::id())->first()->id)
             ->groupBy('month', 'tbl_order_items.product_id', 'tbl_products.name')
-            ->orderBy('month', 'ASC')
+            ->orderBy('total_revenue', 'DESC')
             ->limit(10)
             ->get();
         $topProductsByMonth = DB::table('tbl_order_items')
@@ -117,7 +117,7 @@ class SellerController extends Controller
                 DB::raw('SUM(tbl_order_items.quantity) as total_sold')
             )->where('tbl_products.seller_id', '=', Seller::where('user_id', '=', Auth::id())->first()->id)
             ->groupBy('month', 'tbl_order_items.product_id', 'tbl_products.name')
-            ->orderBy('month', 'ASC')
+            ->orderBy('total_sold', 'DESC')
             ->get();
 
         $chartData = [];

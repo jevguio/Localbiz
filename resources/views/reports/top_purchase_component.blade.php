@@ -139,8 +139,8 @@
                  <td>{{ $product->name }}</td>
                  <td>{{ $product->total_orders }}</td>
                  <td>{{ $product->total_sold }}</td>
-                 <td>&#8369;{{ number_format($product->price * $product->total_sold, 2) }}</td>
-                 <td>&#8369;{{ number_format(($product->price * $product->total_orders) / $product->total_orders, 2) }}
+                 <td>&#8369;{{ number_format($product->total_revenue, 2) }}</td>
+                 <td>&#8369;{{ number_format($product->avg_order_value, 2) }}
                  </td>
              </tr>
          @endforeach
