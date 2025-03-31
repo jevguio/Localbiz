@@ -435,7 +435,7 @@ class OwnerController extends Controller
                 DB::raw('AVG(tbl_order_items.price * tbl_order_items.quantity) as avg_order_value')
             )
             ->groupBy('month', 'tbl_order_items.product_id', 'tbl_products.name')
-            ->orderBy('month', 'ASC')
+            ->orderBy('total_revenue', 'DESC')
             ->limit(10)
             ->get();
         $topProductsByMonth = DB::table('tbl_order_items')
@@ -446,7 +446,7 @@ class OwnerController extends Controller
                 DB::raw('SUM(tbl_order_items.quantity) as total_sold')
             )
             ->groupBy('month', 'tbl_order_items.product_id', 'tbl_products.name')
-            ->orderBy('month', 'ASC')
+            ->orderBy('total_sold', 'DESC')
             ->get();
 
         $chartData = [];
