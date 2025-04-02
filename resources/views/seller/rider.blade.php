@@ -39,7 +39,7 @@
                                 <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
                                 {{ $rider->user->fname ." ".$rider->user->lname }} 
                                 </th>
-                                <td class="px-6 py-4 {{ $rider->is_active == 1 ? 'text-gray-900' :'text-gray-900' }} {{ $rider->is_active==1?' text-green-700':' text-red-700' }}">
+                                <td class="px-6 py-4 {{ $rider->is_approved ? ' text-green-700' : ' text-red-700' }}">
                                     {{ $rider->is_approved ? 'Active' : 'Inactive' }}
                                 </td>
                                 <td class="px-6 py-4">
@@ -48,7 +48,7 @@
                                         Edit
                                     </button>
                                     <button data-modal-target="deleteModal{{ $rider->id }}"
-                                        class="font-medium text-red-600 hover:underline" type="button">
+                                        class="font-medium {{ $rider->is_approved ? 'text-red-600' : 'text-green-600' }} hover:underline" type="button">
 
                                         {{ $rider->is_approved ? 'Disable' : 'Enable' }}
                                     </button>

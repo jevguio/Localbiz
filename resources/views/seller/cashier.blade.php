@@ -40,7 +40,7 @@
                                     {{ $cashier->user->fname . ' ' . $cashier->user->lname }}
                                 </th>
                                 <td
-                                    class="px-6 py-4 {{ $cashier->is_active == 1 ? 'text-gray-900' : 'text-gray-900' }} {{ $cashier->is_active == 1 ? ' text-green-700' : ' text-red-700' }}">
+                                    class="px-6 py-4 {{ $cashier->is_approved ? ' text-green-600' : ' text-red-700' }}">
                                     {{ $cashier->is_approved ? 'Active' : 'Inactive' }}
                                 </td>
                                 <td class="flex gap-2 px-6 py-4">
@@ -49,7 +49,7 @@
                                         Edit
                                     </button>
                                     <button data-modal-target="deleteModal{{ $cashier->id }}"
-                                        class="font-medium text-red-600 hover:underline" type="button">
+                                        class="font-medium {{ $cashier->is_approved ? 'text-red-600' : 'text-green-600' }} hover:underline" type="button">
 
                                         {{ $cashier->is_approved ? 'Disable' : 'Enable' }}
                                     </button>

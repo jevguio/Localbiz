@@ -141,7 +141,7 @@
                                 </div>
                                 <div x-data="{ paymentMethod: '' }">
                                     <button id="proceedToCheckout" @if (!$is_active_checkout) disabled @endif
-                                        class="flex w-full items-center justify-center rounded-lg btn btn-primary px-5 py-2.5 text-sm font-medium text-white">
+                                        class="flex w-full items-center justify-center rounded-lg btn bg-orange-900 hover:bg-orange-900 px-5 py-2.5 text-sm font-medium text-white">
                                         Proceed to Checkout
                                     </button>
                                     <h2 id="paymentDetails" class="mt-4 text-xl font-bold text-gray-900 sm:text-2xl">
@@ -224,7 +224,7 @@
                                         </div>
 
                                         <button type="submit"
-                                            class="flex w-full items-center justify-center rounded-lg btn btn-secondary px-5 py-2.5 text-sm font-medium text-white">Submit</button>
+                                            class="flex w-full items-center justify-center rounded-lg btn bg-orange-900 hover:bg-orange-900 px-5 py-2.5 text-sm font-medium text-white">Submit</button>
                                     </form>
                                 </div>
 

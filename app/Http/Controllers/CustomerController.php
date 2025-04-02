@@ -76,13 +76,13 @@ class CustomerController extends Controller
     public function addToCart(Request $request)
     {
         $result = (new CustomerService())->addToCart($request);
-        return redirect()->back()->with('success', 'Product added to cart successfully');
+        return redirect()->back()->with('success', 'Added to cart successfully');
     }
 
     public function removeCart(Request $request)
     {
         $result = (new CustomerService())->removeCart($request);
-        return redirect()->back()->with('success', 'Product removed from cart successfully');
+        return redirect()->back()->with('success', 'Product removed successfully');
     }
 
     public function cancelOrder(Request $request)
