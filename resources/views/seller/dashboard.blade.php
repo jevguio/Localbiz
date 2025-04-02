@@ -38,7 +38,7 @@
                         <div role="alert" class="alert alert-warning text-white">
                             <i class='bx bx-check-circle shrink-0 stroke-current text-lg'></i>
                             <span>Your documents have been uploaded. Please wait for approval from the
-                                government agency.</span>
+                                DTI.</span>
                         </div>
                     @elseif ($seller && $seller->is_approved == 0)
                         <form action="{{ route('seller.dashboard.upload') }}" method="POST"
