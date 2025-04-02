@@ -45,7 +45,7 @@
                             </a>
                             <a  href="{{route('owner.topseller')}}" 
                                 class="btn btn-primary bg-blue-700 hover:bg-blue-800 text-white px-4 py-2 rounded-md">
-                                Top Seller
+                                Top Sellers
                             </a>
                             
                             <a href="{{ route('owner.toppurchase') }}" onclick="openTopProducts()"
