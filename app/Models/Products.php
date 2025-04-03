@@ -11,7 +11,7 @@ class Products extends Model
     protected $table = 'tbl_products';
     public $timestamps = true;
 
-    protected $fillable = ['seller_id', 'category_id', 'name', 'description', 'price', 'stock', 'image', 'location_id', 'is_active'];
+    protected $fillable = ['seller_id', 'category_id', 'name', 'description', 'price', 'stock', 'image', 'location_id', 'is_active','best_before_date'];
 
     public function category(): BelongsTo
     {

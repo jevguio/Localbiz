@@ -3,11 +3,10 @@
         <div class="p-4 border-2 border-gray-200 border-dashed rounded-lg">
             <div class="flex justify-between items-center">
                 <h2 class="text-xl font-bold text-gray-900 sm:text-3xl">Products</h2>
-                <button data-modal-target="addModal" 
-    class="btn btn-primary text-lg px-6 py-6 w-full md:w-auto rounded-lg"
-    type="button">
-    Add Product
-</button>
+                <button data-modal-target="addModal" class="btn btn-primary text-lg px-6 py-6 w-full md:w-auto rounded-lg"
+                    type="button">
+                    Add Product
+                </button>
 
             </div>
             <div class="relative overflow-x-auto mt-10 bg-white p-4 rounded-lg">
@@ -146,7 +145,8 @@
                                                     <div class="col-span-2 sm:col-span-1">
                                                         <label for="category"
                                                             class="block mb-2 text-sm font-medium text-gray-900">Category</label>
-                                                        <select id="category" name="category_id" onchange="categoryChange(event)"
+                                                        <select id="category_{{ $product->id }}" name="category_id"
+                                                            onchange="categoryChange{{ $product->id }}(event)"
                                                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5">
                                                             <option selected="">Select category</option>
                                                             @foreach ($categories as $category)
@@ -157,10 +157,23 @@
                                                         </select>
                                                     </div>
 
-                                                    <div id="bestBeforeDateDiv_{{ $product->id }}" style="display: none;" class="col-span-2 sm:col-span-1">
+                                                    <script>
+                                                        // Add this to check on page load
+                                                        function categoryChange{{ $product->id }}(e) {
+                                                            let bestBeforeDiv = document.getElementById('bestBeforeDateDiv_{{ $product->id }}');
+                                                            let selectedOption = e.target.options[e.target.selectedIndex];
+                                                            console.log(selectedOption.text.toLowerCase() == 'food' ?selectedOption.text.toLowerCase():'none');
+                                                            bestBeforeDiv.style.display = selectedOption.text.toLowerCase() == 'food' ? 'block' : 'none';
+                                                        };
+                                                    </script> 
+                                                    <div id="bestBeforeDateDiv_{{ $product->id }}"
+                                                        style="display: @if($product->category_id==3) block @else none @endif;" class="col-span-2 sm:col-span-1">
                                                         <div class="mt-2">
-                                                            <label for="best_before_date" class="block mb-2 text-sm font-medium text-gray-900">Best Before Date</label>
-                                                            <input type="date" name="best_before_date" id="best_before_date_{{ $product->id }}" 
+                                                            <label for="best_before_date"
+                                                                class="block mb-2 text-sm font-medium text-gray-900">Best
+                                                                Before Date</label>
+                                                            <input type="date" name="best_before_date"
+                                                                id="best_before_date_{{ $product->id }}"
                                                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
                                                                 value="{{ old('best_before_date', $product->best_before_date ?? '') }}">
                                                         </div>
@@ -295,10 +308,10 @@
                                         </div>
 
                                         <div class="col-span-2 sm:col-span-1">
-                                            <label for="category"
+                                            <label for="category_1"
                                                 class="block mb-2 text-sm font-medium text-gray-900">Category</label>
-                                            <select id="category" name="category_id"
-                                            onchange="categoryChange(event)"
+                                            <select id="category_1" name="category_id"
+                                                onchange="categoryChange(event)"
                                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5">
                                                 <option selected="">Select category</option>
                                                 @foreach ($categories as $category)
@@ -307,7 +320,8 @@
                                                 @endforeach
                                             </select>
                                         </div>
-
+                                        <input type="number" name="is_active" id="price"
+                                        class="hidden" value="1">
                                         <div class="col-span-2 sm:col-span-1">
                                             <label for="price"
                                                 class="block mb-2 text-sm font-medium text-gray-900">Price</label>
@@ -316,14 +330,24 @@
                                                 placeholder="P2999" value="{{ old('price') }}">
                                         </div>
 
-                                        <div id="bestBeforeDateDiv" style="display: none;" class="col-span-2 sm:col-span-1">
-                                            <div  class="mt-2" >
+                                        <div id="bestBeforeDateDiv" style="display: none;"
+                                            class="col-span-2 sm:col-span-1">
+                                            <div class="mt-2">
                                                 <label for="best_before_date"
-                                                class="block mb-2 text-sm font-medium text-gray-900">Best Before Date</label>
-                                                <input type="date" name="best_before_date" id="best_before_date" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5">
+                                                    class="block mb-2 text-sm font-medium text-gray-900">Best Before
+                                                    Date</label>
+                                                <input type="date" name="best_before_date" id="best_before_date"
+                                                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5">
                                             </div>
-                                        </div> 
+                                        </div>
 
+                                        <script>
+                                            function categoryChange(e) {
+                                                let bestBeforeDiv = document.getElementById('bestBeforeDateDiv');
+                                                let selectedOption = e.target.options[e.target.selectedIndex];
+                                                bestBeforeDiv.style.display = selectedOption.text.toLowerCase() == 'food' ? 'block' : 'none';
+                                            };
+                                        </script>
                                         <div class="col-span-2 sm:col-span-1">
                                             <label for="stock"
                                                 class="block mb-2 text-sm font-medium text-gray-900">Stock</label>
@@ -331,18 +355,18 @@
                                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
                                                 value="{{ old('stock') }}">
                                         </div>
-                                        
-                                    <hr class="my-4">
-                                    <div class="flex justify-end gap-2 w-full">
-                                        <button type="submit"
-                                            class="btn btn-primary text-white inline-flex items-center bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center ms-auto">
-                                            Save
-                                        </button>
-                                        <button type="button" data-modal-toggle="addModal"
-                                            class="btn btn-error text-white inline-flex items-center bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">
-                                            Close
-                                        </button>
-                                    </div>
+
+                                        <hr class="my-4">
+                                        <div class="flex justify-end gap-2 w-full">
+                                            <button type="submit"
+                                                class="btn btn-primary text-white inline-flex items-center bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center ms-auto">
+                                                Save
+                                            </button>
+                                            <button type="button" data-modal-toggle="addModal"
+                                                class="btn btn-error text-white inline-flex items-center bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">
+                                                Close
+                                            </button>
+                                        </div>
                                 </form>
                             </div>
                         </div>
@@ -370,25 +394,6 @@
                 const modalId = $(this).data('modal-toggle');
                 $(`#${modalId}`).addClass('hidden');
             });
-        });
-    </script>
-    <script>
-        $(document).ready(function() {
-            // ... existing code ...
-        });
-
-        function categoryChange(e) { 
-            let bestBeforeDiv = document.getElementById('bestBeforeDateDiv');
-            let selectedOption = e.target.options[e.target.selectedIndex];
-            bestBeforeDiv.style.display = selectedOption.text.toLowerCase() === 'processed foods' ? 'block' : 'none';
-        };
-
-        // Add this to check on page load
-        document.addEventListener('DOMContentLoaded', function() {
-            let categorySelect = document.getElementById('category');
-            if (categorySelect) {
-                categoryChange({ target: categorySelect });
-            }
         });
     </script>
 

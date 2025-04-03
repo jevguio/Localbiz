@@ -35,7 +35,8 @@ class ProductService
             $productData = $request->all();
             $productData['seller_id'] = $seller->id;
             $productData['location_id'] = $location->id;
-
+            \Log::info($productData);
+//best_before_date
             $product = Products::create($productData);
 
             if ($request->hasFile('image')) {
