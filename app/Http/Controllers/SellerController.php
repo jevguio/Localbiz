@@ -35,7 +35,7 @@ class SellerController extends Controller
     public function index()
     {
         $seller = Seller::where('user_id', Auth::user()->id)->first();
-        $lowStockProducts = Products::where('stock', '<=', 5)->where('seller_id', '=', $seller->id)->get();
+        $lowStockProducts = Products::where('stock', '<=', 5)->where('seller_id', '=', $seller->id)->where('is_active', '=', true)->get();
 
         return view('seller.dashboard', compact('seller', 'lowStockProducts'));
     }
@@ -57,10 +57,26 @@ class SellerController extends Controller
             session()->flash('error', 'Your account is not active. Please contact the administrator.');
             return redirect()->route('seller.dashboard');
         }
-        $products = $seller->products()->orderBy('created_at', 'desc')->paginate(10);
+        $products = $seller->products()->where('is_active', '=', true)->orderBy('created_at', 'desc')->paginate(10);
         $categories = Categories::all();
         $locations = Location::all();
         return view('seller.products', compact('products', 'categories', 'locations'));
+    }
+    public function archive()
+    {
+        $seller = Seller::where('user_id', Auth::id())->first();
+        if (!$seller || !$seller->is_approved || $seller->user->is_active == 0) {
+            session()->flash('error', 'You are not approved to access this page.');
+            return redirect()->route('seller.dashboard');
+        }
+        if ($seller->user->is_active == 0) {
+            session()->flash('error', 'Your account is not active. Please contact the administrator.');
+            return redirect()->route('seller.dashboard');
+        }
+        $products = $seller->products()->where('is_active', '=', false)->orderBy('created_at', 'desc')->paginate(10);
+        $categories = Categories::all();
+        $locations = Location::all();
+        return view('seller.archive', compact('products', 'categories', 'locations'));
     }
 
     public function inventory()
@@ -236,6 +252,16 @@ class SellerController extends Controller
     public function destroyProduct($id)
     {
         $result = (new ProductService())->destroyProduct($id);
+        return redirect()->back();
+    }
+    public function archiveProduct($id)
+    {
+        $result = (new ProductService())->archiveProduct($id);
+        return redirect()->back();
+    }
+    public function unarchiveProduct($id)
+    {
+        $result = (new ProductService())->unarchiveProduct($id);
         return redirect()->back();
     }
 

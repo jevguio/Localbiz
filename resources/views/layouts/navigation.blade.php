@@ -46,7 +46,7 @@
                         </a>
                     </div>
                 </li>
-                
+
                 <li>
                     <div class="group">
                         <a href="{{ route('owner.inventory') }}?filter=all"
@@ -97,7 +97,7 @@
                     </a>
                     <ul class="dropdown-menu" style="display: none;">
                         <li class="dropdown-item"><a href="{{ route('customer.tracking.all') }}"
-                            class="text-sm text-gray-700 hover:text-orange-900">All</a></li>
+                                class="text-sm text-gray-700 hover:text-orange-900">All</a></li>
                         <li class="dropdown-item"><a href="{{ route('customer.tracking.pending') }}"
                                 class="text-sm text-gray-700 hover:text-orange-900">Pending</a></li>
                         <li class="dropdown-item"><a href="{{ route('customer.tracking.processed') }}"
@@ -170,6 +170,8 @@
                                 class="text-sm text-black-700 hover:text-orange-900">Products</a></li>
                         <li class="dropdown-item"><a href="{{ route('seller.categories') }}"
                                 class="text-sm text-black-700 hover:text-orange-900">Categories</a></li>
+                        <li class="dropdown-item"><a href="{{ route('seller.archive') }}"
+                                class="text-sm text-black-700 hover:text-orange-900">Archive</a></li>
                     </ul>
                 </li>
 
@@ -213,8 +215,7 @@
                 </li> -->
                 <li class="dropdown">
                     <a href="#"
-                        class="dropdown-toggle text-black-800 text-base flex items-center group-hover:text-orange-900 transition-all"
-                         >
+                        class="dropdown-toggle text-black-800 text-base flex items-center group-hover:text-orange-900 transition-all">
                         <i class='bx bxs-cart text-3xl mr-4 text-gray-400 group-hover:text-orange-900'></i>
                         <span>Orders</span>
                     </a>
@@ -240,7 +241,7 @@
                         </a>
                     </div>
                 </li>
-                
+
                 <li>
                     <div class="group">
                         <a href="{{ route('seller.inventory') }}"

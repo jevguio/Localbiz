@@ -117,4 +117,54 @@ class ProductService
             ]);
         }
     }
+    public function archiveProduct($id)
+    {
+        try {
+            $product = Products::find($id);
+
+            if ($product) {
+                $product->is_active = false;
+                $product->save();
+            }
+
+            session()->flash('success', 'Product deleted successfully');
+            return response()->json([
+                'error_code' => MyConstant::SUCCESS_CODE,
+                'status_code' => MyConstant::SUCCESS_CODE,
+                'message' => 'Product deleted successfully.',
+            ]);
+        } catch (\Exception $e) {
+            session()->flash('error', 'Failed to delete product. ' . $e->getMessage());
+            return response()->json([
+                'error_code' => MyConstant::FAILED_CODE,
+                'status_code' => MyConstant::FAILED_CODE,
+                'message' => 'Failed to delete product.',
+            ]);
+        }
+    }
+    public function unarchiveProduct($id)
+    {
+        try {
+            $product = Products::find($id);
+
+            if ($product) {
+                $product->is_active = true;
+                $product->save();
+            }
+
+            session()->flash('success', 'Product deleted successfully');
+            return response()->json([
+                'error_code' => MyConstant::SUCCESS_CODE,
+                'status_code' => MyConstant::SUCCESS_CODE,
+                'message' => 'Product deleted successfully.',
+            ]);
+        } catch (\Exception $e) {
+            session()->flash('error', 'Failed to delete product. ' . $e->getMessage());
+            return response()->json([
+                'error_code' => MyConstant::FAILED_CODE,
+                'status_code' => MyConstant::FAILED_CODE,
+                'message' => 'Failed to delete product.',
+            ]);
+        }
+    }
 }

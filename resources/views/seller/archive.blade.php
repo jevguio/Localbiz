@@ -3,11 +3,7 @@
         <div class="p-4 border-2 border-gray-200 border-dashed rounded-lg">
             <div class="flex justify-between items-center">
                 <h2 class="text-xl font-bold text-gray-900 sm:text-3xl">Products</h2>
-                <button data-modal-target="addModal" 
-    class="btn btn-primary text-lg px-6 py-6 w-full md:w-auto rounded-lg"
-    type="button">
-    Add Product
-</button>
+                 
 
             </div>
             <div class="relative overflow-x-auto mt-10 bg-white p-4 rounded-lg">
@@ -65,7 +61,7 @@
                                     </button>
                                     <button data-modal-target="deleteModal{{ $product->id }}"
                                         class="font-medium text-red-600 hover:underline" type="button">
-                                        Archive
+                                        Un-Archive
                                     </button>
                                 </td>
                             </tr>
@@ -200,11 +196,11 @@
                                                 <i class='bx bx-x text-gray-500 text-2xl'></i>
                                             </button>
                                         </div>
-                                        <form action="{{ route('seller.products.archive', $product->id) }}"
+                                        <form action="{{ route('seller.products.unarchive', $product->id) }}"
                                             method="POST">
                                             @csrf
                                             @method('DELETE')
-                                            <p class="text-sm text-gray-500 p-4">Are you sure you want to archive this
+                                            <p class="text-sm text-gray-500 p-4">Are you sure you want to un-archive this
                                                 product?
                                             </p>
                                             <hr class="my-4">
@@ -212,7 +208,7 @@
                                                 <button type="submit"
                                                     data-modal-toggle="deleteModal{{ $product->id }}"
                                                     class="btn btn-error text-white inline-flex items-center bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">
-                                                    Archive
+                                                    Un-Archive
                                                 </button>
                                                 <button type="button"
                                                     data-modal-toggle="deleteModal{{ $product->id }}"
@@ -239,115 +235,7 @@
                     </ul>
                 </nav>
 
-                <div id="addModal" tabindex="-1" aria-hidden="true"
-                    class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-screen max-h-full bg-black bg-opacity-50">
-                    <div class="relative p-4 w-full max-w-5xl max-h-full mx-auto">
-                        <div class="relative bg-white rounded-lg shadow-sm">
-                            <div
-                                class="flex items-center justify-between p-4 md:p-5 border-b rounded-t border-gray-200">
-                                <h3 class="text-lg font-bold text-gray-900">
-                                    Add Product
-                                </h3>
-                                <button type="button"
-                                    class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center"
-                                    data-modal-toggle="addModal">
-                                    <i class='bx bx-x text-gray-500 text-2xl'></i>
-                                </button>
-                            </div>
-                            <div class="grid gap-4 mb-4 p-4">
-                                <form action="{{ route('seller.products.store') }}" method="POST"
-                                    enctype="multipart/form-data">
-                                    @csrf
-                                    @method('POST')
-                                    <div class="grid gap-4 mb-4 grid-cols-2">
-                                        <div class="col-span-2">
-                                            <label class="block mb-2 text-sm font-medium text-gray-900"
-                                                for="image">Product Image</label>
-                                            <input type="file"
-                                                class="file-input w-full border border-gray-300 rounded-lg cursor-pointer bg-gray-50"
-                                                name="image" accept="image/*" />
-                                        </div>
-                                        <div class="col-span-2">
-                                            <label for="name"
-                                                class="block mb-2 text-sm font-medium text-gray-900">Name</label>
-                                            <input type="text" name="name" id="name"
-                                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
-                                                placeholder="Type product name" value="{{ old('name') }}">
-                                        </div>
-                                        <div class="col-span-2 sm:col-span-1">
-                                            <label for="description"
-                                                class="block mb-2 text-sm font-medium text-gray-900">Description</label>
-                                            <textarea id="description" rows="4"
-                                                class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500"
-                                                placeholder="Write product description here" name="description">{{ old('description') }}</textarea>
-                                        </div>
-                                        <div class="col-span-2 sm:col-span-1">
-                                            <label for="location"
-                                                class="block mb-2 text-sm font-medium text-gray-900">Location</label>
-                                            <select name="location" id="location"
-                                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5">
-                                                @foreach ($locations as $location)
-                                                    <option value="{{ $location->id }}"
-                                                        {{ old('location', $products->first()->location->id ?? null) == $location->id ? 'selected' : '' }}>
-                                                        {{ $location->name }}</option>
-                                                @endforeach
-                                            </select>
-                                        </div>
-
-                                        <div class="col-span-2 sm:col-span-1">
-                                            <label for="category"
-                                                class="block mb-2 text-sm font-medium text-gray-900">Category</label>
-                                            <select id="category" name="category_id"
-                                            onchange="categoryChange(event)"
-                                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5">
-                                                <option selected="">Select category</option>
-                                                @foreach ($categories as $category)
-                                                    <option value="{{ $category->id }}">
-                                                        {{ $category->name }}</option>
-                                                @endforeach
-                                            </select>
-                                        </div>
-
-                                        <div class="col-span-2 sm:col-span-1">
-                                            <label for="price"
-                                                class="block mb-2 text-sm font-medium text-gray-900">Price</label>
-                                            <input type="number" name="price" id="price"
-                                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
-                                                placeholder="P2999" value="{{ old('price') }}">
-                                        </div>
-
-                                        <div id="bestBeforeDateDiv" style="display: none;" class="col-span-2 sm:col-span-1">
-                                            <div  class="mt-2" >
-                                                <label for="best_before_date"
-                                                class="block mb-2 text-sm font-medium text-gray-900">Best Before Date</label>
-                                                <input type="date" name="best_before_date" id="best_before_date" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5">
-                                            </div>
-                                        </div> 
-
-                                        <div class="col-span-2 sm:col-span-1">
-                                            <label for="stock"
-                                                class="block mb-2 text-sm font-medium text-gray-900">Stock</label>
-                                            <input type="number" name="stock" id="stock"
-                                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
-                                                value="{{ old('stock') }}">
-                                        </div>
-                                        
-                                    <hr class="my-4">
-                                    <div class="flex justify-end gap-2 w-full">
-                                        <button type="submit"
-                                            class="btn btn-primary text-white inline-flex items-center bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center ms-auto">
-                                            Save
-                                        </button>
-                                        <button type="button" data-modal-toggle="addModal"
-                                            class="btn btn-error text-white inline-flex items-center bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">
-                                            Close
-                                        </button>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+               
             </div>
         </div>
     </div>

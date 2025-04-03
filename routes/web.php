@@ -3,7 +3,7 @@
 use App\Http\Controllers\CashierController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\GovernmentController;
-use App\Http\Controllers\OwnerController; 
+use App\Http\Controllers\OwnerController;
 use App\Http\Controllers\RiderController;
 use App\Http\Controllers\SellerController;
 use Illuminate\Support\Facades\Route;
@@ -82,6 +82,7 @@ Route::middleware(['auth', 'Customer'])->group(function () {
 Route::middleware(['auth', 'Seller'])->group(function () {
     Route::get('/seller/dashboard', [SellerController::class, 'index'])->name('seller.dashboard');
     Route::get('/seller/products', [SellerController::class, 'products'])->name('seller.products');
+    Route::get('/seller/archive', [SellerController::class, 'archive'])->name('seller.archive');
     Route::get('/seller/inventory', [SellerController::class, 'inventory'])->name('seller.inventory');
     Route::get('/seller/categories', [SellerController::class, 'categories'])->name('seller.categories');
     Route::get('/seller/locations', [SellerController::class, 'locations'])->name('seller.locations');
@@ -124,7 +125,8 @@ Route::middleware(['auth', 'Seller'])->group(function () {
     Route::delete('/seller/cashier/destroy/{id}', [SellerController::class, 'destroyCashier'])->name('seller.cashier.destroy');
     Route::delete('/seller/rider/destroy/{id}', [SellerController::class, 'destroyRider'])->name('seller.rider.destroy');
     Route::delete('/seller/categories/destroy/{id}', [SellerController::class, 'destroyCategory'])->name('seller.categories.destroy');
-    Route::delete('/seller/products/destroy/{id}', [SellerController::class, 'destroyProduct'])->name('seller.products.destroy');
+    Route::delete('/seller/products/archive/{id}', [SellerController::class, 'archiveProduct'])->name('seller.products.archive');
+    Route::delete('/seller/products/unarchive/{id}', [SellerController::class, 'unarchiveProduct'])->name('seller.products.unarchive');
     Route::delete('/seller/locations/destroy/{id}', [SellerController::class, 'destroyLocation'])->name('seller.locations.destroy');
 });
 
