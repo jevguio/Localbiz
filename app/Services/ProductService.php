@@ -127,18 +127,18 @@ class ProductService
                 $product->save();
             }
 
-            session()->flash('success', 'Product deleted successfully');
+            session()->flash('success', 'Product archive successfully');
             return response()->json([
                 'error_code' => MyConstant::SUCCESS_CODE,
                 'status_code' => MyConstant::SUCCESS_CODE,
-                'message' => 'Product deleted successfully.',
+                'message' => 'Product archive successfully.',
             ]);
         } catch (\Exception $e) {
-            session()->flash('error', 'Failed to delete product. ' . $e->getMessage());
+            session()->flash('error', 'Failed to archive product. ' . $e->getMessage());
             return response()->json([
                 'error_code' => MyConstant::FAILED_CODE,
                 'status_code' => MyConstant::FAILED_CODE,
-                'message' => 'Failed to delete product.',
+                'message' => 'Failed to archive product.',
             ]);
         }
     }
@@ -152,18 +152,18 @@ class ProductService
                 $product->save();
             }
 
-            session()->flash('success', 'Product deleted successfully');
+            session()->flash('success', 'Product un-archive successfully');
             return response()->json([
                 'error_code' => MyConstant::SUCCESS_CODE,
                 'status_code' => MyConstant::SUCCESS_CODE,
-                'message' => 'Product deleted successfully.',
+                'message' => 'Product un-archive successfully.',
             ]);
         } catch (\Exception $e) {
-            session()->flash('error', 'Failed to delete product. ' . $e->getMessage());
+            session()->flash('error', 'Failed to un-archive product. ' . $e->getMessage());
             return response()->json([
                 'error_code' => MyConstant::FAILED_CODE,
                 'status_code' => MyConstant::FAILED_CODE,
-                'message' => 'Failed to delete product.',
+                'message' => 'Failed to un-archive product.',
             ]);
         }
     }
