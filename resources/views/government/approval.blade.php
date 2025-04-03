@@ -64,7 +64,7 @@
                                 <td class="px-6 py-4 pl-10">
                                     <button data-modal-target="editModal{{ $seller->id }}"
                                         class="font-medium text-green-600 hover:underline" type="button">
-                                        Edit
+                                        View
                                     </button>
                                 </td>
                             </tr>
@@ -101,7 +101,7 @@
 
                                                     <div class="col-span-2">
                                                         <label class="block mb-2 text-sm font-medium text-gray-900"
-                                                            for="name">Seller Document File</label>
+                                                            for="name">Seller Files</label>
                                                             @php
                                                                 $documentFiles = json_decode($seller->document_file, true);
                                                             @endphp
@@ -136,13 +136,14 @@
                                                         <select name="is_approved" id="is_approved"
                                                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
                                                             value="{{ old('is_approved', $seller->is_approved ? 'Approved' : 'Pending') }}">
+                                                            <option value="0"
+                                                                {{ !$seller->is_approved ? 'selected' : '' }}
+                                                                disabled>
+                                                                Pending
+                                                            </option>
                                                             <option value="1"
                                                                 {{ $seller->is_approved ? 'selected' : '' }}>
                                                                 Approved
-                                                            </option>
-                                                            <option value="0"
-                                                                {{ !$seller->is_approved ? 'selected' : '' }}>
-                                                                Pending
                                                             </option>
                                                         </select>
                                                     </div>

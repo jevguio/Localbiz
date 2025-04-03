@@ -27,24 +27,43 @@ class ProfileController extends Controller
      */
     public function update(ProfileUpdateRequest $request): RedirectResponse
     {
+        try {
+            $user = $request->user();
+            $validated = $request->validated();
+            
+            // Debug incoming data
+            \Log::info('Update data:', [
+                'last_name' => $request->last_name,
+                'validated' => $validated,
+                'current_last_name' => $user->last_name
+            ]);
 
-        $user = $request->user();
-        $user->fill($request->validated());
- 
-        if ($request->hasFile('avatar')) {
-            $avatar = $request->file('avatar');
-            $filename = $avatar->getClientOriginalName();
-            $avatar->move(public_path('avatar'), $filename);
-            $user->avatar = $filename;
+            $user->fill($validated);
+            
+            // Explicitly set last name
+            if (isset($validated['last_name'])) {
+                $user->last_name = $validated['last_name'];
+            }
+
+            if ($request->hasFile('avatar')) {
+                $avatar = $request->file('avatar');
+                $filename = time() . '_' . $avatar->getClientOriginalName();
+                $avatar->move(public_path('avatar'), $filename);
+                $user->avatar = $filename;
+            }
+
+            // Debug changes before saving
+            \Log::info('Changes to save:', $user->getDirty());
+
+            $user->save();
+            
+            session()->flash('success', 'Profile Updated Successfully');
+            return Redirect::route('profile.edit')->with('status', 'profile-updated');
+            
+        } catch(Exception $e) {
+            \Log::error('Profile update error: ' . $e->getMessage());
+            return back()->withInput()->with('error', 'Failed to update profile');
         }
-
-        $user->save();
-        session()->flash('success', 'Profile Updated Successfully');
-        return Redirect::route('profile.edit')->with('status', 'profile-updated');
-        // }catch(Exception $e ){
-        //     \Log::error($e->getMessage());
-        //     session()->flash('success', 'Profile Updated Successfully'); 
-        // }
     }
 
     /**

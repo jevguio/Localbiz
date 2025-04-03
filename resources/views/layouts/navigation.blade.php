@@ -13,8 +13,8 @@
                 <li>
                     <div class="group">
                         <a href="{{ route('owner.account') }}"
-                            class="text-black-800 text-sm flex items-center group-hover:text-orange-900 transition-all">
-                            <i class='bx bxs-user-circle text-2xl mr-4 text-gray-400 group-hover:text-orange-900'></i>
+                            class="text-black-800 text-base flex items-center group-hover:text-orange-900 transition-all">
+                            <i class='bx bxs-user-circle text-3xl mr-4 text-gray-400 group-hover:text-orange-900'></i>
                             <span>Accounts</span>
                         </a>
                     </div>
@@ -22,8 +22,8 @@
                 <li>
                     <div class="group">
                         <a href="{{ route('owner.products') }}"
-                            class="text-black-800 text-sm flex items-center group-hover:text-orange-900 transition-all">
-                            <i class='bx bxs-package text-2xl mr-4 text-gray-400 group-hover:text-orange-900'></i>
+                            class="text-black-800 text-base flex items-center group-hover:text-orange-900 transition-all">
+                            <i class='bx bxs-package text-3xl mr-4 text-gray-400 group-hover:text-orange-900'></i>
                             <span>Products</span>
                         </a>
                     </div>
@@ -40,8 +40,8 @@
                 <li>
                     <div class="group">
                         <a href="{{ route('owner.orders') }}"
-                            class="text-black-800 text-sm flex items-center group-hover:text-orange-900 transition-all">
-                            <i class='bx bxs-cart text-2xl mr-4 text-gray-400 group-hover:text-orange-900'></i>
+                            class="text-black-800 text-base flex items-center group-hover:text-orange-900 transition-all">
+                            <i class='bx bxs-cart text-3xl mr-4 text-gray-400 group-hover:text-orange-900'></i>
                             <span>Orders</span>
                         </a>
                     </div>
@@ -50,8 +50,8 @@
                 <li>
                     <div class="group">
                         <a href="{{ route('owner.inventory') }}?filter=all"
-                            class="text-black-800 text-sm flex items-center group-hover:text-orange-900 transition-all">
-                            <i class='bx bxs-package text-2xl mr-4 text-gray-400 group-hover:text-orange-900'></i>
+                            class="text-black-800 text-base flex items-center group-hover:text-orange-900 transition-all">
+                            <i class='bx bxs-package text-3xl mr-4 text-gray-400 group-hover:text-orange-900'></i>
                             <span>Inventory</span>
                         </a>
                     </div>
@@ -60,8 +60,8 @@
                 <li>
                     <div class="group">
                         <a href="{{ route('owner.reports') }}"
-                            class="text-black-800 text-sm flex items-center group-hover:text-orange-900 transition-all">
-                            <i class='bx bxs-file-pdf text-2xl mr-4 text-gray-400 group-hover:text-orange-900'></i>
+                            class="text-black-800 text-base flex items-center group-hover:text-orange-900 transition-all">
+                            <i class='bx bxs-file-pdf text-3xl mr-4 text-gray-400 group-hover:text-orange-900'></i>
                             <span>Reports</span>
                         </a>
                     </div>
@@ -73,8 +73,8 @@
                 <li>
                     <div class="group">
                         <a href="{{ route('customer.products') }}"
-                            class="text-black-800 text-sm flex items-center group-hover:text-orange-900 transition-all">
-                            <i class='bx bxs-package text-2xl mr-4 text-gray-400 group-hover:text-orange-900'></i>
+                            class="text-black-800 text-base flex items-center group-hover:text-orange-900 transition-all">
+                            <i class='bx bxs-package text-3xl mr-4 text-gray-400 group-hover:text-orange-900'></i>
                             <span>Home</span>
                         </a>
                     </div>
@@ -82,17 +82,17 @@
                 <li>
                     <div class="group">
                         <a href="{{ route('customer.cart') }}"
-                            class="text-black-800 text-sm flex items-center group-hover:text-orange-900 transition-all">
-                            <i class='bx bxs-cart text-2xl mr-4 text-gray-400 group-hover:text-orange-900'></i>
+                            class="text-black-800 text-base flex items-center group-hover:text-orange-900 transition-all">
+                            <i class='bx bxs-cart text-3xl mr-4 text-gray-400 group-hover:text-orange-900'></i>
                             <span>Shopping Cart</span>
                         </a>
                     </div>
                 </li>
                 <li class="dropdown">
                     <a href="#"
-                        class="dropdown-toggle text-black-800 text-sm flex items-center group-hover:text-orange-900 transition-all"
+                        class="dropdown-toggle text-black-800 text-base flex items-center group-hover:text-orange-900 transition-all"
                         onclick="toggleDropdown(this)">
-                        <i class='bx bxs-package text-2xl mr-4 text-gray-400 group-hover:text-orange-900'></i>
+                        <i class='bx bxs-package text-3xl mr-4 text-gray-400 group-hover:text-orange-900'></i>
                         <span>Orders</span>
                     </a>
                     <ul class="dropdown-menu" style="display: none;">
@@ -113,8 +113,8 @@
                 <li>
                     <div class="group">
                         <a href="{{ route('customer.order-history') }}"
-                            class="text-black-800 text-sm flex items-center group-hover:text-orange-900 transition-all">
-                            <i class='bx bxs-wallet text-2xl mr-4 text-gray-400 group-hover:text-orange-900'></i>
+                            class="text-black-800 text-base flex items-center group-hover:text-orange-900 transition-all">
+                            <i class='bx bxs-wallet text-3xl mr-4 text-gray-400 group-hover:text-orange-900'></i>
                             <span>Order History</span>
                         </a>
                     </div>
@@ -126,8 +126,8 @@
                 <li>
                     <div class="group">
                         <a href="{{ route('seller.dashboard') }}"
-                            class="text-black-800 text-sm flex items-center group-hover:text-orange-900 transition-all">
-                            <i class='bx bxs-dashboard text-2xl mr-4 text-gray-400 group-hover:text-orange-900'></i>
+                            class="text-black-800 text-base flex items-center group-hover:text-orange-900 transition-all">
+                            <i class='bx bxs-dashboard text-3xl mr-4 text-gray-400 group-hover:text-orange-900'></i>
                             <span>Dashboard</span>
                         </a>
                     </div>
@@ -135,9 +135,9 @@
 
                 <li class="dropdown">
                     <a href="#"
-                        class="dropdown-toggle text-black-800 text-sm flex items-center group-hover:text-orange-900 transition-all"
+                        class="dropdown-toggle text-black-800 text-base flex items-center group-hover:text-orange-900 transition-all"
                         onclick="toggleDropdown(this)">
-                        <i class='bx bxs-user-circle text-2xl mr-4 text-gray-400 group-hover:text-orange-900'></i>
+                        <i class='bx bxs-user-circle text-3xl mr-4 text-gray-400 group-hover:text-orange-900'></i>
                         <span>Accounts</span>
                     </a>
                     <ul class="dropdown-menu" style="display: none;">
@@ -160,9 +160,9 @@
 
                 <li class="dropdown">
                     <a href="#"
-                        class="dropdown-toggle text-black-800 text-sm flex items-center group-hover:text-orange-900 transition-all"
+                        class="dropdown-toggle text-black-800 text-base flex items-center group-hover:text-orange-900 transition-all"
                         onclick="toggleDropdown(this)">
-                        <i class='bx bxs-package text-2xl mr-4 text-gray-400 group-hover:text-orange-900'></i>
+                        <i class='bx bxs-package text-3xl mr-4 text-gray-400 group-hover:text-orange-900'></i>
                         <span>Products</span>
                     </a>
                     <ul class="dropdown-menu" style="display: none;">
@@ -213,9 +213,9 @@
                 </li> -->
                 <li class="dropdown">
                     <a href="#"
-                        class="dropdown-toggle text-black-800 text-sm flex items-center group-hover:text-orange-900 transition-all"
+                        class="dropdown-toggle text-black-800 text-base flex items-center group-hover:text-orange-900 transition-all"
                          >
-                        <i class='bx bxs-cart text-2xl mr-4 text-gray-400 group-hover:text-orange-900'></i>
+                        <i class='bx bxs-cart text-3xl mr-4 text-gray-400 group-hover:text-orange-900'></i>
                         <span>Orders</span>
                     </a>
                     <ul class="dropdown-menu" style="display: none;">
@@ -234,8 +234,8 @@
                 <li>
                     <div class="group">
                         <a href="{{ route('seller.order-history') }}?filter=all"
-                            class="text-black-800 text-sm flex items-center group-hover:text-orange-900 transition-all">
-                            <i class='bx bxs-wallet text-2xl mr-4 text-gray-400 group-hover:text-orange-900'></i>
+                            class="text-black-800 text-base flex items-center group-hover:text-orange-900 transition-all">
+                            <i class='bx bxs-wallet text-3xl mr-4 text-gray-400 group-hover:text-orange-900'></i>
                             <span>Order History</span>
                         </a>
                     </div>
@@ -244,8 +244,8 @@
                 <li>
                     <div class="group">
                         <a href="{{ route('seller.inventory') }}"
-                            class="text-black-800 text-sm flex items-center group-hover:text-orange-900 transition-all">
-                            <i class='bx bxs-package text-2xl mr-4 text-gray-400 group-hover:text-orange-900'></i>
+                            class="text-black-800 text-base flex items-center group-hover:text-orange-900 transition-all">
+                            <i class='bx bxs-package text-3xl mr-4 text-gray-400 group-hover:text-orange-900'></i>
                             <span>Inventory</span>
                         </a>
                     </div>
@@ -254,8 +254,8 @@
                 <li>
                     <div class="group">
                         <a href="{{ route('seller.reports') }}"
-                            class="text-black-800 text-sm flex items-center group-hover:text-orange-900 transition-all">
-                            <i class='bx bxs-file-pdf text-2xl mr-4 text-gray-400 group-hover:text-orange-900'></i>
+                            class="text-black-800 text-base flex items-center group-hover:text-orange-900 transition-all">
+                            <i class='bx bxs-file-pdf text-3xl mr-4 text-gray-400 group-hover:text-orange-900'></i>
                             <span>Reports</span>
                         </a>
                     </div>
@@ -267,8 +267,8 @@
                 <li>
                     <div class="group">
                         <a href="{{ route('government.approval') }}"
-                            class="text-black-800 text-sm flex items-center group-hover:text-orange-900 transition-all">
-                            <i class='bx bxs-user-check text-2xl mr-4 text-gray-400 group-hover:text-orange-900'></i>
+                            class="text-black-800 text-base flex items-center group-hover:text-orange-900 transition-all">
+                            <i class='bx bxs-user-check text-3xl mr-4 text-gray-400 group-hover:text-orange-900'></i>
                             <span>Accounts</span>
                         </a>
                     </div>
@@ -280,8 +280,8 @@
                 <li>
                     <div class="group">
                         <a href="{{ route('cashier.dashboard') }}"
-                            class="text-black-800 text-sm flex items-center group-hover:text-orange-900 transition-all">
-                            <i class='bx bxs-dashboard text-2xl mr-4 text-gray-400 group-hover:text-orange-900'></i>
+                            class="text-black-800 text-base flex items-center group-hover:text-orange-900 transition-all">
+                            <i class='bx bxs-dashboard text-3xl mr-4 text-gray-400 group-hover:text-orange-900'></i>
                             <span>Dashboard</span>
                         </a>
                     </div>
@@ -289,8 +289,8 @@
                 <li>
                     <div class="group">
                         <a href="{{ route('cashier.orders') }}"
-                            class="text-black-800 text-sm flex items-center group-hover:text-orange-900 transition-all">
-                            <i class='bx bxs-cart text-2xl mr-4 text-gray-400 group-hover:text-orange-900'></i>
+                            class="text-black-800 text-base flex items-center group-hover:text-orange-900 transition-all">
+                            <i class='bx bxs-cart text-3xl mr-4 text-gray-400 group-hover:text-orange-900'></i>
                             <span>Orders</span>
                         </a>
                     </div>
@@ -298,8 +298,8 @@
                 <li>
                     <div class="group">
                         <a href="{{ route('cashier.reports') }}"
-                            class="text-black-800 text-sm flex items-center group-hover:text-orange-900 transition-all">
-                            <i class='bx bxs-file-pdf text-2xl mr-4 text-gray-400 group-hover:text-orange-900'></i>
+                            class="text-black-800 text-base flex items-center group-hover:text-orange-900 transition-all">
+                            <i class='bx bxs-file-pdf text-3xl mr-4 text-gray-400 group-hover:text-orange-900'></i>
                             <span>Reports</span>
                         </a>
                     </div>
@@ -311,8 +311,8 @@
                 <li>
                     <div class="group">
                         <a href="{{ route('rider.dashboard') }}"
-                            class="text-black-800 text-sm flex items-center group-hover:text-orange-900 transition-all">
-                            <i class='bx bxs-dashboard text-2xl mr-4 text-gray-400 group-hover:text-orange-900'></i>
+                            class="text-black-800 text-base flex items-center group-hover:text-orange-900 transition-all">
+                            <i class='bx bxs-dashboard text-3xl mr-4 text-gray-400 group-hover:text-orange-900'></i>
                             <span>Dashboard</span>
                         </a>
                     </div>
@@ -320,8 +320,8 @@
                 <li>
                     <div class="group">
                         <a href="{{ route('rider.orders') }}"
-                            class="text-black-800 text-sm flex items-center group-hover:text-orange-900 transition-all">
-                            <i class='bx bxs-package text-2xl mr-4 text-gray-400 group-hover:text-orange-900'></i>
+                            class="text-black-800 text-base flex items-center group-hover:text-orange-900 transition-all">
+                            <i class='bx bxs-package text-3xl mr-4 text-gray-400 group-hover:text-orange-900'></i>
                             <span>Orders</span>
                         </a>
                     </div>
@@ -333,12 +333,12 @@
             <li>
                 <div class="group">
                     <a href="{{ route('profile.edit') }}"
-                        class="text-black-800 text-sm flex items-center hover:text-orange-900 transition-all">
+                        class="text-black-800 text-base flex items-center hover:text-orange-900 transition-all">
                         @if (Auth::user()->avatar)
                             <img src="{{ asset('avatar/' . Auth::user()->avatar) }}" alt="avatar"
                                 class="w-7 h-7 rounded-full mr-4">
                         @else
-                            <i class='bx bxs-user-circle text-2xl mr-4 text-gray-400 group-hover:text-orange-900'></i>
+                            <i class='bx bxs-user-circle text-3xl mr-4 text-gray-400 group-hover:text-orange-900'></i>
                         @endif
                         <span>Profile</span>
                     </a>
@@ -349,8 +349,8 @@
                     <form action="{{ route('logout') }}" method="POST">
                         @csrf
                         <button type="submit"
-                            class="text-black-800 text-sm flex items-center hover:text-orange-900 transition-all">
-                            <i class='bx bxs-log-out text-2xl mr-4 text-gray-400 group-hover:text-orange-900'></i>
+                            class="text-black-800 text-base flex items-center hover:text-orange-900 transition-all">
+                            <i class='bx bxs-log-out text-3xl mr-4 text-gray-400 group-hover:text-orange-900'></i>
                             <span>Logout</span>
                         </button>
                     </form>
