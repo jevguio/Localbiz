@@ -22,7 +22,7 @@
                             <div class="relative flex items-center">
                                 <input id="password" name="password" type="password" required
                                     class="w-full text-gray-800 text-sm border border-gray-300 px-4 py-3 rounded-md outline-blue-600"
-                                    placeholder="Enter password" />
+                                    placeholder="Enter password" id="cpass" /> 
                                 <i id="togglePassword" class='bx bx-show absolute right-4 cursor-pointer'></i>
                             </div>
                         </div>
@@ -43,7 +43,7 @@
         </div>
     </div>
 </x-guest-layout>
-
+ 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
     $(document).ready(function() {
