@@ -198,7 +198,7 @@
                                         <div
                                             class="flex items-center justify-between p-4 md:p-5 border-b rounded-t border-gray-200">
                                             <h3 class="text-lg font-bold text-gray-900">
-                                                Delete Product
+                                                Archive Product
                                             </h3>
                                             <button type="button"
                                                 class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center"
@@ -206,11 +206,11 @@
                                                 <i class='bx bx-x text-gray-500 text-2xl'></i>
                                             </button>
                                         </div>
-                                        <form action="{{ route('seller.products.destroy', $product->id) }}"
+                                        <form action="{{ route('seller.products.archive', $product->id) }}"
                                             method="POST">
                                             @csrf
                                             @method('DELETE')
-                                            <p class="text-sm text-gray-500 p-4">Are you sure you want to delete this
+                                            <p class="text-sm text-gray-500 p-4">Are you sure you want to archive this
                                                 product?
                                             </p>
                                             <hr class="my-4">
@@ -218,7 +218,7 @@
                                                 <button type="submit"
                                                     data-modal-toggle="deleteModal{{ $product->id }}"
                                                     class="btn btn-error text-white inline-flex items-center bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">
-                                                    Delete
+                                                    Archive
                                                 </button>
                                                 <button type="button"
                                                     data-modal-toggle="deleteModal{{ $product->id }}"
