@@ -77,30 +77,24 @@ class CashierController extends Controller
     } 
     public function exportSales(Request $request)
     {
-        $startDate = $request->input('from_date');
-        $endDate = $request->input('to_date');
+        $fromDate = $request->input('from_date');
+        $toDate = $request->input('to_date');
         // return Excel::download(new AdminInventoryExport(), $fileName);
         $fileName = Auth::user()->fname . '_' . Auth::user()->lname . '_' . now()->format('YmdHis') . '.pdf';
         $filePath = 'reports/' . $fileName;
 
         $selectedSeller = User::with('cashier')->where('id', Auth::user()->id)->get()->first();
- 
-        $items = Products::leftJoin('tbl_order_items', 'tbl_products.id', '=', 'tbl_order_items.product_id')
-            ->selectRaw('
-            tbl_products.id,
-            tbl_products.name AS name,
-            tbl_products.seller_id AS seller_id,
-            tbl_products.stock AS stock,
-            COALESCE(SUM(tbl_order_items.quantity), 0) AS sold,
-            tbl_products.price,
-            MAX(tbl_order_items.created_at) AS order_date
-        ')->where('seller_id', '=', $selectedSeller->cashier->seller_id)
-            ->groupBy('tbl_products.id', 'tbl_products.name', 'tbl_products.stock', 'tbl_products.price')
-            ->get();
+        $seller_id=$selectedSeller->cashier->seller_id;
 
+        $payments = Payments::whereBetween('created_at', [$fromDate . ' 00:00:00', $toDate . ' 23:59:59'])
+            ->whereHas('order.orderItems.product', function ($query) use ($seller_id) {
+                $query->where('seller_id', $seller_id);
+            })
+            ->with(['order.user', 'order.orderItems.product'])
+            ->get();
         $is_view = false;
         // Generate PDF
-        $pdf = Pdf::loadView('reports.sales', compact('items', 'selectedSeller', 'startDate', 'endDate', 'is_view'))->setPaper('a4', 'portrait');
+        $pdf = Pdf::loadView('reports.payments', compact('payments', 'selectedSeller', 'fromDate', 'toDate', 'is_view'))->setPaper('a4', 'portrait');
 
         // Store PDF in storage
         Storage::disk('public')->put($filePath, $pdf->output());
