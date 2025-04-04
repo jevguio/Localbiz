@@ -364,8 +364,14 @@ class OwnerController extends Controller
             ->orderByDesc('revenue') // Sort by highest revenue
             ->limit(10) // Get top 10 sellers
             ->get();
+            
+
+        $chartData = [];
+        foreach ($topSellers as $data) {
+            $chartData[$data->total_units_sold][$data->fname."".$data->lname] = $data->revenue;
+        }
         $isViewBTN = true;
-        return view('reports.top_seller', compact('topSellers', 'isViewBTN'));
+        return view('reports.top_seller', compact('topSellers','chartData', 'isViewBTN'));
     }
     public function exportTopSeller(Request $request)
     {
