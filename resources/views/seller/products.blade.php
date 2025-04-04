@@ -278,26 +278,26 @@
                                                 for="image">Product Image</label>
                                             <input type="file"
                                                 class="file-input w-full border border-gray-300 rounded-lg cursor-pointer bg-gray-50"
-                                                name="image" accept="image/*" />
+                                                name="image" accept="image/*" required/>
                                         </div>
                                         <div class="col-span-2">
                                             <label for="name"
                                                 class="block mb-2 text-sm font-medium text-gray-900">Name</label>
                                             <input type="text" name="name" id="name"
                                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
-                                                placeholder="Type product name" value="{{ old('name') }}">
+                                                placeholder="Type product name" value="{{ old('name') }}" required>
                                         </div>
                                         <div class="col-span-2 sm:col-span-1">
                                             <label for="description"
                                                 class="block mb-2 text-sm font-medium text-gray-900">Description</label>
                                             <textarea id="description" rows="4"
                                                 class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500"
-                                                placeholder="Write product description here" name="description">{{ old('description') }}</textarea>
+                                                placeholder="Write product description here" name="description" required>{{ old('description') }}</textarea>
                                         </div>
                                         <div class="col-span-2 sm:col-span-1">
                                             <label for="location"
                                                 class="block mb-2 text-sm font-medium text-gray-900">Location</label>
-                                            <select name="location" id="location"
+                                            <select name="location" id="location" 
                                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5">
                                                 @foreach ($locations as $location)
                                                     <option value="{{ $location->id }}"
@@ -310,7 +310,7 @@
                                         <div class="col-span-2 sm:col-span-1">
                                             <label for="category_1"
                                                 class="block mb-2 text-sm font-medium text-gray-900">Category</label>
-                                            <select id="category_1" name="category_id"
+                                            <select id="category_1" name="category_id" 
                                                 onchange="categoryChange(event)"
                                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5">
                                                 <option selected="">Select category</option>
@@ -325,7 +325,7 @@
                                         <div class="col-span-2 sm:col-span-1">
                                             <label for="price"
                                                 class="block mb-2 text-sm font-medium text-gray-900">Price</label>
-                                            <input type="number" name="price" id="price"
+                                            <input type="number" name="price" id="price" required
                                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
                                                 placeholder="P2999" value="{{ old('price') }}">
                                         </div>
@@ -336,7 +336,7 @@
                                                 <label for="best_before_date"
                                                     class="block mb-2 text-sm font-medium text-gray-900">Best Before
                                                     Date</label>
-                                                <input type="date" name="best_before_date" id="best_before_date"
+                                                <input type="date" name="best_before_date" id="best_before_date"  
                                                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5">
                                             </div>
                                         </div>
@@ -351,7 +351,7 @@
                                         <div class="col-span-2 sm:col-span-1">
                                             <label for="stock"
                                                 class="block mb-2 text-sm font-medium text-gray-900">Stock</label>
-                                            <input type="number" name="stock" id="stock"
+                                            <input type="number" name="stock" id="stock" required
                                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
                                                 value="{{ old('stock') }}">
                                         </div>

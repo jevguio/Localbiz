@@ -8,7 +8,8 @@ use App\Models\Products;
 use App\Models\Seller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
-
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Storage;
 class ProductService
 {
     public function storeProduct($request)
@@ -36,7 +37,7 @@ class ProductService
             $productData['seller_id'] = $seller->id;
             $productData['location_id'] = $location->id;
             \Log::info($productData);
-//best_before_date
+            //best_before_date
             $product = Products::create($productData);
 
             if ($request->hasFile('image')) {
@@ -68,12 +69,25 @@ class ProductService
     {
         try {
             $product = Products::find($id);
-            $product->update($request->all());
 
+            $product->update($request->all());
+            Log::info($request->all());
             if ($request->hasFile('image')) {
                 $image = $request->file('image');
-                $image->storeAs('public/assets/', $image->getClientOriginalName());
-                $product->image = $image->getClientOriginalName();
+
+                // Generate a unique filename
+                $filename = time() . '_' . Str::random(10) . '.' . $image->getClientOriginalExtension();
+
+                // Store the image in the public disk (accessible from 'storage' symlink)
+                $path = $image->storeAs('assets', $filename, 'public');
+
+
+                // Log the storage path
+                Log::info('Stored at: ' . $path);
+
+                // Save only the relative path in the database
+                $product->image =   $filename;
+                Log::info('Saved Image Path: ' . $product->image);
             }
 
             $product->location_id = $request->location;
