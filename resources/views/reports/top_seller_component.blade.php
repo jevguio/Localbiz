@@ -53,7 +53,7 @@
 <div class="subheader" id="subheader" style="background-color:rgb(161, 124, 0); width:100%; color:white;padding:10px ">Top Seller's Report</div>
    -->
    <div class="bg-white p-5 rounded-lg shadow-md">
-    <h2 class="text-xl font-bold mb-4">Top 10 Products</h2>
+    <h2 class="text-xl font-bold mb-4">Top 5 Seller</h2>
     <canvas id="topProductsChart"></canvas>
 </div>
 <script>
@@ -104,7 +104,7 @@
 
             // Add Table Data (optional)
             let yOffset = 120;
-            pdf.text('Top 10 Products', 10, yOffset);
+            pdf.text('Top 5 Products', 10, yOffset);
             yOffset += 10;
 
             topProducts.forEach((product, index) => {

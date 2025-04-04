@@ -347,12 +347,15 @@ class OwnerController extends Controller
             ->leftJoin('tbl_sellers', 'tbl_users.id', '=', 'tbl_sellers.user_id')
             ->leftJoin('tbl_products', 'tbl_sellers.id', '=', 'tbl_products.seller_id')
             ->leftJoin('tbl_order_items', 'tbl_products.id', '=', 'tbl_order_items.product_id')
+            ->leftJoin('tbl_orders', 'tbl_order_items.order_id', '=', 'tbl_orders.id') // join for created_at
             ->selectRaw('
             tbl_users.id,
             tbl_users.fname,
             tbl_users.lname,
             COUNT(DISTINCT tbl_order_items.order_id) AS total_order,
             SUM(tbl_order_items.quantity) AS total_units_sold,
+            DATE_FORMAT(tbl_orders.created_at, "%M %Y") as month,
+
             SUM(tbl_order_items.quantity * tbl_order_items.price) AS revenue,
             CASE 
                 WHEN COUNT(DISTINCT tbl_order_items.order_id) > 0 
@@ -360,18 +363,20 @@ class OwnerController extends Controller
                 ELSE 0 
             END AS avg_order_value
         ')
-            ->groupBy('tbl_users.id', 'tbl_users.fname', 'tbl_users.lname')
-            ->orderByDesc('revenue') // Sort by highest revenue
-            ->limit(10) // Get top 10 sellers
+            ->whereNotNull('tbl_orders.created_at')
+            ->groupBy('seller_id', 'month', 'fname', 'lname')
+            ->orderBy('month', 'asc')
+            ->orderBy('revenue', 'desc')
+            ->limit(5) // Get top 10 sellers
             ->get();
-            
+
 
         $chartData = [];
         foreach ($topSellers as $data) {
-            $chartData[$data->total_units_sold][$data->fname."".$data->lname] = $data->revenue;
+            $chartData[$data->month] [$data->fname . "" . $data->lname]= $data->revenue;
         }
         $isViewBTN = true;
-        return view('reports.top_seller', compact('topSellers','chartData', 'isViewBTN'));
+        return view('reports.top_seller', compact('topSellers', 'chartData', 'isViewBTN'));
     }
     public function exportTopSeller(Request $request)
     {
@@ -401,7 +406,7 @@ class OwnerController extends Controller
             ->get();
 
         $fileName = Auth::user()->fname . '_' . Auth::user()->lname . '_' . now()->format('YmdHis') . '.pdf';
-        $pdf = Pdf::loadView('reports.top_seller_component', compact('topSellers', 'startDate', 'endDate','isViewBTN'))->setPaper('a4', 'portrait');
+        $pdf = Pdf::loadView('reports.top_seller_component', compact('topSellers', 'startDate', 'endDate', 'isViewBTN'))->setPaper('a4', 'portrait');
 
         $filePath = 'reports/' . $fileName;
         // Store PDF in storage
@@ -469,7 +474,7 @@ class OwnerController extends Controller
             }
         });
         $isViewBTN = true;
-        return view('reports.top_purchase', compact('chartData', 'topProducts', 'startDate', 'endDate','isViewBTN'));
+        return view('reports.top_purchase', compact('chartData', 'topProducts', 'startDate', 'endDate', 'isViewBTN'));
     }
 
     public function exportTopPurchase(Request $request)
@@ -518,7 +523,7 @@ class OwnerController extends Controller
         });
         // Generate PDF
         $fileName = Auth::user()->fname . '_' . Auth::user()->lname . '_' . now()->format('YmdHis') . '.pdf';
-        $pdf = Pdf::loadView('reports.top_purchase_component', compact('topProducts', 'isViewBTN','startDate', 'endDate', 'chartData'))
+        $pdf = Pdf::loadView('reports.top_purchase_component', compact('topProducts', 'isViewBTN', 'startDate', 'endDate', 'chartData'))
             ->setPaper('a4', 'landscape');
 
         $filePath = 'reports/' . $fileName;
