@@ -46,10 +46,10 @@
                                 <div class="flex justify-end gap-2">
                                     <button type="submit"
                                         class="btn btn-primary bg-blue-700 hover:bg-blue-800 text-white px-4 py-2 rounded-md">
-                                        Generate
+                                        Download as PDF
                                     </button>
                                     <button type="button"
-                                        class="btn btn-secondary bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded-md"
+                                        class="btn bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded-md"
                                         data-modal-toggle="datePickerModal">
                                         Cancel
                                     </button>

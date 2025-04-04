@@ -94,13 +94,19 @@ class CashierController extends Controller
             ->with(['order.user', 'order.orderItems.product'])
             ->get();
 
-        $report = new Reports();  // Changed from Report to Reports
-        $report->report_name = 'Payment Transactions ' . date('Y-m-d H:i:s');
-        $report->report_type = 'Payment Transactions';
-        $report->user_id = $cashier->id;  // Added user_id
+        // Generate Excel file and save it
+        $filename = 'payment_transactions_' . date('Y-m-d_His') . '.xlsx';
+        Excel::store(new PaymentTransactionsExport($payments), 'reports/' . $filename, 'public');
+
+        // Create report record
+        $report = new Reports();
+        $report->report_name = 'Payment Transactions ' ;
+        $report->report_type = 'pdf';
+        $report->user_id = $cashier->id;
+        $report->content = $filename;
         $report->save();
 
-        return Excel::download(new PaymentTransactionsExport($payments), 'payment_transactions_' . date('Y-m-d') . '.xlsx');
+        return Excel::download(new PaymentTransactionsExport($payments), $filename);
     }
 
     public function updateOrder(Request $request, $id)
