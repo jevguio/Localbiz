@@ -78,8 +78,8 @@
         @endif
 
         <p>Cashier: {{ $selectedSeller ? $selectedSeller->fname : 'NULL' }}</p>
-        <p id="SalesDateStartEnd">Generated Date/s: {{ isset($startDate) ? $startDate : '' }} -
-            {{ isset($endDate) ? $endDate : '' }}</p>
+        <p id="SalesDateStartEnd">Generated Date/s: {{ isset($fromDate) ? $fromDate : '' }} -
+            {{ isset($toDate) ? $toDate : '' }}</p>
         <p id="SalesDateStartEnd1">Date: {{ now()->format('F j, Y') }}</p>
 
         <table class="table">
