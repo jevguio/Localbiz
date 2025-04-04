@@ -15,6 +15,7 @@ use App\Models\Reports;
 use App\Services\CashierService;
 use App\Services\OrderService;
 use Illuminate\Support\Facades\Auth;
+use App\Exports\PaymentTransactionsExport;
 use Maatwebsite\Excel\Facades\Excel;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\Storage;
@@ -73,29 +74,33 @@ class CashierController extends Controller
         $reports = Reports::where('user_id', $cashier->id)->latest()->paginate(10);
         return view('cashier.reports', compact('reports'));
     } 
-    public function exportSales()
+    public function exportSales(Request $request)
     {
-        $cashier = Auth::user()->cashier;
-        $fileName = 'Sales_' . now()->format('YmdHis') . '.pdf';
-        $filePath = 'reports/' . $fileName;
-        $orders = OrderItems::with(['order', 'product'])
-        ->whereHas('product', function ($query) {
-            $query->where('seller_id', auth()->user()->cashier->seller->id);
-        })
-        ->get();
-        $pdf = Pdf::loadView('cashier.reports.reports', compact('orders'))
-                  ->setPaper('a4', 'landscape');
-     
-        Storage::disk('public')->put($filePath, $pdf->output());
-    
-        $report = Reports::create([
-            'user_id' => $cashier->seller_id,
-            'report_name' => 'Payment Transactions',
-            'report_type' => 'pdf',
-            'content' => $fileName,
+        $request->validate([
+            'from_date' => 'required|date',
+            'to_date' => 'required|date|after_or_equal:from_date'
         ]);
 
-        return $pdf->download('orders.pdf');
+        $cashier = Auth::user()->cashier;
+        $seller_id = $cashier->seller_id;
+
+        $fromDate = $request->from_date;
+        $toDate = $request->to_date;
+
+        $payments = Payments::whereBetween('created_at', [$fromDate . ' 00:00:00', $toDate . ' 23:59:59'])
+            ->whereHas('order.orderItems.product', function ($query) use ($seller_id) {
+                $query->where('seller_id', $seller_id);
+            })
+            ->with(['order.user', 'order.orderItems.product'])
+            ->get();
+
+        $report = new Reports();  // Changed from Report to Reports
+        $report->report_name = 'Payment Transactions ' . date('Y-m-d H:i:s');
+        $report->report_type = 'Payment Transactions';
+        $report->user_id = $cashier->id;  // Added user_id
+        $report->save();
+
+        return Excel::download(new PaymentTransactionsExport($payments), 'payment_transactions_' . date('Y-m-d') . '.xlsx');
     }
 
     public function updateOrder(Request $request, $id)

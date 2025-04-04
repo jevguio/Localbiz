@@ -18,13 +18,47 @@
                             placeholder="Search for reports....">
                     </div>
                     <div class="flex gap-2 my-4">
-                        <a href="{{ route('cashier.sales.export') }}"
-                            class="btn btn-primary bg-blue-700 hover:bg-blue-800 text-white px-4 py-2 rounded-md">
+                        <button type="button"
+                            class="btn btn-primary bg-blue-700 hover:bg-blue-800 text-white px-4 py-2 rounded-md"
+                            data-modal-target="datePickerModal">
                             Generate Payment Transactions
-                        </a>
+                        </button>
                     </div>
                 </div>
                 </form>
+
+                <!-- Date Picker Modal -->
+                <div id="datePickerModal" class="hidden fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full">
+                    <div class="relative top-20 mx-auto p-5 border w-96 shadow-lg rounded-md bg-white">
+                        <div class="mt-3">
+                            <h3 class="text-lg font-medium text-gray-900 mb-4">Select Date Range</h3>
+                            <form action="{{ route('cashier.sales.export') }}" method="GET">
+                                <div class="mb-4">
+                                    <label class="block text-sm font-medium text-gray-700 mb-2">From Date</label>
+                                    <input type="date" name="from_date" 
+                                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+                                </div>
+                                <div class="mb-4">
+                                    <label class="block text-sm font-medium text-gray-700 mb-2">To Date</label>
+                                    <input type="date" name="to_date"
+                                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+                                </div>
+                                <div class="flex justify-end gap-2">
+                                    <button type="submit"
+                                        class="btn btn-primary bg-blue-700 hover:bg-blue-800 text-white px-4 py-2 rounded-md">
+                                        Generate
+                                    </button>
+                                    <button type="button"
+                                        class="btn btn-secondary bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded-md"
+                                        data-modal-toggle="datePickerModal">
+                                        Cancel
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
                 <table class="w-full text-sm text-left rtl:text-right text-gray-500">
                     <thead class="text-xs text-gray-700 uppercase bg-gray-50">
                         <tr>
@@ -81,12 +115,33 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
         $(document).ready(function() {
+            // Existing search functionality
             $('#table-search').on('keyup', function() {
                 const searchInput = $(this).val().toLowerCase();
                 $('#reports-table-body tr').filter(function() {
                     $(this).toggle($(this).text().toLowerCase().indexOf(searchInput) > -1);
                 });
             });
+
+            // Modal functionality
+            $('[data-modal-target]').on('click', function() {
+                const modalId = $(this).data('modal-target');
+                $(`#${modalId}`).removeClass('hidden');
+            });
+
+            $('[data-modal-toggle]').on('click', function() {
+                const modalId = $(this).data('modal-toggle');
+                $(`#${modalId}`).addClass('hidden');
+            });
+
+            // Set default dates
+            const today = new Date().toISOString().split('T')[0];
+            $('input[name="to_date"]').val(today);
+            
+            // Set default from_date to 30 days ago
+            const thirtyDaysAgo = new Date();
+            thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
+            $('input[name="from_date"]').val(thirtyDaysAgo.toISOString().split('T')[0]);
         });
     </script>
 </x-app-layout>
