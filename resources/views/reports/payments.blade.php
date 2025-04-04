@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SALES REPORT</title>
+    <title>PAYMENTS REPORT</title>
 </head>
 
 <body>
