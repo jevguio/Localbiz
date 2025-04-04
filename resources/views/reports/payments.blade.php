@@ -77,7 +77,7 @@
             </button>
         @endif
 
-        <p>Seller: {{ $selectedSeller ? $selectedSeller->fname : 'NULL' }}</p>
+        <p>Cashier: {{ $selectedSeller ? $selectedSeller->fname : 'NULL' }}</p>
         <p id="SalesDateStartEnd">Generated Date/s: {{ isset($startDate) ? $startDate : '' }} -
             {{ isset($endDate) ? $endDate : '' }}</p>
         <p id="SalesDateStartEnd1">Date: {{ now()->format('F j, Y') }}</p>
@@ -85,40 +85,27 @@
         <table class="table">
             <thead>
                 <tr>
-                    <th>order id</th>
-                    <th>customer id</th>
-                    <th>Product Description</th>
+                    <th>Transaction ID</th> 
+                    <th>Customer</th> 
+                    <th>order id</th>  
+                    <th>amount</th> 
                     <th>payment method</th>
-                    <th>payment amount</th> 
+                    <th>Status</th> 
                     <th>payment date</th>
-                    <th>message</th>
-                    <th>paid at</th>
                 </tr>
             </thead>
-            <tbody>
-
-                @php
-                    $units = ['pcs', 'packs', 'sets'];
-                    $unit = ['pc', 'pack', 'set'];
-                    $randomUnit = $units[array_rand($units)];
-                    $randomUnits = $units[array_rand($units)];
-                @endphp
-                @php $totalPrice = 0; @endphp
-                @php $QuantityPrice = 0; @endphp
-                @foreach ($payments as $index => $item)
-                    @php $QuantityPrice = $item->price * $item->sold; @endphp
+            <tbody>  
+                @foreach ($payments as $index => $item) 
  
                         <tr>
+                            <td>{{ $item->id }}</td>  
+                            <td>{{ $item->customer->fname.' '.$item->customer->lname }}</td> 
                             <td>{{ $item->order_id }}</td> 
-                            <td>{{ $item->customer_id }}</td> 
-                            <td>{{ $item->courier_id }}</td> 
-                            <td>{{ $item->payment_method }}</td> 
                             <td>{{ $item->payment_amount }}</td>  
-                            <td>{{ $item->payment_date }}</td> 
-                            <td>{{ $item->message }}</td> 
+                            <td>{{ $item->payment_method }}</td> 
+                            <td>{{ $item->order->status }}</td> 
                             <td>{{ $item->paid_at }}</td> 
-                        </tr> 
-                    @php $totalPrice += ($QuantityPrice); @endphp
+                        </tr>  
                 @endforeach
 
             </tbody>

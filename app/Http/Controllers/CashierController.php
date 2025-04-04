@@ -86,7 +86,7 @@ class CashierController extends Controller
         $selectedSeller = User::with('cashier')->where('id', Auth::user()->id)->get()->first();
         $seller_id=$selectedSeller->cashier->seller_id;
 
-        $payments = Payments::whereBetween('created_at', [$fromDate . ' 00:00:00', $toDate . ' 23:59:59'])
+        $payments = Payments::with(['customer','order'])->whereBetween('created_at', [$fromDate . ' 00:00:00', $toDate . ' 23:59:59'])
             ->whereHas('order.orderItems.product', function ($query) use ($seller_id) {
                 $query->where('seller_id', $seller_id);
             })
