@@ -162,8 +162,8 @@
                                                         function categoryChange{{ $product->id }}(e) {
                                                             let bestBeforeDiv = document.getElementById('bestBeforeDateDiv_{{ $product->id }}');
                                                             let selectedOption = e.target.options[e.target.selectedIndex];
-                                                            console.log(selectedOption.text.toLowerCase() == 'food' ?selectedOption.text.toLowerCase():'none');
-                                                            bestBeforeDiv.style.display = selectedOption.text.toLowerCase() == 'food' ? 'block' : 'none';
+                                                            console.log(selectedOption.text.toLowerCase() == 'Processed Foods' ?selectedOption.text.toLowerCase():'none');
+                                                            bestBeforeDiv.style.display = selectedOption.text.toLowerCase() == 'Processed Foods' ? 'block' : 'none';
                                                         };
                                                     </script> 
                                                     <div id="bestBeforeDateDiv_{{ $product->id }}"
@@ -345,7 +345,7 @@
                                             function categoryChange(e) {
                                                 let bestBeforeDiv = document.getElementById('bestBeforeDateDiv');
                                                 let selectedOption = e.target.options[e.target.selectedIndex];
-                                                bestBeforeDiv.style.display = selectedOption.text.toLowerCase() == 'food' ? 'block' : 'none';
+                                                bestBeforeDiv.style.display = selectedOption.text.toLowerCase() == 'Processed Foods' ? 'block' : 'none';
                                             };
                                         </script>
                                         <div class="col-span-2 sm:col-span-1">

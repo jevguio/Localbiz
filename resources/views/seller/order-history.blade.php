@@ -65,7 +65,9 @@
 
                                 </td>
                                 <td class="px-6 py-4 pl-12">
-                                    {{ $order->total_amount }}
+                                    ₱{{ number_format($order->orderItems->sum(function($item) {
+                                        return $item->quantity * $item->product->price;
+                                    }), 2) }}
                                 </td>
                                 <td class="px-6 py-4 -ml-6">
                                     {{ $order->status }}
