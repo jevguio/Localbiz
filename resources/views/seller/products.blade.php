@@ -46,7 +46,7 @@
                             <tr class="bg-white border-b border-gray-200 hover:bg-gray-50">
                                 <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
                                     <img src="{{ asset('assets/' . $product->image) }}" alt="Product Image"
-                                        class="w-10 h-10">
+                                        class="w-32 h-32 object-cover rounded">
                                 </th>
                                 <td class="px-6 py-4 pl-6">
                                     {{ $product->name }}
@@ -57,7 +57,7 @@
                                 <td class="px-6 py-4 pl-15">
                                     {{ $product->stock }}
                                 </td>
-                                <td class="px-6 py-4 flex gap-2">
+                                <td class="px-6 py-4 gap-2">
                                     <button data-modal-target="editModal{{ $product->id }}"
                                         class="font-medium text-blue-600 hover:underline" type="button">
                                         Edit
@@ -86,7 +86,8 @@
                                         </div>
                                         <hr class="my-4">
                                         <img src="{{ asset('assets/' . $product->image) }}" alt="Product Image"
-                                            class="w-50 h-50 mx-auto">
+                                            class="w-80 h-80 mx-auto object-cover rounded">
+                                        =
                                         <div class="grid gap-4 mb-4 p-4">
                                             <form action="{{ route('seller.products.update', $product->id) }}"
                                                 method="POST" enctype="multipart/form-data">
@@ -162,8 +163,8 @@
                                                         function categoryChange{{ $product->id }}(e) {
                                                             let bestBeforeDiv = document.getElementById('bestBeforeDateDiv_{{ $product->id }}');
                                                             let selectedOption = e.target.options[e.target.selectedIndex];
-                                                            console.log(selectedOption.text.toLowerCase() == 'food' ?selectedOption.text.toLowerCase():'none');
-                                                            bestBeforeDiv.style.display = selectedOption.text.toLowerCase() == 'food' ? 'block' : 'none';
+                                                            console.log(selectedOption.text.toLowerCase() == 'Processed Foods' ?selectedOption.text.toLowerCase():'none');
+                                                            bestBeforeDiv.style.display = selectedOption.text.toLowerCase() == 'Processed Foods' ? 'block' : 'none';
                                                         };
                                                     </script> 
                                                     <div id="bestBeforeDateDiv_{{ $product->id }}"
@@ -217,9 +218,11 @@
                                             method="POST">
                                             @csrf
                                             @method('DELETE')
-                                            <p class="text-sm text-gray-500 p-4">Are you sure you want to archive this
-                                                product?
-                                            </p>
+                                            <div class="flex flex-col items-center p-4">
+                                                <img src="{{ asset('assets/' . $product->image) }}" alt="Product Image"
+                                                class="w-96 h-96 mx-auto object-cover rounded">
+                                                <p class="text-sm text-gray-500">Are you sure you want to archive this product?</p>
+                                            </div>
                                             <hr class="my-4">
                                             <div class="flex justify-end gap-2 p-4">
                                                 <button type="submit"
@@ -345,7 +348,7 @@
                                             function categoryChange(e) {
                                                 let bestBeforeDiv = document.getElementById('bestBeforeDateDiv');
                                                 let selectedOption = e.target.options[e.target.selectedIndex];
-                                                bestBeforeDiv.style.display = selectedOption.text.toLowerCase() == 'food' ? 'block' : 'none';
+                                                bestBeforeDiv.style.display = selectedOption.text.toLowerCase() == 'Processed Foods' ? 'block' : 'none';
                                             };
                                         </script>
                                         <div class="col-span-2 sm:col-span-1">

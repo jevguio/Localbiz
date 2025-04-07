@@ -192,14 +192,16 @@
                                                             class="block mb-2 text-sm font-medium text-gray-900">Proof of
                                                             Delivery</label>
                                                         <img src="{{ asset('delivery_receipt/' . $item->order->proof_of_delivery) }}"
-                                                            alt="Proof of Delivery" class="w-60 object-cover">
+                                                            alt="Proof of Delivery" class="w-60 object-cover"
+                                                            onclick="openModal(this.src)">
                                                     </div>
                                                     <div class="col-span-1">
                                                         <label for="receipt_file"
                                                             class="block mb-2 text-sm font-medium text-gray-900">Receipt
                                                             File</label>
                                                         <img src="{{ asset('receipt_file/' . $item->order->payments->first()->receipt_file) }}"
-                                                            alt="Receipt File" class="w-60 object-cover">
+                                                            alt="Receipt File" class="w-60 object-cover"
+                                                            onclick="openModal(this.src)">
                                                     </div>
                                                 </div>
                                                 <hr class="my-4">

@@ -65,7 +65,7 @@
                             <tr class="bg-white border-b border-gray-200 hover:bg-gray-50"  data-category="{{ $product->seller->user->fname }}">
                                 <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
                                     <img src="{{ asset('assets/' . $product->image) }}" alt="Product Image"
-                                        class="w-10 h-10">
+                                        class="w-40 h-40 object-over rounded">
                                 </th>
                                 <td class="px-6 py-4">
                                     {{ $product->name }}
@@ -103,7 +103,7 @@
                                             </button>
                                         </div>
                                         <img src="{{ asset('assets/' . $product->image) }}" alt="Product Image"
-                                            class="w-60 mx-auto">
+                                            class="w-96 h-96 object-over rounded mx-auto my-4">
                                         <div class="grid grid-cols-2 gap-4 mb-4 p-4">
                                             <div class="col-span-1">
                                                 <label for="seller_id"

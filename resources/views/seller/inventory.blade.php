@@ -42,7 +42,7 @@
                             <tr class="bg-white border-b border-gray-200 hover:bg-gray-50">
                                 <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
                                     <img src="{{ asset('assets/' . $product->image) }}" alt="Product Image"
-                                        class="w-10 h-10">
+                                        class="w-32 h-32 object-cover rounded">
                                 </th>
                                 <td class="px-6 py-4">
                                     {{ $product->name }}
@@ -53,7 +53,7 @@
                                 <td class="px-6 py-4 pl-17">
                                     {{ $product->stock }}
                                 </td>
-                                <td class="px-6 py-4 flex pl-8">
+                                <td class="px-6 py-4 pl-8">
                                      @php
                                      $totalQuantity=0;
                                           
@@ -85,7 +85,7 @@
                                         </div>
                                         <hr class="my-4">
                                         <img src="{{ asset('assets/' . $product->image) }}" alt="Product Image"
-                                            class="w-50 h-50 mx-auto">
+                                            class="w-96 h-96 object-cover rounded mx-auto">
                                         <div class="grid gap-4 mb-4 p-4">
                                             <form action="{{ route('seller.products.update', $product->id) }}"
                                                 method="POST" enctype="multipart/form-data">

@@ -20,10 +20,10 @@
                         $cashier = Auth::user()->cashier;
                     @endphp
                     @if ($cashier && $cashier->is_approved == 1)
-                        <div role="alert" class="alert alert-success text-white">
+                        <!-- <div role="alert" class="alert alert-success text-white">
                             <i class='bx bx-check-circle shrink-0 stroke-current text-lg'></i>
                             <span>Your documents have been approved. You can now access the dashboard.</span>
-                        </div>
+                        </div> -->
                     @elseif ($cashier && $cashier->is_approved == 0)
                         <div role="alert" class="alert alert-error text-white">
                             <i class='bx bx-info-circle shrink-0 stroke-current text-lg'></i>
