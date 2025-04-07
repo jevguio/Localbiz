@@ -33,12 +33,15 @@ class OwnerController extends Controller
     {
         if ($request->filter == 'all') {
 
-            $users = User::paginate(10);
+            $users = User::paginate(10)
+            ->appends(['filter' => $request->filter]);
+            return view('owner.account', compact('users'));
         } else {
 
-            $users = User::where('role', '=', $request->filter)->paginate(10);
+            $users = User::where('role', '=', $request->filter)->paginate(10)
+            ->appends(['filter' => $request->filter]);
+            return view('owner.account', compact('users'));
         }
-        return view('owner.account', compact('users'));
     }
 
     public function storeAccount(Request $request)
