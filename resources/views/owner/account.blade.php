@@ -37,22 +37,22 @@
 
                                 <a href="{{ route('owner.account') }}?filter=Owner"
                                     class="block px-4 py-2 hover:bg-gray-100 w-full cursor-pointer filter-option"
-                                    data-filter="Owner">Admin</li>
+                                    data-filter="Owner">Admin</a>
                                     <a href="{{ route('owner.account') }}?filter=GovernmentAgency"
                                         class="block px-4 py-2 hover:bg-gray-100 w-full cursor-pointer filter-option"
-                                        data-filter="GovernmentAgency">DTI</li>
+                                        data-filter="GovernmentAgency">DTI</a>
                                         <a href="{{ route('owner.account') }}?filter=Seller"
                                             class="block px-4 py-2 hover:bg-gray-100 w-full cursor-pointer filter-option"
-                                            data-filter="Seller">Sellers</li>
+                                            data-filter="Seller">Sellers</a>
                                             <a href="{{ route('owner.account') }}?filter=Customer"
                                                 class="block px-4 py-2 hover:bg-gray-100 w-full cursor-pointer filter-option"
-                                                data-filter="Customer">Customer</li>
+                                                data-filter="Customer">Customer</a>
                                                 <a href="{{ route('owner.account') }}?filter=Cashier"
                                                     class="block px-4 py-2 hover:bg-gray-100 w-full cursor-pointer filter-option"
-                                                    data-filter="Cashier">Cashier</li>
+                                                    data-filter="Cashier">Cashier</a>
                                                     <a href="{{ route('owner.account') }}?filter=DeliveryRider"
                                                         class="block px-4 py-2 hover:bg-gray-100 w-full cursor-pointer filter-option"
-                                                        data-filter="DeliveryRider">Delivery Rider</li>
+                                                        data-filter="DeliveryRider">Delivery Rider</a>
                             </ul>
                         </div>
                     </div>
@@ -122,7 +122,7 @@
                                     </button> -->
                                     @if ($user->is_active == 1)
                                         <button data-modal-target="ToggleModal{{ $user->id }}"
-                                            class="font-medium {{ $user->role == 'Customer' ? 'w-28' : '' }} p-2 bg-red-600 text-white hover:underline"
+                                            class="font-medium {{ $user->role == 'Customer' ? 'w-28' : '' }} p-2 bg-red-500 text-white hover:underline"
                                             type="button" style="border-radius:5px">
                                             Disable
                                         </button>
