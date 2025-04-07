@@ -41,16 +41,16 @@
                             <th scope="col" class="px-6 py-3">
                                 Product Image
                             </th>
-                            <th scope="col" class="px-6 py-3">
+                            <th scope="col" class="px-6 py-3 text-black">
                                 Product Name
                             </th>
-                            <th scope="col" class="px-6 py-3">
+                            <th scope="col" class="px-6 py-3 text-black">
                                 Product Price
                             </th>
-                            <th scope="col" class="px-6 py-3">
+                            <th scope="col" class="px-6 py-3 text-black">
                                 Remaining Stock
                             </th>
-                            <th scope="col" class="px-6 py-3">
+                            <th scope="col" class="px-6 py-3 text-black">
                                 Sold
                             </th>
                         </tr>
@@ -62,16 +62,16 @@
                                     <img src="{{ asset('assets/' . $product->image) }}" alt="Product Image"
                                         class="w-40 h-40 object-cover rounded">
                                 </th>
-                                <td class="px-6 py-4">
+                                <td class="px-6 py-4 text-black">
                                     {{ $product->name }}
                                 </td>
-                                <td class="px-6 py-4 pl-11">
+                                <td class="px-6 py-4 pl-11 text-black">
                                     {{ $product->price }}
                                 </td>
-                                <td class="px-6 py-4 pl-16">
+                                <td class="px-6 py-4 pl-16 text-black">
                                     {{ $product->stock }}
                                 </td>
-                                <td class="px-6 py-4 pl-8">
+                                <td class="px-6 py-4 pl-8 text-black">
                                      @php
                                      $totalQuantity=0;
                                           
