@@ -2,7 +2,7 @@
     <div class="p-4 sm:ml-64">
         <div class="p-4 border-2 border-gray-200 border-dashed rounded-lg">
             <div class="flex justify-between items-center">
-                <h1 class="text-xl font-bold text-gray-900 sm:text-3xl">Products</h1> 
+                <h1 class="text-xl font-bold text-gray-900 sm:text-3xl">Products</h1>
             </div>
             <div class="relative overflow-x-auto mt-10 bg-white p-4 rounded-lg">
                 <form class="max-w-md ml-0 mb-4 relative">
@@ -16,8 +16,8 @@
                         <input type="search" id="table-search"
                             class="block w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500"
                             placeholder="Search for products....">
-                            
-                            <!-- Filter Button -->
+
+                        <!-- Filter Button -->
                         <button type="button" id="filter-btn"
                             class="absolute inset-y-0 end-0 flex items-center px-3 text-gray-600 hover:text-gray-900">
                             <i class='bx bx-filter text-2xl'></i>
@@ -26,16 +26,18 @@
                         <!-- Filter Dropdown -->
                         <div id="filter-dropdown"
                             class="hidden absolute right-0 mt-2 w-40 bg-white border border-gray-300 rounded-lg shadow-lg">
-                            <ul class="py-2 text-sm text-gray-700"> 
-                            <li class="px-4 py-2 hover:bg-gray-100 cursor-pointer filter-option" data-filter="All">All</li>
-                           
-                            @foreach ($sellers as $seller)
-                                <li class="px-4 py-2 hover:bg-gray-100 cursor-pointer filter-option" data-filter="{{$seller->user->fname}}">{{$seller->user->fname}}</li>
-                            @endforeach 
+                            <ul class="py-2 text-sm text-gray-700">
+                                <li class="px-4 py-2 hover:bg-gray-100 cursor-pointer filter-option" data-filter="All">
+                                    All</li>
+
+                                @foreach ($sellers as $seller)
+                                    <li class="px-4 py-2 hover:bg-gray-100 cursor-pointer filter-option"
+                                        data-filter="{{ $seller->user->fname }}">{{ $seller->user->fname }}</li>
+                                @endforeach
                             </ul>
                         </div>
                     </div>
-                    
+
                 </form>
                 <table class="w-full text-sm text-left rtl:text-right text-gray-500">
                     <thead class="text-xs text-gray-700 uppercase bg-gray-50">
@@ -52,7 +54,7 @@
                             <th scope="col" class="px-6 py-3">
                                 Product Stock
                             </th>
-                            <th scope="col" class="px-6 py-3 hidden" >
+                            <th scope="col" class="px-6 py-3 hidden">
                                 Seller
                             </th>
                             <th scope="col" class="px-6 py-3">
@@ -62,7 +64,8 @@
                     </thead>
                     <tbody id="product-table-body">
                         @foreach ($products as $product)
-                            <tr class="bg-white border-b border-gray-200 hover:bg-gray-50"  data-category="{{ $product->seller->user->fname }}">
+                            <tr class="bg-white border-b border-gray-200 hover:bg-gray-50"
+                                data-category="{{ $product->seller->user->fname }}">
                                 <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
                                     <img src="{{ asset('assets/' . $product->image) }}" alt="Product Image"
                                         class="w-40 h-40 object-over rounded">
@@ -156,17 +159,27 @@
                                                     class="block mb-2 text-sm font-medium text-gray-900">Category</label>
                                                 <div id="category" name="category_id" disabled readonly
                                                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5">
-                                                     
+
                                                     @foreach ($categories as $category)
-                                                        @if($product->category_id == $category->id ) 
-                                                        <div>
-                                                            {{ $category->name }}
-                                                        
-                                                        </div>
+                                                        @if ($product->category_id == $category->id)
+                                                            <div>
+                                                                {{ $category->name }}
+
+                                                            </div>
                                                         @endif
                                                     @endforeach
                                                 </div>
                                             </div>
+                                            @if ($product->best_before_date)
+                                                <div class="col-span-1">
+                                                    <label for="stock"
+                                                        class="block mb-2 text-sm font-medium text-gray-900">Stock</label>
+                                                    <input type="date" name="best_before_date"
+                                                        id="best_before_date"
+                                                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                                                        value="{{ $product->best_before_date }}" readonly>
+                                                </div>
+                                            @endif
                                             <!-- <div class="col-span-1">
                                                 <label for="status"
                                                     class="block mb-2 text-sm font-medium text-gray-900">Status</label>
@@ -213,43 +226,43 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
         $(document).ready(function() {
-           
+
             let selectedFilter = "All"; // Default filter
 
-        // Toggle filter dropdown
-        $("#filter-btn").click(function (event) {
-            event.preventDefault();
-            $("#filter-dropdown").toggleClass("hidden");
-        });
-
-        // Search and filter function
-        function filterTable() {
-            const searchInput = $("#table-search").val().toLowerCase();
-
-            $("#product-table-body tr").each(function () {
-                const rowText = $(this).text().toLowerCase();
-                const rowCategory = $(this).data("category");
-
-                const matchesSearch = rowText.indexOf(searchInput) > -1;
-                const matchesFilter = selectedFilter === "All" || rowCategory === selectedFilter;
-
-                $(this).toggle(matchesSearch && matchesFilter);
+            // Toggle filter dropdown
+            $("#filter-btn").click(function(event) {
+                event.preventDefault();
+                $("#filter-dropdown").toggleClass("hidden");
             });
-        }
-        // Apply filter
-        $(".filter-option").click(function () {
-            selectedFilter = $(this).data("filter");
-            $("#filter-dropdown").addClass("hidden"); // Hide dropdown after selection
-            filterTable();
-        });
 
-        // Close dropdown when clicking outside
-        $(document).click(function (event) {
-            if (!$(event.target).closest("#filter-btn, #filter-dropdown").length) {
-                $("#filter-dropdown").addClass("hidden");
+            // Search and filter function
+            function filterTable() {
+                const searchInput = $("#table-search").val().toLowerCase();
+
+                $("#product-table-body tr").each(function() {
+                    const rowText = $(this).text().toLowerCase();
+                    const rowCategory = $(this).data("category");
+
+                    const matchesSearch = rowText.indexOf(searchInput) > -1;
+                    const matchesFilter = selectedFilter === "All" || rowCategory === selectedFilter;
+
+                    $(this).toggle(matchesSearch && matchesFilter);
+                });
             }
-        });
-            
+            // Apply filter
+            $(".filter-option").click(function() {
+                selectedFilter = $(this).data("filter");
+                $("#filter-dropdown").addClass("hidden"); // Hide dropdown after selection
+                filterTable();
+            });
+
+            // Close dropdown when clicking outside
+            $(document).click(function(event) {
+                if (!$(event.target).closest("#filter-btn, #filter-dropdown").length) {
+                    $("#filter-dropdown").addClass("hidden");
+                }
+            });
+
             $('#table-search').on('keyup', function() {
                 const searchInput = $(this).val().toLowerCase();
                 $('#product-table-body tr').filter(function() {

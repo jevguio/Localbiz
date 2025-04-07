@@ -65,10 +65,13 @@
                             </a>
                         </div>
                         <h3 class="font-bold text-lg">{{ $product->name }}</h3>
-
                         <p class="text-gray-500 font-semibold">Description: {{ $product->description }}</p>
                         <p class="text-gray-500 font-semibold">Location: {{ $product->location->name }}</p>
                         <p class="text-gray-500 font-semibold">Stock: {{ $product->stock }}</p>
+                        @if ($product->best_before_date)
+                            <p class="text-gray-500 font-semibold">Best Before Date:
+                                {{ \Carbon\Carbon::parse($product->best_before_date)->format('F j, Y') }}</p>
+                        @endif
                         <h2 class="font-bold text-lg">Payment Information</h2>
                         <p class="text-gray-500 font-semibold">Seller: {{ $product->seller->user->fname }}</p>
                         <p class="text-gray-500 font-semibold">Gcash Number / Inquiry Number:
@@ -94,7 +97,8 @@
                             <form action="{{ route('customer.addToCart') }}" method="POST">
                                 @csrf
                                 <input type="hidden" name="product_id" value="{{ $product->id }}">
-                                <button class="btn px-4 py-2 bg-red-900 text-white rounded-md hover:bg-red-800">Add to Cart</button>
+                                <button class="btn px-4 py-2 bg-red-900 text-white rounded-md hover:bg-red-800">Add to
+                                    Cart</button>
                             </form>
                             <!-- <button class="btn btn-secondary"
                                 onclick="productModal{{ $product->id }}.close()">Close</button> -->
