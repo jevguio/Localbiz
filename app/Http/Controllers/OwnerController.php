@@ -62,7 +62,7 @@ class OwnerController extends Controller
 
     public function products()
     {
-        $products = Products::paginate(10);
+        $products = Products::where('is_active', '=', true)->paginate(10);
         $categories = Categories::all();
         $sellers = Seller::all();
         return view('owner.products', compact('products', 'categories', 'sellers'));
@@ -129,7 +129,7 @@ class OwnerController extends Controller
         })->sum('total_amount');
 
         // Retrieve products for the given sellers
-        $products = Products::whereIn('seller_id', $sellerIds)->paginate(10);
+        $products = Products::whereIn('seller_id', $sellerIds)->where('is_active', '=', true)->paginate(10);
 
         // Retrieve categories and locations
         $categories = Categories::all();
@@ -165,7 +165,7 @@ class OwnerController extends Controller
             tbl_users.email AS seller_email,
             tbl_users.phone AS seller_phone
         ')
-            ->where('tbl_sellers.user_id', $request->id) // Filtering by seller_id
+            ->where('is_active', '=', true)->where('tbl_sellers.user_id', $request->id) // Filtering by seller_id
             ->groupBy(
                 'tbl_products.id',
                 'tbl_products.name',
@@ -373,7 +373,7 @@ class OwnerController extends Controller
 
         $chartData = [];
         foreach ($topSellers as $data) {
-            $chartData[$data->month] [$data->fname . "" . $data->lname]= $data->revenue;
+            $chartData[$data->month][$data->fname . "" . $data->lname] = $data->revenue;
         }
         $isViewBTN = true;
         return view('reports.top_seller', compact('topSellers', 'chartData', 'isViewBTN'));
@@ -464,7 +464,7 @@ class OwnerController extends Controller
         foreach ($topProductsByMonth as $data) {
             $chartData[$data->month][$data->product_name] = $data->total_sold;
         }
-        $products = Products::whereIn('id', $topProducts->pluck('product_id'))->get()->keyBy('id');
+        $products = Products::whereIn('id', $topProducts->pluck('product_id'))->where('is_active', '=', true)->get()->keyBy('id');
 
         // Merge product details into topProducts collection
         $topProducts->each(function ($item) use ($products) {

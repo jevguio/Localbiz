@@ -19,7 +19,7 @@ class CustomerController extends Controller
 {
     public function products(Request $request)
     {
-        $products = Products::with('feedback')->get();
+        $products = Products::with('feedback')->where('is_active', '=', true)->get();
         $categories = Categories::all();
         $locations = Location::all();
 
@@ -34,21 +34,37 @@ class CustomerController extends Controller
 
     public function cart()
     {
-        $cartItems = OrderItems::whereHas('order', function ($query) {
+        $cartItems = OrderItems::with([
+            'product' => function ($query) {
+                $query->where('is_active', true);
+            }
+        ])->whereHas('order', function ($query) {
             $query->where('user_id', Auth::id())->where('status', 'on-cart');
         })->get();
 
         // Check if all cart items have `is_active` as true
-        $hasUncheckedItems = OrderItems::whereHas('order', function ($query) {
+        $hasUncheckedItems = OrderItems::with([
+            'product' => function ($query) {
+                $query->where('is_active', true);
+            }
+        ])->whereHas('order', function ($query) {
             $query->where('user_id', Auth::id())->where('status', 'on-cart');
         })->where('is_checked', false)->exists();
 
         // Check if all cart items have `is_active` as true
-        $totalItems = OrderItems::whereHas('order', function ($query) {
+        $totalItems = OrderItems::with([
+            'product' => function ($query) {
+                $query->where('is_active', true);
+            }
+        ])->whereHas('order', function ($query) {
             $query->where('user_id', Auth::id())->where('status', 'on-cart');
         })->count();
 
-        $checkedItems = OrderItems::whereHas('order', function ($query) {
+        $checkedItems = OrderItems::with([
+            'product' => function ($query) {
+                $query->where('is_active', true);
+            }
+        ])->whereHas('order', function ($query) {
             $query->where('user_id', Auth::id())->where('status', 'on-cart');
         })->where('is_checked', true)->count();
 
@@ -119,10 +135,10 @@ class CustomerController extends Controller
     {
         $categories = Categories::all();
         $couriers = Courier::all();
-        $cartItems = OrderItems::with(['order.payments','product'])->whereHas(
+        $cartItems = OrderItems::with(['order.payments', 'product'])->whereHas(
             'order',
             fn($query) => $query->where('user_id', Auth::id())
-            ->where('status', '!=', 'on-cart')
+                ->where('status', '!=', 'on-cart')
         )
             ->latest()
             ->get();
