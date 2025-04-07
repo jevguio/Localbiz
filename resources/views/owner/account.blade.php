@@ -73,7 +73,7 @@
                             <th scope="col" class="px-6 py-3">
                                 Role
                             </th>
-                            <th scope="col" class="px-6 py-3">
+                            <th scope="col" class="px-6 py-3 pl-12">
                                 Status
                             </th>
                             <th scope="col" class="px-6 py-3 pl-14">
@@ -100,7 +100,7 @@
                                     {{ $user->role }}
                                 </td>
                                 <td
-                                    class="px-6 py-4 {{ $user->is_active == 1 ? 'text-gray-900' : 'text-gray-900' }} {{ $user->is_active == 1 ? ' text-green-700' : ' text-orange-700' }}">
+                                    class="px-6 py-4 pl-12 {{ $user->is_active == 1 ? 'text-gray-900' : 'text-gray-900' }} {{ $user->is_active == 1 ? ' text-green-700' : ' text-orange-700' }}">
                                     {{ $user->is_active == 1 ? 'Active' : 'Inactive' }}
                                 </td>
                                 <td
@@ -122,7 +122,7 @@
                                     </button> -->
                                     @if ($user->is_active == 1)
                                         <button data-modal-target="ToggleModal{{ $user->id }}"
-                                            class="font-medium {{ $user->role == 'Customer' ? 'w-28' : '' }} p-2 bg-red-500 text-white hover:underline"
+                                            class="font-medium {{ $user->role == 'Customer' ? 'w-28' : '' }} p-2 bg-red-600 text-white hover:underline"
                                             type="button" style="border-radius:5px">
                                             Disable
                                         </button>
@@ -359,7 +359,7 @@
                                                 onchange="onRoleSeller(event)"
                                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5">
                                                 <option value="Seller">Seller</option>
-                                                <option value="GovernmentAgency">Government Agency</option>
+                                                <option value="GovernmentAgency">DTI</option>
                                             </select>
                                         </div>
                                         <div class="col-span-2">

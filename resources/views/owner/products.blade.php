@@ -42,22 +42,22 @@
                 <table class="w-full text-sm text-left rtl:text-right text-gray-500">
                     <thead class="text-xs text-gray-700 uppercase bg-gray-50">
                         <tr>
-                            <th scope="col" class="px-6 py-3">
+                            <th scope="col" class="px-6 py-3 text-black">
                                 Product Image
                             </th>
-                            <th scope="col" class="px-6 py-3">
+                            <th scope="col" class="px-6 py-3 pl-12 text-black">
                                 Product Name
                             </th>
-                            <th scope="col" class="px-6 py-3">
+                            <th scope="col" class="px-6 py-3 text-black">
                                 Product Price
                             </th>
-                            <th scope="col" class="px-6 py-3">
+                            <th scope="col" class="px-6 py-3 text-black">
                                 Product Stock
                             </th>
                             <th scope="col" class="px-6 py-3 hidden">
                                 Seller
                             </th>
-                            <th scope="col" class="px-6 py-3">
+                            <th scope="col" class="px-6 py-3 text-black">
                                 Action
                             </th>
                         </tr>
@@ -70,13 +70,13 @@
                                     <img src="{{ asset('assets/' . $product->image) }}" alt="Product Image"
                                         class="w-40 h-40 object-over rounded">
                                 </th>
-                                <td class="px-6 py-4">
+                                <td class="px-6 py-4 text-black">
                                     {{ $product->name }}
                                 </td>
-                                <td class="px-6 py-4 pl-11">
+                                <td class="px-6 py-4 pl-11 text-black">
                                     {{ $product->price }}
                                 </td>
-                                <td class="px-6 py-4 pl-15">
+                                <td class="px-6 py-4 pl-15 text-black">
                                     {{ $product->stock }}
                                 </td>
                                 <td class="px-6 py-4 hidden">
@@ -121,7 +121,7 @@
                                                 <label for="product_name"
                                                     class="block mb-2 text-sm font-medium text-gray-900">Name</label>
                                                 <input type="text" name="name" id="name"
-                                                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                                                    class="bg-gray-50 border border-gray-300 text-gray-900 text-base rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
                                                     placeholder="Type product name" value="{{ $product->name }}"
                                                     readonly>
                                             </div>
