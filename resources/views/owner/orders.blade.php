@@ -38,10 +38,10 @@
                             <th scope="col" class="px-6 py-3">
                                 Order Number
                             </th>
-                            <th scope="col" class="px-6 py-3 pl-14">
+                            <th scope="col" class="px-6 py-3 pl-15">
                                 Order Date
                             </th> 
-                            <th scope="col" class="px-6 py-3">
+                            <th scope="col" class="px-6 py-3 -ml-6">
                                 Customer Name
                             </th>
                             <th scope="col" class="px-6 py-3 pl-8">
@@ -62,7 +62,7 @@
                                 <td class="px-6 py-4">
                                     {{ $order->created_at->format('F d, Y h:i:s A') }}
                                 </td>
-                                <td class="px-6 py-4 pl-8">
+                                <td class="px-6 py-4 pl-4">
                                 {{ $order->user->fname . " " . $order->user->lname}}
                                 </td>
                                 <td class="px-6 py-4">
@@ -95,13 +95,14 @@
                                             <div class="col-span-1">
                                                 <label for="customer_id"
                                                     class="block mb-2 text-sm font-medium text-gray-900">
-                                                    First Name</label>
+                                                    Customer Name</label>
                                                 <input type="text" name="customer_id" id="customer_id"
                                                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
-                                                    placeholder="Type customer first name" value="{{ $order->user->fname }}"
-                                                    readonly>
+                                                    placeholder="Type customer first name" value="{{ $order->user->fname . ' ' . $order->user->lname }}"
+                                                    readonly> 
                                             </div> 
-                                            <div class="col-span-1">
+
+                                            <!-- <div class="col-span-1">
                                                 <label for="customer_id"
                                                     class="block mb-2 text-sm font-medium text-gray-900">
                                                     Last Name</label>
@@ -109,7 +110,8 @@
                                                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
                                                     placeholder="Type customer last name" value="{{ $order->user->lname }}"
                                                     readonly>
-                                            </div>
+                                            </div> -->
+
                                             <div class="col-span-1">
                                                 <label for="customer_id"
                                                     class="block mb-2 text-sm font-medium text-gray-900">
@@ -137,23 +139,7 @@
                                                     placeholder="Type product name"
                                                     value="{{ $order->orderItems->first()->product->name }}" readonly>
                                             </div>
-                                            <div class="col-span-1">
-                                                <label for="quantity"
-                                                    class="block mb-2 text-sm font-medium text-gray-900">Quantity</label>
-                                                <input type="number" name="quantity" id="quantity"
-                                                    class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500"
-                                                    placeholder="Type quantity" name="quantity"
-                                                    value="{{ $order->orderItems->first()->quantity }}" readonly>
-                                            </div>
-                                            <div class="col-span-1">
-                                                <label for="price"
-                                                    class="block mb-2 text-sm font-medium text-gray-900">Price</label>
-                                                <input type="number" name="price" id="price"
-                                                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
-                                                    placeholder="$2999"
-                                                    value="{{ $order->orderItems->first()->product->price ?? 'N/A' }}"
-                                                    readonly>
-                                            </div>
+
                                             <div class="col-span-1">
                                                 <label for="category"
                                                     class="block mb-2 text-sm font-medium text-gray-900">Category</label>
@@ -169,6 +155,46 @@
                                                     @endforeach
                                                 </div>
                                             </div>
+
+                                            <div class="col-span-1">
+                                                <label for="price"
+                                                    class="block mb-2 text-sm font-medium text-gray-900">Price</label>
+                                                <input type="number" name="price" id="price"
+                                                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                                                    placeholder="$2999"
+                                                    value="{{ $order->orderItems->first()->product->price ?? 'N/A' }}"
+                                                    readonly>
+                                            </div>
+
+                                            <div class="col-span-1">
+                                                <label for="quantity"
+                                                    class="block mb-2 text-sm font-medium text-gray-900">Quantity</label>
+                                                <input type="number" name="quantity" id="quantity"
+                                                    class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500"
+                                                    placeholder="Type quantity" name="quantity"
+                                                    value="{{ $order->orderItems->first()->quantity }}" readonly>
+                                            </div>
+
+                                            <div class="col-span-1">
+                                                <label for="payment_amount"
+                                                    class="block mb-2 text-sm font-medium text-gray-900">Total
+                                                    Amount</label>
+                                                <input type="number" name="payment_amount" id="payment_amount"
+                                                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                                                    placeholder="Payment Amount"
+                                                    value="{{ $order->payments->first() ? $order->payments->first()->payment_amount : 'N/A' }}" readonly>
+                                            </div>
+
+                                            <div class="col-span-1">
+                                                <label for="payment_date"
+                                                    class="block mb-2 text-sm font-medium text-gray-900">Order
+                                                    Date</label>
+                                                <input type="text" name="order_date" id="payment_date"
+                                                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                                                    value="{{ $order->first() ? \Carbon\Carbon::parse($order->first()->created_at)->format('F d, Y') : 'N/A' }}"
+                                                    readonly>
+                                            </div>
+                                            
                                             <!-- <div class="col-span-1">
                                                 <label for="status"
                                                     class="block mb-2 text-sm font-medium text-gray-900">Status</label>
@@ -196,6 +222,7 @@
                                                     </option>
                                                 </select>
                                             </div> -->
+
                                             <div class="col-span-1">
                                                 <label for="payment_method"
                                                     class="block mb-2 text-sm font-medium text-gray-900">Payment
@@ -205,23 +232,7 @@
                                                     placeholder="Payment Method"
                                                     value="{{ $order->payments->first() ? $order->payments->first()->payment_method : 'N/A' }}" readonly>
                                             </div>
-                                            <div class="col-span-1">
-                                                <label for="courier"
-                                                    class="block mb-2 text-sm font-medium text-gray-900">Courier</label>
-                                                <input type="text" name="courier" id="courier"
-                                                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
-                                                    value="{{ $order->payments->first()->courier->name ?? 'N/A' }}"
-                                                    readonly>
-                                            </div>
-                                            <div class="col-span-1">
-                                                <label for="payment_amount"
-                                                    class="block mb-2 text-sm font-medium text-gray-900">Total
-                                                    Amount</label>
-                                                <input type="number" name="payment_amount" id="payment_amount"
-                                                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
-                                                    placeholder="Payment Amount"
-                                                    value="{{ $order->payments->first() ? $order->payments->first()->payment_amount : 'N/A' }}" readonly>
-                                            </div>
+
                                             <div class="col-span-1">
                                                 <label for="payment_date"
                                                     class="block mb-2 text-sm font-medium text-gray-900">Payment
@@ -231,15 +242,7 @@
                                                     value="{{ $order->payments->first() ? \Carbon\Carbon::parse($order->payments->first()->payment_date)->format('F d, Y') : 'N/A' }}"
                                                     readonly>
                                             </div>
-                                            <div class="col-span-1">
-                                                <label for="payment_date"
-                                                    class="block mb-2 text-sm font-medium text-gray-900">Order
-                                                    Date</label>
-                                                <input type="text" name="order_date" id="payment_date"
-                                                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
-                                                    value="{{ $order->first() ? \Carbon\Carbon::parse($order->first()->created_at)->format('F d, Y') : 'N/A' }}"
-                                                    readonly>
-                                            </div>
+
                                             <div class="col-span-1">
                                                 <label for="payment_date"
                                                     class="block mb-2 text-sm font-medium text-gray-900">Delivery Method</label>
@@ -258,6 +261,17 @@
                                                 @endforeach
                                                 </div>
                                             </div>
+
+                                            <div class="col-span-1">
+                                                <label for="courier"
+                                                    class="block mb-2 text-sm font-medium text-gray-900">Courier</label>
+                                                <input type="text" name="courier" id="courier"
+                                                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                                                    value="{{ $order->payments->first()->courier->name ?? 'N/A' }}"
+                                                    readonly>
+                                            </div>
+                                            
+                                            
                                             <div class="col-span-2">
                                                 <label for="feedback"
                                                     class="block mb-2 text-sm font-bold text-gray-900">Feedback</label>
