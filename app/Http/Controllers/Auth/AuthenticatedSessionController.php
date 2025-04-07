@@ -54,7 +54,7 @@ class AuthenticatedSessionController extends Controller
         } elseif ($user->role == 'GovernmentAgency') {
             return redirect()->intended(route('government.approval', absolute: false));
         } elseif ($user->role == 'Owner') {
-            return redirect()->intended(route('owner.account', absolute: false));
+            return redirect()->intended(route('owner.account', absolute: false)."?filter=all");
         }
 
         return redirect()->intended(route('dashboard', absolute: false));

@@ -12,7 +12,7 @@
             @if (Auth::user()->role == 'Owner')
                 <li>
                     <div class="group">
-                        <a href="{{ route('owner.account') }}"
+                        <a href="{{ route('owner.account') }}?filter=all"
                             class="text-black-800 text-base flex items-center group-hover:text-orange-900 transition-all">
                             <i class='bx bxs-user-circle text-3xl mr-4 text-gray-400 group-hover:text-orange-900'></i>
                             <span>Accounts</span>

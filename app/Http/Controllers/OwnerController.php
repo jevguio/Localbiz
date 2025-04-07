@@ -29,9 +29,15 @@ use App\Models\Location;
 
 class OwnerController extends Controller
 {
-    public function account()
+    public function account(Request $request)
     {
-        $users = User::paginate(10);
+        if ($request->filter == 'all') {
+
+            $users = User::paginate(10);
+        } else {
+
+            $users = User::where('role', '=', $request->filter)->paginate(10);
+        }
         return view('owner.account', compact('users'));
     }
 
