@@ -18,7 +18,7 @@ class UserSeederForgotPassword extends Seeder
                 'fname' => 'Admin',
                 'lname' => 'Admin',
                 'email' => 'admin@gmail.com',
-                'password' => Hash::make('password'),
+                'password' => Hash::make(value: 'password'),
                 'address' => 'Manila, Philippines',
                 'phone' => '09123456789',
                 'role' => 'Owner',
