@@ -172,7 +172,7 @@ class OwnerController extends Controller
             tbl_users.phone AS seller_phone
         ')->where('tbl_products.is_active', '=', true)
 
-            
+
             ->where('tbl_sellers.user_id', $request->id) // Filtering by seller_id
             ->groupBy(
                 'tbl_products.id',
@@ -413,8 +413,12 @@ class OwnerController extends Controller
             ->limit(10) // Get top 10 sellers
             ->get();
 
+        $chartData = [];
+        foreach ($topSellers as $data) {
+            $chartData[$data->month][$data->fname . "" . $data->lname] = $data->revenue;
+        }
         $fileName = Auth::user()->fname . '_' . Auth::user()->lname . '_' . now()->format('YmdHis') . '.pdf';
-        $pdf = Pdf::loadView('reports.top_seller_component', compact('topSellers', 'startDate', 'endDate', 'isViewBTN'))->setPaper('a4', 'portrait');
+        $pdf = Pdf::loadView('reports.top_seller_component', compact('topSellers', 'chartData', 'startDate', 'endDate', 'isViewBTN'))->setPaper('a4', 'portrait');
 
         $filePath = 'reports/' . $fileName;
         // Store PDF in storage
