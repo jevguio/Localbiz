@@ -192,20 +192,16 @@
                                                             value="{{ $user->phone }}" maxlength="11"
                                                             pattern="[0-9]{11}" inputmode="numeric">
                                                     </div>
+
+                                                    @if (!in_array($user->role, ['Cashier', 'DeliveryRider', 'Owner']))
                                                     <div class="col-span-2">
                                                         <label class="block mb-2 text-sm font-medium text-gray-900"
                                                             for="role">Role</label>
-                                                        <select name="role" id="role"
-                                                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5">
-
-                                                            <option value="Seller"
-                                                                {{ $user->role == 'Seller' ? 'selected' : '' }}>Seller
-                                                            </option>
-                                                            <option value="GovernmentAgency"
-                                                                {{ $user->role == 'GovernmentAgency' ? 'selected' : '' }}>
-                                                                Government Agency</option>
-                                                        </select>
+                                                        <input type="text" name="role" id="role"
+                                                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                                                            value="{{ $user->role }}" readonly>
                                                     </div>
+                                                    @endif
                                                     <div class="col-span-2">
                                                         <label class="block mb-2 text-sm font-medium text-gray-900"
                                                             for="is_active">Is Active</label>
