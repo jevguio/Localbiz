@@ -158,7 +158,7 @@ class OwnerController extends Controller
             ->leftJoin('tbl_users', 'tbl_sellers.user_id', '=', 'tbl_users.id')
             ->selectRaw('
             tbl_products.id,
-            tbl_products.name AS name,
+            tbl_products.name AS name, 
             tbl_products.seller_id AS seller_id,
             tbl_products.stock AS stock,
             tbl_products.description AS description,
@@ -170,8 +170,10 @@ class OwnerController extends Controller
             tbl_users.lname AS seller_lname,
             tbl_users.email AS seller_email,
             tbl_users.phone AS seller_phone
-        ')
-            ->where('is_active', '=', true)->where('tbl_sellers.user_id', $request->id) // Filtering by seller_id
+        ')->where('tbl_products.is_active', '=', true)
+
+            
+            ->where('tbl_sellers.user_id', $request->id) // Filtering by seller_id
             ->groupBy(
                 'tbl_products.id',
                 'tbl_products.name',
