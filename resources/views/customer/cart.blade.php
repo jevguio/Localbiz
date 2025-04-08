@@ -119,7 +119,7 @@
                                 </tbody>
                             </table>
                         </div>
-                        @if ($cartItems->isNotEmpty() && $item->product!=null)
+                        @if ($cartItems->isNotEmpty() && $item->product != null)
                             <div class="mx-auto mt- flex-1 space-y-6 lg:mt-0 lg:w-full">
                                 <div class="space-y-4   bg-white p-4 shadow-sm sm:p-6">
                                     <p class="text-xl font-semibold text-gray-900">Order Summary</p>
@@ -183,11 +183,14 @@
                                             function onChangePickup(event) {
                                                 console.log(event.target.value);
                                                 const courier_id = document.getElementById('courier_id');
+                                                const pickup_date_id = document.getElementById('pickup_date_id');
                                                 if (event.target.value == "Pick Up") {
                                                     courier_id.style.display = "none";
+                                                    pickup_date_id.style.display = "block";
                                                 } else {
 
                                                     courier_id.style.display = "block";
+                                                    pickup_date_id.style.display = "none";
                                                 }
 
                                             }
@@ -216,6 +219,13 @@
                                                         </option>
                                                     @endforeach
                                                 </select>
+                                            </div>
+                                        </div>
+                                        <div class="courier-selection w-full">
+                                            <div class="fieldset" style="display: none" id="pickup_date_id">
+                                                <legend class="fieldset-legend">Pickup Date:</legend>
+                                                <input type="date" class="input w-full" name="pickup_date"
+                                                    min="{{ \Carbon\Carbon::today()->format('Y-m-d') }}" />
                                             </div>
                                         </div>
                                         <div class="fieldset">

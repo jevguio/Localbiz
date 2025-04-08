@@ -20,6 +20,7 @@ class Payments extends Model
         'payment_date',
         'message',
         'paid_at',
+        'pickup_date',
     ];
 
     public function order(): BelongsTo

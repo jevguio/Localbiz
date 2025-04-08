@@ -87,7 +87,7 @@ class CustomerService
     }
 
     public function removeCart($request)
-    { 
+    {
         try {
             $orderItem = OrderItems::with(['order'])->findOrFail($request->id);
             $order = $orderItem->order;
@@ -225,6 +225,7 @@ class CustomerService
                         'payment_amount' => $orderItem->price,
                         'receipt_file' => $filename,
                         'message' => $request->message,
+                        'pickup_date' => $request->pickup_date,
                         'payment_date' => Carbon::now()->timezone('Asia/Manila'),
                         'paid_at' => Carbon::now()->timezone('Asia/Manila'),
                     ]);

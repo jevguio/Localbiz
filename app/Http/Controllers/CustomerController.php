@@ -19,7 +19,7 @@ class CustomerController extends Controller
 {
     public function products(Request $request)
     {
-        $products = Products::with('feedback')->where('is_active', '=', true)->get();
+        $products = Products::with('feedback')->where('is_active', '=', true)->latest()->get();
         $categories = Categories::all();
         $locations = Location::all();
 

@@ -180,10 +180,9 @@
                                                         <input type="text" name="payment_method"
                                                             id="payment_method"
                                                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
-                                                            value="{{ $order->orderItems->first()->price  }}"
-                                                            readonly>
+                                                            value="{{ $order->orderItems->first()->price }}" readonly>
                                                     </div>
-                                                    
+
                                                     <div class="col-span-1">
                                                         <label for="courier"
                                                             class="block mb-2 text-sm font-medium text-gray-900">Courier</label>
@@ -212,6 +211,17 @@
                                                             value="{{ $order->payments->first() ? \Carbon\Carbon::parse($order->payments->first()->payment_date)->format('F d, Y') : 'N/A' }}"
                                                             readonly>
                                                     </div>
+                                                    @if (!is_null($order->payments->pickup_date ))
+                                                        <div class="col-span-1">
+                                                            <label for="pickup_date"
+                                                                class="block mb-2 text-sm font-medium text-gray-900">Pickup
+                                                                Date</label>
+                                                            <input type="text" name="pickup_date" id="pickup_date"
+                                                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                                                                value="{{ $order->payments->pickup_date  ? \Carbon\Carbon::parse($order->payments->pickup_date)->format('F d, Y') : 'N/A' }}"
+                                                                readonly>
+                                                        </div>
+                                                    @endif
                                                     <div class="col-span-1">
                                                         <label for="status"
                                                             class="block mb-2 text-sm font-medium text-gray-900">Status</label>
