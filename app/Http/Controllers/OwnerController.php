@@ -461,8 +461,7 @@ class OwnerController extends Controller
     public function TopPurchase(Request $request)
     {
 
-        $startDate = $request->startDate;
-        $endDate = $request->endDate;
+        $monthpicker = $request->monthpicker; 
         $topProducts = OrderItems::join('tbl_products', 'tbl_order_items.product_id', '=', 'tbl_products.id')
             ->select(
                 'tbl_products.name',
@@ -503,15 +502,14 @@ class OwnerController extends Controller
             }
         });
         $isViewBTN = true;
-        return view('reports.top_purchase', compact('chartData', 'topProducts', 'startDate', 'endDate', 'isViewBTN'));
+        return view('reports.top_purchase', compact('chartData', 'topProducts','monthpicker', 'isViewBTN'));
     }
 
     public function exportTopPurchase(Request $request)
     {
         $isViewBTN = false;
 
-        $startDate = $request->startDate;
-        $endDate = $request->endDate;
+        $monthpicker = $request->monthpicker; 
         $topProducts = OrderItems::join('tbl_products', 'tbl_order_items.product_id', '=', 'tbl_products.id')
             ->select(
                 'tbl_products.name',
@@ -552,7 +550,7 @@ class OwnerController extends Controller
         });
         // Generate PDF
         $fileName = Auth::user()->fname . '_' . Auth::user()->lname . '_' . now()->format('YmdHis') . '.pdf';
-        $pdf = Pdf::loadView('reports.top_purchase_component', compact('topProducts', 'isViewBTN', 'startDate', 'endDate', 'chartData'))
+        $pdf = Pdf::loadView('reports.top_purchase_component', compact('topProducts', 'isViewBTN', 'monthpicker',  'chartData'))
             ->setPaper('a4', 'landscape');
 
         $filePath = 'reports/' . $fileName;
