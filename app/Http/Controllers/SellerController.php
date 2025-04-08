@@ -107,9 +107,10 @@ class SellerController extends Controller
         $result = (new ProductService())->updateProduct($request, $id);
         return redirect()->back();
     }
-    public function TopPurchase()
+    public function TopPurchase(Request $request)
     {
 
+        $monthpicker = $request->monthpicker;
         $topProducts = OrderItems::join('tbl_products', 'tbl_order_items.product_id', '=', 'tbl_products.id')
             ->select(
                 'tbl_products.name',
@@ -150,12 +151,13 @@ class SellerController extends Controller
             }
         });
         $isViewBTN = true;
-        return view('reports.top_purchase_seller', compact('chartData', 'topProducts', 'isViewBTN'));
+        return view('reports.top_purchase_seller', compact('chartData', 'topProducts', 'monthpicker', 'isViewBTN'));
     }
-    public function exportTopPurchase()
+    public function exportTopPurchase(Request $request)
     {
         $isViewBTN = false;
 
+        $monthpicker = $request->monthpicker;
         $topProducts = OrderItems::join('tbl_products', 'tbl_order_items.product_id', '=', 'tbl_products.id')
             ->select(
                 'tbl_products.name',
@@ -196,7 +198,7 @@ class SellerController extends Controller
         });
         // Generate PDF
         $fileName = Auth::user()->fname . '_' . Auth::user()->lname . '_' . now()->format('YmdHis') . '.pdf';
-        $pdf = Pdf::loadView('reports.top_purchase_component', compact('topProducts', 'isViewBTN', 'chartData'))
+        $pdf = Pdf::loadView('reports.top_purchase_component', compact('topProducts', 'isViewBTN', 'monthpicker', 'chartData'))
             ->setPaper('a4', 'landscape');
 
         $filePath = 'reports/' . $fileName;
@@ -696,9 +698,10 @@ class SellerController extends Controller
         // Return PDF for download
         return $pdf->download($fileName);
     }
-    public function exportTopSeller()
+    public function exportTopSeller(Request $request)
     {
         $isViewBTN = false;
+        $monthpicker = $request->monthpicker;
         $topSellers = User::where('role', 'seller')
             ->leftJoin('tbl_sellers', 'tbl_users.id', '=', 'tbl_sellers.user_id')
             ->leftJoin('tbl_products', 'tbl_sellers.id', '=', 'tbl_products.seller_id')
@@ -722,7 +725,7 @@ class SellerController extends Controller
             ->get();
         $is_view = false;
         $fileName = Auth::user()->fname . '_' . Auth::user()->lname . '_' . now()->format('YmdHis') . '.pdf';
-        $pdf = Pdf::loadView('reports.top_seller_component', compact('topSellers', 'is_view', 'isViewBTN'))->setPaper('a4', 'portrait');
+        $pdf = Pdf::loadView('reports.top_seller_component', compact('topSellers', 'is_view','monthpicker', 'isViewBTN'))->setPaper('a4', 'portrait');
 
         $filePath = 'reports/' . $fileName;
         // Store PDF in storage
