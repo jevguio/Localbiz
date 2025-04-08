@@ -40,7 +40,7 @@ class CustomerController extends Controller
             }
         ])->whereHas('order', function ($query) {
             $query->where('user_id', Auth::id())->where('status', 'on-cart');
-        })->get();
+        })->latest()->get();
 
         // Check if all cart items have `is_active` as true
         $hasUncheckedItems = OrderItems::with([
