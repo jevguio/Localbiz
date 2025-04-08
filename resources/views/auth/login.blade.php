@@ -1,9 +1,12 @@
 <x-guest-layout>
-    <div class="bg-gray-50 font-[sans-serif]">
-        <div class="min-h-screen flex flex-col items-center justify-center py-6 px-4">
-            <div class="max-w-md w-full">
-                <img src="{{ asset('assets/img/logo.jpg') }}" alt="logo" class="w-60 my-2 mx-auto">
-                <div class="p-8 rounded-2xl bg-white shadow">
+    <div class="bg-gray-50 font-[sans-serif] p-10">
+        <div class=" flex flex-col items-center justify-center py-6 px-4">
+            <div class="w-full flex p-10 m-10">
+                <div class="p-8 w-full  p-10 m-10" style="max-width: 50%">
+                    <div style="font-size: 6rem; font-weight: bolder; text-align: center;">Welcome To<br/> LocalBiz</div>
+                    <p style="text-align: center;">Home to Native Delicacies and <br> Souvenirs of Bohol</p>
+                </div>
+                <div class="p-8 rounded-2xl w-full max-w-md  bg-white shadow  p-10 m-10">
                     <h2 class="text-gray-800 text-center text-2xl font-bold">Sign in</h2>
                     <form class="mt-8 space-y-4" method="POST" action="{{ route('login') }}">
                         @csrf
