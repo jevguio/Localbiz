@@ -22,12 +22,12 @@
                         <div id="filter-dropdown"
                             class="hidden absolute right-0 mt-2 w-40 bg-white border border-gray-300 rounded-lg shadow-lg">
                             <ul class="py-2 text-sm text-gray-700">
-                                <li class="px-4 py-2 hover:bg-gray-100 cursor-pointer filter-option" data-filter="All">All</li>
-                                <li class="px-4 py-2 hover:bg-gray-100 cursor-pointer filter-option" data-filter="pending">Pending</li> 
-                                <li class="px-4 py-2 hover:bg-gray-100 cursor-pointer filter-option" data-filter="processing">Processing</li>
-                                <li class="px-4 py-2 hover:bg-gray-100 cursor-pointer filter-option" data-filter="receiving">Receiving</li> 
-                                <li class="px-4 py-2 hover:bg-gray-100 cursor-pointer filter-option" data-filter="delivered">Delivered</li> 
-                                <li class="px-4 py-2 hover:bg-gray-100 cursor-pointer filter-option" data-filter="cancelled">Cancelled</li> 
+                                <a href="{{ route('owner.orders') }}?filter=all" class="block px-4 py-2 hover:bg-gray-100 cursor-pointer filter-option" data-filter="All">All</a>
+                                <a href="{{ route('owner.orders') }}?filter=pending"  class="block px-4 py-2 hover:bg-gray-100 cursor-pointer filter-option" data-filter="pending">Pending</a> 
+                                <a href="{{ route('owner.orders') }}?filter=processing"  class="block px-4 py-2 hover:bg-gray-100 cursor-pointer filter-option" data-filter="processing">Processing</a>
+                                <a href="{{ route('owner.orders') }}?filter=receiving"  class="block px-4 py-2 hover:bg-gray-100 cursor-pointer filter-option" data-filter="receiving">Receiving</a> 
+                                <a href="{{ route('owner.orders') }}?filter=delivered"  class="block px-4 py-2 hover:bg-gray-100 cursor-pointer filter-option" data-filter="delivered">Delivered</a> 
+                                <a href="{{ route('owner.orders') }}?filter=cancelled"  class="block px-4 py-2 hover:bg-gray-100 cursor-pointer filter-option" data-filter="cancelled">Cancelled</a> 
                             </ul>
                         </div>
                     </div>
@@ -53,8 +53,7 @@
                         </tr>
                     </thead>
                     <tbody id="order-table-body">
-                        @foreach ($orders as $order)
-                            @if($order->status!="on-cart")
+                        @foreach ($orders as $order) 
                             <tr class="bg-white border-b border-gray-200 hover:bg-gray-50" data-category="{{ $order->status }}">
                                 <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
                                     {{ $order->order_number }}
@@ -294,8 +293,7 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                            @endif
+                            </div> 
                         @endforeach
                     </tbody>
                 </table>

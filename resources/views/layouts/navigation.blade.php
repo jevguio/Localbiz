@@ -39,7 +39,7 @@
                 </li> --}}
                 <li>
                     <div class="group">
-                        <a href="{{ route('owner.orders') }}"
+                        <a href="{{ route('owner.orders') }}?filter=all"
                             class="text-black-800 text-base flex items-center group-hover:text-orange-900 transition-all">
                             <i class='bx bxs-cart text-3xl mr-4 text-gray-400 group-hover:text-orange-900'></i>
                             <span>Orders</span>

@@ -568,7 +568,7 @@ class SellerController extends Controller
                 ->whereIn('status', ['processing', 'receiving', 'completed', 'delivered', 'cancelled'])
                 ->latest()
                 ->orderBy('created_at', 'desc')
-                ->paginate(10);
+                ->paginate(10)->appends(['filter' => $request->filter]);
             return view('seller.order-history', compact('orders', 'categories', 'couriers'));
         } else {
             $orders = Orders::whereHas('orderItems', function ($query) use ($seller) {
@@ -579,7 +579,7 @@ class SellerController extends Controller
                 ->where('status', '=', $request->filter)
                 ->latest()
                 ->orderBy('created_at', 'desc')
-                ->paginate(10);
+                ->paginate(10)->appends(['filter' => $request->filter]);
             return view('seller.order-history', compact('orders', 'categories', 'couriers'));
         }
 

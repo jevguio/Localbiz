@@ -34,12 +34,12 @@ class OwnerController extends Controller
         if ($request->filter == 'all') {
 
             $users = User::paginate(10)
-            ->appends(['filter' => $request->filter]);
+                ->appends(['filter' => $request->filter]);
             return view('owner.account', compact('users'));
         } else {
 
             $users = User::where('role', '=', $request->filter)->paginate(10)
-            ->appends(['filter' => $request->filter]);
+                ->appends(['filter' => $request->filter]);
             return view('owner.account', compact('users'));
         }
     }
@@ -102,9 +102,23 @@ class OwnerController extends Controller
     }
 
 
-    public function orders()
+    public function orders(Request $request)
     {
-        $orders = Orders::with(['user', 'orderItems.product', 'payments'])->latest()->paginate(10);
+        if ($request->filter == 'all') {
+
+            $orders = Orders::with(['user', 'orderItems.product', 'payments'])
+                ->where('status', '!=', 'on-cart')
+                ->latest()
+                ->paginate(10)->appends(['filter' => $request->filter]);
+            ;
+        } else {
+
+            $orders = Orders::with(['user', 'orderItems.product', 'payments'])
+                ->where('status', '=', $request->filter)
+                ->latest()
+                ->paginate(10)->appends(['filter' => $request->filter]);
+            ;
+        }
 
         $orderItems = OrderItems::all();
         $couriers = Courier::all();
