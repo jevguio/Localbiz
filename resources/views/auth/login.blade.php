@@ -1,6 +1,6 @@
 <x-guest-layout>
     <div class="bg-gray-50 font-[sans-serif] p-10"
-        style="background-image: url({{ asset('assets/img/bg.jpeg') }});background-repeat: no-repeat; background-position: center ; background-size: cover; height:100vh">
+        style="background-image: url({{ asset('assets/img/bg1.jpeg') }});background-repeat: no-repeat; background-position: center ; background-size: cover; height:100vh">
         <div class=" flex flex-col items-center justify-center py-6 px-4">
             <div class="w-full flex p-10 m-10">
                 <div class="p-8 w-full  p-10 m-10"
