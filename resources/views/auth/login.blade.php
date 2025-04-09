@@ -2,14 +2,14 @@
     <div class="bg-gray-50 font-[sans-serif] p-10"
         style="background-image: url({{ asset('assets/img/background.png') }});background-repeat: no-repeat; background-position: center ; background-size: cover; height:100vh">
         <div class=" flex flex-col items-center justify-center py-6 px-4">
-            <div class="w-full flex p-10 m-10">
-                <div class="p-8 w-full  p-10 m-10"
-                    style="max-width: 50%;color:white;text-shadow: -1px -1px 3px #000, 1px -1px 3px #000, -1px 1px 3px #000, 1px 1px 3px #000;">
+            <div class="w-full flex p-10 m-10 ">
+                <div class="p-8 w-full  p-10 m-10 "
+                    style="max-width: 50%;color:white;text-shadow: -1px -1px 3px #000, 1px -1px 3px #000, -1px 1px 3px #000, 1px 1px 3px #000;margin-top:-2%">
                     <div style="font-size: 6rem; font-weight: bolder; text-align: center;">Welcome To<br /> LocalBiz
                     </div>
                     <p style="text-align: center; font-size: x-large;">Support Local</p>
                 </div>
-                <div class="p-8 rounded-2xl w-full max-w-md  bg-white shadow  p-10 m-10">
+                <div class="p-8 rounded-2xl w-full max-w-md  shadow  p-10 m-10 " style="background-color: rgba(158, 158, 158, 0.616)">
                     <h2 class="text-gray-800 text-center text-2xl font-bold">Sign in</h2>
                     <form class="mt-8 space-y-4" method="POST" action="{{ route('login') }}">
                         @csrf
