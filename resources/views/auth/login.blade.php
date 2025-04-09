@@ -4,8 +4,8 @@
         <div class=" flex flex-col items-center justify-center py-6 px-4">
             <div class="w-full flex p-10 m-10 ">
                 <div class="p-8 w-full  p-10 m-10 "
-                    style="max-width: 50%;color:white;text-shadow: -1px -1px 3px #000, 1px -1px 3px #000, -1px 1px 3px #000, 1px 1px 3px #000;margin-top:-2%">
-                    <div style="font-size: 6rem; font-weight: bolder; text-align: center;">Welcome To<br /> LocalBiz
+                    style="max-width: 50%;color:white;text-shadow: -1px -1px 3px #000, 1px -1px 3px #000, -1px 1px 3px #000, 1px 1px 3px #000; ">
+                    <div style="font-size: 6rem; font-weight: bolder; text-align: center;line-height: 1;margin: 0;">Welcome To<br /> LocalBiz
                     </div>
                     <p style="text-align: center; font-size: x-large;">Support Local</p>
                 </div>
