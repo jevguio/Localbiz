@@ -38,7 +38,7 @@
                 <table class="w-full text-sm text-left rtl:text-right text-gray-500 h-100">
                     <thead class="text-xs text-gray-700 uppercase bg-gray-50">
                         <tr>
-                            <th scope="col" class="px-6 py-3">
+                            <th scope="col" class="px-6 py-3 pl-15 text-black">
                                 Product Image
                             </th>
                             <th scope="col" class="px-6 py-3 text-black">
@@ -60,7 +60,7 @@
                             <tr class="bg-white border-b border-gray-200 hover:bg-gray-50">
                                 <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
                                     <img src="{{ asset('assets/' . $product->image) }}" alt="Product Image"
-                                        class="w-40 h-40 object-cover rounded">
+                                        class="w-50 h-50 object-cover rounded">
                                 </th>
                                 <td class="px-6 py-4 text-black">
                                     {{ $product->name }}

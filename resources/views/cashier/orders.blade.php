@@ -55,7 +55,7 @@
 
                                     </td>
                                     <td class="px-6 py-4">
-                                        {{ $order->total_amount }}
+                                        ₱{{ number_format($order->orderItems->sum('price'), 2) }}
                                     </td>
                                     <td class="px-6 py-4">
                                         {{ $order->status }}
@@ -139,7 +139,7 @@
                                                     </div>
                                                     <div class="col-span-1">
                                                         <label for="category"
-                                                            class="block mb-2 text-sm font-medium text-gray-900">Category</label>
+                                                            class="block mb-2 text-sm font-medium text-gray-900">Category Name</label>
                                                         <div id="category" name="category_id"
                                                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5"
                                                             disabled>
@@ -172,6 +172,7 @@
                                                             value="{{ $order->orderItems->first()->quantity }}"
                                                             readonly>
                                                     </div>
+
 
                                                     <div class="col-span-1">
                                                         <label for="payment_method"

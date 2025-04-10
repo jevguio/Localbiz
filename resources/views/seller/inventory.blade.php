@@ -20,19 +20,19 @@
                 <table class="w-full text-sm text-left rtl:text-right text-gray-500">
                     <thead class="text-xs text-gray-700 uppercase bg-gray-50">
                         <tr>
-                            <th scope="col" class="px-6 py-3">
+                            <th scope="col" class="px-6 py-3 pl-15 text-black">
                                 Product Image
                             </th>
-                            <th scope="col" class="px-6 py-3">
+                            <th scope="col" class="px-6 py-3 text-black">
                                 Product Name
                             </th>
-                            <th scope="col" class="px-6 py-3">
+                            <th scope="col" class="px-6 py-3 text-black">
                                 Product Price
                             </th>
-                            <th scope="col" class="px-6 py-3">
+                            <th scope="col" class="px-6 py-3 text-black">
                                 Remaining Stock
                             </th>
-                            <th scope="col" class="px-6 py-3">
+                            <th scope="col" class="px-6 py-3 text-black">
                                 Sold
                             </th>
                         </tr>
@@ -42,18 +42,18 @@
                             <tr class="bg-white border-b border-gray-200 hover:bg-gray-50">
                                 <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
                                     <img src="{{ asset('assets/' . $product->image) }}" alt="Product Image"
-                                        class="w-32 h-32 object-cover rounded">
+                                        class="w-50 h-50 object-cover rounded">
                                 </th>
-                                <td class="px-6 py-4">
+                                <td class="px-6 py-4 text-black">
                                     {{ $product->name }}
                                 </td>
-                                <td class="px-6 py-4 pl-12">
+                                <td class="px-6 py-4 pl-12 text-black">
                                     {{ $product->price }}
                                 </td>
-                                <td class="px-6 py-4 pl-17">
+                                <td class="px-6 py-4 pl-17 text-black">
                                     {{ $product->stock }}
                                 </td>
-                                <td class="px-6 py-4 pl-8">
+                                <td class="px-6 py-4 pl-8 text-black">
                                      @php
                                      $totalQuantity=0;
                                           

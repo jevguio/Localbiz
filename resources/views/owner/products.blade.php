@@ -42,7 +42,7 @@
                 <table class="w-full text-sm text-left rtl:text-right text-gray-500">
                     <thead class="text-xs text-gray-700 uppercase bg-gray-50">
                         <tr>
-                            <th scope="col" class="px-6 py-3 text-black">
+                            <th scope="col" class="px-6 py-3 pl-15 text-black">
                                 Product Image
                             </th>
                             <th scope="col" class="px-6 py-3 pl-12 text-black">
@@ -68,7 +68,7 @@
                                 data-category="{{ $product->seller->user->fname }}">
                                 <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
                                     <img src="{{ asset('assets/' . $product->image) }}" alt="Product Image"
-                                        class="w-40 h-40 object-over rounded">
+                                        class="w-50 h-50 object-over rounded">
                                 </th>
                                 <td class="px-6 py-4 text-black">
                                     {{ $product->name }}
