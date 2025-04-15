@@ -46,14 +46,14 @@
  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
- <div style="text-align: center;">
+ <!-- <div style="text-align: center;">
      <img class="header mx-auto" src="{{ $imageSrc }}" style="display: block; margin: 0 auto; margin-bottom: 20px;" />
- </div>
+ </div> -->
  <!-- <div class="header">Localbiz</div>
 <div class="subheader" id="subheader" style="background-color:rgb(161, 124, 0); width:100%; color:white;padding:10px ">Top Seller's Report</div>
    -->
  <div class="bg-white p-5 rounded-lg shadow-md">
-     <h2 class="text-xl font-bold mb-4">Top 5 Seller</h2>
+     <h2 class="text-3xl font-bold mb-4">Top 5 Sellers</h2>
      @if (isset($monthpicker))
          <h4 class="text-xl font-bold mb-4">Date: {{ \Carbon\Carbon::parse($monthpicker)->format('F Y') }}</h4>
      @endif

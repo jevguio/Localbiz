@@ -391,7 +391,7 @@ class OwnerController extends Controller
         ')
             ->whereNotNull('tbl_orders.created_at')
             ->groupBy('seller_id', 'month', 'fname', 'lname')
-            ->orderBy('month', 'asc')
+            ->orderBy('month', 'desc')
             ->orderBy('revenue', 'desc')
             ->limit(5) // Get top 10 sellers
             ->get();

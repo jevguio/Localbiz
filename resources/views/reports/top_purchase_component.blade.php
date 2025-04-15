@@ -1,4 +1,4 @@
- <style>
+<style>
      body {
          font-family: Arial, sans-serif;
      }
@@ -48,11 +48,12 @@
      $imageSrc = 'data:image/jpeg;base64,' . $imageData;
 
  @endphp
- <div style="text-align: center;">
+ <!-- <div style="text-align: center;">
      <img class="header mx-auto" src="{{ $imageSrc }}" style="display: block; margin: 0 auto; margin-bottom: 20px;" />
- </div>
+ </div> -->
+
  <div class="bg-white p-5 rounded-lg shadow-md">
-     <h2 class="text-xl font-bold mb-4">Top 10 Products</h2>
+     <h2 class="text-3xl font-bold mb-4">Top 10 Products</h2>
      @if (isset($monthpicker))
          <h4 class="text-xl font-bold mb-4">Date: {{ \Carbon\Carbon::parse($monthpicker)->format('F Y') }}</h4>
      @endif
@@ -62,8 +63,19 @@
      document.addEventListener("DOMContentLoaded", function() {
          const ctx = document.getElementById('topProductsChart').getContext('2d');
 
-         const chartData = @json($chartData); // Laravel Data to JS
-         const months = Object.keys(chartData); // Extract month labels
+         const chartData = @json($chartData);
+         const months = Object.keys(chartData).sort((a, b) => {
+             const dateA = new Date(a);
+             const dateB = new Date(b);
+             return dateA - dateB;
+         });
+
+         // Convert month labels to word format
+         const monthLabels = months.map(month => {
+             const date = new Date(month);
+             return date.toLocaleString('default', { month: 'long', year: 'numeric' });
+         });
+
          const productNames = [...new Set(Object.values(chartData).flatMap(obj => Object.keys(obj)))];
 
          const datasets = productNames.map((product, index) => ({
@@ -77,7 +89,7 @@
          const myChart = new Chart(ctx, {
              type: 'bar',
              data: {
-                 labels: months,
+                 labels: monthLabels,
                  datasets: datasets
              },
              options: {
