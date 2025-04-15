@@ -68,7 +68,9 @@
         <fieldset class="fieldset">
             <legend class="fieldset-legend">Phone</legend>
             <input type="tel" name="phone" class="input w-full" placeholder="Type your phone number"
-                value="{{ $user->phone }}" required maxlength="11"/>
+                value="{{ $user->phone }}" required maxlength="11"
+                oninput="this.value = this.value.replace(/[^0-9]/g, '')"
+                pattern="[0-9]{11}" />
         </fieldset>
 
         @if ($user->role == 'Seller')
@@ -94,4 +96,11 @@
                 class="flex w-full items-center justify-center rounded-lg btn btn-primary px-5 py-2.5 text-sm font-medium text-white">Save</button>
         </div>
     </form>
-</section>
+    <script>
+        document.querySelector('input[name="phone"]').addEventListener('keypress', function(e) {
+            if (e.which < 48 || e.which > 57) {
+                e.preventDefault();
+            }
+        });
+    </script>
+    </section>

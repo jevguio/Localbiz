@@ -31,6 +31,9 @@
                                     placeholder="Enter password" id="cpass" />
                                 <i id="togglePassword" class='bx bx-show absolute right-4 cursor-pointer'></i>
                             </div>
+                            <div class="flex justify-end mt-2">
+                                <a href="{{ route('password.request') }}" class="text-sm text-blue-400 hover:underline">Forgot Password?</a>
+                            </div>
                         </div>
 
                         <div class="!mt-8">

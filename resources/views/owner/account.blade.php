@@ -190,7 +190,8 @@
                                                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
                                                             placeholder="Type contact number"
                                                             value="{{ $user->phone }}" maxlength="11"
-                                                            pattern="[0-9]{11}" inputmode="numeric">
+                                                            oninput="this.value = this.value.replace(/[^0-9]/g, '')"
+                                                            pattern="[0-9]{11}" />
                                                     </div>
 
                                                     @if (!in_array($user->role, ['Cashier', 'DeliveryRider', 'Owner']))
@@ -380,6 +381,18 @@
                                                 placeholder="Type email address" value="{{ old('email') }}"
                                                 required>
                                         </div>
+
+                                        <div class="col-span-2">
+                                            <label class="block mb-2 text-sm font-medium text-gray-900"
+                                                for="phone">Contact Number</label>
+                                            <input type="tel" name="phone" id="phone"
+                                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                                                placeholder="Type phone number" value="{{ old('phone') }}"
+                                                maxlength="11" required
+                                                oninput="this.value = this.value.replace(/[^0-9]/g, '')"
+                                                pattern="[0-9]{11}" />
+                                        </div>
+
                                         <div class="col-span-2">
                                             <label class="block mb-2 text-sm font-medium text-gray-900"
                                                 for="password">Password</label>
@@ -394,14 +407,7 @@
                                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
                                                 placeholder="Type address" value="{{ old('address') }}" required>
                                         </div>
-                                        <div class="col-span-2">
-                                            <label class="block mb-2 text-sm font-medium text-gray-900"
-                                                for="phone">Phone Number</label>
-                                            <input type="tel" name="phone" id="phone"
-                                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
-                                                placeholder="Type phone number" value="{{ old('phone') }}"
-                                                maxlength="11" required>
-                                        </div>
+                                        
 
                                         <script>
                                             onRoleSeller(null);
