@@ -167,7 +167,7 @@
                                         <input type="number" name="payment_amount" id="payment_amount"
                                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
                                             placeholder="Payment Amount"
-                                            value="{{ $item->order->payments->first() ? $item->order->payments->first()->payment_amount : 'N/A' }}" readonly>
+                                            value="{{ number_format($item->product->price * $item->quantity, 2, '.', ',') }}" readonly>
                                     </div>
 
                                     <div class="col-span-1">

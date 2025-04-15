@@ -102,16 +102,28 @@
                                                     <div class="col-span-2">
                                                         <label class="block mb-2 text-sm font-medium text-gray-900"
                                                             for="name">Seller Files</label>
+                                                        <div class="flex items-center gap-4">
                                                             @php
                                                                 $documentFiles = json_decode($seller->document_file, true);
                                                             @endphp
                                                             @if (is_array($documentFiles))
-                                                                @foreach ($documentFiles as $file)
-                                                                <img src="{{ asset('seller/documents/' . $file) }}"
-                                                                    alt="Seller Document File"
-                                                                    class="myModalthumbnail w-36 h-36 object-cover"  onclick="openModal(this.src)">
-                                                                @endforeach
+                                                                <button type="button" class="prev-btn text-gray-500 hover:text-gray-700">
+                                                                    <i class='bx bx-chevron-left text-3xl'></i>
+                                                                </button>
+                                                                <div class="image-container overflow-hidden">
+                                                                    @foreach ($documentFiles as $index => $file)
+                                                                        <img src="{{ asset('seller/documents/' . $file) }}"
+                                                                            alt="Seller Document File"
+                                                                            class="myModalthumbnail w-36 h-36 object-cover document-image {{ $index === 0 ? '' : 'hidden' }}"
+                                                                            data-index="{{ $index }}"
+                                                                            onclick="openModal(this.src)">
+                                                                    @endforeach
+                                                                </div>
+                                                                <button type="button" class="next-btn text-gray-500 hover:text-gray-700">
+                                                                    <i class='bx bx-chevron-right text-3xl'></i>
+                                                                </button>
                                                             @endif
+                                                        </div>
                                                     </div> 
                                                     <!-- <div class="col-span-2">
                                                         <label class="block mb-2 text-sm font-medium text-gray-900"
@@ -194,7 +206,13 @@
 </style>
     <div id="myModalmyModal"  class="myModalmyModal" >
         <span class="myModalclose" onclick="closeModal()">&times;</span>
+        <button type="button" class="modal-prev-btn text-white absolute left-4 top-1/2 transform -translate-y-1/2">
+            <i class='bx bx-chevron-left text-5xl'></i>
+        </button>
         <img id="modalImg" class="myModal-content" onwheel="zoom(event)">
+        <button type="button" class="modal-next-btn text-white absolute right-4 top-1/2 transform -translate-y-1/2">
+            <i class='bx bx-chevron-right text-5xl'></i>
+        </button>
     </div>
                                                     
 
@@ -204,22 +222,53 @@
 let posX = 0, posY = 0; // Initial position
 let isDragging = false;
 let startX, startY;
+        let currentImageIndex = 0;
+        let currentImages = [];
+
         function openModal(src) {
             let modal = document.getElementById("myModalmyModal"); 
             modalImg = document.getElementById("modalImg");
+            
+            // Get all images from the same container
+            const container = $(event.target).closest('.image-container');
+            currentImages = container.find('.document-image').map(function() {
+                return $(this).attr('src');
+            }).get();
+            
+            currentImageIndex = currentImages.indexOf(src);
             modalImg.src = src;
+            
             modalImg.style.zIndex = "99";
             modalImg.style.display = "block"; 
-
             modal.style.zIndex = "99";
             modal.style.display = "block"; 
-            console.log(modal);
-                        
+            
+            // Add event listeners
             modalImg.addEventListener("wheel", zoom);
             modalImg.addEventListener("mousedown", startDrag);
             window.addEventListener("mousemove", drag);
             window.addEventListener("mouseup", stopDrag);
             modalImg.addEventListener("mouseup", stopDrag);
+
+            // Modal navigation buttons
+            $('.modal-prev-btn').click(function() {
+                currentImageIndex = (currentImageIndex - 1 + currentImages.length) % currentImages.length;
+                modalImg.src = currentImages[currentImageIndex];
+                resetZoomAndPosition();
+            });
+
+            $('.modal-next-btn').click(function() {
+                currentImageIndex = (currentImageIndex + 1) % currentImages.length;
+                modalImg.src = currentImages[currentImageIndex];
+                resetZoomAndPosition();
+            });
+        }
+
+        function resetZoomAndPosition() {
+            scale = 1;
+            posX = 0;
+            posY = 0;
+            updateTransform();
         }
         function closeModal() {
             document.getElementById("myModalmyModal").style.display="none";
@@ -319,6 +368,29 @@ function updateTransform() {
             $('[data-modal-toggle]').on('click', function() {
                 const modalId = $(this).data('modal-toggle');
                 $(`#${modalId}`).addClass('hidden');
+            });
+        });
+        $(document).ready(function() {
+            $('.prev-btn').click(function() {
+                const container = $(this).siblings('.image-container');
+                const images = container.find('.document-image');
+                const currentImage = container.find('.document-image:not(.hidden)');
+                const currentIndex = currentImage.data('index');
+                const prevIndex = (currentIndex - 1 + images.length) % images.length;
+                
+                currentImage.addClass('hidden');
+                images.filter(`[data-index="${prevIndex}"]`).removeClass('hidden');
+            });
+
+            $('.next-btn').click(function() {
+                const container = $(this).siblings('.image-container');
+                const images = container.find('.document-image');
+                const currentImage = container.find('.document-image:not(.hidden)');
+                const currentIndex = currentImage.data('index');
+                const nextIndex = (currentIndex + 1) % images.length;
+                
+                currentImage.addClass('hidden');
+                images.filter(`[data-index="${nextIndex}"]`).removeClass('hidden');
             });
         });
     </script>
