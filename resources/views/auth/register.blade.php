@@ -84,7 +84,7 @@
 
                         <div class="!mt-8">
                             <button type="submit"
-                                class="w-full py-3 px-4 text-sm tracking-wide rounded-lg text-white bg-blue-600 hover:bg-blue-700 focus:outline-none">
+                                class="w-full py-3 px-4 text-base tracking-wide rounded-lg text-white bg-orange-900 hover:bg-orange-800 focus:outline-none">
                                 Register
                             </button>
                         </div>

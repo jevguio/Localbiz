@@ -32,13 +32,13 @@
                                 <i id="togglePassword" class='bx bx-show absolute right-4 cursor-pointer'></i>
                             </div>
                             <div class="flex justify-end mt-2">
-                                <a href="{{ route('password.request') }}" class="text-sm text-blue-400 hover:underline">Forgot Password?</a>
+                                <a href="{{ route('password.request') }}" class="text-sm text-white hover:underline">Forgot Password?</a>
                             </div>
                         </div>
 
                         <div class="!mt-8">
                             <button type="submit"
-                                class="w-full py-3 px-4 text-base tracking-wide rounded-lg text-white bg-blue-600 hover:bg-blue-700 focus:outline-none">
+                                class="w-full py-3 px-4 text-base tracking-wide rounded-lg text-white bg-orange-900 hover:bg-orange-800 focus:outline-none">
                                 Sign in
                             </button>
                         </div>
