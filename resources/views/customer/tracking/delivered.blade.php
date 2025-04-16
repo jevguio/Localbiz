@@ -282,7 +282,7 @@
                 const tagName = e.target.tagName.toLowerCase();
 
                 // Ignore if the clicked element is an input or select
-                if (tagName === 'input' || tagName === 'select') return;
+                if (tagName === 'textarea' || tagName === 'select') return;
                 const modalId = $(this).data('modal-target');
                 $(`#${modalId}`).removeClass('hidden');
             });
@@ -290,7 +290,7 @@
                 const tagName = e.target.tagName.toLowerCase();
 
                 // Ignore if the clicked element is an input or select
-                if (tagName === 'input' || tagName === 'select') return;
+                if (tagName === 'textarea' || tagName === 'select') return;
                 const modalId = $(this).data('modal-toggle');
                 $(`#${modalId}`).addClass('hidden');
             });
