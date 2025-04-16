@@ -46,7 +46,7 @@ class CustomerService
 
             $order->total_amount = $order->orderItems->sum('price');
             $order->save();
-
+ 
             session()->flash('success', 'Product added to cart successfully. Your Order Number: ' . $order->order_number);
             return response()->json([
                 'error_code' => MyConstant::SUCCESS_CODE,

@@ -49,12 +49,24 @@
                                         class="btn btn-primary bg-blue-700 hover:bg-blue-800 text-white rounded-md my-2">Submit
                                         Feedback</button>
                                 </form>
+                                
                             @else
                                 <div role="alert" class="alert alert-success mt-4">
                                     <i class='bx bx-check-circle text-white text-2xl'></i>
                                     <span class="text-white">You have already submitted feedback for this
                                         product!</span>
                                 </div>
+                                <div class="col-span-3 mt-2">
+                                        <form action="{{ route('customer.addToCart').'?targ=customer.cart'}}" method="POST">
+                                            @csrf
+                                            <input type="hidden" name="product_id" value="{{ $item->id }}">
+                                            <button 
+                                            class="btn px-4 py-2 bg-red-900 text-white 
+                                            rounded-md hover:bg-red-800">
+                                            Buy Again
+                                        </button>
+                                        </form> 
+                                    </div>
                             @endif
                         </div>
                     </div>
@@ -254,6 +266,7 @@
                                             </li>
                                         </ul>
                                     </div>
+                                    
                                 </div>
                                 <hr class="my-4">
                                 <div class="flex justify-end gap-2">
