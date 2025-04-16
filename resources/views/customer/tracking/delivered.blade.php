@@ -34,14 +34,48 @@
                                     <input type="hidden" name="product_id" value="{{ $item->product->id }}">
                                     <input type="hidden" name="user_id" value="{{ Auth::id() }}">
                                     <label for="rating" class="block text-sm font-medium text-gray-700">Rating</label>
-                                    <select class="select mt-2 w-full" name="rating">
-                                        <option disabled selected>Pick a rating</option>
-                                        <option value="1">1 (Poor)</option>
-                                        <option value="2">2 (Fair)</option>
-                                        <option value="3">3 (Good)</option>
-                                        <option value="4">4 (Very Good)</option>
-                                        <option value="5">5 (Excellent)</option>
-                                    </select>
+                                    <style>
+  .star-rating {
+    display: flex;
+    flex-direction: row-reverse;
+    font-size: 2rem;
+    justify-content: flex-start;
+  }
+
+  .star-rating input {
+    display: none;
+  }
+
+  .star-rating label {
+    cursor: pointer;
+    color: #ccc;
+    transition: color 0.2s;
+  }
+
+  .star-rating input:checked ~ label,
+  .star-rating label:hover,
+  .star-rating label:hover ~ label {
+    color: #f5c518;
+  }
+</style>
+
+<div class="star-rating mt-2">
+  <input type="radio" id="star5" name="rating" value="5" />
+  <label for="star5" title="5 stars">★</label>
+
+  <input type="radio" id="star4" name="rating" value="4" />
+  <label for="star4" title="4 stars">★</label>
+
+  <input type="radio" id="star3" name="rating" value="3" />
+  <label for="star3" title="3 stars">★</label>
+
+  <input type="radio" id="star2" name="rating" value="2" />
+  <label for="star2" title="2 stars">★</label>
+
+  <input type="radio" id="star1" name="rating" value="1" />
+  <label for="star1" title="1 star">★</label>
+</div>
+
                                     <label for="comment"
                                         class="block text-sm font-medium text-gray-700 my-2">Comment</label>
                                     <textarea class="textarea w-full" rows="3" placeholder="Comment" name="comment"></textarea>
@@ -56,7 +90,9 @@
                                     <span class="text-white">You have already submitted feedback for this
                                         product!</span>
                                 </div>
-                                <div class="col-span-3 mt-2  absolute right-0 bottom-0">
+                            @endif
+                            
+                            <div class="col-span-3 mt-2  absolute right-0 bottom-0">
                                         <form action="{{ route('customer.addToCart').'?targ=customer.cart'}}" method="POST">
                                             @csrf
                                             <input type="hidden" name="product_id" value="{{ $item->id }}">
@@ -67,7 +103,6 @@
                                         </button>
                                         </form> 
                                 </div>
-                            @endif
                         </div>
                     </div>
                         
@@ -295,7 +330,7 @@
                 const tagName = e.target.tagName.toLowerCase();
 
                 // Ignore if the clicked element is an input or select
-                if (tagName === 'textarea' || tagName === 'select') return;
+                if (tagName === 'textarea' || tagName === 'label'|| tagName === 'input') return;
                 const modalId = $(this).data('modal-target');
                 $(`#${modalId}`).removeClass('hidden');
             });
@@ -303,7 +338,7 @@
                 const tagName = e.target.tagName.toLowerCase();
 
                 // Ignore if the clicked element is an input or select
-                if (tagName === 'textarea' || tagName === 'select') return;
+                if (tagName === 'textarea' || tagName === 'label'|| tagName === 'input') return;
                 const modalId = $(this).data('modal-toggle');
                 $(`#${modalId}`).addClass('hidden');
             });
