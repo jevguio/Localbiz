@@ -1,11 +1,14 @@
 <x-guest-layout>
     <div class="bg-gray-50 font-[sans-serif]"
-        style="background-image: url({{ asset('assets/img/background.png') }});background-repeat: no-repeat; background-position: center ; background-size: cover; height:100vh">
-        <div class=" flex flex-col items-center justify-center py-6 px-4">
-            <div class="w-full flex p-10 m-10 ">
+        style="background-image: url({{ asset('assets/img/background.png') }});
+        background-repeat: no-repeat; background-position: center ; 
+        background-size: cover; 
+        height:100vh; overflow:none;">
+        <div class=" flex flex-col items-center justify-center py-2 px-4">
+            <div class="w-full flex p-3 m-3 ">
                 <div class="p-8 w-full  p-10 m-10 "
                     style="max-width: 50%;color:white;">
-                    <div style="font-size: 6rem; font-weight: bolder; text-align: center;line-height: 1;margin: 0;">Welcome To<br /> LocalBiz
+                    <div class="pt-5 mt-5" style="font-size: 6rem; font-weight: bolder; text-align: center;line-height: 1;margin: 0;">Welcome To<br /> LocalBiz
                     </div>
                     <p style="text-align: center; font-size: x-large;">Support Local</p>
                 </div>
