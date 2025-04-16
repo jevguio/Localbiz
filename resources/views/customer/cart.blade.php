@@ -49,11 +49,19 @@
                                                         <img class="h-16 w-16 rounded-lg border border-gray-300 object-cover"
                                                             src="{{ asset('assets/' . $item->product->image) }}"
                                                             alt="{{ $item->product->name }}" />
-                                                        <div>
+                                                        <div style="">
                                                             <p class="text-lg font-semibold">{{ $item->product->name }}
                                                             </p>
-                                                            <p class="text-sm text-gray-700">
-                                                                {{ $item->product->description }}
+                                                            <p class="text-sm text-gray-700 " style="
+                                                            overflow: hidden;
+                                                            text-overflow: ellipsis;
+                                                             white-space: nowrap; 
+                                                                    ">
+                                                                {{ substr($item->product->description, 0, 20)}}
+                                                                
+                                                                @if(strlen($item->product->description) > 20)
+                                                                    ...
+                                                                @endif
                                                             </p>
                                                             <p class="text-sm text-gray-700">Seller:
                                                                 {{ $item->product->seller->user->fname ?? 'N/A' }}
