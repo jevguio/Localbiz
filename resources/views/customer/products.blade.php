@@ -31,8 +31,10 @@
                 </form>
                 <div class="relative w-full">
 
-                    <input type="text" id="productSearch" placeholder="Search products..." class="input w-full" />
-                    <i id="filter-btn" class='absolute bx bx-filter text-2xl right-2 top-2'></i><div id="filter-dropdown"
+                    <i class='bx bx-search absolute text-gray-500 text-xl left-3 top-2.5 z-10'></i>
+                    <input type="text" id="productSearch" placeholder="Search products..." class="input w-full pl-10" />
+                    <i id="filter-btn" class='absolute bx bx-filter text-2xl right-2 top-2'></i>
+                    <div id="filter-dropdown"
                     class="hidden absolute right-0 mt-1 w-40 bg-white border border-gray-300 rounded-lg shadow-lg">
                     <ul class="py-2 text-sm text-gray-700">
                          <a class="w-full block px-4 py-2 hover:bg-gray-100 cursor-pointer filter-option" href="{{route('customer.products')}}">All</a>
@@ -63,7 +65,7 @@
                         <p class="text-gray-500 font-bold">₱ {{ number_format($product->price, 2, '.', ',') }}</p>
                         <p class="text-gray-500">Stock: {{ $product->stock }}</p>
                     </div>
-                    <button class="btn w-full mt-4 py-2 bg-orange-900 text-white rounded-md hover:bg-orange-800"
+                    <button class="btn w-full mt-4 py-2 bg-red-900 text-white rounded-md hover:bg-red-800"
                         onclick="productModal{{ $product->id }}.showModal()">View</button>
                 </div>
 
