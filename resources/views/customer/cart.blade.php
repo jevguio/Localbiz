@@ -4,7 +4,7 @@
             <div class="grid grid-cols-3 gap-4 mb-4">
                 <h2 class="mt-3 text-xl font-bold text-gray-900 sm:text-2xl">Shopping Cart</h2>
             </div>
-            <div class="mt-6 sm:mt-8 md:gap-6 lg:flex lg:items-start xl:gap-4" >
+            <div class="mt-6 sm:mt-8 md:gap-6 lg:flex lg:items-start xl:gap-4">
                 <div class="mx-auto w-full flex-none">
                     <div class="space-y-2">
                         <div class="border border-gray-300 bg-white p-4 shadow-md md:p-8" style="overflow-x: hidden;">
@@ -17,40 +17,35 @@
                                                 @method('PUT')
                                                 <input type="hidden" name="is_checked" value="0" />
                                                 <input type="checkbox" name="is_checked" style="transform: scale(1.5);"
-                                                    value="1" onchange="setTimeout(() => this.form.submit(), 300)"
-                                                    {{ $allActive ? 'checked' : '' }} />
+                                                    value="1" onchange="setTimeout(() => this.form.submit(), 300)" {{ $allActive ? 'checked' : '' }} />
                                                 <div class="ml-4 inline"> Select All</div>
                                             </form>
                                         </th>
-                                        <th class="p-4 text-left ">Product</th>
-                                        <th class="p-4  ">Unit Price</th>
-                                        <th class="p-4  ">Quantity</th>
-                                        <th class="p-4  ">Total Price</th>
-                                        <th class="p-4 text-left">Action</th>
+                                        <th class="p-2 text-left ">Product</th>
+                                        <th class="p-2  ">Unit Price</th>
+                                        <th class="p-2  ">Quantity</th>
+                                        <th class="p-2  ">Total Price</th>
+                                        <th class="p-2 text-left">Action</th>
                                     </tr>
                                     <tr class="h-5">
                                     </tr>
                                 </thead>
-                                <tbody class=" " >
+                                <tbody class=" ">
                                     @foreach ($cartItems as $item)
                                         @if ($item->product != null)
                                             <tr class="my-4 border border-gray-300">
                                                 <td class="p-4 text-left ">
-                                                    <form action="{{ route('customer.updateSelectionCart') }}"
-                                                        method="POST">
+                                                    <form action="{{ route('customer.updateSelectionCart') }}" method="POST">
                                                         @csrf
                                                         @method('PUT')
-                                                        <input type="hidden" name="id"
-                                                            value="{{ $item->id }}" />
+                                                        <input type="hidden" name="id" value="{{ $item->id }}" />
                                                         <input type="hidden" name="is_checked" value="0" />
-                                                        <input type="checkbox" name="is_checked"
-                                                            style="transform: scale(1.5);" value="1"
-                                                            onchange="setTimeout(() => this.form.submit(), 300)"
-                                                            {{ $item->is_checked ? 'checked' : '' }} />
+                                                        <input type="checkbox" name="is_checked" style="transform: scale(1.5);"
+                                                            value="1" onchange="setTimeout(() => this.form.submit(), 300)" {{ $item->is_checked ? 'checked' : '' }} />
                                                     </form>
                                                 </td>
-                                                <td class="p-4  flex items-center space-x-4 text-left">
-                                                    <div>
+                                                <td class="p-2 flex items-center space-x-2 text-left">
+                                                    <div class="w-full">
                                                         <img class="h-16 w-16 rounded-lg border border-gray-300 object-cover"
                                                             src="{{ asset('assets/' . $item->product->image) }}"
                                                             alt="{{ $item->product->name }}" />
@@ -61,7 +56,8 @@
                                                                 {{ $item->product->description }}
                                                             </p>
                                                             <p class="text-sm text-gray-700">Seller:
-                                                                {{ $item->product->seller->user->fname ?? 'N/A' }}</p>
+                                                                {{ $item->product->seller->user->fname ?? 'N/A' }}
+                                                            </p>
                                                             <p class="text-sm text-gray-700">Gcash Number:
                                                                 {{ $item->product->seller->user->gcash_number ?? 'N/A' }}
                                                             </p>
@@ -74,15 +70,14 @@
                                                         </div>
                                                     </div>
                                                 </td>
-                                                <td class="p-4  ">₱{{ $item->product->price }}</td>
-                                                <td class="p-4">
+                                                <td class="p-2  ">₱{{ $item->product->price }}</td>
+                                                <td class="p-2 ">
                                                     <form action="{{ route('customer.updateCart') }}" method="POST"
-                                                        class="flex items-center space-x-2">
+                                                        class="flex items-center space-x-2 w-full">
                                                         @csrf
                                                         @method('PUT')
                                                         <div class=" mx-auto ">
-                                                            <input type="hidden" name="id"
-                                                                value="{{ $item->id }}">
+                                                            <input type="hidden" name="id" value="{{ $item->id }}">
                                                             <button type="submit" name="decrement" value="decrement"
                                                                 class="h-8 w-8 inline-flex items-center justify-center border border-gray-400 bg-gray-100 hover:bg-gray-200">
                                                                 <i class='bx bx-minus text-lg'></i>
@@ -96,12 +91,11 @@
                                                         </div>
                                                     </form>
                                                 </td>
-                                                <td class="p-4   font-bold">
+                                                <td class="p-2   font-bold">
                                                     ₱{{ $item->product->price * $item->quantity }}
                                                 </td>
-                                                <td class="p-4  ">
-                                                    <form
-                                                        action="{{ route('customer.removeCart', ['id' => $item->id]) }}"
+                                                <td class="p-2 ">
+                                                    <form action="{{ route('customer.removeCart', ['id' => $item->id]) }}"
                                                         method="POST">
                                                         @csrf
                                                         @method('DELETE')
@@ -154,8 +148,8 @@
                                     <h2 id="paymentDetails" class="mt-4 text-xl font-bold text-gray-900 sm:text-2xl">
                                         Payment Details
                                     </h2>
-                                    <form action="{{ route('customer.checkout') }}" method="POST"
-                                        class="mt-4 space-y-4" id="paymentForm" enctype="multipart/form-data">
+                                    <form action="{{ route('customer.checkout') }}" method="POST" class="mt-4 space-y-4"
+                                        id="paymentForm" enctype="multipart/form-data">
                                         @csrf
                                         <div>
                                             <div class="fieldset">
@@ -198,15 +192,19 @@
                                         @foreach ($seller as $seller)
                                             <div class="gcash-details" style="display: none;">
                                                 <p class="text-base font-medium text-gray-900">Seller Name:
-                                                    {{ $seller->user->fname }}</p>
+                                                    {{ $seller->user->fname }}
+                                                </p>
                                                 <p class="text-base font-medium text-gray-900">Gcash Number:
-                                                    {{ $seller->user->gcash_number }}</p>
+                                                    {{ $seller->user->gcash_number }}
+                                                </p>
                                             </div>
                                             <div class="credit-card-details" style="display: none;">
                                                 <p class="text-base font-medium text-gray-900">Bank Name:
-                                                    {{ $seller->user->bank_name }}</p>
+                                                    {{ $seller->user->bank_name }}
+                                                </p>
                                                 <p class="text-base font-medium text-gray-900">Bank Account Number:
-                                                    {{ $seller->user->bank_account_number }}</p>
+                                                    {{ $seller->user->bank_account_number }}
+                                                </p>
                                             </div>
                                         @endforeach
                                         <div class="courier-selection">
@@ -251,8 +249,7 @@
                     </div>
                     <div class="flex items-center justify-center gap-2">
                         <span class="text-sm font-normal text-gray-500"></span>
-                        <a onclick="window.location.href = '{{ route('customer.products') }}'"
-                            title="Continue Shopping"
+                        <a onclick="window.location.href = '{{ route('customer.products') }}'" title="Continue Shopping"
                             class="inline-flex items-center gap-2 font-medium text-primary-700 cursor-pointer">
                             Continue Shopping
                             <i class='bx bx-right-arrow-alt text-lg'></i>
@@ -265,17 +262,17 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
     <script>
-        $(document).ready(function() {
+        $(document).ready(function () {
             let showPaymentDetails = false;
 
             $('#paymentDetails, #paymentForm').hide();
 
-            $('#proceedToCheckout').click(function() {
+            $('#proceedToCheckout').click(function () {
                 showPaymentDetails = !showPaymentDetails;
                 $('#paymentDetails, #paymentForm').toggle(showPaymentDetails);
             });
 
-            $('#paymentMethod').change(function() {
+            $('#paymentMethod').change(function () {
                 var selectedMethod = $(this).val();
                 if (selectedMethod === 'Pick Up') {
                     $('.courier-selection').hide();
