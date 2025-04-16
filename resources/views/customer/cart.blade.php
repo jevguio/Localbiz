@@ -18,7 +18,7 @@
                                                 <input type="hidden" name="is_checked" value="0" />
                                                 <input type="checkbox" name="is_checked" style="transform: scale(1.5);"
                                                     value="1" onchange="setTimeout(() => this.form.submit(), 300)" {{ $allActive ? 'checked' : '' }} />
-                                                <!-- <div class="ml-4 inline"> Select All</div> -->
+                                                <div class="ml-4 inline">All</div>
                                             </form>
                                         </th>
                                         <th class="p-2 text-left ">Product</th>
