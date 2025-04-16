@@ -11,8 +11,7 @@
                         id="categorySelect">
                         <option value="">All Categories</option>
                         @foreach ($categories as $category)
-                            <option value="{{ $category->id }}"
-                                {{ request('category') == $category->id ? 'selected' : '' }}>
+                            <option value="{{ $category->id }}" {{ request('category') == $category->id ? 'selected' : '' }}>
                                 {{ $category->name }}
                             </option>
                         @endforeach
@@ -24,20 +23,28 @@
                         id="locationSelect">
                         <option value="">All Locations</option>
                         @foreach ($locations as $location)
-                            <option value="{{ $location->id }}"
-                                {{ request('location') == $location->id ? 'selected' : '' }}>
+                            <option value="{{ $location->id }}" {{ request('location') == $location->id ? 'selected' : '' }}>
                                 {{ $location->name }}
                             </option>
                         @endforeach
                     </select>
                 </form>
-                <div class="relative w-full"> 
-                    
-                <input type="text" id="productSearch" placeholder="Search products..." class="input w-full" />
-                <i class='absolute bx bx-filter text-2xl right-0 top-2'></i>
+                <div class="relative w-full">
+
+                    <input type="text" id="productSearch" placeholder="Search products..." class="input w-full" />
+                    <i id="filter-btn" class='absolute bx bx-filter text-2xl right-0 top-2'></i>
                 </div>
 
-                
+                <div id="filter-dropdown"
+                    class="hidden absolute right-0 mt-2 w-40 bg-white border border-gray-300 rounded-lg shadow-lg">
+                    <ul class="py-2 text-sm text-gray-700">
+                         @foreach ($seller as $sel)
+                         <a class="px-4 py-2 hover:bg-gray-100 cursor-pointer filter-option" href="{{route('customer.products').'?seller='.$sel->id}}">{{$sel->user->fname}}</a>
+                        
+                         @endforeach
+                    </ul>
+                </div>
+
             </div>
         </div>
         <div id="productGrid" class="mb-4 grid gap-4 sm:grid-cols-2 md:mb-8 lg:grid-cols-3 xl:grid-cols-4">
@@ -76,7 +83,8 @@
                         <p class="text-gray-500 font-semibold">Stock: {{ $product->stock }}</p>
                         @if ($product->best_before_date)
                             <p class="text-gray-500 font-semibold">Best Before Date:
-                                {{ \Carbon\Carbon::parse($product->best_before_date)->format('F j, Y') }}</p>
+                                {{ \Carbon\Carbon::parse($product->best_before_date)->format('F j, Y') }}
+                            </p>
                         @endif
                         <h2 class="font-bold text-lg">Payment Information</h2>
                         <p class="text-gray-500 font-semibold">Seller: {{ $product->seller->user->fname }}</p>
@@ -85,16 +93,19 @@
                         </p>
                         <p class="text-gray-500 font-semibold">Bank Name: {{ $product->seller->user->bank_name }}</p>
                         <p class="text-gray-500 font-semibold">Bank Account Number:
-                            {{ $product->seller->user->bank_account_number }}</p>
+                            {{ $product->seller->user->bank_account_number }}
+                        </p>
                         <p class="text-gray-500 font-semibold">Payment Amount: ₱
-                            {{ number_format($product->price, 2, '.', ',') }}</p>
+                            {{ number_format($product->price, 2, '.', ',') }}
+                        </p>
                         <h2 class="font-bold text-lg">Feedback</h2>
                         @foreach ($product->feedback as $feedback)
                             <div class="card w-full bg-base-100 card-xs shadow-lg">
                                 <div class="card-body">
                                     <h2 class="card-title">Name: {{ $feedback->user->name }}</h2>
                                     <p class="text-gray-500 font-semibold">Feedback:
-                                        {{ $feedback->comment ?? 'No feedback yet' }}</p>
+                                        {{ $feedback->comment ?? 'No feedback yet' }}
+                                    </p>
                                 </div>
                             </div>
                         @endforeach
@@ -107,7 +118,7 @@
                                     Cart</button>
                             </form>
                             <!-- <button class="btn btn-secondary"
-                                onclick="productModal{{ $product->id }}.close()">Close</button> -->
+                                    onclick="productModal{{ $product->id }}.close()">Close</button> -->
                         </div>
                     </div>
                 </dialog>
@@ -116,18 +127,30 @@
     </div>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
-        $(document).ready(function() {
-            $('#categorySelect').change(function() {
+        $(document).ready(function () {
+            $('#categorySelect').change(function () {
                 $(this).closest('form').submit();
             });
 
-            $('#locationSelect').change(function() {
+            $('#locationSelect').change(function () {
                 $(this).closest('form').submit();
             });
 
-            $('#productSearch').on('keyup', function() {
+            $("#filter-btn").click(function (event) {
+                event.preventDefault();
+                $("#filter-dropdown").toggleClass("hidden");
+            });
+
+            $(document).click(function (event) {
+                if (!$(event.target).closest("#filter-btn, #filter-dropdown").length) {
+                    $("#filter-dropdown").addClass("hidden");
+                }
+            });
+
+
+            $('#productSearch').on('keyup', function () {
                 var searchTerm = $(this).val().toLowerCase();
-                $('#productGrid .product-item').filter(function() {
+                $('#productGrid .product-item').filter(function () {
                     $(this).toggle($(this).find('.product-name').text().toLowerCase().indexOf(
                         searchTerm) > -1);
                 });

@@ -1,17 +1,17 @@
 <x-app-layout>
-    <div class="p-4 sm:ml-64">
+    <div class="p-2 sm:ml-64">
         <div class="p-4 border-2 border-gray-200 border-dashed rounded-lg">
             <div class="grid grid-cols-3 gap-4 mb-4">
                 <h2 class="mt-3 text-xl font-bold text-gray-900 sm:text-2xl">Shopping Cart</h2>
             </div>
-            <div class="mt-6 sm:mt-8 md:gap-6 lg:flex lg:items-start xl:gap-8">
+            <div class="mt-6 sm:mt-8 md:gap-6 lg:flex lg:items-start xl:gap-4" >
                 <div class="mx-auto w-full flex-none">
-                    <div class="space-y-6">
-                        <div class="border border-gray-300 bg-white p-6 shadow-md md:p-8">
-                            <table class="w-full border-collapse  text-center ">
+                    <div class="space-y-2">
+                        <div class="border border-gray-300 bg-white p-4 shadow-md md:p-8" style="overflow-x: scroll;">
+                            <table class="w-full border-collapse  text-center " style="min-width: 800px;">
                                 <thead>
                                     <tr class="bg-gray-100 border border-gray-300">
-                                        <th class="p-4  text-left">
+                                        <th class="p-2  text-left">
                                             <form action="{{ route('customer.updateSelectAllCart') }}" method="POST">
                                                 @csrf
                                                 @method('PUT')
@@ -31,7 +31,7 @@
                                     <tr class="h-5">
                                     </tr>
                                 </thead>
-                                <tbody class=" ">
+                                <tbody class=" " >
                                     @foreach ($cartItems as $item)
                                         @if ($item->product != null)
                                             <tr class="my-4 border border-gray-300">
