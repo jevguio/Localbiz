@@ -14,7 +14,7 @@
                         <div class="w-32 h-28 max-lg:w-24 max-lg:h-24 flex p-3 shrink-0 rounded-md">
                             <img src='{{ asset('assets/' . $item->product->image) }}' class="w-full object-contain" />
                         </div>
-                        <div class="w-full">
+                        <div class="w-full relative">
                             <h3 class="text-sm lg:text-base text-gray-800 font-bold">{{ $item->product->name }}</h3>
                             <ul class="text-xs text-gray-800 space-y-1 mt-3">
                                 <li class="flex flex-wrap gap-4">Order Number <span
@@ -51,12 +51,12 @@
                                 </form>
                                 
                             @else
-                                <div role="alert" class="alert alert-success mt-4">
+                                <div role="alert" class="alert alert-success mt-4 mb-15 ">
                                     <i class='bx bx-check-circle text-white text-2xl'></i>
                                     <span class="text-white">You have already submitted feedback for this
                                         product!</span>
                                 </div>
-                                <div class="col-span-3 mt-2">
+                                <div class="col-span-3 mt-2  absolute right-0 bottom-0">
                                         <form action="{{ route('customer.addToCart').'?targ=customer.cart'}}" method="POST">
                                             @csrf
                                             <input type="hidden" name="product_id" value="{{ $item->id }}">
@@ -66,7 +66,7 @@
                                             Buy Again
                                         </button>
                                         </form> 
-                                    </div>
+                                </div>
                             @endif
                         </div>
                     </div>
