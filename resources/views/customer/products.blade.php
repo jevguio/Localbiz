@@ -32,7 +32,7 @@
                 <div class="relative w-full">
 
                     <input type="text" id="productSearch" placeholder="Search products..." class="input w-full" />
-                    <i id="filter-btn" class='absolute bx bx-filter text-2xl right-0 top-2'></i>
+                    <i id="filter-btn" class='absolute bx bx-filter text-2xl right-2 top-2'></i>
                 </div>
 
                 <div id="filter-dropdown"
