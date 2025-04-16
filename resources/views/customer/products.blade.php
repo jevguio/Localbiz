@@ -31,7 +31,7 @@
                         @endforeach
                     </select>
                 </form>
-                <div class="relative"> 
+                <div class="relative w-full"> 
                     
                 <input type="text" id="productSearch" placeholder="Search products..." class="input w-full" />
                 <i class='absolute bx bx-filter text-2xl right-0 top-2'></i>
