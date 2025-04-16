@@ -5,7 +5,7 @@
         background-size: cover; 
         height:100vh; overflow:none;">
         <div class=" flex flex-col items-center justify-center py-2 px-4">
-            <div class="w-full flex p-3 m-3 ">
+            <div class="w-full flex p-3 m-3 " style="position: fixed; top:50%;left:50%;transform:translate(-50%,-50%);">
                 <div class="p-8 w-full  p-10 m-10 "
                     style="max-width: 50%;color:white;">
                     <div class="pt-5 mt-5" style="font-size: 6rem; font-weight: bolder; text-align: center;line-height: 1;margin: 0;">Welcome To<br /> LocalBiz
