@@ -7,7 +7,7 @@
             <div class="mt-6 sm:mt-8 md:gap-6 lg:flex lg:items-start xl:gap-4" >
                 <div class="mx-auto w-full flex-none">
                     <div class="space-y-2">
-                        <div class="border border-gray-300 bg-white p-4 shadow-md md:p-8" style="overflow-x: scroll;">
+                        <div class="border border-gray-300 bg-white p-4 shadow-md md:p-8" style="overflow-x: hidden;">
                             <table class="w-full border-collapse  text-center " style="min-width: 800px;">
                                 <thead>
                                     <tr class="bg-gray-100 border border-gray-300">
