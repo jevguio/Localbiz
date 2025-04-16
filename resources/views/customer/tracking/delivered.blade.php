@@ -33,13 +33,14 @@
                                     <input type="hidden" name="order_id" value="{{ $item->order->id }}">
                                     <input type="hidden" name="product_id" value="{{ $item->product->id }}">
                                     <input type="hidden" name="user_id" value="{{ Auth::id() }}">
+                                    <hr class="p-1 "/>
                                     <label for="rating" class="block text-sm font-medium text-gray-700">Rating</label>
                                     <style>
   .star-rating {
     display: flex;
     flex-direction: row-reverse;
     font-size: 2rem;
-    justify-content: flex-start;
+    justify-content: flex-end;
   }
 
   .star-rating input {
