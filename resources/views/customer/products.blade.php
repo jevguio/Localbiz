@@ -53,18 +53,18 @@
                 <div class="product-item rounded-lg border border-gray-200 bg-white p-6 shadow-sm">
                     <div class="h-56 w-full">
                         <a href="#">
-                            <img class="mx-auto h-full" src="{{ asset('assets/' . $product->image) }}"
+                            <img class="w-full h-full object-cover" src="{{ asset('assets/' . $product->image) }}"
                                 alt="{{ $product->name }}" />
                         </a>
                     </div>
                     <h3 class="product-name text-lg font-semibold text-gray-900">{{ $product->name }}</h3>
                     <p class="text-gray-500 font-semibold">Location: {{ $product->location->name }}</p>
-                    <p class="text-gray-500 font-bold">₱ {{ number_format($product->price, 2, '.', ',') }}</p>
-                    <div class="flex justify-between items-center mt-2">
-                        <button class="btn mt-2 px-4 py-2 bg-red-900 text-white rounded-md hover:bg-red-800"
-                            onclick="productModal{{ $product->id }}.showModal()">View</button>
+                    <div class="flex justify-between items-center">
+                        <p class="text-gray-500 font-bold">₱ {{ number_format($product->price, 2, '.', ',') }}</p>
                         <p class="text-gray-500">Stock: {{ $product->stock }}</p>
                     </div>
+                    <button class="btn w-full mt-4 py-2 bg-orange-900 text-white rounded-md hover:bg-orange-800"
+                        onclick="productModal{{ $product->id }}.showModal()">View</button>
                 </div>
 
                 <dialog id="productModal{{ $product->id }}" class="modal">

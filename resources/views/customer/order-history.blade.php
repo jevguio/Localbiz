@@ -68,8 +68,10 @@
                                     {{ $order->created_at->format('d M Y') }}
 
                                 </td>
-                                <td class="px-6 py-4">
-                                    {{ $order->total_amount }}
+                                <td class="px-6 py-4 pl-10">
+                                ₱{{ number_format($order->orderItems->sum(function($item) {
+                                        return $item->quantity * $item->product->price;
+                                    }), 2) }}
                                 </td>
                                 <td class="px-6 py-4">
                                     {{ $order->status }}
