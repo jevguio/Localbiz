@@ -46,7 +46,7 @@
                                                 </td>
                                                 <td class="p-2 flex items-center space-x-2 text-left">
                                                     <div class="w-full">
-                                                        <img class="h-16 w-16 rounded-lg border border-gray-300 object-cover"
+                                                        <img class="h-25 w-25 rounded-lg border border-gray-300 object-cover"
                                                             src="{{ asset('assets/' . $item->product->image) }}"
                                                             alt="{{ $item->product->name }}" />
                                                         <div style="">
