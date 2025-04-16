@@ -21,6 +21,7 @@ return new class extends Migration {
             $table->dateTime('payment_date');
             $table->string('message')->nullable();
             $table->dateTime('paid_at');
+            $table->date('pickup_date')->nullable();
             $table->timestamps();
         });
     }

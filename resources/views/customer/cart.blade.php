@@ -11,14 +11,14 @@
                             <table class="w-full border-collapse  text-center " style="min-width: 800px;">
                                 <thead>
                                     <tr class="bg-gray-100 border border-gray-300">
-                                        <th class="p-2  text-left">
+                                        <th class="p-2  text-left" style="max-width: 5%; ">
                                             <form action="{{ route('customer.updateSelectAllCart') }}" method="POST">
                                                 @csrf
                                                 @method('PUT')
                                                 <input type="hidden" name="is_checked" value="0" />
                                                 <input type="checkbox" name="is_checked" style="transform: scale(1.5);"
                                                     value="1" onchange="setTimeout(() => this.form.submit(), 300)" {{ $allActive ? 'checked' : '' }} />
-                                                <div class="ml-4 inline"> Select All</div>
+                                                <!-- <div class="ml-4 inline"> Select All</div> -->
                                             </form>
                                         </th>
                                         <th class="p-2 text-left ">Product</th>
@@ -34,8 +34,8 @@
                                     @foreach ($cartItems as $item)
                                         @if ($item->product != null)
                                             <tr class="my-4 border border-gray-300">
-                                                <td class="p-4 text-left ">
-                                                    <form action="{{ route('customer.updateSelectionCart') }}" method="POST">
+                                                <td class="p-4 text-left " style="max-width: 5%; ">
+                                                    <form action="{{ route('customer.updateSelectionCart') }}" method="POST" >
                                                         @csrf
                                                         @method('PUT')
                                                         <input type="hidden" name="id" value="{{ $item->id }}" />

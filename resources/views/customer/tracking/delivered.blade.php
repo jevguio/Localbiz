@@ -278,11 +278,19 @@
                 });
             });
 
-            $('[data-modal-target]').on('click', function() {
+            $('[data-modal-target]').on('click', function(e) {
+                const tagName = e.target.tagName.toLowerCase();
+
+                // Ignore if the clicked element is an input or select
+                if (tagName === 'input' || tagName === 'select') return;
                 const modalId = $(this).data('modal-target');
                 $(`#${modalId}`).removeClass('hidden');
             });
-            $('[data-modal-toggle]').on('click', function() {
+            $('[data-modal-toggle]').on('click', function(e) {
+                const tagName = e.target.tagName.toLowerCase();
+
+                // Ignore if the clicked element is an input or select
+                if (tagName === 'input' || tagName === 'select') return;
                 const modalId = $(this).data('modal-toggle');
                 $(`#${modalId}`).addClass('hidden');
             });
