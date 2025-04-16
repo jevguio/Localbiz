@@ -32,11 +32,8 @@
                 <div class="relative w-full">
 
                     <input type="text" id="productSearch" placeholder="Search products..." class="input w-full" />
-                    <i id="filter-btn" class='absolute bx bx-filter text-2xl right-2 top-2'></i>
-                </div>
-
-                <div id="filter-dropdown"
-                    class="hidden absolute right-0 mt-2 w-40 bg-white border border-gray-300 rounded-lg shadow-lg">
+                    <i id="filter-btn" class='absolute bx bx-filter text-2xl right-2 top-2'></i><div id="filter-dropdown"
+                    class="hidden absolute right-0 mt-1 w-40 bg-white border border-gray-300 rounded-lg shadow-lg">
                     <ul class="py-2 text-sm text-gray-700">
                          <a class="w-full block px-4 py-2 hover:bg-gray-100 cursor-pointer filter-option" href="{{route('customer.products')}}">All</a>
                          @foreach ($seller as $sel)
@@ -45,6 +42,9 @@
                          @endforeach
                     </ul>
                 </div>
+                </div>
+
+                
 
             </div>
         </div>
