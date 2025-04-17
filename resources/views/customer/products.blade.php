@@ -70,58 +70,61 @@
                 </div>
 
                 <dialog id="productModal{{ $product->id }}" class="modal">
-                    <div class="modal-box">
+                    <div class="modal-box max-w-2xl">
                         <form method="dialog">
                             <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
                         </form>
-                        <div class="h-56 w-full">
-                            <a href="#">
-                                <img class="mx-auto h-full" src="{{ asset('assets/' . $product->image) }}"
+                        <div class="flex gap-6">
+                            <div class="w-72 h-72 flex items-center justify-center p-4">
+                                <img class="w-full h-full object-contain" src="{{ asset('assets/' . $product->image) }}"
                                     alt="{{ $product->name }}" />
-                            </a>
-                        </div>
-                        <h3 class="font-bold text-lg">{{ $product->name }}</h3>
-                        <p class="text-gray-500 font-semibold">Description: {{ $product->description }}</p>
-                        <p class="text-gray-500 font-semibold">Location: {{ $product->location->name }}</p>
-                        <p class="text-gray-500 font-semibold">Stock: {{ $product->stock }}</p>
-                        @if ($product->best_before_date)
-                            <p class="text-gray-500 font-semibold">Best Before Date:
-                                {{ \Carbon\Carbon::parse($product->best_before_date)->format('F j, Y') }}
-                            </p>
-                        @endif
-                        <h2 class="font-bold text-lg">Payment Information</h2>
-                        <p class="text-gray-500 font-semibold">Seller: {{ $product->seller->user->fname }}</p>
-                        <p class="text-gray-500 font-semibold">Gcash Number / Inquiry Number:
-                            {{ $product->seller->user->gcash_number }}
-                        </p>
-                        <p class="text-gray-500 font-semibold">Bank Name: {{ $product->seller->user->bank_name }}</p>
-                        <p class="text-gray-500 font-semibold">Bank Account Number:
-                            {{ $product->seller->user->bank_account_number }}
-                        </p>
-                        <p class="text-gray-500 font-semibold">Payment Amount: ₱
-                            {{ number_format($product->price, 2, '.', ',') }}
-                        </p>
-                        <h2 class="font-bold text-lg">Feedback</h2>
-                        @foreach ($product->feedback as $feedback)
-                            <div class="card w-full bg-base-100 card-xs shadow-lg">
-                                <div class="card-body">
-                                    <h2 class="card-title">Name: {{ $feedback->user->name }}</h2>
-                                    <p class="text-gray-500 font-semibold">Feedback:
-                                        {{ $feedback->comment ?? 'No feedback yet' }}
-                                    </p>
+                            </div>
+                            <div class="flex-1">
+                                <h3 class="text-3xl font-bold text-gray-900 mb-2">{{ $product->name }}</h3>
+                                <div class="space-y-1 text-lg">
+                                    <p>{{ $product->description }}</p>
+                                    <p>Location: {{ $product->location->name }}</p>
+                                    <p>Stock: {{ $product->stock }}</p>
                                 </div>
                             </div>
-                        @endforeach
-                        <hr class="my-4">
-                        <div class="flex items-center gap-2 mt-2">
+                        </div>
+
+                        <div class="mt-8">
+                            <h2 class="text-2xl font-bold mb-4">Payment Information</h2>
+                            <div class="space-y-2">
+                                <p>Seller: {{ $product->seller->user->fname }}</p>
+                                <p>Gcash Number/Inquiry Number: {{ $product->seller->user->gcash_number }}</p>
+                                <p>Bank Name: {{ $product->seller->user->bank_name }}</p>
+                                <p>Bank Account Number: {{ $product->seller->user->bank_account_number }}</p>
+                                <p>Price: ₱ {{ number_format($product->price, 2, '.', ',') }}</p>
+                            </div>
+                        </div>
+
+                        <div class="mt-8">
+                            <h2 class="text-2xl font-bold mb-4">Feedback</h2>
+                            @foreach ($product->feedback as $feedback)
+                                <div class="bg-gray-50 rounded-lg p-4 mb-3">
+                                    <div class="flex items-center gap-3">
+                                        <div class="w-10 h-10 rounded-full bg-gray-300 flex items-center justify-center text-gray-600 font-bold">
+                                            {{ substr($feedback->user->fname, 0, 1) }}
+                                        </div>
+                                        <div>
+                                            <p class="font-semibold">{{ $feedback->user->fname . ' ' . $feedback->user->lname }}</p>
+                                            <p class="text-gray-600">{{ $feedback->comment ?? 'No feedback yet' }}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            @endforeach
+                        </div>
+
+                        <div class="mt-8">
                             <form action="{{ route('customer.addToCart') }}" method="POST">
                                 @csrf
                                 <input type="hidden" name="product_id" value="{{ $product->id }}">
-                                <button class="btn px-4 py-2 bg-red-900 text-white rounded-md hover:bg-red-800">Add to
-                                    Cart</button>
+                                <button class="w-full btn bg-red-900 hover:bg-red-800 text-white py-3 rounded-lg text-lg">
+                                    Add to Cart
+                                </button>
                             </form>
-                            <!-- <button class="btn btn-secondary"
-                                    onclick="productModal{{ $product->id }}.close()">Close</button> -->
                         </div>
                     </div>
                 </dialog>
