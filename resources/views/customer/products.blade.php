@@ -80,11 +80,13 @@
                                     alt="{{ $product->name }}" />
                             </div>
                             <div class="flex-1">
-                                <h3 class="text-3xl font-bold text-gray-900 mb-2">{{ $product->name }}</h3>
-                                <div class="space-y-1 text-lg">
-                                    <p>{{ $product->description }}</p>
-                                    <p>Location: {{ $product->location->name }}</p>
-                                    <p>Stock: {{ $product->stock }}</p>
+                                <div class="mt-6">
+                                    <h3 class="text-3xl font-bold text-gray-900 mb-4">{{ $product->name }}</h3>
+                                    <div class="space-y-1 text-lg">
+                                        <p>{{ $product->description }}</p>
+                                        <p>Location: {{ $product->location->name }}</p>
+                                        <p>Stock: {{ $product->stock }}</p>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -101,20 +103,27 @@
                         </div>
 
                         <div class="mt-8">
-                            <h2 class="text-2xl font-bold mb-4">Feedback</h2>
-                            @foreach ($product->feedback as $feedback)
-                                <div class="bg-gray-50 rounded-lg p-4 mb-3">
-                                    <div class="flex items-center gap-3">
-                                        <div class="w-10 h-10 rounded-full bg-gray-300 flex items-center justify-center text-gray-600 font-bold">
-                                            {{ substr($feedback->user->fname, 0, 1) }}
-                                        </div>
-                                        <div>
-                                            <p class="font-semibold">{{ $feedback->user->fname . ' ' . $feedback->user->lname }}</p>
-                                            <p class="text-gray-600">{{ $feedback->comment ?? 'No feedback yet' }}</p>
+                            <h2 class="text-xl font-bold mb-4">Feedback</h2>
+                            @if($product->feedback->count() > 0)
+                                @foreach ($product->feedback as $feedback)
+                                    <div class="bg-gray-50 rounded-lg p-4 mb-3">
+                                        <div class="flex items-center gap-3">
+                                            <div class="w-10 h-10 rounded-full bg-gray-300 flex items-center justify-center text-gray-600 font-bold">
+                                                {{ substr($feedback->user->fname, 0, 1) }}
+                                            </div>
+                                            <div>
+                                                <p class="font-semibold">
+                                                    {{ substr($feedback->user->fname, 0, 1) }}{{ str_repeat('*', strlen($feedback->user->fname) - 2) }}{{ substr($feedback->user->fname, -1) }}
+                                                    {{ substr($feedback->user->lname, 0, 1) }}{{ str_repeat('*', strlen($feedback->user->lname) - 2) }}{{ substr($feedback->user->lname, -1) }}
+                                                </p>
+                                                <p class="text-gray-600">{{ $feedback->comment }}</p>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                            @endforeach
+                                @endforeach
+                            @else
+                                <p class="text-gray-500 text-center">No feedback yet</p>
+                            @endif
                         </div>
 
                         <div class="mt-8">
