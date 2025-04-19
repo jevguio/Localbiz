@@ -247,7 +247,7 @@
                                         </div>
 
                                         <button type="submit"
-                                            class="flex w-full items-center justify-center rounded-lg btn bg-orange-900 hover:bg-orange-900 px-5 py-2.5 text-sm font-medium text-white">Submit</button>
+                                            class="flex w-full items-center justify-center rounded-lg btn bg-orange-900 hover:bg-orange-900 px-5 py-2.5 text-sm font-medium text-white">Place Order</button>
                                     </form>
                                 </div>
 
