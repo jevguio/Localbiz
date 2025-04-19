@@ -69,6 +69,7 @@
                                                 method="POST" enctype="multipart/form-data">
                                                 @csrf
                                                 @method('PUT')
+                                                <input type="text" hidden name="seller_id" value="{{ $seller->id }}" />
                                                 <div class="grid gap-4 mb-4 grid-cols-2">
                                                     <div class="col-span-2">
                                                         <label class="block mb-2 text-sm font-medium text-gray-900"
@@ -85,8 +86,7 @@
                                                         class="btn btn-primary text-white inline-flex items-center bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">
                                                         Save
                                                     </button>
-                                                    <button type="button"
-                                                        data-modal-toggle="editModal{{ $category->id }}"
+                                                    <button type="button" data-modal-toggle="editModal{{ $category->id }}"
                                                         class="btn btn-error text-white inline-flex items-center bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">
                                                         Close
                                                     </button>
@@ -125,8 +125,7 @@
                                                         class="btn btn-error text-white inline-flex items-center bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">
                                                         Delete
                                                     </button>
-                                                    <button type="button"
-                                                        data-modal-toggle="deleteModal{{ $category->id }}"
+                                                    <button type="button" data-modal-toggle="deleteModal{{ $category->id }}"
                                                         class="btn btn-primary text-white inline-flex items-center bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">
                                                         Close
                                                     </button>
@@ -171,6 +170,7 @@
                                     enctype="multipart/form-data">
                                     @csrf
                                     @method('POST')
+                                    <input type="text" hidden name="seller_id" value="{{ $seller->id }}" />
                                     <div class="grid gap-4 mb-4 grid-cols-2">
                                         <div class="col-span-2">
                                             <label class="block mb-2 text-sm font-medium text-gray-900"
@@ -202,19 +202,19 @@
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
-        $(document).ready(function() {
-            $('#table-search').on('keyup', function() {
+        $(document).ready(function () {
+            $('#table-search').on('keyup', function () {
                 const searchInput = $(this).val().toLowerCase();
-                $('#product-table-body tr').filter(function() {
+                $('#product-table-body tr').filter(function () {
                     $(this).toggle($(this).text().toLowerCase().indexOf(searchInput) > -1);
                 });
             });
 
-            $('[data-modal-target]').on('click', function() {
+            $('[data-modal-target]').on('click', function () {
                 const modalId = $(this).data('modal-target');
                 $(`#${modalId}`).removeClass('hidden');
             });
-            $('[data-modal-toggle]').on('click', function() {
+            $('[data-modal-toggle]').on('click', function () {
                 const modalId = $(this).data('modal-toggle');
                 $(`#${modalId}`).addClass('hidden');
             });

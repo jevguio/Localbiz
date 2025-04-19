@@ -269,13 +269,13 @@ class SellerController extends Controller
 
     public function categories()
     {
-        $categories = Categories::paginate(10);
         $seller = Seller::where('user_id', Auth::user()->id)->first();
+        $categories = Categories::where('seller_id', '=', $seller->id)->paginate(10);
         if ($seller->is_approved == 0 || $seller->user->is_active == 0) {
             session()->flash('error', 'You are not approved to access this page.');
             return redirect()->route('seller.dashboard');
         }
-        return view('seller.category', compact('categories'));
+        return view('seller.category', compact('categories','seller'));
     }
 
     public function storeCategory(Request $request)
@@ -725,7 +725,7 @@ class SellerController extends Controller
             ->get();
         $is_view = false;
         $fileName = Auth::user()->fname . '_' . Auth::user()->lname . '_' . now()->format('YmdHis') . '.pdf';
-        $pdf = Pdf::loadView('reports.top_seller_component', compact('topSellers', 'is_view','monthpicker', 'isViewBTN'))->setPaper('a4', 'portrait');
+        $pdf = Pdf::loadView('reports.top_seller_component', compact('topSellers', 'is_view', 'monthpicker', 'isViewBTN'))->setPaper('a4', 'portrait');
 
         $filePath = 'reports/' . $fileName;
         // Store PDF in storage

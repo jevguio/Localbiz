@@ -10,10 +10,10 @@ class CategorySeeder extends Seeder
     public function run()
     {
         $categories = [
-            ['name' => 'Electronics'],
-            ['name' => 'Clothing'],
-            ['name' => 'food'],
-            ['name' => 'Home & Garden'],
+            ['name' => 'Electronics', 'seller_id' => 1],
+            ['name' => 'Clothing', 'seller_id' => 1],
+            ['name' => 'food', 'seller_id' => 1],
+            ['name' => 'Home & Garden', 'seller_id' => 1],
         ];
 
         Categories::insert($categories);
