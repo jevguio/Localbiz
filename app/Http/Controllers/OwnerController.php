@@ -331,14 +331,16 @@ class OwnerController extends Controller
             ->where('tbl_sellers.user_id', $request->id) // Filtering by seller_id
             ->groupBy(
                 'tbl_products.id',
-                'tbl_products.name',
-                'tbl_products.stock',
+                'name',
+                'stock',
                 'tbl_products.price',
-                'tbl_sellers.is_approved',
-                'tbl_users.fname',
-                'tbl_users.lname',
-                'tbl_users.email',
-                'tbl_users.phone'
+                'seller_approved',
+                'seller_fname',
+                'seller_lname',
+                'seller_email',
+                'description',
+                'seller_phone',
+                'seller_id'
             )
             ->get();
         $topSellers = User::where('role', 'seller')
