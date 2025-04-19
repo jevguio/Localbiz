@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Exports\OrdersExport;
 use App\Exports\SalesExport;
+use App\Models\Seller;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Models\Categories;
@@ -98,11 +99,12 @@ class CashierController extends Controller
 
         // Store PDF in storage
         Storage::disk('public')->put($filePath, $pdf->output());
-
+ 
+        $cashier = Auth::user()->cashier;
         // Save report to database
         $report = Reports::create([
-            'seller_id' => Auth::user()->id,
-            'report_name' => 'Inventory Report',
+            'user_id' =>$cashier->id,
+            'report_name' => 'Payment Report',
             'report_type' => 'pdf',
             'content' => $fileName,
         ]);

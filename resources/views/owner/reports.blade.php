@@ -52,6 +52,10 @@
                                 class="btn btn-primary bg-blue-700 hover:bg-blue-800 text-white px-4 py-2 rounded-md">
                                 Top Purchased Products
                             </a>
+                            <a href="{{ route(name: 'report.payment') }}"  
+                                class="btn btn-primary bg-blue-700 hover:bg-blue-800 text-white px-4 py-2 rounded-md">
+                                Generate Payment
+                            </a>
                         </div>
                    </div>
                 </form>

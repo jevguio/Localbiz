@@ -21,6 +21,7 @@ use App\Services\CourierService;
 use App\Services\OwnerService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Log;
 use Maatwebsite\Excel\Facades\Excel;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\Storage;
@@ -41,6 +42,83 @@ class OwnerController extends Controller
             $users = User::where('role', '=', $request->filter)->paginate(10)
                 ->appends(['filter' => $request->filter]);
             return view('owner.account', compact('users'));
+        }
+    }
+    public function payment(Request $request)
+    {
+        $is_view = false;
+        $sellers = User::where('role', 'seller')->get();
+        return view('reports.payments.seller', compact('is_view', 'sellers'));
+    }
+
+    public function exportPayment(Request $request)
+    {
+        $fromDate = $request->input('start_date');
+        $toDate = $request->input('end_date');
+        // return Excel::download(new AdminInventoryExport(), $fileName);
+        $fileName = Auth::user()->fname . '_' . Auth::user()->lname . '_' . now()->format('YmdHis') . '.pdf';
+        $filePath = 'reports/' . $fileName;
+
+        $user_id = $request->input('seller_id');
+        $selectedSeller = User::where('id', '=', $user_id)->get()->first();
+        $sellerthis = Seller::where('user_id', '=', $selectedSeller->id)->get()->first();
+        $seller_id = $sellerthis->id;
+        $payments = Payments::with(['customer', 'order'])->whereBetween('created_at', [$fromDate . ' 00:00:00', $toDate . ' 23:59:59'])
+            ->whereHas('order.orderItems.product', function ($query) use ($seller_id) {
+                $query->where('seller_id', $seller_id);
+            })
+            ->with(['order.user', 'order.orderItems.product'])
+            ->get();
+        $is_view = false;
+        // Generate PDF
+        $pdf = Pdf::loadView('reports.payments', compact('payments', 'selectedSeller', 'fromDate', 'toDate', 'is_view'))->setPaper('a4', 'portrait');
+
+        // Store PDF in storage
+        Storage::disk('public')->put($filePath, $pdf->output());
+
+        $owner = Auth::user();
+        // Save report to database
+        $report = Reports::create([
+            'report_name' => 'Payment Report',
+            'report_type' => 'pdf',
+            'content' => $fileName,
+        ]);
+
+        // Return PDF for download
+        return $pdf->download($fileName);
+    }
+    public function reportPayment(Request $request)
+    {
+        $user = Auth::user();
+        Log::info($request->all());
+        if ($user->role == 'Owner') {
+            Log::info('owner');
+            if ($request->input('payment') == true) {
+
+                Log::info('payment');
+
+                return redirect()->route('owner.export.payment', $request->all());
+            } else {
+
+                Log::info('else payment');
+                $is_view = false;
+                $sellers = User::where('role', 'seller')->get();
+                return view('reports.payments.seller', compact('is_view', 'sellers'));
+            }
+
+        } else if ($user->role == 'Seller') {
+            Log::info('Seller');
+            if ($request->input('payment') == true) {
+
+                Log::info(' payment');
+                return redirect()->route('seller.export.payment', $request->all());
+            } else {
+
+                Log::info('else payment');
+                $is_view = false;
+                $sellers = User::where('role', 'seller')->where('id', '=', Auth::user()->id)->get();
+                return view('reports.payments.seller', compact('is_view', 'sellers'));
+            }
         }
     }
 

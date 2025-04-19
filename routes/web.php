@@ -26,6 +26,8 @@ Route::middleware('auth')->group(function () {
 
 Route::middleware(['auth', 'Owner'])->group(function () {
     Route::get('/owner/account', [OwnerController::class, 'account'])->name('owner.account');
+    Route::get('/owner/export/payment', [OwnerController::class, 'exportPayment'])->name('owner.export.payment');
+    Route::get('/owner/payment', [OwnerController::class, 'payment'])->name('owner.payment');
     Route::get('/owner/products', [OwnerController::class, 'products'])->name('owner.products');
     Route::get('/owner/courier', [OwnerController::class, 'courier'])->name('owner.courier');
     Route::get('/owner/orders', [OwnerController::class, 'orders'])->name('owner.orders');
@@ -79,7 +81,11 @@ Route::middleware(['auth', 'Customer'])->group(function () {
     Route::post('/customer/tracking/delivered/upload', [CustomerController::class, 'uploadFeedback'])->name('customer.tracking.delivered.upload');
 });
 
+Route::get('/report/payment', [OwnerController::class, 'reportPayment'])->name('report.payment');
 Route::middleware(['auth', 'Seller'])->group(function () {
+
+    Route::get('/seller/payment', [OwnerController::class, 'payment'])->name('seller.payment');
+    Route::get('/seller/export/payment', [OwnerController::class, 'exportPayment'])->name('seller.export.payment');
     Route::get('/seller/dashboard', [SellerController::class, 'index'])->name('seller.dashboard');
     Route::get('/seller/products', [SellerController::class, 'products'])->name('seller.products');
     Route::get('/seller/archive', [SellerController::class, 'archive'])->name('seller.archive');

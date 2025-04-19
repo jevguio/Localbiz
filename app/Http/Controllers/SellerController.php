@@ -12,6 +12,7 @@ use App\Models\Courier;
 use App\Models\Location;
 use App\Models\OrderItems;
 use App\Models\Orders;
+use App\Models\Payments;
 use App\Models\Products;
 use App\Models\Reports;
 use App\Models\Rider;
@@ -241,9 +242,9 @@ class SellerController extends Controller
 
         $filePath = 'reports/' . $fileName;
         Storage::disk('public')->put($filePath, $pdf->output());
-
+        $selectedSeller=Auth::user();
         Reports::create([
-            'seller_id' => Auth::user()->id,
+            'seller_id' =>Seller::where('user_id', $selectedSeller->id)->first()->id,
             'report_name' => 'Top Purchase Report',
             'report_type' => 'pdf',
             'content' => $fileName,
@@ -267,6 +268,42 @@ class SellerController extends Controller
         return redirect()->back();
     }
 
+    public function exportPayment(Request $request)
+    {
+        $fromDate = $request->input('from_date');
+        $toDate = $request->input('to_date');
+        // return Excel::download(new AdminInventoryExport(), $fileName);
+        $fileName = Auth::user()->fname . '_' . Auth::user()->lname . '_' . now()->format('YmdHis') . '.pdf';
+        $filePath = 'reports/' . $fileName;
+
+        $selectedSeller = Auth::user();
+        $seller_id=$selectedSeller->cashier->seller_id;
+
+        $payments = Payments::with(['customer','order'])->whereBetween('created_at', [$fromDate . ' 00:00:00', $toDate . ' 23:59:59'])
+            ->whereHas('order.orderItems.product', function ($query) use ($seller_id) {
+                $query->where('seller_id', $seller_id);
+            })
+            ->with(['order.user', 'order.orderItems.product'])
+            ->get();
+        $is_view = false;
+        // Generate PDF
+        $pdf = Pdf::loadView('reports.payments', compact('payments', 'selectedSeller', 'fromDate', 'toDate', 'is_view'))->setPaper('a4', 'portrait');
+
+        // Store PDF in storage
+        Storage::disk('public')->put($filePath, $pdf->output());
+ 
+        $cashier = Auth::user()->cashier;
+        // Save report to database
+        $report = Reports::create([
+            'user_id' =>$cashier->id,
+            'report_name' => 'Payment Report',
+            'report_type' => 'pdf',
+            'content' => $fileName,
+        ]);
+
+        // Return PDF for download
+        return $pdf->download($fileName);
+    }
     public function categories()
     {
         $seller = Seller::where('user_id', Auth::user()->id)->first();

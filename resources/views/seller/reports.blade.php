@@ -30,6 +30,10 @@
                                 class="btn btn-primary bg-blue-700 hover:bg-blue-800 text-white px-4 py-2 rounded-md">
                                 Generate Top Purchased Products
                             </a>
+                            <a  href="#" onclick="openPayments(event)"
+                                class="btn btn-primary bg-blue-700 hover:bg-blue-800 text-white px-4 py-2 rounded-md">
+                                Generate Payments
+                            </a>
                         </div>
                    </div> 
                 </form>
@@ -207,6 +211,12 @@
             let baseUrl = "{{ route('seller.reports') }}"; // Blade generates this correctly
             let sellerId = "{{ $seller->id }}"; // Get seller ID from Blade 
             let url = `${baseUrl}?id=${sellerId}&sales=true`;
+            window.location.href = url; // Redirect dynamically
+        }
+        
+        function openPayments(event,selectedID){ 
+            let baseUrl = "{{ route('report.payment') }}"; // Blade generates this correctly 
+            let url = `${baseUrl}`;
             window.location.href = url; // Redirect dynamically
         }
         
