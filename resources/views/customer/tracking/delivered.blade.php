@@ -81,7 +81,7 @@
                                         class="block text-sm font-medium text-gray-700 my-2">Comment</label>
                                     <textarea class="textarea w-full" rows="3" placeholder="Comment" name="comment"></textarea>
                                     <button type="submit"
-                                        class="btn btn-primary bg-blue-700 hover:bg-blue-800 text-white rounded-md my-2">Submit
+                                        class="btn bg-orange-900 hover:bg-orange-800 text-white rounded-md my-2">Submit
                                         Feedback</button>
                                 </form>
                                 
