@@ -23,8 +23,8 @@
                                 <li class="flex flex-wrap gap-4">Quantity <span
                                         class="ml-auto font-bold">{{ $item->quantity }}</span></li>
                                 <li class="flex flex-wrap gap-4">Total Price <span class="ml-auto font-bold">₱
-                                {{ $item->order->payments->payment_amount}}</span>
-                                </li> 
+                                {{ number_format($item->product->price * $item->quantity, 2, '.', ',') }}</span>
+                                </li>
                             </ul>
                             @if (!$item->feedback && $item->order->status == 'delivered' && $item->order->user_id == Auth::id())
                                 <form action="{{ route('customer.tracking.delivered.upload') }}" method="POST"
@@ -276,14 +276,14 @@
                                         </div>
                                     </div>
                                    
-                                    <div class="col-span-1">
+                                    <!-- <div class="col-span-1">
                                         <label for="courier"
                                             class="block mb-2 text-sm font-medium text-gray-900">Courier</label>
                                         <input type="text" name="courier" id="courier"
                                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
                                             value="{{ $item->order->payments->first()->courier->name ?? 'N/A' }}"
                                             readonly>
-                                    </div>
+                                    </div> -->
                                     
                                     
                                     <div class="col-span-2">
