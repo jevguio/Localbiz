@@ -76,7 +76,7 @@
                 height: 100%;
                 background-color: rgba(0, 0, 0, 0.5);
                 /* Semi-transparent black */
-                display: @if(Auth::user()->role=='Seller') none @else block @endif ; 
+                display: @if(Auth::user()->role=='Seller') none @else none @endif ; 
                 justify-content: center;
                 align-items: center;
                 z-index: 1000;
