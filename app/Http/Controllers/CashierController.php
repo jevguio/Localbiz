@@ -150,6 +150,8 @@ class CashierController extends Controller
     public function updateOrder(Request $request, $id)
     {
         $result = (new OrderService())->updateOrder($request, $id);
+        
+        session()->flash('success', 'Payment Approved');
         return redirect()->back();
     }
 

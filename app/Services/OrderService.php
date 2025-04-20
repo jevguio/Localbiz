@@ -31,7 +31,6 @@ class OrderService
 
             $order->save();
 
-            session()->flash('success', 'Payment Approved');
 
             return response()->json([
                 'error_code' => MyConstant::SUCCESS_CODE,

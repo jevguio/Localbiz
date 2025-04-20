@@ -59,6 +59,8 @@ class RiderController extends Controller
     public function updateOrder(Request $request, $id)
     {
         $result = (new OrderService())->updateOrder($request, $id);
+        
+        session()->flash('success', 'Item Delivered');
         return redirect()->back();
     }
 
