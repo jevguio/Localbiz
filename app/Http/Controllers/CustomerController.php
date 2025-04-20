@@ -159,7 +159,7 @@ class CustomerController extends Controller
         $categories = Categories::all();
         $couriers = Courier::all();
         $cartItems = OrderItems::whereHas(
-            'order',
+            'order.payments',
             fn($query) => $query->where('user_id', Auth::id())
                 ->where('status', 'pending')
         )
