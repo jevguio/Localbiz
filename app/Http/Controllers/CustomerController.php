@@ -144,7 +144,7 @@ class CustomerController extends Controller
         $categories = Categories::all();
         $couriers = Courier::all();
         $cartItems = OrderItems::with(['order.payments', 'product'])->whereHas(
-            'order',
+            'order.payments',
             fn($query) => $query->where('user_id', Auth::id())
                 ->where('status', '!=', 'on-cart')
         )
@@ -172,7 +172,7 @@ class CustomerController extends Controller
     {
         $categories = Categories::all();
         $couriers = Courier::all();
-        $cartItems = OrderItems::whereHas('order', fn($query) => $query->where('user_id', Auth::id())->where('status', ['processing']))->latest()->get();
+        $cartItems = OrderItems::whereHas('order.payments', fn($query) => $query->where('user_id', Auth::id())->where('status', ['processing']))->latest()->get();
         return view('customer.tracking.processed', compact('cartItems', 'categories', 'couriers'));
     }
 
@@ -180,7 +180,7 @@ class CustomerController extends Controller
     {
         $couriers = Courier::all();
         $categories = Categories::all();
-        $cartItems = OrderItems::whereHas('order', fn($query) => $query->where('user_id', Auth::id())->where('status', 'receiving'))->latest()->get();
+        $cartItems = OrderItems::whereHas('order.payments', fn($query) => $query->where('user_id', Auth::id())->where('status', 'receiving'))->latest()->get();
         return view('customer.tracking.receiving', compact('cartItems', 'categories', 'couriers'));
     }
 
@@ -188,7 +188,7 @@ class CustomerController extends Controller
     {
         $categories = Categories::all();
         $couriers = Courier::all();
-        $cartItems = OrderItems::whereHas('order', fn($query) => $query->where('user_id', Auth::id())->where('status', 'cancelled'))->latest()->get();
+        $cartItems = OrderItems::whereHas('order.payments', fn($query) => $query->where('user_id', Auth::id())->where('status', 'cancelled'))->latest()->get();
         return view('customer.tracking.cancelled', compact('cartItems', 'categories', 'couriers'));
     }
 
@@ -196,7 +196,7 @@ class CustomerController extends Controller
     {
         $categories = Categories::all();
         $couriers = Courier::all();
-        $cartItems = OrderItems::whereHas('order', fn($query) => $query->where('user_id', Auth::id())->where('status', 'delivered'))->latest()->get();
+        $cartItems = OrderItems::whereHas('order.payments', fn($query) => $query->where('user_id', Auth::id())->where('status', 'delivered'))->latest()->get();
         $feedback = Feedback::where('user_id', Auth::id())->get();
         return view('customer.tracking.delivered', compact('cartItems', 'feedback', 'categories', 'couriers'));
     }

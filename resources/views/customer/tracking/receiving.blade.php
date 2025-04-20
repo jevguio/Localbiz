@@ -24,7 +24,7 @@
                                 <li class="flex flex-wrap gap-4">Quantity <span
                                         class="ml-auto font-bold">{{ $item->quantity }}</span></li>
                                 <li class="flex flex-wrap gap-4">Total Price <span class="ml-auto font-bold">₱
-                                        {{ number_format($item->product->price * $item->quantity, 2, '.', ',') }}</span>
+                                {{ $item->order->payments->payment_amount}}</span>
                                 </li>
                                 {{-- <li class="flex flex-wrap gap-4">Location <span
                                         class="ml-auto font-bold">{{ $item->product->location->name }}</span></li> --}}
