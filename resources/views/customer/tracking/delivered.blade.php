@@ -23,7 +23,7 @@
                                 <li class="flex flex-wrap gap-4">Quantity <span
                                         class="ml-auto font-bold">{{ $item->quantity }}</span></li>
                                 <li class="flex flex-wrap gap-4">Total Price <span class="ml-auto font-bold">₱
-                                        {{  $item->order->payment->payment_amount }}</span>
+                                {{ $item->order->payments->payment_amount}}</span>
                                 </li> 
                             </ul>
                             @if (!$item->feedback && $item->order->status == 'delivered' && $item->order->user_id == Auth::id())
