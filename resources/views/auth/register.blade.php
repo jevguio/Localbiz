@@ -11,13 +11,25 @@
 
                         <!-- Name -->
                         <div>
-                            <label class="text-white text-sm mb-2 block">Name
+                            <label class="text-white text-sm mb-2 block">First Name
                             <span class="text-red-500">*</span>
                             </label>
                             <div class="relative flex items-center">
-                                <input id="name" name="name" type="text" required
+                                <input id="name" name="fname" type="text" required
                                     class="w-full text-white text-sm border border-gray-300 px-3 py-2 rounded-md outline-blue-600"
-                                    placeholder="Enter name" />
+                                    placeholder="Enter first name" />
+                                <i class='bx bxs-user absolute right-4'></i>
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="text-white text-sm mb-2 block">Last Name
+                            <span class="text-red-500">*</span>
+                            </label>
+                            <div class="relative flex items-center">
+                                <input id="name" name="lname" type="text" required
+                                    class="w-full text-white text-sm border border-gray-300 px-3 py-2 rounded-md outline-blue-600"
+                                    placeholder="Enter last name" />
                                 <i class='bx bxs-user absolute right-4'></i>
                             </div>
                         </div>

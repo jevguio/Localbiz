@@ -35,18 +35,20 @@
                     <input type="text" id="productSearch" placeholder="Search products..." class="input w-full pl-10" />
                     <i id="filter-btn" class='absolute bx bx-filter text-2xl right-2 top-2'></i>
                     <div id="filter-dropdown"
-                    class="hidden absolute right-0 mt-1 w-40 bg-white border border-gray-300 rounded-lg shadow-lg">
-                    <ul class="py-2 text-sm text-gray-700">
-                         <a class="w-full block px-4 py-2 hover:bg-gray-100 cursor-pointer filter-option" href="{{route('customer.products')}}">All</a>
-                         @foreach ($seller as $sel)
-                         <a class="w-full block px-4 py-2 hover:bg-gray-100 cursor-pointer filter-option" href="{{route('customer.products').'?seller='.$sel->id}}">{{$sel->user->fname}}</a>
-                        
-                         @endforeach
-                    </ul>
-                </div>
+                        class="hidden absolute right-0 mt-1 w-40 bg-white border border-gray-300 rounded-lg shadow-lg">
+                        <ul class="py-2 text-sm text-gray-700">
+                            <a class="w-full block px-4 py-2 hover:bg-gray-100 cursor-pointer filter-option"
+                                href="{{route('customer.products')}}">All</a>
+                            @foreach ($seller as $sel)
+                                <a class="w-full block px-4 py-2 hover:bg-gray-100 cursor-pointer filter-option"
+                                    href="{{route('customer.products') . '?seller=' . $sel->id}}">{{$sel->user->fname}}</a>
+
+                            @endforeach
+                        </ul>
+                    </div>
                 </div>
 
-                
+
 
             </div>
         </div>
@@ -108,7 +110,8 @@
                                 @foreach ($product->feedback as $feedback)
                                     <div class="bg-gray-50 rounded-lg p-4 mb-3">
                                         <div class="flex items-center gap-3">
-                                            <div class="w-10 h-10 rounded-full bg-gray-300 flex items-center justify-center text-gray-600 font-bold">
+                                            <div
+                                                class="w-10 h-10 rounded-full bg-gray-300 flex items-center justify-center text-gray-600 font-bold">
                                                 {{ substr($feedback->user->fname, 0, 1) }}
                                             </div>
                                             <div>
@@ -116,6 +119,38 @@
                                                     {{ substr($feedback->user->fname, 0, 1) }}{{ str_repeat('*', strlen($feedback->user->fname) - 2) }}{{ substr($feedback->user->fname, -1) }}
                                                     {{ substr($feedback->user->lname, 0, 1) }}{{ str_repeat('*', strlen($feedback->user->lname) - 2) }}{{ substr($feedback->user->lname, -1) }}
                                                 </p>
+                                                <label for="rating" class="block text-sm font-medium text-gray-700">Rating</label>
+                                                <style>
+                                                    .star-rating {
+                                                        display: flex;
+                                                        flex-direction: row-reverse;
+                                                        font-size: 2rem;
+                                                        justify-content: flex-end;
+                                                    }
+
+                                                    .star-rating input {
+                                                        display: none;
+                                                    }
+
+                                                    .star-rating label {
+                                                        cursor: pointer;
+                                                        color: #ccc;
+                                                        transition: color 0.2s;
+                                                    }
+
+                                                    .star-rating input:checked~label,
+                                                    .star-rating label:hover,
+                                                    .star-rating label:hover~label {
+                                                        color: #f5c518;
+                                                    }
+                                                </style> 
+                                                <div class="star-rating mt-2">
+                                                    @for ($v = 4; $v >= 0; $v--)
+                                                   
+                                                    <input type="radio" id="star{{ $v + 1 }}" name="rating"  @if($feedback->rating ==$v) checked="true" @endif value="{{$v}}" />
+                                                    <label for="star{{$v}}" title="{{ $v + 1 }} stars">★</label>
+                                                    @endfor 
+                                                </div>
                                                 <p class="text-gray-600">{{ $feedback->comment }}</p>
                                             </div>
                                         </div>

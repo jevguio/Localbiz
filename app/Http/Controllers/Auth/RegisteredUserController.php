@@ -34,7 +34,8 @@ class RegisteredUserController extends Controller
             return back()->withErrors(['email' => 'This email is already registered.'])->withInput();
         }
         $request->validate([
-            'name' => ['required', 'string', 'max:255'],
+            'fname' => ['required', 'string', 'max:255'],
+            'lname' => ['required', 'string', 'max:255'],
             'address' => ['required', 'string', 'max:255'],
             'phone' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
@@ -42,7 +43,8 @@ class RegisteredUserController extends Controller
         ]);
 
         $user = User::create([
-            'name' => $request->name,
+            'fname' => $request->fname,
+            'lname' => $request->lname,
             'address' => $request->address,
             'phone' => $request->phone,
             'email' => $request->email,
