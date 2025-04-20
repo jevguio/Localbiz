@@ -23,6 +23,10 @@ class CustomerController extends Controller
         $categories = Categories::all();
         $locations = Location::all();
         $seller = Seller::with('user')->get();
+        $averageRating = Products::with('feedback')
+        ->where('is_active', '=', true)
+        ->latest()->get()->avg('rating');
+        
 
         if ($request->has('category') && $request->category != '') {
             $products = $products->where('category_id', $request->category);
@@ -33,7 +37,7 @@ class CustomerController extends Controller
         if ($request->has('seller') && $request->seller != '') {
             $products = $products->where('seller_id', $request->seller);
         }
-        return view('customer.products', compact('products', 'seller', 'categories', 'locations'));
+        return view('customer.products', compact('products','averageRating', 'seller', 'categories', 'locations'));
     }
 
     public function cart()

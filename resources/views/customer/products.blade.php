@@ -62,11 +62,46 @@
                         </a>
                     </div>
                     <h3 class="product-name text-lg font-semibold text-gray-900">{{ $product->name }}</h3>
+@php
+    $average = round($product->feedback()->avg('rating'), 1); // e.g. 3.6
+    $percentage = ($average / 5) * 100;
+@endphp 
+<style>
+    .star-rating {
+        display: inline-block;
+        font-size: 1.8rem;
+        position: relative;
+        line-height: 1;
+    }
+
+    .star-rating .empty-stars {
+        color: #ccc;
+    }
+
+    .star-rating .filled-stars {
+        color: #f5c518;
+        position: absolute;
+        top: 0;
+        left: 0;
+        overflow: hidden;
+        white-space: nowrap;
+        width: 0; /* default */
+    }
+</style>
+
+<div class="star-rating mt-2">
+    <div class="empty-stars">★★★★★</div>
+    <div class="filled-stars" style="width: {{ $percentage }}%;">★★★★★</div>
+</div>
+ 
+
+<p class="text-sm text-muted mt-1">@if($product->feedback->count()==0)No Ratings @else {{ $average }} out of 5 @endif</p>
                     <p class="text-gray-500 font-semibold">Location: {{ $product->location->name }}</p>
                     <div class="flex justify-between items-center">
                         <p class="text-gray-500 font-bold">₱ {{ number_format($product->price, 2, '.', ',') }}</p>
                         <p class="text-gray-500">Stock: {{ $product->stock }}</p>
                     </div>
+                    
                     <button class="btn w-full mt-4 py-2 bg-red-900 text-white rounded-md hover:bg-red-800"
                         onclick="productModal{{ $product->id }}.showModal()">View</button>
                 </div>
