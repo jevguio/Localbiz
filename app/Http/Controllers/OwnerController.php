@@ -19,6 +19,7 @@ use App\Models\Seller;
 use App\Models\User;
 use App\Services\CourierService;
 use App\Services\OwnerService;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Log;
@@ -55,6 +56,8 @@ class OwnerController extends Controller
     {
         $fromDate = $request->input('start_date');
         $toDate = $request->input('end_date');
+        $startDate = Carbon::parse($fromDate)->startOfDay(); // 00:00:00
+        $endDate = Carbon::parse($toDate)->endOfDay();       // 23:59:59
         // return Excel::download(new AdminInventoryExport(), $fileName);
         $fileName = Auth::user()->fname . '_' . Auth::user()->lname . '_' . now()->format('YmdHis') . '.pdf';
         $filePath = 'reports/' . $fileName;
@@ -63,7 +66,8 @@ class OwnerController extends Controller
         $selectedSeller = User::where('id', '=', $user_id)->get()->first();
         $sellerthis = Seller::where('user_id', '=', $selectedSeller->id)->get()->first();
         $seller_id = $sellerthis->id;
-        $payments = Payments::with(['customer', 'order'])->whereBetween('created_at', [$fromDate . ' 00:00:00', $toDate . ' 23:59:59'])
+        $payments = Payments::with(['customer', 'order'])
+            ->whereBetween('created_at', [$startDate, $endDate])
             ->whereHas('order.orderItems.product', function ($query) use ($seller_id) {
                 $query->where('seller_id', $seller_id);
             })

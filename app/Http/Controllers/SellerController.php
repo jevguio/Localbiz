@@ -20,6 +20,7 @@ use App\Models\Seller;
 use App\Services\CashierService;
 use App\Models\User;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Storage;
 use App\Services\CategoryService;
 use App\Services\LocationService;
@@ -272,6 +273,8 @@ class SellerController extends Controller
     {
         $fromDate = $request->input('from_date');
         $toDate = $request->input('to_date');
+        $startDate = Carbon::parse($fromDate)->startOfDay(); // 00:00:00
+        $endDate = Carbon::parse($toDate)->endOfDay();       // 23:59:59
         // return Excel::download(new AdminInventoryExport(), $fileName);
         $fileName = Auth::user()->fname . '_' . Auth::user()->lname . '_' . now()->format('YmdHis') . '.pdf';
         $filePath = 'reports/' . $fileName;
@@ -279,7 +282,8 @@ class SellerController extends Controller
         $selectedSeller = Auth::user();
         $seller_id=$selectedSeller->cashier->seller_id;
 
-        $payments = Payments::with(['customer','order'])->whereBetween('created_at', [$fromDate . ' 00:00:00', $toDate . ' 23:59:59'])
+        $payments = Payments::with(['customer','order'])
+        ->whereBetween('created_at', [$startDate, $endDate])
             ->whereHas('order.orderItems.product', function ($query) use ($seller_id) {
                 $query->where('seller_id', $seller_id);
             })
