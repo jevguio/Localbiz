@@ -121,36 +121,34 @@
                                                 </p>
                                                 <label for="rating" class="block text-sm font-medium text-gray-700">Rating</label>
                                                 <style>
-                                                    .star-rating {
-                                                        display: flex;
-                                                        flex-direction: row-reverse;
-                                                        font-size: 2rem;
-                                                        justify-content: flex-end;
-                                                    }
+    .star-rating {
+        display: flex;
+        flex-direction: row-reverse;
+        font-size: 2rem;
+        justify-content: flex-end;
+        pointer-events: none; /* disables all interaction */
+    }
 
-                                                    .star-rating input {
-                                                        display: none;
-                                                    }
+    .star-rating input {
+        display: none;
+    }
 
-                                                    .star-rating label {
-                                                        cursor: pointer;
-                                                        color: #ccc;
-                                                        transition: color 0.2s;
-                                                    }
+    .star-rating label {
+        color: #ccc;
+    }
 
-                                                    .star-rating input:checked~label,
-                                                    .star-rating label:hover,
-                                                    .star-rating label:hover~label {
-                                                        color: #f5c518;
-                                                    }
-                                                </style> 
-                                                <div class="star-rating mt-2">
-                                                    @for ($v = 4; $v >= 0; $v--)
-                                                   
-                                                    <input type="radio" id="star{{ $v + 1 }}" name="rating"  @if($feedback->rating ==$v) checked="true" @endif value="{{$v}}" />
-                                                    <label for="star{{$v}}" title="{{ $v + 1 }} stars">★</label>
-                                                    @endfor 
-                                                </div>
+    .star-rating input:checked ~ label {
+        color: #f5c518;
+    }
+</style>
+
+<div class="star-rating mt-2">
+    @for ($v = 4; $v >= 0; $v--)
+        <input type="radio" id="star{{ $v }}" name="rating" @if($feedback->rating == $v) checked @endif value="{{ $v }}" />
+        <label for="star{{ $v }}" title="{{ $v + 1 }} stars">★</label>
+    @endfor
+</div>
+
                                                 <p class="text-gray-600">{{ $feedback->comment }}</p>
                                             </div>
                                         </div>
