@@ -155,35 +155,39 @@
                                                     {{ substr($feedback->user->lname, 0, 1) }}{{ str_repeat('*', strlen($feedback->user->lname) - 2) }}{{ substr($feedback->user->lname, -1) }}
                                                 </p>
                                                 <label for="rating" class="block text-sm font-medium text-gray-700">Rating</label>
-                                                <style>
+ 
+@php
+    $average = $feedback->rating; // e.g. 3.6
+    $percentage = ($average / 5) * 100;
+@endphp 
+<style>
     .star-rating {
-        display: flex;
-        flex-direction: row-reverse;
-        font-size: 2rem;
-        justify-content: flex-end;
-        pointer-events: none; /* disables all interaction */
+        display: inline-block;
+        font-size: 1.8rem;
+        position: relative;
+        line-height: 1;
     }
 
-    .star-rating input {
-        display: none;
-    }
-
-    .star-rating label {
+    .star-rating .empty-stars {
         color: #ccc;
     }
 
-    .star-rating input:checked ~ label {
+    .star-rating .filled-stars {
         color: #f5c518;
+        position: absolute;
+        top: 0;
+        left: 0;
+        overflow: hidden;
+        white-space: nowrap;
+        width: 0; /* default */
     }
 </style>
 
 <div class="star-rating mt-2">
-    @for ($v = 4; $v >= 0; $v--)
-        <input type="radio" id="star{{ $v }}" name="rating" @if($feedback->rating == $v) checked @endif value="{{ $v }}" />
-        <label for="star{{ $v }}" title="{{ $v + 1 }} stars">★</label>
-    @endfor
+    <div class="empty-stars">★★★★★</div>
+    <div class="filled-stars" style="width: {{ $percentage }}%;">★★★★★</div>
 </div>
-
+ 
                                                 <p class="text-gray-600">{{ $feedback->comment }}</p>
                                             </div>
                                         </div>
