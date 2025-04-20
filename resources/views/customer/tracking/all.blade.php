@@ -163,14 +163,14 @@
                                             placeholder="Payment Method"
                                             value="{{ $item->order->payments ? $item->order->payments->payment_method : 'N/A' }}" readonly>
                                     </div>
-                                    <div class="col-span-1">
+                                    <!-- <div class="col-span-1">
                                         <label for="courier"
                                             class="block mb-2 text-sm font-medium text-gray-900">Courier</label>
                                         <input type="text" name="courier" id="courier"
                                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
                                             value="{{ $item->order->payments->courier->name ?? 'N/A' }}"
                                             readonly>
-                                    </div>
+                                    </div> -->
                                     <div class="col-span-1">
                                         <label for="payment_amount"
                                             class="block mb-2 text-sm font-medium text-gray-900">Total
@@ -203,17 +203,12 @@
                                             class="block mb-2 text-sm font-medium text-gray-900">Delivery Method</label>
                                             <div name="status" id="status" 
                                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5">
-                                        @foreach($couriers as $courier)
+                                   
                                             @if(optional($item->order->payments)->courier_id != null)
-
-                                                @if($item->order->payments->first()->courier_id  == $courier->id)
-                                                    <div value="{{$courier->id }}" 
-                                                        {{ $item->order->payments->first()->courier_id  == $courier->id ? 'selected' : '' }}>
-                                                        {{$courier->name}}
-                                                    </div> 
-                                                @endif
-                                            @endif
-                                        @endforeach
+                                            Cash on Delivery
+                                            @else
+                                            Pick Up
+                                            @endif 
                                         </div>
                                     </div>
                                     <div class="col-span-2">

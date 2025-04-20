@@ -209,7 +209,7 @@
                                                     readonly>
                                             </div>
                                             
-                                            <div class="col-span-1">
+                                            <!-- <div class="col-span-1">
                                                 <label for="payment_date"
                                                     class="block mb-2 text-sm font-medium text-gray-900">Courier</label>
                                                 <div name="courier" id="courier"
@@ -225,7 +225,7 @@
                                                         @endforeach
                                                     @endif
                                                 </div>
-                                            </div>
+                                            </div> -->
                                             
                                             <div class="col-span-1">
                                                 <label for="feedback"

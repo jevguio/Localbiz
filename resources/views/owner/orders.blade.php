@@ -243,33 +243,29 @@
                                                     readonly>
                                             </div>
 
-                                            <div class="col-span-1">
-                                                <label for="payment_date"
-                                                    class="block mb-2 text-sm font-medium text-gray-900">Delivery Method</label>
-                                                    <div name="status" id="status" 
-                                                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5">
-                                                @foreach($couriers as $courier)
-                                                    @if(optional($order->payments->first())->courier_id != null)
+                                            
+                                    <div class="col-span-1">
+                                        <label for="payment_date"
+                                            class="block mb-2 text-sm font-medium text-gray-900">Delivery Method</label>
+                                            <div name="status" id="status" 
+                                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5">
+                                   
+                                            @if(optional($order->payments)->courier_id != null)
+                                            Cash on Delivery
+                                            @else
+                                            Pick Up
+                                            @endif 
+                                        </div>
+                                    </div>
 
-                                                        @if($order->payments->first()->courier_id  == $courier->id)
-                                                            <div value="{{$courier->id }}" 
-                                                                {{ $order->payments->first()->courier_id  == $courier->id ? 'selected' : '' }}>
-                                                                {{$courier->name}}
-                                                            </div> 
-                                                        @endif
-                                                    @endif
-                                                @endforeach
-                                                </div>
-                                            </div>
-
-                                            <div class="col-span-1">
+                                            <!-- <div class="col-span-1">
                                                 <label for="courier"
                                                     class="block mb-2 text-sm font-medium text-gray-900">Courier</label>
                                                 <input type="text" name="courier" id="courier"
                                                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
                                                     value="{{ $order->payments->first()->courier->name ?? 'N/A' }}"
                                                     readonly>
-                                            </div>
+                                            </div> -->
                                             
                                             
                                             <div class="col-span-2">

@@ -159,7 +159,7 @@
                                             value="{{ $item->order->payments->first() ? $item->order->payments->first()->payment_method : 'N/A' }}" readonly>
                                     </div>
 
-                                    <div class="col-span-1">
+                                    <!-- <div class="col-span-1">
                                         <label for="payment_date"
                                             class="block mb-2 text-sm font-medium text-gray-900">Delivery Method</label>
                                             <div name="status" id="status" 
@@ -176,7 +176,7 @@
                                             @endif
                                         @endforeach
                                         </div>
-                                    </div>
+                                    </div> -->
 
                                     <div class="col-span-1">
                                         <label for="payment_date"

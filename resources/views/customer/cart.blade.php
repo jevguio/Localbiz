@@ -174,14 +174,14 @@
                                             <div class="fieldset">
                                                 <legend class="fieldset-legend">Delivery Method</legend>
                                                 <select class="select select-bordered w-full" name="delivery_method"
-                                                    id="deliveryMethod" onchange="onChangePickup(event)" required>
+                                                    id="deliveryMethod"  required>
                                                     <option disabled selected>Pick a Delivery method</option>
                                                     <option value="COD">Cash on Delivery</option>
                                                     <option value="Pick Up">Pick Up</option>
                                                 </select>
                                             </div>
                                         </div>
-                                        <script>
+                                        <!-- <script>
                                             function onChangePickup(event) {
                                                 console.log(event.target.value);
                                                 const courier_id = document.getElementById('courier_id');
@@ -196,7 +196,7 @@
                                                 }
 
                                             }
-                                        </script>
+                                        </script> -->
                                         @foreach ($seller as $seller)
                                             <div class="gcash-details" style="display: none;">
                                                 <p class="text-base font-medium text-gray-900">Seller Name:
@@ -215,7 +215,7 @@
                                                 </p>
                                             </div>
                                         @endforeach
-                                        <div class="courier-selection">
+                                        <!-- <div class="courier-selection">
                                             <div class="fieldset" id="courier_id">
                                                 <legend class="fieldset-legend">Courier</legend>
                                                 <select class="select select-bordered w-full" name="courier_id">
@@ -226,7 +226,7 @@
                                                     @endforeach
                                                 </select>
                                             </div>
-                                        </div>
+                                        </div> -->
                                         <div class="courier-selection w-full">
                                             <div class="fieldset" style="display: none" id="pickup_date_id">
                                                 <legend class="fieldset-legend">Pickup Date:</legend>
@@ -235,6 +235,7 @@
                                             </div>
                                         </div>
                                         <div class="fieldset">
+                                                <input type="text" hidden class="input w-full" name="courier_id" value="1"/>
                                             <legend class="fieldset-legend">Upload Receipt</legend>
                                             <input type="file" class="file-input file-input-bordered w-full"
                                                 accept="image/*" name="receipt_file" required />
