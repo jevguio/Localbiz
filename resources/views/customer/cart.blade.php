@@ -17,7 +17,8 @@
                                                 @method('PUT')
                                                 <input type="hidden" name="is_checked" value="0" />
                                                 <input type="checkbox" name="is_checked" style="transform: scale(1.5);"
-                                                    value="1" onchange="setTimeout(() => this.form.submit(), 300)" {{ $allActive ? 'checked' : '' }} />
+                                                    value="1" onchange="setTimeout(() => this.form.submit(), 300)"
+                                                    {{ $allActive ? 'checked' : '' }} />
                                                 <div class="ml-4 inline">All</div>
                                             </form>
                                         </th>
@@ -35,13 +36,17 @@
                                         @if ($item->product != null)
                                             <tr class="my-4 border border-gray-300">
                                                 <td class="p-4 text-left " style="max-width: 5%; ">
-                                                    <form action="{{ route('customer.updateSelectionCart') }}" method="POST" >
+                                                    <form action="{{ route('customer.updateSelectionCart') }}"
+                                                        method="POST">
                                                         @csrf
                                                         @method('PUT')
-                                                        <input type="hidden" name="id" value="{{ $item->id }}" />
+                                                        <input type="hidden" name="id"
+                                                            value="{{ $item->id }}" />
                                                         <input type="hidden" name="is_checked" value="0" />
-                                                        <input type="checkbox" name="is_checked" style="transform: scale(1.5);"
-                                                            value="1" onchange="setTimeout(() => this.form.submit(), 300)" {{ $item->is_checked ? 'checked' : '' }} />
+                                                        <input type="checkbox" name="is_checked"
+                                                            style="transform: scale(1.5);" value="1"
+                                                            onchange="setTimeout(() => this.form.submit(), 300)"
+                                                            {{ $item->is_checked ? 'checked' : '' }} />
                                                     </form>
                                                 </td>
                                                 <td class="p-2 flex items-center space-x-2 text-left">
@@ -52,14 +57,15 @@
                                                         <div style="">
                                                             <p class="text-lg font-semibold">{{ $item->product->name }}
                                                             </p>
-                                                            <p class="text-sm text-gray-700 " style="
+                                                            <p class="text-sm text-gray-700 "
+                                                                style="
                                                             overflow: hidden;
                                                             text-overflow: ellipsis;
                                                              white-space: nowrap; 
                                                                     ">
-                                                                {{ substr($item->product->description, 0, 20)}}
-                                                                
-                                                                @if(strlen($item->product->description) > 20)
+                                                                {{ substr($item->product->description, 0, 20) }}
+
+                                                                @if (strlen($item->product->description) > 20)
                                                                     ...
                                                                 @endif
                                                             </p>
@@ -85,7 +91,8 @@
                                                         @csrf
                                                         @method('PUT')
                                                         <div class=" mx-auto ">
-                                                            <input type="hidden" name="id" value="{{ $item->id }}">
+                                                            <input type="hidden" name="id"
+                                                                value="{{ $item->id }}">
                                                             <button type="submit" name="decrement" value="decrement"
                                                                 class="h-8 w-8 inline-flex items-center justify-center border border-gray-400 bg-gray-100 hover:bg-gray-200">
                                                                 <i class='bx bx-minus text-lg'></i>
@@ -103,7 +110,8 @@
                                                     ₱{{ $item->product->price * $item->quantity }}
                                                 </td>
                                                 <td class="p-2 ">
-                                                    <form action="{{ route('customer.removeCart', ['id' => $item->id]) }}"
+                                                    <form
+                                                        action="{{ route('customer.removeCart', ['id' => $item->id]) }}"
                                                         method="POST">
                                                         @csrf
                                                         @method('DELETE')
@@ -156,8 +164,8 @@
                                     <h2 id="paymentDetails" class="mt-4 text-xl font-bold text-gray-900 sm:text-2xl">
                                         Payment Details
                                     </h2>
-                                    <form action="{{ route('customer.checkout') }}" method="POST" class="mt-4 space-y-4"
-                                        id="paymentForm" enctype="multipart/form-data">
+                                    <form action="{{ route('customer.checkout') }}" method="POST"
+                                        class="mt-4 space-y-4" id="paymentForm" enctype="multipart/form-data">
                                         @csrf
                                         <div>
                                             <div class="fieldset">
@@ -180,23 +188,7 @@
                                                     <option value="Pick Up">Pick Up</option>
                                                 </select>
                                             </div>
-                                        </div>
-                                        <!-- <script>
-                                            function onChangePickup(event) {
-                                                console.log(event.target.value);
-                                                const courier_id = document.getElementById('courier_id');
-                                                const pickup_date_id = document.getElementById('pickup_date_id');
-                                                if (event.target.value == "Pick Up") {
-                                                    courier_id.style.display = "none";
-                                                    pickup_date_id.style.display = "block";
-                                                } else {
-
-                                                    courier_id.style.display = "block";
-                                                    pickup_date_id.style.display = "none";
-                                                }
-
-                                            }
-                                        </script> -->
+                                        </div> 
                                         @foreach ($seller as $seller)
                                             <div class="gcash-details" style="display: none;">
                                                 <p class="text-base font-medium text-gray-900">Seller Name:
@@ -214,28 +206,17 @@
                                                     {{ $seller->user->bank_account_number }}
                                                 </p>
                                             </div>
-                                        @endforeach
-                                        <!-- <div class="courier-selection">
-                                            <div class="fieldset" id="courier_id">
-                                                <legend class="fieldset-legend">Courier</legend>
-                                                <select class="select select-bordered w-full" name="courier_id">
-                                                    <option disabled selected>Pick a courier</option>
-                                                    @foreach ($couriers as $courier)
-                                                        <option value="{{ $courier->id }}">{{ $courier->name }}
-                                                        </option>
-                                                    @endforeach
-                                                </select>
-                                            </div>
-                                        </div> -->
-                                        <div class="courier-selection w-full">
-                                            <div class="fieldset" style="display: none" id="pickup_date_id">
+                                        @endforeach 
+                                        <div class="courier-selection hidden w-full">
+                                            <div class="fieldset"  id="pickup_date_id">
                                                 <legend class="fieldset-legend">Pickup Date:</legend>
                                                 <input type="date" class="input w-full" name="pickup_date"
                                                     min="{{ \Carbon\Carbon::today()->format('Y-m-d') }}" />
                                             </div>
                                         </div>
                                         <div class="fieldset">
-                                                <input type="text" hidden class="input w-full" name="courier_id" value="1"/>
+                                            <input type="text" hidden class="input w-full" name="courier_id"
+                                                value="1" />
                                             <legend class="fieldset-legend">Upload Receipt</legend>
                                             <input type="file" class="file-input file-input-bordered w-full"
                                                 accept="image/*" name="receipt_file" required />
@@ -248,7 +229,8 @@
                                         </div>
 
                                         <button type="submit"
-                                            class="flex w-full items-center justify-center rounded-lg btn bg-orange-900 hover:bg-orange-900 px-5 py-2.5 text-sm font-medium text-white">Place Order</button>
+                                            class="flex w-full items-center justify-center rounded-lg btn bg-orange-900 hover:bg-orange-900 px-5 py-2.5 text-sm font-medium text-white">Place
+                                            Order</button>
                                     </form>
                                 </div>
 
@@ -258,7 +240,8 @@
                     </div>
                     <div class="flex items-center justify-center gap-2">
                         <span class="text-sm font-normal text-gray-500"></span>
-                        <a onclick="window.location.href = '{{ route('customer.products') }}'" title="Continue Shopping"
+                        <a onclick="window.location.href = '{{ route('customer.products') }}'"
+                            title="Continue Shopping"
                             class="inline-flex items-center gap-2 font-medium text-primary-700 cursor-pointer">
                             Continue Shopping
                             <i class='bx bx-right-arrow-alt text-lg'></i>
@@ -271,22 +254,22 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
     <script>
-        $(document).ready(function () {
+        $(document).ready(function() {
             let showPaymentDetails = false;
 
             $('#paymentDetails, #paymentForm').hide();
 
-            $('#proceedToCheckout').click(function () {
+            $('#proceedToCheckout').click(function() {
                 showPaymentDetails = !showPaymentDetails;
                 $('#paymentDetails, #paymentForm').toggle(showPaymentDetails);
             });
 
-            $('#paymentMethod').change(function () {
+            $('#deliveryMethod').change(function() {
                 var selectedMethod = $(this).val();
-                if (selectedMethod === 'Pick Up') {
-                    $('.courier-selection').hide();
-                } else {
+                if (selectedMethod == "Pick Up") {
                     $('.courier-selection').show();
+                } else {
+                    $('.courier-selection').hide();
                 }
 
                 if (selectedMethod === 'Gcash') {
