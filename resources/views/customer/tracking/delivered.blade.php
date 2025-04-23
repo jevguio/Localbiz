@@ -96,7 +96,7 @@
                             <div class="col-span-3 mt-2  absolute right-0 bottom-0">
                                         <form action="{{ route('customer.addToCart').'?targ=customer.cart'}}" method="POST">
                                             @csrf
-                                            <input type="hidden" name="product_id" value="{{ $item->id }}">
+                                            <input type="hidden" name="product_id" value="{{ $item->product->id }}">
                                             <button 
                                             class="btn px-4 py-2 bg-red-900 text-white 
                                             rounded-md hover:bg-red-800">

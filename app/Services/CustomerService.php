@@ -20,6 +20,7 @@ class CustomerService
     public function addToCart($request)
     {
         try {
+            // Log::info($request->product_id);
             $product = Products::findOrFail($request->product_id);
 
             if ($product->stock < 1) {
