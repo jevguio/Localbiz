@@ -22,6 +22,7 @@ return new class extends Migration {
             $table->string('image');
             $table->foreignId('location_id')->constrained('tbl_locations');
             $table->boolean('is_active')->default(false);
+            $table->date('best_before_date')->nullable();
             $table->timestamps();
         });
     }
