@@ -140,7 +140,8 @@
                                                 <dt class="text-base font-normal text-gray-500">Original Price</dt>
                                                 <dd class="text-base font-medium text-gray-900">
                                                     ₱
-                                                    {{ $cartItems->sum(fn($item) => $item->product->price * $item->is_checked) }}
+                                                    {{ $cartItems->sum(fn($item) =>  $item->product ? $item->product->price * $item->quantity * $item->is_checked :0 ) }}
+
                                                 </dd>
                                             </dl>
                                             <div>
@@ -149,7 +150,7 @@
                                                     <dt class="text-base font-bold text-gray-900">Total</dt>
                                                     <dd class="text-base font-bold text-gray-900">
                                                         ₱
-                                                        {{ $cartItems->sum(fn($item) => $item->product->price * $item->quantity * $item->is_checked) }}
+                                                        {{ $cartItems->sum(fn($item) =>  $item->product ? $item->product->price * $item->quantity * $item->is_checked :0 ) }}
                                                     </dd>
                                                 </dl>
                                             </div>
