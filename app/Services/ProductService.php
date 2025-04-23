@@ -71,7 +71,6 @@ class ProductService
             $product = Products::find($id);
 
             $product->update($request->all());
-            Log::info($request->all());
             if ($request->hasFile('image')) {
                 $image = $request->file('image');
 

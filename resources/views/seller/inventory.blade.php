@@ -121,14 +121,18 @@
                                                     <div class="col-span-2 sm:col-span-1">
                                                         <label for="location"
                                                             class="block mb-2 text-sm font-medium text-gray-900">Location</label>
-                                                        <div name="location" id="location" readonly disabled
-                                                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5">
-                                                            @foreach ($locations as $location)
-                                                            @if($product->location->id == $location->id )
-                                                                <div value="{{ $location->id }}"
-                                                                    {{ old('location', $product->location->id) == $location->id ? 'selected' : '' }}>
-                                                                    {{ $location->name }}</div>
-                                                                    @endif
+                                                        <input type="text" hidden name="location" id="location" readonly
+                                                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                                                           
+                                                            value="{{ $product->location->id }}"
+                                                            >
+                                                        </input>
+                                                        <div  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5">
+                                                            
+                                                        @foreach ($locations as $location)
+                                                                @if ( $product->location->id  == $location->id) 
+                                                                {{ $location->name }}
+                                                                @endif
                                                             @endforeach
                                                         </div>
                                                     </div>
