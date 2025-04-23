@@ -35,6 +35,9 @@
                             <th scope="col" class="px-6 py-3 text-black">
                                 Sold
                             </th>
+                            <th scope="col" class="px-6 py-3 text-black">
+                                Actions
+                            </th>
                         </tr>
                     </thead>
                     <tbody id="product-table-body">
@@ -66,6 +69,14 @@
                                      @endphp
                                     {{  $totalQuantity}}
                                 </td>
+                                
+                                <td class="px-6 py-4 pl-17 text-black">
+                                <button  
+                                    data-modal-target="editModal{{ $product->id }}"  
+                                        class="font-medium text-green-600 hover:underline" type="button">
+                                        Edit
+                                    </button> 
+                                </td>
                             </tr>
 
                             <div id="editModal{{ $product->id }}" tabindex="-1" aria-hidden="true"
@@ -91,33 +102,26 @@
                                                 method="POST" enctype="multipart/form-data">
                                                 @csrf
                                                 @method('PUT')
-                                                <div class="grid gap-4 mb-4 grid-cols-2">
-                                                    <div class="col-span-2">
-                                                        <label class="block mb-2 text-sm font-medium text-gray-900"
-                                                            for="image">Product Image</label>
-                                                        <input type="file"
-                                                            class="file-input w-full border border-gray-300 rounded-lg cursor-pointer bg-gray-50"
-                                                            name="image" accept="image/*" />
-                                                    </div>
+                                                <div class="grid gap-4 mb-4 grid-cols-2"> 
                                                     <div class="col-span-2">
                                                         <label for="product_name"
                                                             class="block mb-2 text-sm font-medium text-gray-900">Name</label>
                                                         <input type="text" name="name" id="name"
                                                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
-                                                            placeholder="Type product name"
+                                                            placeholder="Type product name" readonly disabled
                                                             value="{{ old('name', $product->name) }}">
                                                     </div>
                                                     <div class="col-span-2 sm:col-span-1">
                                                         <label for="description"
                                                             class="block mb-2 text-sm font-medium text-gray-900">Description</label>
-                                                        <textarea id="description" rows="4"
+                                                        <textarea id="description" rows="4" readonly disabled
                                                             class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500"
                                                             placeholder="Write product description here" name="description">{{ old('description', $product->description) }}</textarea>
                                                     </div>
                                                     <div class="col-span-2 sm:col-span-1">
                                                         <label for="location"
                                                             class="block mb-2 text-sm font-medium text-gray-900">Location</label>
-                                                        <select name="location" id="location"
+                                                        <select name="location" id="location" readonly disabled
                                                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5">
                                                             @foreach ($locations as $location)
                                                                 <option value="{{ $location->id }}"
@@ -129,7 +133,7 @@
                                                     <div class="col-span-2 sm:col-span-1">
                                                         <label for="price"
                                                             class="block mb-2 text-sm font-medium text-gray-900">Price</label>
-                                                        <input type="number" name="price" id="price"
+                                                        <input type="number" name="price" id="price" readonly disabled
                                                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
                                                             placeholder="$2999"
                                                             value="{{ old('price', $product->price) }}">
@@ -137,14 +141,14 @@
                                                     <div class="col-span-2 sm:col-span-1">
                                                         <label for="stock"
                                                             class="block mb-2 text-sm font-medium text-gray-900">Stock</label>
-                                                        <input type="number" name="stock" id="stock"
+                                                        <input type="number" name="stock" id="stock" 
                                                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
                                                             value="{{ old('stock', $product->stock) }}">
                                                     </div>
                                                     <div class="col-span-2 sm:col-span-1">
                                                         <label for="category"
                                                             class="block mb-2 text-sm font-medium text-gray-900">Category</label>
-                                                        <select id="category" name="category_id"
+                                                        <select id="category" name="category_id" readonly disabled
                                                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5">
                                                             <option selected="">Select category</option>
                                                             @foreach ($categories as $category)
@@ -246,5 +250,24 @@
                                             let bestBeforeDiv = document.getElementById('bestBeforeDateDiv');
                                             bestBeforeDiv.style.display = e.target.value == 'food' ? 'block' : 'none';
                                         };
+    </script>
+       <script>
+        $(document).ready(function() {
+            $('#table-search').on('keyup', function() {
+                const searchInput = $(this).val().toLowerCase();
+                $('#product-table-body tr').filter(function() {
+                    $(this).toggle($(this).text().toLowerCase().indexOf(searchInput) > -1);
+                });
+            });
+
+            $('[data-modal-target]').on('click', function() {
+                const modalId = $(this).data('modal-target');
+                $(`#${modalId}`).removeClass('hidden');
+            });
+            $('[data-modal-toggle]').on('click', function() {
+                const modalId = $(this).data('modal-toggle');
+                $(`#${modalId}`).addClass('hidden');
+            });
+        });
     </script>
 </x-app-layout>
