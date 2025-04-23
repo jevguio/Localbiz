@@ -121,14 +121,16 @@
                                                     <div class="col-span-2 sm:col-span-1">
                                                         <label for="location"
                                                             class="block mb-2 text-sm font-medium text-gray-900">Location</label>
-                                                        <select name="location" id="location" readonly disabled
+                                                        <div name="location" id="location" readonly disabled
                                                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5">
                                                             @foreach ($locations as $location)
-                                                                <option value="{{ $location->id }}"
+                                                            @if($product->location->id == $location->id )
+                                                                <div value="{{ $location->id }}"
                                                                     {{ old('location', $product->location->id) == $location->id ? 'selected' : '' }}>
-                                                                    {{ $location->name }}</option>
+                                                                    {{ $location->name }}</div>
+                                                                    @endif
                                                             @endforeach
-                                                        </select>
+                                                        </div>
                                                     </div>
                                                     <div class="col-span-2 sm:col-span-1">
                                                         <label for="price"
@@ -148,15 +150,18 @@
                                                     <div class="col-span-2 sm:col-span-1">
                                                         <label for="category"
                                                             class="block mb-2 text-sm font-medium text-gray-900">Category</label>
-                                                        <select id="category" name="category_id" readonly disabled
+                                                        <div id="category" name="category_id" 
                                                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5">
-                                                            <option selected="">Select category</option>
+                                                             
                                                             @foreach ($categories as $category)
-                                                                <option value="{{ $category->id }}"
-                                                                    {{ old('category_id', $product->category_id) == $category->id ? 'selected' : '' }}>
-                                                                    {{ $category->name }}</option>
+                                                                @if ($product->category_id == $category->id)
+                                                                
+                                                                <div value="{{ $category->id }}"
+                                                                        {{ old('category_id', $product->category_id) == $category->id ? 'selected' : '' }}>
+                                                                        {{ $category->name }}</div>
+                                                                @endif
                                                             @endforeach
-                                                        </select>
+                                                        </div>
                                                     </div>
                                                 </div>
                                                 <hr class="my-4">
