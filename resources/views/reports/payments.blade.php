@@ -77,21 +77,22 @@
             </button>
         @endif
 
-        <p>Cashier: {{ $selectedSeller ? $selectedSeller->fname : 'NULL' }}</p>
-        <p id="SalesDateStartEnd">Generated Date/s: {{ isset($fromDate) ? $fromDate : '' }} -
+        <p style="margin: 5px 0;">Cashier: {{ $selectedSeller ? $selectedSeller->fname : 'NULL' }}</p>
+        <p style="margin: 5px 0;" id="SalesDateStartEnd">Generated Date/s: {{ isset($fromDate) ? $fromDate : '' }} -
             {{ isset($toDate) ? $toDate : '' }}</p>
-        <p id="SalesDateStartEnd1">Date: {{ now()->format('F j, Y') }}</p>
+        <p style="margin: 5px 0;" id="SalesDateStartEnd1">Date: {{ now()->format('F j, Y') }}</p>
 
         <table class="table">
             <thead>
                 <tr>
-                    <th>Transaction ID</th> 
-                    <th>Customer</th> 
-                    <th>order id</th>  
-                    <th>amount</th> 
-                    <th>payment method</th>
-                    <th>Status</th> 
-                    <th>payment date</th>
+                    <th style="text-align: center;">Transaction ID</th>
+                    <th style="text-align: center;">Payment Date</th> 
+                    <th style="text-align: center;">Customer Name</th> 
+                    <th style="text-align: center;">Order ID</th>  
+                    <th style="text-align: center;">Amount</th> 
+                    <th style="text-align: center;">Payment Method</th>
+                    <th style="text-align: center;">Status</th> 
+                    
                 </tr>
             </thead>
             <tbody>  
@@ -100,18 +101,19 @@
  
                         <tr>
                             <td>{{ $item->id }}</td>  
+                            <td>{{ $item->paid_at }}</td> 
                             <td>{{ $item->customer->fname.' '.$item->customer->lname }}</td> 
                             <td>{{ $item->order_id }}</td> 
                             <td>{{ $item->payment_amount }}</td>  
                             <td>{{ $item->payment_method }}</td> 
                             <td>{{ $item->order->status }}</td> 
-                            <td>{{ $item->paid_at }}</td> 
+                            
                         </tr>  
                 @endforeach
                 @else
 
                 <tr>
-                    <td colspan="7" text-align="center">No Record Found</td>
+                    <td colspan="7" style="text-align: center;">No Record Found</td>
                 </tr>
                 @endif
             </tbody>
