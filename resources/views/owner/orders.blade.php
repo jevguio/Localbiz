@@ -178,10 +178,10 @@
                                                 <label for="payment_amount"
                                                     class="block mb-2 text-sm font-medium text-gray-900">Total
                                                     Amount</label>
-                                                <input type="number" name="payment_amount" id="payment_amount"
+                                                <input type="text" name="payment_amount" id="payment_amount"
                                                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
                                                     placeholder="Payment Amount"
-                                                    value="{{ $order->orderItems->first()->quantity * $order->orderItems->first()->price }}" 
+                                                    value="₱ {{ number_format($order->orderItems->first()->quantity * $order->orderItems->first()->product->price, 2, '.', ',') }}"
                                                     readonly>
                                             </div>
 
