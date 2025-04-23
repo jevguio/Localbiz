@@ -14,7 +14,7 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\DB;
-
+use Illuminate\Support\Str;
 class CustomerService
 {
     public function addToCart($request)
@@ -212,8 +212,11 @@ class CustomerService
             $totalAmount = 0;
 
             $receipt = $request->file('receipt_file');
-            $filename = $receipt->getClientOriginalName();
+
+            $extension = $receipt->getClientOriginalExtension(); // get file extension
+            $filename = Str::random(20) . '.' . $extension; // generate a random filename
             $receipt->move(public_path('receipt_file'), $filename);
+            
             foreach ($orders as $order) {
                 $totalAmount += $order->total_amount;
 
