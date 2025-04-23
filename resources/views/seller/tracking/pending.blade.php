@@ -270,5 +270,6 @@
                 $(`#${modalId}`).addClass('hidden');
             });
         });
+        
     </script>
 </x-app-layout>
