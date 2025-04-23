@@ -95,6 +95,7 @@
                 </tr>
             </thead>
             <tbody>  
+                @if(count($payments)>0)
                 @foreach ($payments as $index => $item) 
  
                         <tr>
@@ -107,7 +108,12 @@
                             <td>{{ $item->paid_at }}</td> 
                         </tr>  
                 @endforeach
+                @else
 
+                <tr>
+                    <td colspan="7" text-align="center">No Record Found</td>
+                </tr>
+                @endif
             </tbody>
             {{-- <tfoot>
                 <tr>
