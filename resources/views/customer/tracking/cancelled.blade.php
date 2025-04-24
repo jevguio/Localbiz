@@ -23,7 +23,7 @@
                                 <li class="flex flex-wrap gap-4">Quantity <span
                                         class="ml-auto font-bold">{{ $item->quantity }}</span></li>
                                 <li class="flex flex-wrap gap-4">Total Price <span class="ml-auto font-bold">₱
-                                {{ $item->order->payments->payment_amount}}</span>
+                                {{ number_format($item->order->orderItems->first()->product->price * $item->quantity, 2, '.', ',') }}</span>
                                 </li> 
                             </ul>
                         </div>
@@ -133,10 +133,10 @@
                                         <label for="payment_amount"
                                             class="block mb-2 text-sm font-medium text-gray-900">Total
                                             Amount</label>
-                                        <input type="number" name="payment_amount" id="payment_amount"
+                                        <input type="text" name="payment_amount" id="payment_amount"
                                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
                                             placeholder="Payment Amount"
-                                            value="{{ $item->order->payments->payment_amount}}" readonly>
+                                            value="₱{{ number_format($item->order->orderItems->first()->product->price * $item->quantity, 2, '.', ',') }}" readonly>
                                     </div>
 
                                     <div class="col-span-1">
