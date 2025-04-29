@@ -19,7 +19,7 @@
                     </div>
                     <div class="flex gap-2 my-4">
                         <button type="button"
-                            class="btn btn-primary bg-blue-700 hover:bg-blue-800 text-white px-4 py-2 rounded-md"
+                            class="btn bg-red-900 text-base hover:bg-red-800 text-white px-4 py-2 rounded-md"
                             data-modal-target="datePickerModal">
                             Generate Payment Transactions
                         </button>
