@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Constant\MyConstant;
 use App\Models\Location;
+use App\Models\ProductImage;
 use App\Models\Products;
 use App\Models\Seller;
 use Illuminate\Support\Facades\Auth;
@@ -14,9 +15,14 @@ class ProductService
 {
     public function storeProduct($request)
     {
+        
+        \Log::info($request->all());
         try {
             $seller = Seller::where('user_id', Auth::user()->id)->first();
             if (!$seller) {
+                
+            \Log::info("No seller");
+            \Log::info($request->all());
                 return response()->json([
                     'error_code' => MyConstant::FAILED_CODE,
                     'status_code' => MyConstant::FAILED_CODE,
@@ -24,29 +30,46 @@ class ProductService
                 ]);
             }
 
+            \Log::info("Has seller");
             $location = Location::find($request->location);
-            if (!$location) {
-                return response()->json([
-                    'error_code' => MyConstant::FAILED_CODE,
-                    'status_code' => MyConstant::FAILED_CODE,
-                    'message' => 'Location not found',
-                ]);
-            }
-
+            // if (!$location) {
+            //     \Log::info("No Location");
+            //     return response()->json([
+            //         'error_code' => MyConstant::FAILED_CODE,
+            //         'status_code' => MyConstant::FAILED_CODE,
+            //         'message' => 'Location not found',
+            //     ]);
+            // }
+            
+            \Log::info("Has Location");
             $productData = $request->all();
             $productData['seller_id'] = $seller->id;
-            $productData['location_id'] = $location->id;
+            $productData['image'] = ' ';
             \Log::info($productData);
             //best_before_date
             $product = Products::create($productData);
 
             if ($request->hasFile('image')) {
-                $image = $request->file('image');
-                $filename = $image->getClientOriginalName();
-                $image->move(public_path('assets'), $filename);
-                $product->image = $filename;
-                $product->save();
+                foreach ($request->file('image') as $file) {
+                    
+            \Log::info($file);
+                    $filename = time() . '_' . $file->getClientOriginalName();
+                    $file->move(public_path('assets'), $filename);
+            
+                    // Save each image filename to the database if needed
+                    // For example, using a ProductImage model:
+                    ProductImage::create([
+                        'product_id' => $product->id,
+                        'filename' => $filename
+                    ]);
+                    
+            \Log::info("Image Uploaded and added");
+                }
+            }else{
+                
+            \Log::info("No Image");
             }
+            
 
             session()->flash('success', 'Product added successfully');
             return response()->json([
@@ -55,8 +78,11 @@ class ProductService
                 'message' => 'Product added successfully',
             ]);
         } catch (\Exception $e) {
-            session()->flash('error', 'Failed to add product');
-            Log::error('Failed to add product: ' . $e->getMessage());
+            // session()->flash('error', 'Failed to add product');
+            
+    \Log::error('Failed to add product: ' . $e->getMessage());
+    \Log::error($e->getTraceAsString()); // This shows exactly where the error happened
+            // Log::error('Failed to add product: ' . $e->getMessage());
             return response()->json([
                 'error_code' => MyConstant::FAILED_CODE,
                 'status_code' => MyConstant::FAILED_CODE,

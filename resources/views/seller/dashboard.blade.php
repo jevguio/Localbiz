@@ -49,6 +49,7 @@
                                     <legend class="fieldset-legend text-lg">Attach here the following required documents.</legend>
                                     <ul class="list-disc pl-5 text-base">
                                         <li>BIR</li>
+                                        <li>DTI Registered</li>
                                         <li>Mayor's Permit</li>
                                         <li>Business Permit</li>
                                         <li>Barangay Clearance</li>

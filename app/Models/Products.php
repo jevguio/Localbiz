@@ -32,6 +32,10 @@ class Products extends Model
     {
         return $this->hasMany(Feedback::class, 'product_id', 'id');
     }
+    public function images(): HasMany
+    {
+        return $this->hasMany(ProductImage::class, 'product_id', 'id');
+    }
 
     public function location(): BelongsTo
     {

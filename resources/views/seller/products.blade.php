@@ -45,8 +45,9 @@
                         @foreach ($products as $product)
                             <tr class="bg-white border-b border-gray-200 hover:bg-gray-50">
                                 <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
-                                    <img src="{{ asset('assets/' . $product->image) }}" alt="Product Image"
-                                        class="w-50 h-50 object-cover rounded">
+                                <img src="{{ asset('assets/' . ($product->images[0]->filename ?? 'default.png')) }}" alt="Product Image"
+    class="w-50 h-50 object-cover rounded">
+
                                 </th>
                                 <td class="px-6 py-4 pl-6 text-black">
                                     {{ $product->name }}
@@ -123,7 +124,7 @@
                                                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5">
                                                             @foreach ($locations as $location)
                                                                 <option value="{{ $location->id }}"
-                                                                    {{ old('location', $product->location->id) == $location->id ? 'selected' : '' }}>
+                                                                     >
                                                                     {{ $location->name }}</option>
                                                             @endforeach
                                                         </select>
@@ -276,13 +277,76 @@
                                     @csrf
                                     @method('POST')
                                     <div class="grid gap-4 mb-4 grid-cols-2">
-                                        <div class="col-span-2">
-                                            <label class="block mb-2 text-sm font-medium text-gray-900"
-                                                for="image">Product Images</label>
-                                            <input type="file"
-                                                class="file-input w-full border border-gray-300 rounded-lg cursor-pointer bg-gray-50"
-                                                name="image[]" accept="image/*" multiple required/>
-                                        </div>
+                                    <div class="col-span-2">
+  <label class="block mb-2 text-sm font-medium text-gray-900" for="image">Product Images</label>
+  
+  <!-- Hidden File Input -->
+  <input id="imageInput" type="file"
+         class="hidden"
+         name="image[]" accept="image/*" multiple required />
+
+  <!-- Preview Container with "Add Image" Card -->
+  <div id="imagePreviewContainer" class="flex flex-wrap gap-4">
+    <!-- Add Image Card -->
+    <div id="addImageCard"
+         onclick="document.getElementById('imageInput').click()"
+         class="w-32 h-32 flex items-center justify-center border-2 border-dashed border-gray-400 rounded-lg cursor-pointer hover:bg-gray-100">
+      <span class="text-gray-500 text-sm">+ Add Image</span>
+    </div>
+  </div>
+</div>
+<script>
+  const imageInput = document.getElementById('imageInput');
+  const previewContainer = document.getElementById('imagePreviewContainer');
+  const addImageCard = document.getElementById('addImageCard');
+
+  let selectedFiles = [];
+  imageInput.addEventListener('change', (event) => {
+    const files = Array.from(event.target.files);
+
+    files.forEach(file => {
+      selectedFiles.push(file);
+      const index = selectedFiles.length - 1;
+      
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const card = document.createElement('div');
+        card.className = 'w-32 h-32 border rounded-lg overflow-hidden shadow relative';
+
+        const img = document.createElement('img');
+        img.src = e.target.result;
+        img.className = 'w-full h-full object-cover';
+
+        card.appendChild(img);
+        previewContainer.insertBefore(card, addImageCard);
+        const removeBtn = document.createElement('button');
+        removeBtn.textContent = '✕';
+        removeBtn.className = 'absolute top-0 right-0 bg-red-500 text-white rounded-bl px-1 text-xs';
+        removeBtn.onclick = () => {
+          selectedFiles.splice(index, 1);
+          card.remove();
+          updateInputFiles();
+        };
+        
+        card.appendChild(removeBtn);
+
+      };
+      
+      reader.readAsDataURL(file);
+    });
+    
+    updateInputFiles();
+    console.log(imageInput.files);
+  });
+  
+  function updateInputFiles() {
+    const dataTransfer = new DataTransfer();
+    selectedFiles.forEach(file => dataTransfer.items.add(file));
+    imageInput.files = dataTransfer.files;
+  }
+</script>
+
+
                                         <div class="col-span-2">
                                             <label for="name"
                                                 class="block mb-2 text-sm font-medium text-gray-900">Name</label>
@@ -304,7 +368,7 @@
                                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5">
                                                 @foreach ($locations as $location)
                                                     <option value="{{ $location->id }}"
-                                                        {{ old('location', $products->first()->location->id ?? null) == $location->id ? 'selected' : '' }}>
+                                                        {{ old('location', $products->first()?? null) == $location->id ? 'selected' : '' }}>
                                                         {{ $location->name }}</option>
                                                 @endforeach
                                             </select>
