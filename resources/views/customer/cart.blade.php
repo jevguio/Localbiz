@@ -176,6 +176,7 @@
                                                     <option disabled selected>Pick a payment method</option>
                                                     <option value="Bank Transfer">Bank Transfer</option>
                                                     <option value="Gcash">Gcash</option>
+                                                    <option value="Gcash">Cash</option>
                                                 </select>
                                             </div>
                                         </div>
