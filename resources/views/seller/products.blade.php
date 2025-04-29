@@ -116,7 +116,7 @@
                                                             class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500"
                                                             placeholder="Write product description here" name="description">{{ old('description', $product->description) }}</textarea>
                                                     </div>
-                                                    <div class="col-span-2 sm:col-span-1">
+                                                    <!-- <div class="col-span-2 sm:col-span-1">
                                                         <label for="location"
                                                             class="block mb-2 text-sm font-medium text-gray-900">Location</label>
                                                         <select name="location" id="location"
@@ -127,7 +127,7 @@
                                                                     {{ $location->name }}</option>
                                                             @endforeach
                                                         </select>
-                                                    </div>
+                                                    </div> -->
                                                     <div class="col-span-2 sm:col-span-1">
                                                         <label for="price"
                                                             class="block mb-2 text-sm font-medium text-gray-900">Price</label>
@@ -278,10 +278,10 @@
                                     <div class="grid gap-4 mb-4 grid-cols-2">
                                         <div class="col-span-2">
                                             <label class="block mb-2 text-sm font-medium text-gray-900"
-                                                for="image">Product Image</label>
+                                                for="image">Product Images</label>
                                             <input type="file"
                                                 class="file-input w-full border border-gray-300 rounded-lg cursor-pointer bg-gray-50"
-                                                name="image" accept="image/*" required/>
+                                                name="image[]" accept="image/*" multiple required/>
                                         </div>
                                         <div class="col-span-2">
                                             <label for="name"
@@ -297,7 +297,7 @@
                                                 class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500"
                                                 placeholder="Write product description here" name="description" required>{{ old('description') }}</textarea>
                                         </div>
-                                        <div class="col-span-2 sm:col-span-1">
+                                        <!-- <div class="col-span-2 sm:col-span-1">
                                             <label for="location"
                                                 class="block mb-2 text-sm font-medium text-gray-900">Location</label>
                                             <select name="location" id="location" 
@@ -308,7 +308,7 @@
                                                         {{ $location->name }}</option>
                                                 @endforeach
                                             </select>
-                                        </div>
+                                        </div> -->
 
                                         <div class="col-span-2 sm:col-span-1">
                                             <label for="category_1"

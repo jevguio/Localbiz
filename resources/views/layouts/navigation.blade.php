@@ -225,7 +225,7 @@
                         <li class="dropdown-item"><a href="{{ route('seller.tracking.processed') }}?filter=all"
                                 class="text-sm text-black-700 hover:text-orange-900">Processing</a></li>
                         <li class="dropdown-item"><a href="{{ route('seller.tracking.receiving') }}?filter=all"
-                                class="text-sm text-black-700 hover:text-orange-900">To Receive</a></li>
+                                class="text-sm text-black-700 hover:text-orange-900">For Delivery</a></li>
                         <li class="dropdown-item"><a href="{{ route('seller.tracking.delivered') }}?filter=all"
                                 class="text-sm text-black-700 hover:text-orange-900">Completed</a></li>
                         <li class="dropdown-item"><a href="{{ route('seller.tracking.cancelled') }}?filter=all"

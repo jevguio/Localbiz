@@ -8,7 +8,7 @@
     <li class="px-4 py-2.5 text-sm font-bold cursor-pointer flex items-center
         hover:text-orange-900
         {{ Route::currentRouteName() == 'seller.tracking.receiving' ? 'border-b-2 border-orange-900 text-orange-900' : 'text-gray-400' }}">
-        <a href="{{ route('seller.tracking.receiving') }}?filter=all">To Receive</a>
+        <a href="{{ route('seller.tracking.receiving') }}?filter=all">For Delivery</a>
     </li>
     <li class="px-4 py-2.5 text-sm font-bold cursor-pointer flex items-center
         hover:text-orange-900

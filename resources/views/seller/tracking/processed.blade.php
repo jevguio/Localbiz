@@ -206,9 +206,9 @@
                                                         disabled>
                                                         Processing
                                                     </option>
-                                                    <option value="Receiving"
+                                                    <option value="For Delivery"
                                                         {{ $item->order->status == 'receiving' ? 'selected' : '' }}>
-                                                        Receiving
+                                                        For Delivery
                                                     </option>
                                                     <!-- {{-- <option value="Delivered"
                                                             {{ $item->order->status == 'delivered' ? 'selected' : '' }}>

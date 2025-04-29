@@ -35,27 +35,27 @@
                                 </div>
                             </div>
                             <div class=" flex gap-2 my-2 mx-2">
-                            <a href="#" onclick="openInventorySeller()"
+                            <!-- <a href="#" onclick="openInventorySeller()"
                                 class="btn btn-primary bg-blue-700 hover:bg-blue-800 text-white px-4 py-2 rounded-md">Generate
                                 Inventory</a>
                                 
                             <a href="#" onclick="openSalesSeller()"
                                 class="btn btn-primary bg-blue-700 hover:bg-blue-800 text-white px-4 py-2 rounded-md">
                                 Generate Sales
-                            </a>
+                            </a> -->
                             <a  href="{{route('owner.topseller')}}" 
                                 class="btn btn-primary bg-blue-700 hover:bg-blue-800 text-white px-4 py-2 rounded-md">
                                 Top Sellers
                             </a>
                             
-                            <a href="{{ route('owner.toppurchase') }}" onclick="openTopProducts()"
+                            <!-- <a href="{{ route('owner.toppurchase') }}" onclick="openTopProducts()"
                                 class="btn btn-primary bg-blue-700 hover:bg-blue-800 text-white px-4 py-2 rounded-md">
                                 Top Purchased Products
                             </a>
                             <a href="{{ route(name: 'report.payment') }}"  
                                 class="btn btn-primary bg-blue-700 hover:bg-blue-800 text-white px-4 py-2 rounded-md">
                                 Generate Payment
-                            </a>
+                            </a> -->
                         </div>
                    </div>
                 </form>

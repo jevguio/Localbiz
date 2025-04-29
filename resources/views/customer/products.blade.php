@@ -151,8 +151,7 @@
                                             </div>
                                             <div>
                                                 <p class="font-semibold">
-                                                    {{ substr($feedback->user->fname, 0, 1) }}{{ str_repeat('*', strlen($feedback->user->fname) - 2) }}{{ substr($feedback->user->fname, -1) }}
-                                                    {{ substr($feedback->user->lname, 0, 1) }}{{ str_repeat('*', strlen($feedback->user->lname) - 2) }}{{ substr($feedback->user->lname, -1) }}
+                                                    Comment {{ $loop->iteration }}
                                                 </p>
                                                 <label for="rating" class="block text-sm font-medium text-gray-700">Rating</label>
  
