@@ -15,14 +15,14 @@ class ProductService
 {
     public function storeProduct($request)
     {
-        
+
         \Log::info($request->all());
         try {
             $seller = Seller::where('user_id', Auth::user()->id)->first();
             if (!$seller) {
-                
-            \Log::info("No seller");
-            \Log::info($request->all());
+
+                \Log::info("No seller");
+                \Log::info($request->all());
                 return response()->json([
                     'error_code' => MyConstant::FAILED_CODE,
                     'status_code' => MyConstant::FAILED_CODE,
@@ -31,7 +31,6 @@ class ProductService
             }
 
             \Log::info("Has seller");
-            $location = Location::find($request->location);
             // if (!$location) {
             //     \Log::info("No Location");
             //     return response()->json([
@@ -40,9 +39,10 @@ class ProductService
             //         'message' => 'Location not found',
             //     ]);
             // }
-            
+
             \Log::info("Has Location");
             $productData = $request->all();
+            $productData['location_id'] = 1;
             $productData['seller_id'] = $seller->id;
             $productData['image'] = ' ';
             \Log::info($productData);
@@ -51,25 +51,25 @@ class ProductService
 
             if ($request->hasFile('image')) {
                 foreach ($request->file('image') as $file) {
-                    
-            \Log::info($file);
+
+                    \Log::info($file);
                     $filename = time() . '_' . $file->getClientOriginalName();
                     $file->move(public_path('assets'), $filename);
-            
+
                     // Save each image filename to the database if needed
                     // For example, using a ProductImage model:
                     ProductImage::create([
                         'product_id' => $product->id,
                         'filename' => $filename
                     ]);
-                    
-            \Log::info("Image Uploaded and added");
+
+                    \Log::info("Image Uploaded and added");
                 }
-            }else{
-                
-            \Log::info("No Image");
+            } else {
+
+                \Log::info("No Image");
             }
-            
+
 
             session()->flash('success', 'Product added successfully');
             return response()->json([
@@ -79,9 +79,9 @@ class ProductService
             ]);
         } catch (\Exception $e) {
             // session()->flash('error', 'Failed to add product');
-            
-    \Log::error('Failed to add product: ' . $e->getMessage());
-    \Log::error($e->getTraceAsString()); // This shows exactly where the error happened
+
+            \Log::error('Failed to add product: ' . $e->getMessage());
+            \Log::error($e->getTraceAsString()); // This shows exactly where the error happened
             // Log::error('Failed to add product: ' . $e->getMessage());
             return response()->json([
                 'error_code' => MyConstant::FAILED_CODE,
@@ -98,24 +98,32 @@ class ProductService
 
             $product->update($request->all());
             if ($request->hasFile('image')) {
-                $image = $request->file('image');
+                foreach ($request->file('image') as $file) {
 
-                // Generate a unique filename
-                $filename = time() . '_' . Str::random(10) . '.' . $image->getClientOriginalExtension();
-
-                // Store the image in the public disk (accessible from 'storage' symlink)
-                $path = $image->storeAs('assets', $filename, 'public');
+                    // Generate a unique filename
+                    $filename = time() . '_' . Str::random(10) . '.' . $file->getClientOriginalExtension();
 
 
-                // Log the storage path
-                Log::info('Stored at: ' . $path);
 
-                // Save only the relative path in the database
-                $product->image =   $filename;
-                Log::info('Saved Image Path: ' . $product->image);
+                    // Save only the relative path in the database
+                    $product->image = $filename;
+                    $file->move(public_path('assets'), $filename);
+
+                    // Save each image filename to the database if needed
+                    // For example, using a ProductImage model:
+                    ProductImage::create([
+                        'product_id' => $product->id,
+                        'filename' => $filename
+                    ]);
+
+                    \Log::info("Image Uploaded and added");
+                }
+            } else {
+
+                \Log::info("No Image");
             }
 
-            $product->location_id = $request->location;
+            $product->location_id = 1;
             $product->save();
 
             session()->flash('success', 'Product updated successfully');

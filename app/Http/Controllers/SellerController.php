@@ -59,7 +59,7 @@ class SellerController extends Controller
             session()->flash('error', 'Your account is not active. Please contact the administrator.');
             return redirect()->route('seller.dashboard');
         }
-        $products = $seller->products()->where('is_active', '=', true)->orderBy('created_at', 'desc')->paginate(10);
+        $products = $seller->products()->with('images')->where('is_active', '=', true)->orderBy('created_at', 'desc')->paginate(10);
         $categories = Categories::all();
         $locations = Location::all();
         return view('seller.products', compact('products', 'categories', 'locations'));
