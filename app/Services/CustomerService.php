@@ -41,7 +41,8 @@ class CustomerService
                 'user_id' => Auth::id(),
                 'order_id' => $order->id,
                 'product_id' => $request->product_id,
-                'quantity' => $request->quantity,
+                // 'quantity' => $request->quantity,
+                'quantity' => 1,
                 'price' => $product->price,
             ]);
 
@@ -183,7 +184,10 @@ class CustomerService
                 $orderItem->increment('quantity');
             } elseif ($request->decrement && $orderItem->quantity > 1) {
                 $orderItem->decrement('quantity');
-            } else {
+            } elseif($request->quantity<= $orderItem->product->stock){
+
+                $orderItem->quantity =$request->quantity;
+            }else {
                 $orderItem->quantity = $orderItem->product->stock;
                 session()->flash('error', 'Exceeds available stock.');
             }

@@ -103,8 +103,9 @@
                                                                 class="h-8 w-8 inline-flex items-center justify-center border border-gray-400 bg-gray-100 hover:bg-gray-200">
                                                                 <i class='bx bx-minus text-lg'></i>
                                                             </button>
-                                                            <span
-                                                                class="text-base inline font-medium text-gray-900 text-center mx-2 ">{{ $item->quantity }}</span>
+                                                            <input type="number" min="1" max="{{  $item->product->stock }}" value="{{ $item->quantity }}" name="quantity"
+                                                             onblur="this.form.submit()"
+                                                            class="text-base inline font-medium text-gray-900 text-center mx-2 ">
                                                             <button type="submit" name="increment" value="increment"
                                                                 class="h-8 w-8 inline-flex items-center justify-center border border-gray-400 bg-gray-100 hover:bg-gray-200">
                                                                 <i class='bx bx-plus text-lg'></i>
