@@ -4,6 +4,23 @@
             <div class="grid grid-cols-3 items-center gap-4">
                 <h2 class="text-xl font-bold text-gray-900 sm:text-2xl">Order Management</h2>
             </div>
+
+            <!-- Navigation Menu -->
+            <ul class="bg-white shadow-[0_2px_8px_-1px_rgba(6,81,237,0.4)] p-2 space-x-4 w-max flex items-center mx-auto font-[sans-serif] mt-4">
+                <li class=" 'border-b-2 border-orange-900 text-orange-900' : text-gray-400 hover:text-orange-900 px-4 py-2.5 text-sm font-bold cursor-pointer flex items-center">
+                    <a onclick="window.location.href="{{ route('rider.orders') }}">All</a>
+                </li>
+                <li class=" 'border-orange-900 text-orange-900' : text-gray-400 hover:text-orange-900 px-4 py-2.5 text-sm font-bold cursor-pointer flex items-center">
+                    <a onclick="window.location.href="{{ route('rider.orders', ['status' => 'receiving']) }}">For Delivery</a>
+                </li>
+                <li class="'border-orange-900 text-orange-900' : text-gray-400 hover:text-orange-900  px-4 py-2.5 text-sm font-bold cursor-pointer flex items-center">
+                    <a onclick="window.location.href="{{ route('rider.orders', ['status' => 'delivered']) }}">Delivered</a>
+                </li>
+                <li class=" 'border-orange-900 text-orange-900' : text-gray-400 hover:text-orange-900  px-4 py-2.5 text-sm font-bold cursor-pointer flex items-center">
+                    <a onclick="window.location.href="{{ route('rider.orders', ['status' => 'cancelled']) }}">Cancelled</a>
+                </li>
+            </ul>
+
             <div class="relative overflow-x-auto mt-10 bg-white p-4 rounded-lg">
                 <form class="max-w-md ml-0 mb-4">
                     <label for="table-search" class="mb-2 text-sm font-medium text-gray-900 sr-only">Search</label>
