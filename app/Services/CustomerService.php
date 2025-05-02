@@ -69,6 +69,13 @@ class CustomerService
         try {
             $order = Orders::findOrFail($request->order_id);
             $order->status = 'cancelled';
+            foreach ($order->orderItems as $orderItem) {
+
+                $product = $orderItem->product;
+                $product->stock += $orderItem->quantity;
+                $product->save();
+
+            }
             $order->save();
 
             session()->flash('success', 'Order cancelled successfully.');
@@ -173,13 +180,13 @@ class CustomerService
         try {
             $orderItem = OrderItems::findOrFail($request->id);
 
-            if ($request->increment&& $orderItem->quantity<$orderItem->product->stock) {
+            if ($request->increment && $orderItem->quantity < $orderItem->product->stock) {
                 $orderItem->increment('quantity');
             } elseif ($request->decrement && $orderItem->quantity > 1) {
                 $orderItem->decrement('quantity');
-            }else{
-                $orderItem->quantity=$orderItem->product->stock;
-                session()->flash('error', 'quantity cannot exceed to stock');
+            } else {
+                $orderItem->quantity = $orderItem->product->stock;
+                session()->flash('error', 'Exceeds available stock.');
             }
             $orderItem->price = $orderItem->product->price * $orderItem->quantity;
 
