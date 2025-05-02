@@ -41,7 +41,7 @@ class CustomerService
                 'user_id' => Auth::id(),
                 'order_id' => $order->id,
                 'product_id' => $request->product_id,
-                'quantity' => 1,
+                'quantity' => $request->quantity,
                 'price' => $product->price,
             ]);
 

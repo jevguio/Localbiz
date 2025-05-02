@@ -260,6 +260,11 @@
                         <div class="mt-8">
                             <form action="{{ route('customer.addToCart') }}" method="POST">
                                 @csrf
+                                <div class="absolute flex" style="top:32%; right: 30%;">
+
+                                <label>Quantity</label>
+                                <input type="number" min='1' max="{{  $product->stock }}" value="1" name="quantity" class="ml-2">
+                                </div>
                                 <input type="hidden" name="product_id" value="{{ $product->id }}">
                                 <button
                                     class="w-full btn bg-red-900 hover:bg-red-800 text-white py-3 rounded-lg text-lg">
