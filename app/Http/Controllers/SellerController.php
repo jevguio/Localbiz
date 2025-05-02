@@ -295,7 +295,7 @@ class SellerController extends Controller
 
         // Store PDF in storage
         Storage::disk('public')->put($filePath, $pdf->output());
- 
+
         $cashier = Auth::user()->cashier;
         // Save report to database
         $report = Reports::create([
@@ -753,10 +753,10 @@ class SellerController extends Controller
             COUNT(DISTINCT tbl_order_items.order_id) AS total_order,
             SUM(tbl_order_items.quantity) AS total_units_sold,
             SUM(tbl_order_items.quantity * tbl_order_items.price) AS revenue,
-            CASE 
-                WHEN COUNT(DISTINCT tbl_order_items.order_id) > 0 
-                THEN SUM(tbl_order_items.quantity * tbl_order_items.price) / COUNT(DISTINCT tbl_order_items.order_id) 
-                ELSE 0 
+            CASE
+                WHEN COUNT(DISTINCT tbl_order_items.order_id) > 0
+                THEN SUM(tbl_order_items.quantity * tbl_order_items.price) / COUNT(DISTINCT tbl_order_items.order_id)
+                ELSE 0
             END AS avg_order_value
         ')
             ->groupBy('tbl_users.id', 'tbl_users.fname', 'tbl_users.lname')
@@ -816,10 +816,10 @@ class SellerController extends Controller
             COUNT(DISTINCT tbl_order_items.order_id) AS total_order,
             SUM(tbl_order_items.quantity) AS total_units_sold,
             SUM(tbl_order_items.quantity * tbl_order_items.price) AS revenue,
-            CASE 
-                WHEN COUNT(DISTINCT tbl_order_items.order_id) > 0 
-                THEN SUM(tbl_order_items.quantity * tbl_order_items.price) / COUNT(DISTINCT tbl_order_items.order_id) 
-                ELSE 0 
+            CASE
+                WHEN COUNT(DISTINCT tbl_order_items.order_id) > 0
+                THEN SUM(tbl_order_items.quantity * tbl_order_items.price) / COUNT(DISTINCT tbl_order_items.order_id)
+                ELSE 0
             END AS avg_order_value
         ')
             ->groupBy('tbl_users.id', 'tbl_users.fname', 'tbl_users.lname')

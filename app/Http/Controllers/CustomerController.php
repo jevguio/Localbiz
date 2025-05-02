@@ -19,14 +19,14 @@ class CustomerController extends Controller
 {
     public function products(Request $request)
     {
-        $products = Products::with('feedback')->where('is_active', '=', true)->latest()->get();
+        $products = Products::with(['feedback','images'])->where('is_active', '=', true)->latest()->get();
         $categories = Categories::all();
         $locations = Location::all();
         $seller = Seller::with('user')->get();
         $averageRating = Products::with('feedback')
         ->where('is_active', '=', true)
         ->latest()->get()->avg('rating');
-        
+
 
         if ($request->has('category') && $request->category != '') {
             $products = $products->where('category_id', $request->category);
@@ -43,7 +43,7 @@ class CustomerController extends Controller
     public function cart()
     {
         $cartItems = OrderItems::with([
-            'product' => function ($query) {
+            'product.images' => function ($query) {
                 $query->where('is_active', true);
             }
         ])->whereHas('order', function ($query) {

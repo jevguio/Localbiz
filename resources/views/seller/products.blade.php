@@ -90,7 +90,8 @@
 
                                         <div class="grid gap-4 mb-4 p-4">
                                             <form action="{{ route('seller.products.update', $product->id) }}"
-                                                method="POST" enctype="multipart/form-data">
+                                                method="POST" enctype="multipart/form-data"
+                                                id="formUpdate{{ $product->id }}">
                                                 @csrf
                                                 @method('PUT')
 
@@ -112,14 +113,11 @@
                                                                     class="w-32 h-32 border rounded-lg overflow-hidden shadow relative">
                                                                     <img src="{{ asset('assets/' . $img->filename) }}"
                                                                         class="w-full h-full object-cover">
-                                                                    <form
-                                                                        action="{{ route('seller.products.delete.image', $img->id) }}"
-                                                                        method="POST" class="absolute top-0 right-0">
-                                                                        @csrf
-                                                                        @method('DELETE')
-                                                                        <button type="submit"
-                                                                            class="absolute top-0 right-0 bg-red-500 text-white rounded-bl px-1 text-xs">✕</button>
-                                                                    </form>
+
+                                                                        <a
+                                                                        href="{{ route('seller.products.delete.image') }}?id={{ $img->id }}"
+                                                                            class="absolute top-0 right-0 bg-red-500 text-white rounded-bl px-1 text-xs">✕</a>
+
                                                                 </div>
                                                             @endforeach
 
@@ -135,18 +133,22 @@
 
                                                 <!-- Other product fields go here -->
 
-                                                <button type="submit"
+                                                <button type="submit" id="formUpdateBTN{{ $product->id }}"
                                                     class="bg-blue-600 text-white px-4 py-2 rounded">Update
                                                     Product</button>
                                             </form>
                                             <!-- JavaScript for preview -->
                                             <script>
+                                                const formUpdateBTN{{ $product->id }} = document.getElementById('formUpdateBTN{{ $product->id }}');
+                                                const formUpdate{{ $product->id }} = document.getElementById('formUpdate{{ $product->id }}');
                                                 const imageInput{{ $product->id }} = document.getElementById('imageInput{{ $product->id }}');
                                                 const previewContainer{{ $product->id }} = document.getElementById('imagePreviewContainer{{ $product->id }}');
                                                 const addImageCard{{ $product->id }} = document.getElementById('addImageCard{{ $product->id }}');
 
                                                 let selectedFiles{{ $product->id }} = [];
-
+                                                formUpdateBTN{{ $product->id }}.addEventListener('click', (event) => {
+                                                    formUpdate{{ $product->id }}.submit();
+                                                })
                                                 imageInput{{ $product->id }}.addEventListener('change', (event) => {
                                                     const files = Array.from(event.target.files);
 
@@ -298,8 +300,20 @@
                         @csrf
                         @method('DELETE')
                         <div class="flex flex-col items-center p-4">
-                            <img src="{{ asset('assets/' . $product->image) }}" alt="Product Image"
-                                class="w-96 h-96 mx-auto object-cover rounded">
+
+                            @foreach ($product->images as $img)
+                                <div class="w-32 h-32 border rounded-lg overflow-hidden shadow relative">
+                                    <img src="{{ asset('assets/' . $img->filename) }}"
+                                        class="w-full h-full object-cover">
+                                    <form action="{{ route('seller.products.delete.image', $img->id) }}"
+                                        method="POST" class="absolute top-0 right-0">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit"
+                                            class="absolute top-0 right-0 bg-red-500 text-white rounded-bl px-1 text-xs">✕</button>
+                                    </form>
+                                </div>
+                            @endforeach
                             <p class="text-sm text-gray-500">Are you sure you want to archive this product?</p>
                         </div>
                         <hr class="my-4">

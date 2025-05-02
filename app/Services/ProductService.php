@@ -7,6 +7,7 @@ use App\Models\Location;
 use App\Models\ProductImage;
 use App\Models\Products;
 use App\Models\Seller;
+use GuzzleHttp\Psr7\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
@@ -144,6 +145,23 @@ class ProductService
         }
     }
 
+    public function destroyProductImage(\Illuminate\Http\Request $request)
+    {
+        try {
+            $product = ProductImage::find($request['id']);
+            $product->delete();
+
+            session()->flash('success', 'Image deleted successfully');
+            return redirect()->back();
+        } catch (\Exception $e) {
+            session()->flash('error', 'Failed to delete product. ' . $e->getMessage());
+            return response()->json([
+                'error_code' => MyConstant::FAILED_CODE,
+                'status_code' => MyConstant::FAILED_CODE,
+                'message' => 'Failed to delete product.',
+            ]);
+        }
+    }
     public function destroyProduct($id)
     {
         try {
