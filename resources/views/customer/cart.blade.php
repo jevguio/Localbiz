@@ -51,9 +51,15 @@
                                                 </td>
                                                 <td class="p-2 flex items-center space-x-2 text-left">
                                                     <div class="w-full">
-                                                        <img class="h-25 w-25 rounded-lg border border-gray-300 object-cover"
-                                                            src="{{ asset('assets/' . $item->product->image) }}"
-                                                            alt="{{ $item->product->name }}" />
+                                                        @if (isset($item->product->images[0]))
+                                                            <img class="h-25 w-25 rounded-lg border border-gray-300 object-cover"
+                                                                src="{{ asset('assets/' . $item->product->images[0]) }}"
+                                                                alt="{{ $item->product->name }}" />
+                                                        @else
+                                                            <img class="h-25 w-25 rounded-lg border border-gray-300 object-cover"
+                                                                src="{{ asset('assets/default.png' ) }}" alt="no Image" />
+                                                        @endif
+
                                                         <div style="">
                                                             <p class="text-lg font-semibold">{{ $item->product->name }}
                                                             </p>
@@ -61,7 +67,7 @@
                                                                 style="
                                                             overflow: hidden;
                                                             text-overflow: ellipsis;
-                                                             white-space: nowrap; 
+                                                             white-space: nowrap;
                                                                     ">
                                                                 {{ substr($item->product->description, 0, 20) }}
 
@@ -150,7 +156,7 @@
                                                     <dt class="text-base font-bold text-gray-900">Total</dt>
                                                     <dd class="text-base font-bold text-gray-900">
                                                         ₱
-                                                        {{ $cartItems->sum(fn($item) =>  $item->product ? $item->product->price * $item->quantity * $item->is_checked :0 ) }}
+                                                        {{ $cartItems->sum(fn($item) => $item->product ? $item->product->price * $item->quantity * $item->is_checked : 0) }}
                                                     </dd>
                                                 </dl>
                                             </div>
@@ -184,13 +190,13 @@
                                             <div class="fieldset">
                                                 <legend class="fieldset-legend">Delivery Method</legend>
                                                 <select class="select select-bordered w-full" name="delivery_method"
-                                                    id="deliveryMethod"  required>
+                                                    id="deliveryMethod" required>
                                                     <option disabled selected>Pick a Delivery method</option>
                                                     <option value="COD">Cash on Delivery</option>
                                                     <option value="Pick Up">Pick Up</option>
                                                 </select>
                                             </div>
-                                        </div> 
+                                        </div>
                                         @foreach ($seller as $seller)
                                             <div class="gcash-details" style="display: none;">
                                                 <p class="text-base font-medium text-gray-900">Seller Name:
@@ -208,9 +214,9 @@
                                                     {{ $seller->user->bank_account_number }}
                                                 </p>
                                             </div>
-                                        @endforeach 
+                                        @endforeach
                                         <div class="courier-selection hidden w-full">
-                                            <div class="fieldset"  id="pickup_date_id">
+                                            <div class="fieldset" id="pickup_date_id">
                                                 <legend class="fieldset-legend">Pickup Date:</legend>
                                                 <input type="date" class="input w-full" name="pickup_date"
                                                     min="{{ \Carbon\Carbon::today()->format('Y-m-d') }}" />

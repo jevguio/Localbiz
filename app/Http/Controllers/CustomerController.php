@@ -43,10 +43,10 @@ class CustomerController extends Controller
     public function cart()
     {
         $cartItems = OrderItems::with([
-            'product.images' => function ($query) {
+            'product' => function ($query) {
                 $query->where('is_active', true);
             }
-        ])->whereHas('order', function ($query) {
+        ])->with('product.images')->whereHas('order', function ($query) {
             $query->where('user_id', Auth::id())->where('status', 'on-cart');
         })->latest()->get();
 
