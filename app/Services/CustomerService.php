@@ -173,7 +173,7 @@ class CustomerService
         try {
             $orderItem = OrderItems::findOrFail($request->id);
 
-            if ($request->increment&& $orderItem->quantity<=$orderItem->product->stock) {
+            if ($request->increment&& $orderItem->quantity<$orderItem->product->stock) {
                 $orderItem->increment('quantity');
             } elseif ($request->decrement && $orderItem->quantity > 1) {
                 $orderItem->decrement('quantity');
