@@ -6,7 +6,7 @@
             </div>
             @include('customer.tracking.breadcrumbs')
             <div class="flex flex-col bg-white p-4 rounded-lg mt-4">
-                
+
             @if ($cartItems->isEmpty())
             <p style="text-align: center;">No orders found</p>
             @else
@@ -29,7 +29,7 @@
                                 {{-- <li class="flex flex-wrap gap-4">Location <span
                                         class="ml-auto font-bold">{{ $item->product->location->name }}</span></li> --}}
                                 <h3 class="text-sm lg:text-base text-gray-800 font-bold">Receipt</h3>
-                                <img src="{{ asset('receipt_file/' . $item->order->payments->first()->receipt_file) }}"
+                                <img src="{{ asset('' . $item->order->payments->receipt_file) }}"
                                     alt="Receipt" class="w-60">
                             </ul>
                             <div class="flex justify-end">
@@ -45,7 +45,7 @@
                             </div>
                         </div>
                     </div>
-                        
+
                     <div id="viewModal{{ $item->id }}" tabindex="-1" aria-hidden="true"
                         class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-screen max-h-full bg-black bg-opacity-50">
                         <div class="relative p-4 w-full max-w-5xl max-h-full mx-auto">
@@ -115,9 +115,9 @@
                                             class="block mb-2 text-sm font-medium text-gray-900">Category</label>
                                         <div id="category" name="category_id"
                                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5"
-                                            disabled> 
+                                            disabled>
                                             @foreach ($categories as $category)
-                                            @if($item->order->orderItems->first()->product->category_id ==$category->id) 
+                                            @if($item->order->orderItems->first()->product->category_id ==$category->id)
                                                     <div value="{{ $category->id }}"
                                                     >
                                                     {{ $category->name }}</div>
@@ -164,7 +164,7 @@
                                             value="{{ $item->first() ? \Carbon\Carbon::parse($item->first()->created_at)->format('F d, Y') : 'N/A' }}"
                                             readonly>
                                     </div>
-                     
+
                                     <div class="col-span-1">
                                         <label for="payment_method"
                                             class="block mb-2 text-sm font-medium text-gray-900">Payment
@@ -182,7 +182,7 @@
                                             value="{{ $item->order->payments->first()->courier->name ?? 'N/A' }}"
                                             readonly>
                                     </div> -->
-                                    
+
                                     <div class="col-span-1">
                                         <label for="payment_date"
                                             class="block mb-2 text-sm font-medium text-gray-900">Payment
@@ -192,22 +192,22 @@
                                             value="{{ $item->order->payments->first() ? \Carbon\Carbon::parse($item->order->payments->first()->payment_date)->format('F d, Y') : 'N/A' }}"
                                             readonly>
                                     </div>
-                                    
-                                    
+
+
                                     <div class="col-span-1">
                                         <label for="payment_date"
                                             class="block mb-2 text-sm font-medium text-gray-900">Delivery Method</label>
-                                            <div name="status" id="status" 
+                                            <div name="status" id="status"
                                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5">
-                                   
+
                                             @if(optional($item->order->payments)->courier_id != null)
                                             Cash on Delivery
                                             @else
                                             Pick Up
-                                            @endif 
+                                            @endif
                                         </div>
                                     </div>
-                                    
+
                                     <div class="col-span-1">
                                         <label for="status"
                                             class="block mb-2 text-sm font-medium text-gray-900">Status</label>
@@ -217,7 +217,7 @@
                                             <div value="pending">
                                                 {{ $item->order->status}}
                                             </div>
-                                           
+
                                         </div>
                                     </div>
 
@@ -265,7 +265,7 @@
                 const modalId = $(this).data('modal-toggle');
                 $(`#${modalId}`).addClass('hidden');
             });
-            
+
             $('.btn').on('click', function (event) {
                 event.stopPropagation(); // Stops the click event from reaching the parent
             });

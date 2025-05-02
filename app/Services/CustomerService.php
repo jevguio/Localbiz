@@ -158,7 +158,6 @@ class CustomerService
 
                 OrderItems::whereIn('id', $orderItemIds)->update(['is_checked' => $request->is_checked]);
             }
-            Log::info("success $request");
             return response()->json([
                 'error_code' => MyConstant::SUCCESS_CODE,
                 'status_code' => MyConstant::SUCCESS_CODE,
@@ -223,10 +222,16 @@ class CustomerService
             $totalAmount = 0;
 
             $receipt = $request->file('receipt_file');
-
-            $extension = $receipt->getClientOriginalExtension(); // get file extension
-            $filename = Str::random(20) . '.' . $extension; // generate a random filename
-            $receipt->move(public_path('receipt_file'), $filename);
+            $path='';
+            if ($receipt && $receipt->isValid()) {
+                $extension = $receipt->getClientOriginalExtension();
+                $filename = Str::random(20) . '.' . $extension;
+                $path = $receipt->storeAs('receipt_file', $filename, 'public');
+                Log::info($path);
+                // Optional: return or store the path/filename as needed
+            } else {
+                // Handle error: file not uploaded or invalid
+            }
 
             foreach ($orders as $order) {
                 $totalAmount += $order->total_amount;
@@ -238,7 +243,7 @@ class CustomerService
                         'courier_id' => 1,
                         'payment_method' => $request->payment_method,
                         'payment_amount' => $orderItem->price,
-                        'receipt_file' => $filename,
+                        'receipt_file' => $path,
                         'message' => $request->message,
                         'pickup_date' => $request->pickup_date,
                         'payment_date' => Carbon::now()->timezone('Asia/Manila'),
