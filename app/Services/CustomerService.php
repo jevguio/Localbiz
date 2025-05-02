@@ -47,7 +47,7 @@ class CustomerService
 
             $order->total_amount = $order->orderItems->sum('price');
             $order->save();
- 
+
             session()->flash('success', 'Product added to cart successfully. Your Order Number: ' . $order->order_number);
             return response()->json([
                 'error_code' => MyConstant::SUCCESS_CODE,
@@ -173,12 +173,18 @@ class CustomerService
         try {
             $orderItem = OrderItems::findOrFail($request->id);
 
-            if ($request->increment) {
+            \Log::info($orderItem->quantity<=$orderItem->product->stock);
+            \Log::info($orderItem->quantity);
+            \Log::info($orderItem->product->stock);
+            if ($request->increment&& $orderItem->quantity<=$orderItem->product->stock) {
                 $orderItem->increment('quantity');
             } elseif ($request->decrement && $orderItem->quantity > 1) {
                 $orderItem->decrement('quantity');
+            }else{
+                session()->flash('error', 'quantity cannot exceed to stock');
             }
             $orderItem->price = $orderItem->product->price * $orderItem->quantity;
+
             $orderItem->save();
 
             // $order->total_amount = $order->orderItems->sum('price');
@@ -216,7 +222,7 @@ class CustomerService
             $extension = $receipt->getClientOriginalExtension(); // get file extension
             $filename = Str::random(20) . '.' . $extension; // generate a random filename
             $receipt->move(public_path('receipt_file'), $filename);
-            
+
             foreach ($orders as $order) {
                 $totalAmount += $order->total_amount;
 
