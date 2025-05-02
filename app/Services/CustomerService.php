@@ -173,14 +173,12 @@ class CustomerService
         try {
             $orderItem = OrderItems::findOrFail($request->id);
 
-            \Log::info($orderItem->quantity<=$orderItem->product->stock);
-            \Log::info($orderItem->quantity);
-            \Log::info($orderItem->product->stock);
             if ($request->increment&& $orderItem->quantity<=$orderItem->product->stock) {
                 $orderItem->increment('quantity');
             } elseif ($request->decrement && $orderItem->quantity > 1) {
                 $orderItem->decrement('quantity');
             }else{
+                $orderItem->quantity=$orderItem->product->stock;
                 session()->flash('error', 'quantity cannot exceed to stock');
             }
             $orderItem->price = $orderItem->product->price * $orderItem->quantity;
