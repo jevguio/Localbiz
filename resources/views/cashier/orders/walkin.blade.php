@@ -59,7 +59,7 @@
                                             class="bg-gray-300 px-2 rounded">−</button>
                                         <span class="w-6 text-center">{{ $cart[$product->id] ?? 0 }}</span>
                                         <button type="submit" name="action" value="increase"
-                                            class="bg-red-400 px-2 rounded text-white">+</button>
+                                            class="bg-red-900 px-2 rounded text-white">+</button>
                                     </form>
                                 </div>
                             </div>
@@ -69,8 +69,11 @@
                     {{-- RIGHT: Order Summary --}}
                     <div class="w-full md:w-1/3 bg-white shadow-lg p-4 rounded-lg">
                         <h2 class="font-bold text-lg mb-2">Order #{{ $order->id }}</h2>
-                        <p class="text-sm text-gray-600 mb-4">{{ $order->customer_name }}</p>
-
+                        <div class="mb-4">
+                            <label class="block mb-1 text-sm font-medium text-gray-900">Customer Name</label>
+                            <input type="text" name="customer_name" class="w-full border p-2 text-sm rounded-lg" 
+                                placeholder="Enter customer name" value="{{ $order->customer_name }}">
+                        </div>
                         <ul class="mb-4">
                             @foreach ($order->orderItems as $item)
                                 <li class="flex justify-between text-sm border-b py-1">
@@ -101,11 +104,11 @@
                         {{-- Payment Methods --}}
                         <div class="flex justify-between mb-4">
                             <button class="w-full mx-1 py-2 bg-gray-200 rounded">Cash</button>
-                            <button class="w-full mx-1 py-2 bg-gray-200 rounded">Debit Card</button>
-                            <button class="w-full mx-1 py-2 bg-red-600 text-white rounded">E-Wallet</button>
+                            <button class="w-full mx-1 py-2 bg-gray-200 rounded">Bank Transfer</button>
+                            <button class="w-full mx-1 py-2 bg-red-900 text-white rounded">E-Wallet</button>
                         </div>
 
-                        <button class="w-full py-3 bg-black text-white rounded">Add Order</button>
+                        <button class="w-full py-3 bg-red-900 text-white rounded-lg">Add Order</button>
                     </div>
 
                 </div>
