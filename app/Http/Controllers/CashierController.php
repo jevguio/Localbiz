@@ -35,6 +35,35 @@ class CashierController extends Controller
         return redirect()->back();
     }
 
+    public function walkin(Request $request)
+    {
+        $products=Products::all();
+        $cart = session()->get('cart', []);
+        $order = Orders::with('orderItems.product')->find(1); // Sample order
+        return view('cashier.orders.walkin', compact('products','order','cart'));
+    }
+    public function showOrderPage()
+    {
+        $products = Products::all();
+        $order = Orders::with('items.product')->find(1); // Sample order
+        $cart = session()->get('cart', []);
+
+        return view('cashier.orders.walkin', compact('products', 'order', 'cart'));
+    }
+
+    public function updateCart(Request $request, $productId)
+    {
+        $cart = session()->get('cart', []);
+        if ($request->action === 'increase') {
+            $cart[$productId] = ($cart[$productId] ?? 0) + 1;
+        } else {
+            $cart[$productId] = max(0, ($cart[$productId] ?? 1) - 1);
+        }
+        session()->put('cart', $cart);
+
+        return redirect()->back();
+    }
+
     public function orders()
     {
         $cashier = Auth::user()->cashier;
@@ -61,7 +90,7 @@ class CashierController extends Controller
         $products = Products::all();
         $categories = Categories::all();
 
-        return view('cashier.orders', compact('orders', 'orderItems', 'payments', 'products', 'categories', 'couriers'));
+        return view('cashier.orders.orders', compact('orders', 'orderItems', 'payments', 'products', 'categories', 'couriers'));
     }
 
     public function reports()
@@ -75,7 +104,7 @@ class CashierController extends Controller
 
         $reports = Reports::where('user_id', $cashier->id)->latest()->paginate(10);
         return view('cashier.reports', compact('reports'));
-    } 
+    }
     public function exportSales(Request $request)
     {
         $fromDate = $request->input('from_date');
@@ -99,7 +128,7 @@ class CashierController extends Controller
 
         // Store PDF in storage
         Storage::disk('public')->put($filePath, $pdf->output());
- 
+
         $cashier = Auth::user()->cashier;
         // Save report to database
         $report = Reports::create([
@@ -150,7 +179,15 @@ class CashierController extends Controller
     public function updateOrder(Request $request, $id)
     {
         $result = (new OrderService())->updateOrder($request, $id);
-        
+
+        session()->flash('success', 'Payment Approved');
+        return redirect()->back();
+    }
+
+    public function createOrder(Request $request, $id)
+    {
+        $result = (new OrderService())->createOrder($request, $id);
+
         session()->flash('success', 'Payment Approved');
         return redirect()->back();
     }

@@ -3,10 +3,9 @@
         <div class="p-4 border-2 border-gray-200 border-dashed rounded-lg">
             <div class="flex justify-between items-center">
                 <h2 class="mt-3 text-xl font-bold text-gray-900 sm:text-2xl">Orders</h2>
-                <button data-modal-target="addWalkInModal" class="btn text-white px-4 py-2 rounded-lg text-base bg-red-900 hover:bg-red-800">
-                    Add Walk-In Orders
-                </button>
             </div>
+
+            @include('cashier.orders.breadcrumbs')
             <div class="relative overflow-x-auto mt-10 bg-white p-4 rounded-lg">
                 <form class="max-w-md ml-0 mb-4">
                     <label for="table-search" class="mb-2 text-sm font-medium text-gray-900 sr-only">Search</label>

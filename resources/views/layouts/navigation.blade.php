@@ -287,14 +287,19 @@
                         </a>
                     </div>
                 </li>
-                <li>
-                    <div class="group">
-                        <a href="{{ route('cashier.orders') }}"
-                            class="text-black-800 text-base flex items-center group-hover:text-orange-900 transition-all">
-                            <i class='bx bxs-cart text-3xl mr-4 text-gray-400 group-hover:text-orange-900'></i>
-                            <span>Orders</span>
-                        </a>
-                    </div>
+
+                <li class="dropdown">
+                    <a href="#"
+                        class="dropdown-toggle text-black-800 text-base flex items-center group-hover:text-orange-900 transition-all">
+                        <i class='bx bxs-cart text-3xl mr-4 text-gray-400 group-hover:text-orange-900'></i>
+                        <span>Orders</span>
+                    </a>
+                    <ul class="dropdown-menu" style="display: none;">
+                        <li class="dropdown-item"><a href="{{ route('cashier.orders') }}"
+                                class="text-sm text-black-700 hover:text-orange-900">Orders</a></li>
+                        <li class="dropdown-item"><a href="{{ route('cashier.walkin') }}?filter=all"
+                                class="text-sm text-black-700 hover:text-orange-900">Walkin</a></li>
+                    </ul>
                 </li>
                 <li>
                     <div class="group">

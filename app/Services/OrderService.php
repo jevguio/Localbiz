@@ -46,4 +46,30 @@ class OrderService
             ]);
         }
     }
+    public function createOrder($request)
+    {
+        try {
+            $order = Orders::findOrNew($request->all());
+            if (!$order) {
+                return response()->json([
+                    'error_code' => MyConstant::FAILED_CODE,
+                    'status_code' => MyConstant::FAILED_CODE,
+                    'message' => 'Order not found',
+                ]);
+            }
+
+            return response()->json([
+                'error_code' => MyConstant::SUCCESS_CODE,
+                'status_code' => MyConstant::SUCCESS_CODE,
+                'message' => 'Walk-in Added',
+            ]);
+        } catch (\Exception $e) {
+            \Log::error('Order update failed: ' . $e->getMessage()); // Log for debugging
+            return response()->json([
+                'error_code' => MyConstant::FAILED_CODE,
+                'status_code' => MyConstant::FAILED_CODE,
+                'message' => 'Failed to update Payment Status',
+            ]);
+        }
+    }
 }
