@@ -3,13 +3,13 @@
     <li
         class="text-gray-400
 {{ Route::currentRouteName() == 'cashier.orders' ? 'border-b-2 border-orange-900 text-orange-900' : 'text-gray-400' }}
-        hover:bg-gray-100 px-4 py-2.5 text-sm font-bold cursor-pointer flex items-center">
+        hover:text-red-900 px-4 py-2.5 text-sm font-bold cursor-pointer flex items-center">
         <a onclick="window.location.href = '{{ route('cashier.orders') }}'">Orders</a>
     </li>
     <li
         class="text-gray-400
         {{ Route::currentRouteName() == 'cashier.walkin' ? 'border-b-2 border-orange-900 text-orange-900' : 'text-gray-400' }}
-        hover:bg-gray-100 px-4 py-2.5 text-sm font-bold cursor-pointer flex items-center">
+        hover:text-red-900 px-4 py-2.5 text-sm font-bold cursor-pointer flex items-center">
         <a onclick="window.location.href = '{{ route('cashier.walkin') }}'">Walk-in Order</a>
     </li>
 </ul>
