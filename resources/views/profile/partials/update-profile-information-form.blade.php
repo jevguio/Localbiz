@@ -20,9 +20,9 @@
             </div>
         </div>
 
-        <!-- Personal Information Section -->
+        <!-- Personal/Business Information Section -->
         <div class="space-y-4">
-            <h3 class="text-lg font-semibold">Personal Information</h3>
+            <h3 class="text-lg font-semibold">{{ $user->role=="Seller" ? "Business Information" : "Personal Information" }}</h3>
             <div class="space-y-4">
                 <div>
                     <label class="block mb-2 text-sm font-medium text-gray-900">
@@ -78,12 +78,21 @@
             <div class="space-y-4">
                 <h3 class="text-lg font-semibold">Payment Information</h3>
                 <div class="space-y-4">
-                    <input type="text" name="gcash_number" class="input input-bordered w-full" 
-                        placeholder="GCash Number" value="{{ $user->gcash_number }}" required />
-                    <input type="text" name="bank_name" class="input input-bordered w-full" 
-                        placeholder="Bank Name" value="{{ $user->bank_name }}" required />
-                    <input type="text" name="bank_account_number" class="input input-bordered w-full" 
-                        placeholder="Bank Account Number" value="{{ $user->bank_account_number }}" required />
+                    <div>
+                        <label class="block mb-2 text-sm font-medium text-gray-900">GCash Number</label>
+                        <input type="text" name="gcash_number" class="input input-bordered w-full" 
+                            placeholder="GCash Number" value="{{ $user->gcash_number }}" required />
+                    </div>
+                    <div>
+                        <label class="block mb-2 text-sm font-medium text-gray-900">Bank Name</label>
+                        <input type="text" name="bank_name" class="input input-bordered w-full" 
+                            placeholder="Bank Name" value="{{ $user->bank_name }}" required />
+                    </div>
+                    <div>
+                        <label class="block mb-2 text-sm font-medium text-gray-900">Account Number</label>
+                        <input type="text" name="bank_account_number" class="input input-bordered w-full" 
+                            placeholder="Bank Account Number" value="{{ $user->bank_account_number }}" required />
+                    </div>
                 </div>
             </div>
         @endif
