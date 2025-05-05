@@ -16,7 +16,7 @@
                         </div>
                         <input type="search" id="table-search"
                             class="block w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500"
-                            placeholder="All Category">
+                            placeholder="All Categories">
                         <button type="button" id="filter-btn"
                             class="absolute inset-y-0 end-0 flex items-center px-3 text-gray-600 hover:text-gray-900">
                             <i class='bx bx-filter text-2xl'></i>
