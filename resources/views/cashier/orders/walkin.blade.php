@@ -11,10 +11,10 @@
                     <label for="table-search" class="mb-2 text-sm font-medium text-gray-900 sr-only">Search</label>
                     <div class="relative flex-1">
 
-                        <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
+                        <!-- <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
                             <i class='bx bx-search text-gray-500 text-2xl'></i>
-                        </div>
-                        <input type="search" id="table-search"
+                        </div> -->
+                        <!-- <input type="search" id="table-search"
                             class="block w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500"
                             placeholder="All Categories">
                         <button type="button" id="filter-btn"
@@ -34,16 +34,16 @@
                                     class="block w-full px-4 py-2 hover:bg-gray-100 cursor-pointer">Delivered</a>
                                 <a href="{{ route('seller.order-history') }}?filter=cancelled"
                                     class="block w-full px-4 py-2 hover:bg-gray-100 cursor-pointer">Cancelled</a>
-                            </ul>
+                            </ul> -->   
                         </div>
                     </div>
-                    <div class="relative flex-1">
+                    <div class="relative w-1/2">
                         <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
                             <i class='bx bx-search text-gray-500 text-2xl'></i>
                         </div>
                         <input type="search" id="table-search"
                             class="block w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500"
-                            placeholder="Search for order....">
+                            placeholder="Search product....">
                     </div>
                 </form>
                 <div class="flex flex-wrap md:flex-nowrap gap-6 p-6">
