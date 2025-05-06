@@ -1,8 +1,8 @@
 <x-app-layout>
     <div class="p-4 sm:ml-64">
         <div class="p-4 border-2 border-gray-200 border-dashed rounded-lg">
-            <div class="flex justify-between items-center">
-                <h2 class="mt-3 text-xl font-bold text-gray-900 sm:text-2xl">Orders</h2>
+            <div class="flex justify-between items-center ml-3">
+                <h2 class="mt-3 text-2xl font-bold text-gray-900 sm:text-2xl">Orders</h2>
             </div>
 
             @include('cashier.orders.breadcrumbs')
