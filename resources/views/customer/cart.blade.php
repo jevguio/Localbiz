@@ -183,7 +183,7 @@
                                                     <option disabled selected>Pick a payment method</option>
                                                     <option value="Bank Transfer">Bank Transfer</option>
                                                     <option value="Gcash">Gcash</option>
-                                                    <option value="Gcash">Cash</option>
+                                                    <option value="Cash">Cash</option>
                                                 </select>
                                             </div>
                                         </div>
@@ -271,6 +271,26 @@
             $('#proceedToCheckout').click(function() {
                 showPaymentDetails = !showPaymentDetails;
                 $('#paymentDetails, #paymentForm').toggle(showPaymentDetails);
+            });
+
+            // Add handler for payment method changes
+            $('#paymentMethod').change(function() {
+                var selectedPayment = $(this).val();
+                if (selectedPayment === 'Cash') {
+                    $('[name="receipt_file"]').closest('.fieldset').hide();
+                } else {
+                    $('[name="receipt_file"]').closest('.fieldset').show();
+                }
+
+                if (selectedPayment === 'Gcash') {
+                    $('.gcash-details').show();
+                    $('.credit-card-details').hide();
+                } else if (selectedPayment === 'Bank Transfer') {
+                    $('.credit-card-details').show();
+                    $('.gcash-details').hide();
+                } else {
+                    $('.gcash-details, .credit-card-details').hide();
+                }
             });
 
             $('#deliveryMethod').change(function() {
