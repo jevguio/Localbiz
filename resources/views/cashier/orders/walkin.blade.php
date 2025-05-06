@@ -108,6 +108,14 @@
                             <button class="w-full mx-1 py-2 bg-red-900 text-white rounded">E-Wallet</button>
                         </div>
 
+                        {{-- Payment Status --}}
+                        <label class="block mb-1 text-sm">Payment Status</label>
+                        <select class="w-full border p-2 mb-4 text-sm rounded" name="payment_status">
+                            <option selected disabled>Select Payment Status</option>
+                            <option value="partial">Partial</option>
+                            <option value="paid">Paid</option>
+                        </select>
+
                         <button class="w-full py-3 bg-red-900 text-white rounded-lg">Add Order</button>
                     </div>
 
