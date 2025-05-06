@@ -35,7 +35,7 @@
                             <th scope="col" class="px-6 py-3 text-black">
                                 Sold
                             </th>
-                            <th scope="col" class="px-6 py-3 text-black">
+                            <th scope="col" class="px-6 py-3 text-black text-center">
                                 Actions
                             </th>
                         </tr>
@@ -74,7 +74,7 @@
                                 <button  
                                     data-modal-target="editModal{{ $product->id }}"  
                                         class="font-medium text-green-600 hover:underline" type="button">
-                                        Edit
+                                        Replenish
                                     </button> 
                                 </td>
                             </tr>
