@@ -18,7 +18,7 @@ class Orders extends Model
         'total_amount',
         'order_number',
         'proof_of_delivery',
-        'receipt_file', 
+        'receipt_file',
         'status',
     ];
 

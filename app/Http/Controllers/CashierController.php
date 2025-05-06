@@ -6,6 +6,7 @@ use App\Exports\OrdersExport;
 use App\Exports\SalesExport;
 use App\Models\Seller;
 use App\Models\User;
+use App\Models\WalkinOrders;
 use Illuminate\Http\Request;
 use App\Models\Categories;
 use App\Models\Courier;
@@ -18,6 +19,7 @@ use App\Services\CashierService;
 use App\Services\OrderService;
 use Illuminate\Support\Facades\Auth;
 use App\Exports\PaymentTransactionsExport;
+use Illuminate\Support\Facades\Log;
 use Maatwebsite\Excel\Facades\Excel;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\Storage;
@@ -34,31 +36,125 @@ class CashierController extends Controller
         $result = (new CashierService())->upload($request);
         return redirect()->back();
     }
+    public function checkout(Request $request)
+    {
+        $data = $request->validate([
+            'customer_name' => 'nullable|string|max:255',
+            'delivery_method' => 'required|in:pickup,delivery',
+            'payment_method' => 'required|in:cash,bank_transfer,e_wallet',
+            'payment_status' => 'required|in:partial,paid',
+        ]);
+
+        $cart = session()->get('cart', []);
+        $items = [];
+
+        $subtotal = 0;
+        foreach ($cart['product'] as $entry) {
+            $product = $entry['product'];
+            $price = (float) $entry['price'];
+            $quantity = (int) $entry['quantity'];
+
+            $items[] = [
+                'product_id' => $product['id'],
+                'name' => $product['name'],
+                'price' => $price,
+                'quantity' => $quantity,
+            ];
+
+            $subtotal += $price * $quantity;
+        }
+
+        $deliveryFee = $data['delivery_method'] === 'delivery' ? 50 : 0;
+        $total = $subtotal + $deliveryFee;
+
+        $order = WalkinOrders::create([
+            'customer_name' => $data['customer_name'] ?? null,
+            'items' => json_encode($items),
+            'delivery_method' => $data['delivery_method'],
+            'payment_method' => $data['payment_method'],
+            'subtotal' => $subtotal,
+            'delivery_fee' => $deliveryFee,
+            'total' => $total,
+            'status' => $data['payment_status'],
+        ]);
+
+        session()->forget('cart'); // optional: clear the cart
+
+        return redirect()->back();
+    }
 
     public function walkin(Request $request)
     {
-        $products=Products::all();
+        $products = Products::with('orderItems')->get();
+
         $cart = session()->get('cart', []);
-        $order = Orders::with('orderItems.product')->find(1); // Sample order
-        return view('cashier.orders.walkin', compact('products','order','cart'));
+        $cart = array_merge([
+            'id' => time(),
+            'customer_name' => '',
+            'product' => [],
+
+            'subtotal' => 0,
+            'delivery_fee' => 0,
+            'total' => 0,
+        ], $cart);
+        return view('cashier.orders.walkin', compact('products', 'cart'));
     }
     public function showOrderPage()
     {
         $products = Products::all();
-        $order = Orders::with('items.product')->find(1); // Sample order
         $cart = session()->get('cart', []);
 
-        return view('cashier.orders.walkin', compact('products', 'order', 'cart'));
+        return view('cashier.orders.walkin', compact('products', 'cart'));
     }
+
 
     public function updateCart(Request $request, $productId)
     {
+        $product = Products::findOrFail($productId);
+
         $cart = session()->get('cart', []);
-        if ($request->action === 'increase') {
-            $cart[$productId] = ($cart[$productId] ?? 0) + 1;
-        } else {
-            $cart[$productId] = max(0, ($cart[$productId] ?? 1) - 1);
+        $cart = array_merge([
+            'id' => time(),
+            'customer_name' => '',
+            'product' => [],
+            'subtotal' => 0,
+            'delivery_fee' => 0,
+            'total' => 0,
+        ], $cart);
+
+        // Initialize the product in cart if not yet set
+        if (!isset($cart['product'][$productId])) {
+            $cart['product'][$productId] = [
+                'product' => [
+                    'id' => $product->id,
+                    'name' => $product->name,
+                ],
+                'price' => $product->price,
+                'quantity' => 0
+            ];
         }
+
+        // Update quantity
+        if ($request->action === 'increase') {
+            $cart['product'][$productId]['quantity'] += 1;
+        } else {
+            $cart['product'][$productId]['quantity'] = max(0, $cart['product'][$productId]['quantity'] - 1);
+            // Optionally remove item if quantity = 0
+            if ($cart['product'][$productId]['quantity'] === 0) {
+                unset($cart['product'][$productId]);
+            }
+        }
+
+        // Recalculate subtotal and total
+        $subtotal = 0;
+        foreach ($cart['product'] as $item) {
+            $subtotal += $item['price'] * $item['quantity'];
+        }
+
+        $cart['subtotal'] = $subtotal;
+        $cart['delivery_fee'] = 0; // or set your logic for delivery fee
+        $cart['total'] = $cart['subtotal'] + $cart['delivery_fee'];
+
         session()->put('cart', $cart);
 
         return redirect()->back();
@@ -75,13 +171,16 @@ class CashierController extends Controller
             return redirect()->route('cashier.dashboard');
         }
 
-        $orders = Orders::with(['orderItems','payments'])->whereHas('orderItems', function ($query) use ($seller_id) {
-            $query->whereHas('product', function ($query) use ($seller_id) {
-                $query->where('seller_id', $seller_id);
-            });
-        })->orderBy('created_at', 'desc')
-            ->with(['user', 'orderItems.product', 'payments'])
-            ->paginate(10);
+        $orders = Orders::with([
+            'user',
+            'orderItems.product', // ensures orderItems and nested product are loaded
+            'payments'
+        ])
+        ->whereHas('orderItems.product', function ($query) use ($seller_id) {
+            $query->where('seller_id', $seller_id);
+        })->where('status','=','pending')
+        ->orderBy('created_at', 'desc')
+        ->paginate(10);
 
         $orderItems = OrderItems::whereHas('product', function ($query) use ($seller_id) {
             $query->where('seller_id', $seller_id);
@@ -91,6 +190,36 @@ class CashierController extends Controller
         $categories = Categories::all();
 
         return view('cashier.orders.orders', compact('orders', 'orderItems', 'payments', 'products', 'categories', 'couriers'));
+    }
+
+    public function ordersHistory()
+    {
+        $cashier = Auth::user()->cashier;
+        $seller_id = $cashier->seller_id;
+        $couriers = Courier::all();
+
+        if ($cashier->is_approved == 0) {
+            session()->flash('error', 'You are not approved to access this page.');
+            return redirect()->route('cashier.dashboard');
+        }
+
+        $orders = Orders::with([
+            'user',
+            'orderItems.product', // ensures orderItems and nested product are loaded
+            'payments'
+        ])
+        ->whereHas('orderItems.product', function ($query) use ($seller_id) {
+            $query->where('seller_id', $seller_id);
+        })->where('status','=','pending')
+        ->orderBy('created_at', 'desc')
+        ->paginate(10);
+
+
+        $payments = Payments::all();
+        $products = Products::all();
+        $categories = Categories::all();
+
+        return view('cashier.orders', compact('orders', 'payments', 'products', 'categories', 'couriers'));
     }
 
     public function reports()
@@ -114,9 +243,9 @@ class CashierController extends Controller
         $filePath = 'reports/' . $fileName;
 
         $selectedSeller = User::with('cashier')->where('id', Auth::user()->id)->get()->first();
-        $seller_id=$selectedSeller->cashier->seller_id;
+        $seller_id = $selectedSeller->cashier->seller_id;
 
-        $payments = Payments::with(['customer','order'])->whereBetween('created_at', [$fromDate . ' 00:00:00', $toDate . ' 23:59:59'])
+        $payments = Payments::with(['customer', 'order'])->whereBetween('created_at', [$fromDate . ' 00:00:00', $toDate . ' 23:59:59'])
             ->whereHas('order.orderItems.product', function ($query) use ($seller_id) {
                 $query->where('seller_id', $seller_id);
             })
@@ -132,7 +261,7 @@ class CashierController extends Controller
         $cashier = Auth::user()->cashier;
         // Save report to database
         $report = Reports::create([
-            'user_id' =>$cashier->id,
+            'user_id' => $cashier->id,
             'report_name' => 'Payment Report',
             'report_type' => 'pdf',
             'content' => $fileName,

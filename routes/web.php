@@ -148,13 +148,15 @@ Route::middleware(['auth', 'Cashier'])->group(function () {
     Route::get('/cashier/dashboard', [CashierController::class, 'dashboard'])->name('cashier.dashboard');
     Route::get('/cashier/orders', [CashierController::class, 'orders'])->name('cashier.orders');
     Route::get('/cashier/walkin', [CashierController::class, 'walkin'])->name('cashier.walkin');
+    Route::post('/cashier/walkin/checkout', [CashierController::class, 'checkout'])->name('cashier.walkin.checkout');
     Route::get('/cashier/reports', [CashierController::class, 'reports'])->name('cashier.reports');
 
-    Route::get('/cashier/cart/update', [CashierController::class, 'updateCart'])->name('cart.update');
+    Route::post('/cashier/cart/update/{productId}', [CashierController::class, 'updateCart'])->name('cart.update');
 
 
     Route::get('/cashier/sales/export', [CashierController::class, 'exportSales'])->name('cashier.sales.export');
 
+    Route::get('/cashier/orders/history', [CashierController::class, 'ordersHistory'])->name('cashier.orders.history');
     Route::get('/cashier/tracking/pending', [CashierController::class, 'trackingPending'])->name('cashier.tracking.pending');
     Route::get('/cashier/tracking/processed', [CashierController::class, 'trackingProcessed'])->name('cashier.tracking.processed');
     Route::get('/cashier/tracking/receiving', [CashierController::class, 'trackingToReceive'])->name('cashier.tracking.receiving');
