@@ -50,7 +50,7 @@
 
                     {{-- LEFT: Products Grid --}}
                     <div class="w-full md:w-2/3 grid grid-cols-2 sm:grid-cols-3 gap-4">
-                        @foreach ($products as $product)
+                        @foreach ($products->where('seller_id', auth()->user()->cashier->seller_id) as $product)
                             <div class="border rounded-lg p-4 text-center shadow-sm">
                                 <h2 class="font-semibold">{{ $product->name }}</h2>
                                 <p class="text-gray-600">₱{{ number_format($product->price, 2) }}</p>
@@ -71,7 +71,6 @@
                                         <button type="submit" name="action" value="increase"
                                             class="bg-red-900 px-2 rounded text-white">+</button>
                                     </form>
-
                                 </div>
                             </div>
                         @endforeach
@@ -111,14 +110,6 @@
                                     <span>Total</span><span>₱{{ number_format($cart['total'], 2) }}</span>
                                 </div>
                             </div>
-
-                            {{-- Delivery Method --}}
-                            <label class="block mb-1 text-sm">Delivery Method</label>
-                            <select class="w-full border p-2 mb-4 text-sm rounded" name="delivery_method">
-                                <option selected disabled>Pick a Delivery Method</option>
-                                <option value="pickup">Pickup</option>
-                                <option value="delivery">Delivery</option>
-                            </select>
 
                             {{-- Payment Methods --}}
 
@@ -161,6 +152,14 @@
 
                                 }
                             </script>
+
+                            {{-- Delivery Method --}}
+                            <label class="block mb-1 text-sm">Delivery Method</label>
+                            <select class="w-full border p-2 mb-4 text-sm rounded" name="delivery_method">
+                                <option selected disabled>Pick a Delivery Method</option>
+                                <option value="pickup">Pickup</option>
+                                <option value="delivery">Delivery</option>
+                            </select>
 
                             {{-- Payment Status --}}
                             <label class="block mb-1 text-sm">Payment Status</label>
