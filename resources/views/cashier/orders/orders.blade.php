@@ -201,9 +201,24 @@
                                                             of Payment</label>
                                                         <input type="text" name="payment_method"
                                                             id="payment_method"
-                                                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                                                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block p-2.5"
                                                             value="{{ $order->payments->first() ? $order->payments->first()->payment_method : 'N/A' }}"
                                                             readonly>
+                                                    </div>
+                                                    <div class="col-span-1">
+                                                        <label class="block mb-2 text-sm font-medium text-gray-900">Payment Status</label>
+                                                        <div class="flex items-center space-x-4">
+                                                            <div class="flex items-center">
+                                                                <input type="radio" name="payment_status" id="partial" value="partial" 
+                                                                    class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500">
+                                                                <label for="partial" class="ms-2 text-sm font-medium text-gray-900">Partial</label>
+                                                            </div>
+                                                            <div class="flex items-center">
+                                                                <input type="radio" name="payment_status" id="fully_paid" value="fully_paid" 
+                                                                    class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500">
+                                                                <label for="fully_paid" class="ms-2 text-sm font-medium text-gray-900">Fully Paid</label>
+                                                            </div>
+                                                        </div>
                                                     </div>
                                                     <div class="col-span-1">
                                                         <label for="payment_date"
@@ -238,7 +253,7 @@
                                                             </option>
                                                             <option value="processing"
                                                                 {{ $order->status == 'processing' ? 'selected' : '' }}>
-                                                                Processing
+                                                                Payment Verified
                                                             </option>
                                                             <!--
                                                         <option value="delivered"
