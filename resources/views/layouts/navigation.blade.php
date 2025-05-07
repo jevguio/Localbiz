@@ -296,7 +296,7 @@
                     </a>
                     <ul class="dropdown-menu" style="display: none;">
                         <li class="dropdown-item"><a href="{{ route('cashier.orders') }}"
-                                class="text-sm text-black-700 hover:text-orange-900">Orders</a></li>
+                                class="text-sm text-black-700 hover:text-orange-900">Pending Orders</a></li>
                         <li class="dropdown-item"><a href="{{ route('cashier.walkin') }}?filter=all"
                                 class="text-sm text-black-700 hover:text-orange-900">Walk-in Order</a></li>
                     </ul>

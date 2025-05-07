@@ -1,7 +1,7 @@
 <x-app-layout>
     <div class="p-4 sm:ml-64">
         <div class="p-4 border-2 border-gray-200 border-dashed rounded-lg">
-            <div class="grid grid-cols-3 items-center gap-4">
+            <div class="grid grid-cols-3 items-center ml-3 gap-4">
                 <h2 class="text-xl font-bold text-gray-900 sm:text-2xl">Order Management</h2>
             </div>
 
@@ -93,7 +93,7 @@
                                     <td class="px-6 py-4">
                                         <button data-modal-target="editModal{{ $order->id }}"
                                             class="font-medium text-blue-600 hover:underline" type="button">
-                                            Edit
+                                            View
                                         </button>
 
                                     </td>
@@ -106,7 +106,7 @@
                                         <div
                                             class="flex items-center justify-between p-4 md:p-5 border-b rounded-t border-gray-200">
                                             <h3 class="text-lg font-bold text-gray-900">
-                                                Edit Order Details
+                                                 Order Details
                                             </h3>
                                             <button type="button"
                                                 class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center"
@@ -217,7 +217,7 @@
                                                         value="{{  \Carbon\Carbon::parse($order->created_at)->format('F d, Y')  }}"
                                                         readonly>
                                                 </div>
-                                                <div class="col-span-1">
+                                                <!-- <div class="col-span-1">
                                                     <label for="status{{ $order->id }}"
                                                         class="block mb-2 text-sm font-medium text-gray-900">Status</label>
                                                     <select name="status" id="status{{ $order->id }}" onchange="onChangeStatus(event)"
@@ -242,7 +242,7 @@
                                                             {{ $order->status == 'cancelled' ? 'selected' : '' }}>
                                                             Cancelled
                                                         </option>
-                                                    </select>
+                                                    </select> -->
                                                 </div> <script>
                                                     document.getElementById('status{{ $order->id }}').addEventListener('change', function() {
                                                         const proofOfDelivery = document.getElementById('proof_of_delivery{{ $order->id }}');
@@ -264,7 +264,7 @@
                                                         Delivery</label>
                                                     <input type="file" name="proof_of_delivery{{ $order->id }}"
                                                         id="proof_of_delivery{{ $order->id }}"
-                                                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                                                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block p-2.5"
                                                         value="{{ $order->proof_of_delivery }}" required>
                                                 </div>
 
@@ -272,8 +272,7 @@
                                                     <div class="col-span-1">
                                                         <label for="proof_of_delivery{{ $order->id }}"
                                                             class="block mb-2 text-sm font-medium text-gray-900">Proof
-                                                            of
-                                                            Delivery</label>
+                                                            of Delivery</label>
                                                         <img src="{{ asset('delivery_receipt/' . $order->proof_of_delivery) }}"
                                                             alt="Proof of Delivery" class="w-60 object-cover" >
                                                     </div>
@@ -293,7 +292,7 @@
                                                 <div class="flex justify-end gap-2">
                                                     <button type="submit"
                                                         class="btn btn-prumary bg-blue-700 hover:bg-blue-800 text-white inline-flex items-center focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">
-                                                        Update
+                                                        Delivered
                                                     </button>
                                                     <button type="button"
                                                         data-modal-toggle="editModal{{ $order->id }}"

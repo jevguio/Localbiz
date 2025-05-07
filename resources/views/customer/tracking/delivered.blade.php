@@ -272,7 +272,6 @@
                                             <div value="pending">
                                                 {{ $item->order->status}}
                                             </div>
-                                           
                                         </div>
                                     </div>
                                    
@@ -315,7 +314,7 @@
                                                             class="block mb-2 text-sm font-medium text-gray-900">Receipt
                                                             File</label>
                                                         <img src="{{ asset('receipt_file/' . $item->order->payments->first()->receipt_file) }}"
-                                                            alt="Receipt File" class="w-60 object-cover"
+                                                            alt="Receipt File" class="w-60 object-contain cursor-pointer"
                                                             onclick="openModal(this.src)">
                                                     </div>
                                                 </div>

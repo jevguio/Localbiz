@@ -26,7 +26,7 @@
                                         <th class="p-2  ">Unit Price</th>
                                         <th class="p-2  ">Quantity</th>
                                         <th class="p-2  ">Total Price</th>
-                                        <th class="p-2 text-left">Action</th>
+                                        <th class="p-2 text-center">Action</th>
                                     </tr>
                                     <tr class="h-5">
                                     </tr>
@@ -105,7 +105,7 @@
                                                             </button>
                                                             <input type="number" min="1" max="{{  $item->product->stock }}" value="{{ $item->quantity }}" name="quantity"
                                                              onblur="this.form.submit()"
-                                                            class="text-base inline font-medium text-gray-900 text-center mx-2 ">
+                                                            class="text-base inline font-medium text-gray-900 text-center mx-2 w-10">
                                                             <button type="submit" name="increment" value="increment"
                                                                 class="h-8 w-8 inline-flex items-center justify-center border border-gray-400 bg-gray-100 hover:bg-gray-200">
                                                                 <i class='bx bx-plus text-lg'></i>
@@ -123,7 +123,7 @@
                                                         @csrf
                                                         @method('DELETE')
                                                         <button type="submit"
-                                                            class="text-red-600 font-medium hover:underline flex items-center">
+                                                            class="text-red-600 font-medium hover:underline items-center">
                                                             <i class='bx bx-trash text-lg me-1.5'></i> Remove
                                                         </button>
                                                     </form>
@@ -183,7 +183,7 @@
                                                     <option disabled selected>Pick a payment method</option>
                                                     <option value="Bank Transfer">Bank Transfer</option>
                                                     <option value="Gcash">Gcash</option>
-                                                    <option value="Gcash">Cash</option>
+                                                    <option value="Cash">Cash</option>
                                                 </select>
                                             </div>
                                         </div>
@@ -271,6 +271,26 @@
             $('#proceedToCheckout').click(function() {
                 showPaymentDetails = !showPaymentDetails;
                 $('#paymentDetails, #paymentForm').toggle(showPaymentDetails);
+            });
+
+            // Add handler for payment method changes
+            $('#paymentMethod').change(function() {
+                var selectedPayment = $(this).val();
+                if (selectedPayment === 'Cash') {
+                    $('[name="receipt_file"]').closest('.fieldset').hide();
+                } else {
+                    $('[name="receipt_file"]').closest('.fieldset').show();
+                }
+
+                if (selectedPayment === 'Gcash') {
+                    $('.gcash-details').show();
+                    $('.credit-card-details').hide();
+                } else if (selectedPayment === 'Bank Transfer') {
+                    $('.credit-card-details').show();
+                    $('.gcash-details').hide();
+                } else {
+                    $('.gcash-details, .credit-card-details').hide();
+                }
             });
 
             $('#deliveryMethod').change(function() {

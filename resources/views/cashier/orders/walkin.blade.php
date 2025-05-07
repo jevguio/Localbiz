@@ -1,8 +1,8 @@
 <x-app-layout>
     <div class="p-4 sm:ml-64">
         <div class="p-4 border-2 border-gray-200 border-dashed rounded-lg">
-            <div class="flex justify-between items-center">
-                <h2 class="mt-3 text-xl font-bold text-gray-900 sm:text-2xl">Walk-in Orders</h2>
+            <div class="flex justify-between items-center ml-3">
+                <h2 class="mt-3 text-2xl font-bold text-gray-900 sm:text-2xl">Walk-in Orders</h2>
             </div>
 
             @include('cashier.orders.breadcrumbs')
@@ -11,10 +11,10 @@
                     <label for="table-search" class="mb-2 text-sm font-medium text-gray-900 sr-only">Search</label>
                     <div class="relative flex-1">
 
-                        <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
+                        <!-- <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
                             <i class='bx bx-search text-gray-500 text-2xl'></i>
-                        </div>
-                        <input type="search" id="table-search"
+                        </div> -->
+                        <!-- <input type="search" id="table-search"
                             class="block w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500"
                             placeholder="All Categories">
                         <button type="button" id="filter-btn"
@@ -34,23 +34,23 @@
                                     class="block w-full px-4 py-2 hover:bg-gray-100 cursor-pointer">Delivered</a>
                                 <a href="{{ route('seller.order-history') }}?filter=cancelled"
                                     class="block w-full px-4 py-2 hover:bg-gray-100 cursor-pointer">Cancelled</a>
-                            </ul>
+                            </ul> -->   
                         </div>
                     </div>
-                    <div class="relative flex-1">
+                    <div class="relative w-1/2">
                         <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
                             <i class='bx bx-search text-gray-500 text-2xl'></i>
                         </div>
                         <input type="search" id="table-search"
                             class="block w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500"
-                            placeholder="Search for order....">
+                            placeholder="Search product....">
                     </div>
                 </form>
                 <div class="flex flex-wrap md:flex-nowrap gap-6 p-6">
 
                     {{-- LEFT: Products Grid --}}
                     <div class="w-full md:w-2/3 grid grid-cols-2 sm:grid-cols-3 gap-4">
-                        @foreach ($products as $product)
+                        @foreach ($products->where('seller_id', auth()->user()->cashier->seller_id) as $product)
                             <div class="border rounded-lg p-4 text-center shadow-sm">
                                 <h2 class="font-semibold">{{ $product->name }}</h2>
                                 <p class="text-gray-600">₱{{ number_format($product->price, 2) }}</p>
@@ -71,7 +71,6 @@
                                         <button type="submit" name="action" value="increase"
                                             class="bg-red-900 px-2 rounded text-white">+</button>
                                     </form>
-
                                 </div>
                             </div>
                         @endforeach
@@ -111,14 +110,6 @@
                                     <span>Total</span><span>₱{{ number_format($cart['total'], 2) }}</span>
                                 </div>
                             </div>
-
-                            {{-- Delivery Method --}}
-                            <label class="block mb-1 text-sm">Delivery Method</label>
-                            <select class="w-full border p-2 mb-4 text-sm rounded" name="delivery_method">
-                                <option selected disabled>Pick a Delivery Method</option>
-                                <option value="pickup">Pickup</option>
-                                <option value="delivery">Delivery</option>
-                            </select>
 
                             {{-- Payment Methods --}}
 
@@ -162,8 +153,16 @@
                                 }
                             </script>
 
+                            {{-- Delivery Method --}}
+                            <label class="block mb-1 text-sm">Delivery Method</label>
+                            <select class="w-full border p-2 mb-4 text-sm rounded" name="delivery_method">
+                                <option selected disabled>Pick a Delivery Method</option>
+                                <option value="pickup">Pickup</option>
+                                <option value="delivery">Delivery</option>
+                            </select>
+
                             {{-- Payment Status --}}
-                            <label class="block mb-1 text-sm">Payment Status</label>
+                            <label class="block mb-1 text-sm">Amount Paid</label>
                             <select class="w-full border p-2 mb-4 text-sm rounded" name="payment_status">
                                 <option selected disabled>Select Payment Status</option>
                                 <option value="partial">Partial</option>

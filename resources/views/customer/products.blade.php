@@ -180,6 +180,9 @@
                                         <p>{{ $product->description }}</p>
                                         <p>Location: {{ $product->location->name }}</p>
                                         <p>Stock: {{ $product->stock }}</p>
+                                        @if($product->category && $product->category->name === 'Processed Foods' && $product->best_before)
+                                            <p class="text-red-600">Best Before: {{ \Carbon\Carbon::parse($product->best_before)->format('M d, Y') }}</p>
+                                        @endif
                                     </div>
                                 </div>
                             </div>
