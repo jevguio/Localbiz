@@ -162,7 +162,7 @@
                             </select>
 
                             {{-- Payment Status --}}
-                            <label class="block mb-1 text-sm">Payment Status</label>
+                            <label class="block mb-1 text-sm">Amount Paid</label>
                             <select class="w-full border p-2 mb-4 text-sm rounded" name="payment_status">
                                 <option selected disabled>Select Payment Status</option>
                                 <option value="partial">Partial</option>

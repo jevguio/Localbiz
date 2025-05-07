@@ -59,7 +59,7 @@
                                     <td class="px-6 py-4">
                                         <button data-modal-target="editModal{{ $order->id }}"
                                             class="font-medium text-green-600 hover:underline" type="button">
-                                            Edit
+                                            View
                                         </button>
                                     </td>
                                 </tr>

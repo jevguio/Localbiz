@@ -213,7 +213,7 @@
                                                         value="{{  \Carbon\Carbon::parse($order->created_at)->format('F d, Y')  }}"
                                                         readonly>
                                                 </div>
-                                                <div class="col-span-1">
+                                                <!-- <div class="col-span-1">
                                                     <label for="status{{ $order->id }}"
                                                         class="block mb-2 text-sm font-medium text-gray-900">Status</label>
                                                     <select name="status" id="status{{ $order->id }}" onchange="onChangeStatus(event)"
@@ -238,7 +238,7 @@
                                                             {{ $order->status == 'cancelled' ? 'selected' : '' }}>
                                                             Cancelled
                                                         </option>
-                                                    </select>
+                                                    </select> -->
                                                 </div> <script>
                                                     document.getElementById('status{{ $order->id }}').addEventListener('change', function() { 
                                                         const proofOfDelivery = document.getElementById('proof_of_delivery{{ $order->id }}');
@@ -260,7 +260,7 @@
                                                         Delivery</label>
                                                     <input type="file" name="proof_of_delivery{{ $order->id }}"
                                                         id="proof_of_delivery{{ $order->id }}"
-                                                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                                                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block p-2.5"
                                                         value="{{ $order->proof_of_delivery }}" required>
                                                 </div>
                                                 
@@ -268,8 +268,7 @@
                                                     <div class="col-span-1">
                                                         <label for="proof_of_delivery{{ $order->id }}"
                                                             class="block mb-2 text-sm font-medium text-gray-900">Proof
-                                                            of
-                                                            Delivery</label>
+                                                            of Delivery</label>
                                                         <img src="{{ asset('delivery_receipt/' . $order->proof_of_delivery) }}"
                                                             alt="Proof of Delivery" class="w-60 object-cover" >
                                                     </div>
@@ -289,7 +288,7 @@
                                                 <div class="flex justify-end gap-2">
                                                     <button type="submit"
                                                         class="btn btn-prumary bg-blue-700 hover:bg-blue-800 text-white inline-flex items-center focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">
-                                                        Update
+                                                        Delivered
                                                     </button>
                                                     <button type="button"
                                                         data-modal-toggle="editModal{{ $order->id }}"
