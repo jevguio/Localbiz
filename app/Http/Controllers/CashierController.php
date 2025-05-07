@@ -31,6 +31,15 @@ class CashierController extends Controller
         return view('cashier.dashboard');
     }
 
+    public function index()
+    {
+        $user = Auth::user()->load('cashier');
+        $seller_id = $user->cashier->seller_id ?? null; // Use null-safe operator in case it's missing
+        $orders = WalkinOrders::where('seller_id', '=', $seller_id)->get();
+
+        return view('cashier.orders.walkinorder', compact('orders'));
+    }
+
     public function upload(Request $request)
     {
         $result = (new CashierService())->upload($request);
@@ -66,10 +75,13 @@ class CashierController extends Controller
 
         $deliveryFee = $data['delivery_method'] === 'delivery' ? 50 : 0;
         $total = $subtotal + $deliveryFee;
+        $user = Auth::user()->load('cashier');
+        $seller_id = $user->cashier->seller_id ?? null; // Use null-safe operator in case it's missing
 
         $order = WalkinOrders::create([
             'customer_name' => $data['customer_name'] ?? null,
-            'items' => json_encode($items),
+            'items' => $items,
+            'seller_id' => $seller_id,
             'delivery_method' => $data['delivery_method'],
             'payment_method' => $data['payment_method'],
             'subtotal' => $subtotal,
@@ -85,6 +97,17 @@ class CashierController extends Controller
 
     public function walkin(Request $request)
     {
+
+        $user = Auth::user()->load('cashier');
+        $seller_id = $user->cashier->seller_id ?? null; // Use null-safe operator in case it's missing
+        $couriers = Courier::all();
+
+        if ($user->cashier->is_approved == 0) {
+            session()->flash('error', 'You are not approved to access this page.');
+            return redirect()->route('cashier.dashboard');
+        }
+
+
         $products = Products::with('orderItems')->get();
 
         $cart = session()->get('cart', []);
@@ -162,11 +185,11 @@ class CashierController extends Controller
 
     public function orders()
     {
-        $cashier = Auth::user()->cashier;
-        $seller_id = $cashier->seller_id;
+        $user = Auth::user()->load('cashier');
+        $seller_id = $user->cashier->seller_id ?? null; // Use null-safe operator in case it's missing
         $couriers = Courier::all();
 
-        if ($cashier->is_approved == 0) {
+        if ($user->cashier->is_approved == 0) {
             session()->flash('error', 'You are not approved to access this page.');
             return redirect()->route('cashier.dashboard');
         }
@@ -176,11 +199,11 @@ class CashierController extends Controller
             'orderItems.product', // ensures orderItems and nested product are loaded
             'payments'
         ])
-        ->whereHas('orderItems.product', function ($query) use ($seller_id) {
-            $query->where('seller_id', $seller_id);
-        })->where('status','=','pending')
-        ->orderBy('created_at', 'desc')
-        ->paginate(10);
+            ->whereHas('orderItems.product', function ($query) use ($seller_id) {
+                $query->where('seller_id', $seller_id);
+            })->where('status', '=', 'pending')
+            ->orderBy('created_at', 'desc')
+            ->paginate(10);
 
         $orderItems = OrderItems::whereHas('product', function ($query) use ($seller_id) {
             $query->where('seller_id', $seller_id);
@@ -194,11 +217,12 @@ class CashierController extends Controller
 
     public function ordersHistory()
     {
-        $cashier = Auth::user()->cashier;
-        $seller_id = $cashier->seller_id;
+
+        $user = Auth::user()->load('cashier');
+        $seller_id = $user->cashier->seller_id ?? null; // Use null-safe operator in case it's missing
         $couriers = Courier::all();
 
-        if ($cashier->is_approved == 0) {
+        if ($user->cashier->is_approved == 0) {
             session()->flash('error', 'You are not approved to access this page.');
             return redirect()->route('cashier.dashboard');
         }
@@ -208,11 +232,11 @@ class CashierController extends Controller
             'orderItems.product', // ensures orderItems and nested product are loaded
             'payments'
         ])
-        ->whereHas('orderItems.product', function ($query) use ($seller_id) {
-            $query->where('seller_id', $seller_id);
-        })->where('status','=','pending')
-        ->orderBy('created_at', 'desc')
-        ->paginate(10);
+            ->whereHas('orderItems.product', function ($query) use ($seller_id) {
+                $query->where('seller_id', $seller_id);
+            })->where('status', '=', 'pending')
+            ->orderBy('created_at', 'desc')
+            ->paginate(10);
 
 
         $payments = Payments::all();
@@ -224,14 +248,17 @@ class CashierController extends Controller
 
     public function reports()
     {
-        $cashier = Auth::user()->cashier;
 
-        if ($cashier->is_approved == 0) {
+        $user = Auth::user()->load('cashier');
+        $seller_id = $user->cashier->seller_id ?? null; // Use null-safe operator in case it's missing
+        $couriers = Courier::all();
+
+        if ($user->cashier->is_approved == 0) {
             session()->flash('error', 'You are not approved to access this page.');
             return redirect()->route('cashier.dashboard');
         }
 
-        $reports = Reports::where('user_id', $cashier->id)->latest()->paginate(10);
+        $reports = Reports::where('user_id', $user->cashier->id)->latest()->paginate(10);
         return view('cashier.reports', compact('reports'));
     }
     public function exportSales(Request $request)

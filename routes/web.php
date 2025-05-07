@@ -157,6 +157,7 @@ Route::middleware(['auth', 'Cashier'])->group(function () {
     Route::get('/cashier/sales/export', [CashierController::class, 'exportSales'])->name('cashier.sales.export');
 
     Route::get('/cashier/orders/history', [CashierController::class, 'ordersHistory'])->name('cashier.orders.history');
+    Route::get('/cashier/walkin/orders/history', [CashierController::class, 'index'])->name('cashier.walkin.orders.history');
     Route::get('/cashier/tracking/pending', [CashierController::class, 'trackingPending'])->name('cashier.tracking.pending');
     Route::get('/cashier/tracking/processed', [CashierController::class, 'trackingProcessed'])->name('cashier.tracking.processed');
     Route::get('/cashier/tracking/receiving', [CashierController::class, 'trackingToReceive'])->name('cashier.tracking.receiving');
@@ -179,6 +180,7 @@ Route::middleware(['auth', 'DeliveryRider'])->group(function () {
     Route::get('/rider/tracking/receiving', [RiderController::class, 'trackingToReceive'])->name('rider.tracking.receiving');
     Route::get('/rider/tracking/cancelled', [RiderController::class, 'trackingCancelled'])->name('rider.tracking.cancelled');
     Route::get('/rider/tracking/delivered', [RiderController::class, 'trackingDelivered'])->name('rider.tracking.delivered');
+    Route::get('/rider/tracking/walkin', [RiderController::class, 'index'])->name('rider.tracking.walkin');
 
     Route::post('/rider/dashboard/upload', [RiderController::class, 'upload'])->name('rider.dashboard.upload');
 

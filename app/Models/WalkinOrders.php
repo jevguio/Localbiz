@@ -13,6 +13,7 @@ class WalkinOrders extends Model
     protected $table="walkin_orders";
     protected $fillable = [
         'customer_name',
+        'seller_id',
         'items',
         'delivery_method',
         'payment_method',
@@ -20,10 +21,17 @@ class WalkinOrders extends Model
         'delivery_fee',
         'total',
         'status',
+        'delivery_status',
     ];
 
     // Cast JSON columns to arrays or objects for easy manipulation
     protected $casts = [
         'items' => 'array',
     ];
+
+    public function seller()
+    {
+        return $this->belongsTo(Seller::class, 'seller_id', 'id');
+    }
+
 }

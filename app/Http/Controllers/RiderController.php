@@ -9,6 +9,7 @@ use App\Models\Payments;
 use App\Models\Products;
 use App\Models\Rider;
 use App\Models\Seller;
+use App\Models\WalkinOrders;
 use App\Services\OrderService;
 use App\Services\RiderService;
 use Illuminate\Http\Request;
@@ -59,7 +60,7 @@ class RiderController extends Controller
     public function updateOrder(Request $request, $id)
     {
         $result = (new OrderService())->updateOrder($request, $id);
-        
+
         session()->flash('success', 'Item Delivered');
         return redirect()->back();
     }
@@ -132,6 +133,16 @@ class RiderController extends Controller
         return view('rider.tracking.cancelled', compact('cartItems'));
     }
 
+    public function index()
+    {
+        $user = Auth::user()->load('rider');
+        $seller_id = $user->rider->seller_id ?? null; // Use null-safe operator in case it's missing
+        \Log::info(''. $user->id .' '. $seller_id);
+        $orders = WalkinOrders::where('seller_id', '=', $seller_id)->get();
+
+        return view('rider.tracking.walkinorder', compact('orders'));
+    }
+
     public function trackingDelivered()
     {
         $rider = Rider::where('user_id', Auth::user()->id)->first();
@@ -162,7 +173,7 @@ class RiderController extends Controller
             ->whereHas('product', function ($query) use ($rider) {
                 $query->where('seller_id', $rider->seller_id);
             })
-            ->get();    
+            ->get();
         return view('rider.tracking.completed', compact('cartItems'));
     }
 }

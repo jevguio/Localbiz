@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('walkin_orders', function (Blueprint $table) {
             $table->id();
             $table->string('customer_name')->nullable();
+            $table->foreignId('seller_id')->constrained('tbl_sellers')->onDelete('cascade');
 
             $table->json('items');
 
@@ -28,7 +29,10 @@ return new class extends Migration
 
             // Order status, timestamps
             $table->enum('status', ['partial', 'paid'])
-                  ->default('paid');
+            ->default('paid');
+            $table->enum('delivery_status', ['pending', 'paid', 'completed', 'cancelled'])
+            ->default('pending');
+
             $table->timestamps();
         });
     }

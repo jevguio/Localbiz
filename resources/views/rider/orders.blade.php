@@ -8,17 +8,21 @@
             <!-- Navigation Menu -->
             <ul class="bg-white shadow-[0_2px_8px_-1px_rgba(6,81,237,0.4)] p-2 space-x-4 w-max flex items-center mx-auto font-[sans-serif] mt-4">
                 <li class=" 'border-b-2 border-orange-900 text-orange-900' : text-gray-400 hover:text-orange-900 px-4 py-2.5 text-sm font-bold cursor-pointer flex items-center">
-                    <a onclick="window.location.href="{{ route('rider.orders') }}">All</a>
+                    <a href="{{ route('rider.orders') }}">All</a>
                 </li>
                 <li class=" 'border-orange-900 text-orange-900' : text-gray-400 hover:text-orange-900 px-4 py-2.5 text-sm font-bold cursor-pointer flex items-center">
-                    <a onclick="window.location.href="{{ route('rider.orders', ['status' => 'receiving']) }}">For Delivery</a>
+                    <a href="{{ route('rider.orders', ['status' => 'receiving']) }}">For Delivery</a>
                 </li>
                 <li class="'border-orange-900 text-orange-900' : text-gray-400 hover:text-orange-900  px-4 py-2.5 text-sm font-bold cursor-pointer flex items-center">
-                    <a onclick="window.location.href="{{ route('rider.orders', ['status' => 'delivered']) }}">Delivered</a>
+                    <a href="{{ route('rider.orders', ['status' => 'delivered']) }}">Delivered</a>
                 </li>
                 <li class=" 'border-orange-900 text-orange-900' : text-gray-400 hover:text-orange-900  px-4 py-2.5 text-sm font-bold cursor-pointer flex items-center">
-                    <a onclick="window.location.href="{{ route('rider.orders', ['status' => 'cancelled']) }}">Cancelled</a>
+                    <a href="{{ route('rider.orders', ['status' => 'cancelled']) }}">Cancelled</a>
                 </li>
+                <li class=" 'border-orange-900 text-orange-900' : text-gray-400 hover:text-orange-900  px-4 py-2.5 text-sm font-bold cursor-pointer flex items-center">
+                    <a href="{{ route('rider.tracking.walkin') }}">Walk-in</a>
+                </li>
+
             </ul>
 
             <div class="relative overflow-x-auto mt-10 bg-white p-4 rounded-lg">
@@ -31,21 +35,21 @@
                         <!-- <input type="search" id="table-search"
                             class="block w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500"
                             placeholder="Search for products...."> -->
-                            
+
                         <!-- <button type="button" id="filter-btn"
                             class="absolute inset-y-0 end-0 flex items-center px-3 text-gray-600 hover:text-gray-900">
                             <i class='bx bx-filter text-2xl'></i>
                         </button> -->
-                        
+
                         <!-- {{-- <div id="filter-dropdown"
                             class="hidden absolute right-0 mt-2 w-40 bg-white border border-gray-300 rounded-lg shadow-lg">
                             <ul class="py-2 text-sm text-gray-700">
                                 <li class="px-4 py-2 hover:bg-gray-100 cursor-pointer filter-option" data-filter="All">All</li>
-                                <li class="px-4 py-2 hover:bg-gray-100 cursor-pointer filter-option" data-filter="pending">Pending</li>  
+                                <li class="px-4 py-2 hover:bg-gray-100 cursor-pointer filter-option" data-filter="pending">Pending</li>
                                 <li class="px-4 py-2 hover:bg-gray-100 cursor-pointer filter-option" data-filter="processing">Processing</li>
-                                <li class="px-4 py-2 hover:bg-gray-100 cursor-pointer filter-option" data-filter="receiving">Receiving</li> 
-                                <li class="px-4 py-2 hover:bg-gray-100 cursor-pointer filter-option" data-filter="delivered">Delivered</li> 
-                                <li class="px-4 py-2 hover:bg-gray-100 cursor-pointer filter-option" data-filter="cancelled">Cancelled</li> 
+                                <li class="px-4 py-2 hover:bg-gray-100 cursor-pointer filter-option" data-filter="receiving">Receiving</li>
+                                <li class="px-4 py-2 hover:bg-gray-100 cursor-pointer filter-option" data-filter="delivered">Delivered</li>
+                                <li class="px-4 py-2 hover:bg-gray-100 cursor-pointer filter-option" data-filter="cancelled">Cancelled</li>
                             </ul>
                         </div> --}} -->
                     </div>
@@ -184,7 +188,7 @@
                                                         class="block mb-2 text-sm font-medium text-gray-900">Category</label>
                                                     <div id="category" name="category_id"
                                                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5"
-                                                        disabled> 
+                                                        disabled>
                                                         @foreach ($categories as $category)
                                                             @if($order->orderItems->first()->product->category_id == $category->id)
                                                                 <div  >
@@ -193,8 +197,8 @@
                                                         @endforeach
                                                     </div>
                                                 </div>
-                                                
-                                               
+
+
                                                 <div class="col-span-1">
                                                     <label for="payment_date"
                                                         class="block mb-2 text-sm font-medium text-gray-900">Payment
@@ -229,7 +233,7 @@
                                                         <option value="receiving"
                                                             {{ $order->status == 'receiving' ? 'selected' : '' }} disabled>
                                                             Receiving
-                                                        </option> 
+                                                        </option>
                                                         <option value="delivered"
                                                             {{ $order->status == 'delivered' ? 'selected' : '' }}>
                                                             Delivered
@@ -240,7 +244,7 @@
                                                         </option>
                                                     </select>
                                                 </div> <script>
-                                                    document.getElementById('status{{ $order->id }}').addEventListener('change', function() { 
+                                                    document.getElementById('status{{ $order->id }}').addEventListener('change', function() {
                                                         const proofOfDelivery = document.getElementById('proof_of_delivery{{ $order->id }}');
 
                                                         if (this.value === "cancelled") {
@@ -250,7 +254,7 @@
                                                             proofOfDelivery.classList.remove('hidden');
                                                             proofOfDelivery.setAttribute('required', 'true');
                                                         }
- 
+
                                                     });
 
                                                     </script>
@@ -263,7 +267,7 @@
                                                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
                                                         value="{{ $order->proof_of_delivery }}" required>
                                                 </div>
-                                                
+
                                                 <div class="col-span-2 flex justify-around gap-2">
                                                     <div class="col-span-1">
                                                         <label for="proof_of_delivery{{ $order->id }}"
@@ -324,7 +328,7 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
         $(document).ready(function() {
-            
+
         // $("#filter-btn").click(function (event) {
         //     event.preventDefault();
         //     $("#filter-dropdown").toggleClass("hidden");
@@ -344,7 +348,7 @@
                 $(this).toggle(matchesSearch && matchesFilter);
             });
         }
-        
+
         // Apply filter
         // $(".filter-option").click(function () {
         //     selectedFilter = $(this).data("filter");
