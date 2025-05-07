@@ -217,7 +217,7 @@
                                                         value="{{  \Carbon\Carbon::parse($order->created_at)->format('F d, Y')  }}"
                                                         readonly>
                                                 </div>
-                                                <!-- <div class="col-span-1">
+                                                <div class="col-span-1">
                                                     <label for="status{{ $order->id }}"
                                                         class="block mb-2 text-sm font-medium text-gray-900">Status</label>
                                                     <select name="status" id="status{{ $order->id }}" onchange="onChangeStatus(event)"
@@ -242,7 +242,7 @@
                                                             {{ $order->status == 'cancelled' ? 'selected' : '' }}>
                                                             Cancelled
                                                         </option>
-                                                    </select> -->
+                                                    </select>
                                                 </div> <script>
                                                     document.getElementById('status{{ $order->id }}').addEventListener('change', function() {
                                                         const proofOfDelivery = document.getElementById('proof_of_delivery{{ $order->id }}');
@@ -292,7 +292,7 @@
                                                 <div class="flex justify-end gap-2">
                                                     <button type="submit"
                                                         class="btn btn-prumary bg-blue-700 hover:bg-blue-800 text-white inline-flex items-center focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">
-                                                        Delivered
+                                                        Update
                                                     </button>
                                                     <button type="button"
                                                         data-modal-toggle="editModal{{ $order->id }}"
