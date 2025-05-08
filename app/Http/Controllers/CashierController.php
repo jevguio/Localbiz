@@ -74,7 +74,7 @@ class CashierController extends Controller
         }
 
         $deliveryFee = $data['delivery_method'] === 'delivery' ? 50 : 0;
-        $total = $subtotal + $deliveryFee;
+        // $total = $subtotal + $deliveryFee;
         $user = Auth::user()->load('cashier');
         $seller_id = $user->cashier->seller_id ?? null; // Use null-safe operator in case it's missing
         $amount_paid = $data['amount_paid'];
@@ -87,7 +87,7 @@ class CashierController extends Controller
             'payment_method' => $data['payment_method'],
             'subtotal' => $subtotal,
             'delivery_fee' => $deliveryFee,
-            'total' => $total,
+            'total' => $subtotal,
             'amount_paid' => $data['amount_paid'],
             'status' => $payment_status,
         ]);
