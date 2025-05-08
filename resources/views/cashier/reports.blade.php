@@ -28,6 +28,11 @@
                     </div>
                 </form>
 
+                <!-- Flatpickr CSS -->
+                <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+
+                <!-- Flatpickr JS -->
+                <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
                 <!-- Date Picker Modal -->
                 <div id="datePickerModal"
                     class="hidden fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full">
@@ -37,14 +42,35 @@
                             <form action="{{ route('cashier.sales.export') }}" method="GET">
                                 <div class="mb-4">
                                     <label class="block text-sm font-medium text-gray-700 mb-2">From Date</label>
-                                    <input type="date" name="from_date"
-                                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+                                    <!-- Visible Date Range Picker -->
+                                    <input type="text" id="dateRange"
+                                        class="flatpickr-input block w-full p-2.5 mb-4 border border-gray-300 rounded-lg"
+                                        placeholder="Select date range" readonly>
+
+                                    <!-- Hidden Inputs to Hold Parsed Dates -->
+                                    <input type="hidden" name="from_date" id="from_date">
+                                    <input type="hidden" name="to_date" id="to_date">
                                 </div>
-                                <div class="mb-4">
-                                    <label class="block text-sm font-medium text-gray-700 mb-2">To Date</label>
-                                    <input type="date" name="to_date"
-                                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
-                                </div>
+                                <script>
+                                    document.addEventListener('DOMContentLoaded', function() {
+                                        flatpickr("#dateRange", {
+                                            mode: "range",
+                                            dateFormat: "Y-m-d",
+                                            onChange: function(selectedDates, dateStr, instance) {
+                                                if (selectedDates.length === 2) {
+                                                    document.getElementById('from_date').value = instance.formatDate(selectedDates[
+                                                        0], "Y-m-d");
+                                                    document.getElementById('to_date').value = instance.formatDate(selectedDates[1],
+                                                        "Y-m-d");
+                                                } else {
+                                                    document.getElementById('from_date').value = '';
+                                                    document.getElementById('to_date').value = '';
+                                                }
+                                            }
+                                        });
+                                    });
+                                </script>
+
                                 <div class="flex justify-end gap-2">
                                     <button type="submit"
                                         class="btn btn-primary bg-blue-700 hover:bg-blue-800 text-white px-4 py-2 rounded-md">
