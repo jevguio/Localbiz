@@ -94,6 +94,7 @@ class CashierController extends Controller
 
         session()->forget('cart'); // optional: clear the cart
 
+        session()->flash('success', 'Order Added');
         return redirect()->back();
     }
 

@@ -51,7 +51,8 @@
                             <td>₱{{ number_format($order->total, 2) }}</td>
                             <td class="pl-12">{{ $order->payment_method }}</td>
                             <td class="pl-12">{{ $order->delivery_method }}</td>
-                            <td>{{ $order->status }}</td>
+                            <td>
+                                {{ $order->status =="paid"?"Fully Paid":'Partial'}}</td>
 
                             <td>
                                 {{ $order->amount_paid }}
