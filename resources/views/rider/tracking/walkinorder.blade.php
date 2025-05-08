@@ -17,7 +17,7 @@
 
                 <li
                     class="{{ $status == null && Route::currentRouteName() != 'rider.tracking.walkin' ? 'border-b-2 border-orange-900 text-orange-900' : 'text-gray-400 hover:text-orange-900' }} px-4 py-2.5 text-sm font-bold cursor-pointer flex items-center">
-                    <a href="{{ route('rider.orders') }}">All {{$status}}</a>
+                    <a href="{{ route('rider.orders') }}">All {{ $status }}</a>
                 </li>
 
                 <li
@@ -51,6 +51,7 @@
                         <th>Total</th>
                         <th>Status</th>
                         <th>Delivery Status</th>
+                        <th>Action</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -70,6 +71,13 @@
                             <td>{{ $order->status }}</td>
                             <td>{{ $order->delivery_status }}</td>
                             <td>
+                                <form action="{{ route('rider.update.walkin', ['id' => $order->id]) }}" method="GET">
+                                    @csrf
+                                    <button type="submit"
+                                        class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
+                                        Mark as Delivered
+                                    </button>
+                                </form>
 
                             </td>
                         </tr>

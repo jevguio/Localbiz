@@ -138,9 +138,23 @@ class RiderController extends Controller
         $user = Auth::user()->load('rider');
         $seller_id = $user->rider->seller_id ?? null; // Use null-safe operator in case it's missing
         \Log::info('' . $user->id . ' ' . $seller_id);
-        $orders = WalkinOrders::where('seller_id', '=', $seller_id)->where('delivery_method', '=', 'delivery')->get();
+        $orders = WalkinOrders::where('seller_id', '=', $seller_id)
+        ->where('delivery_method', '=', 'delivery')
+        ->where('delivery_status', '!=', 'completed')
+            ->latest()->get();
 
         return view('rider.tracking.walkinorder', compact('orders'));
+    }
+
+    public function updateWalkin(Request $request, $id)
+    {
+
+        $orders = WalkinOrders::find($id);
+        $orders->update(['delivery_status' => 'completed']);
+        $orders->save();
+
+        session()->flash('success', 'Order Updated Successfully');
+        return redirect()->back();
     }
 
     public function trackingDelivered()
