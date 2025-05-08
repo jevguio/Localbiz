@@ -278,7 +278,7 @@
                                                         </li>
                                                     </ul>
                                                 </div> -->
-                                                    <div class="col-span-2 flex justify-around gap-2">
+                                                    <!-- <div class="col-span-2 flex justify-around gap-2">
                                                         <div class="col-span-1">
                                                             <label for="proof_of_delivery"
                                                                 class="block mb-2 text-sm font-medium text-gray-900">Proof
@@ -287,14 +287,15 @@
                                                             <img src="{{ asset('delivery_receipt/' . $order->proof_of_delivery) }}"
                                                                 alt="Proof of Delivery" class="w-60 object-cover"
                                                                 onclick="openModal(this.src)">
-                                                        </div>
+                                                        </div> -->
+
                                                         <div class="col-span-1">
                                                             <label for="receipt_file"
                                                                 class="block mb-2 text-sm font-medium text-gray-900">Receipt
                                                                 File</label>
                                                             @if ($order->payments->first() && $order->payments->first()->receipt_file)
                                                                 <img src="{{ asset('receipt_file/' . $order->payments->first()->receipt_file) }}"
-                                                                    alt="Receipt File" class="w-60 object-cover"
+                                                                    alt="Receipt File" class="w-60 object-cover cursor-pointer"
                                                                     onclick="openModal(this.src)">
                                                             @else
                                                                 <p>No receipt file available.</p>
