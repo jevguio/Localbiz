@@ -4,38 +4,40 @@
             <div class="flex justify-between items-center">
                 <h2 class="mt-3 text-xl font-bold text-gray-900 sm:text-2xl">Reports Management</h2>
             </div>
+
             <div class="relative overflow-x-auto mt-10 bg-white p-4 rounded-lg">
                 <form class=" ml-0 mb-4  w-full">
                     <label for="table-search" class="mb-2 text-sm font-medium text-gray-900 sr-only">Search</label>
-                    
-                <div class="flex justify-between items-center w-full">
-                    <div class="relative  w-120">
-                        <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
-                            <i class='bx bx-search text-gray-500 text-2xl'></i>
+
+                    <div class="flex justify-between items-center w-full">
+                        <div class="relative  w-120">
+                            <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
+                                <i class='bx bx-search text-gray-500 text-2xl'></i>
+                            </div>
+                            <input type="search" id="table-search"
+                                class="block w-full p-4 ps-10 text-sm  text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500"
+                                placeholder="Search for reports....">
                         </div>
-                        <input type="search" id="table-search"
-                            class="block w-full p-4 ps-10 text-sm  text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500"
-                            placeholder="Search for reports....">
+                        <div class="flex gap-2 my-4">
+                            <button type="button"
+                                class="btn bg-red-900 text-base hover:bg-red-800 text-white px-4 py-2 rounded-md"
+                                data-modal-target="datePickerModal">
+                                Generate Payment Transactions
+                            </button>
+                        </div>
                     </div>
-                    <div class="flex gap-2 my-4">
-                        <button type="button"
-                            class="btn bg-red-900 text-base hover:bg-red-800 text-white px-4 py-2 rounded-md"
-                            data-modal-target="datePickerModal">
-                            Generate Payment Transactions
-                        </button>
-                    </div>
-                </div>
                 </form>
 
                 <!-- Date Picker Modal -->
-                <div id="datePickerModal" class="hidden fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full">
+                <div id="datePickerModal"
+                    class="hidden fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full">
                     <div class="relative top-20 mx-auto p-5 border w-96 shadow-lg rounded-md bg-white">
                         <div class="mt-3">
                             <h3 class="text-lg font-medium text-gray-900 mb-4">Select Date Range</h3>
                             <form action="{{ route('cashier.sales.export') }}" method="GET">
                                 <div class="mb-4">
                                     <label class="block text-sm font-medium text-gray-700 mb-2">From Date</label>
-                                    <input type="date" name="from_date" 
+                                    <input type="date" name="from_date"
                                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
                                 </div>
                                 <div class="mb-4">
@@ -137,7 +139,7 @@
             // Set default dates
             const today = new Date().toISOString().split('T')[0];
             $('input[name="to_date"]').val(today);
-            
+
             // Set default from_date to 30 days ago
             const thirtyDaysAgo = new Date();
             thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);

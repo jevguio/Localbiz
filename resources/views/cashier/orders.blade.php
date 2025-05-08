@@ -1,7 +1,30 @@
 <x-app-layout>
     <div class="p-4 sm:ml-64">
         <div class="p-4 border-2 border-gray-200 border-dashed rounded-lg">
+
+            <div class="flex justify-between items-center">
+                <h2 class="mt-3 text-xl font-bold text-gray-900 sm:text-2xl">Reports Management</h2>
+            </div>
+
+            <ul
+                class="bg-white shadow-[0_2px_8px_-1px_rgba(6,81,237,0.4)] p-2 space-x-4 w-max flex items-center rounded-lg mx-auto font-[sans-serif] mt-4">
+                <li
+                    class="text-gray-400
+        {{ Route::currentRouteName() == 'cashier.orders.history' ? 'border-b-2 border-orange-900 text-orange-900' : 'text-gray-400' }}
+        hover:text-red-900 px-4 py-2.5 text-sm font-bold cursor-pointer flex items-center">
+                    <a onclick="window.location.href = '{{ route('cashier.orders.history') }}'">Order
+                        History</a>
+                </li>
+                <li
+                    class="text-gray-400
+    {{ Route::currentRouteName() == 'cashier.walkin.orders.history' ? 'border-b-2 border-orange-900 text-orange-900' : 'text-gray-400' }}
+    hover:text-red-900 px-4 py-2.5 text-sm font-bold cursor-pointer flex items-center">
+                    <a onclick="window.location.href = '{{ route('cashier.walkin.orders.history') }}'">Walk-in Order
+                        History</a>
+                </li>
+            </ul>
             <div class="relative overflow-x-auto mt-10 bg-white p-4 rounded-lg">
+
                 <form class="max-w-md ml-0 mb-4">
                     <label for="table-search" class="mb-2 text-sm font-medium text-gray-900 sr-only">Search</label>
                     <div class="relative">
@@ -13,6 +36,7 @@
                             placeholder="Search for order....">
                     </div>
                 </form>
+
                 <table class="w-full text-sm text-left rtl:text-right text-gray-500">
                     <thead class="text-xs text-gray-700 uppercase bg-gray-50">
                         <tr>
@@ -39,148 +63,146 @@
 
                     <tbody id="product-table-body">
                         @foreach ($orders as $order)
-                                <tr class="bg-white border-b border-gray-200 hover:bg-gray-50">
-                                    <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
-                                        {{ $order->order_number }}
-                                    </th>
-                                    <td class="px-6 py-4">
-                                        {{ $order->user->fname . ' ' . $order->user->lname }}
-                                    </td>
-                                    <td class="px-6 py-4">
-                                        {{ $order->created_at->format('d M Y') }}
+                            <tr class="bg-white border-b border-gray-200 hover:bg-gray-50">
+                                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
+                                    {{ $order->order_number }}
+                                </th>
+                                <td class="px-6 py-4">
+                                    {{ $order->user->fname . ' ' . $order->user->lname }}
+                                </td>
+                                <td class="px-6 py-4">
+                                    {{ $order->created_at->format('d M Y') }}
 
-                                    </td>
-                                    <td class="px-6 py-4">
-                                        ₱{{ number_format($order->orderItems->sum('price'), 2) }}
-                                    </td>
-                                    <td class="px-6 py-4">
-                                        {{ $order->status }}
-                                    </td>
-                                    <td class="px-6 py-4">
-                                        <button data-modal-target="editModal{{ $order->id }}"
-                                            class="font-medium text-green-600 hover:underline" type="button">
-                                            View
-                                        </button>
-                                    </td>
-                                </tr>
+                                </td>
+                                <td class="px-6 py-4">
+                                    ₱{{ number_format($order->orderItems->sum('price'), 2) }}
+                                </td>
+                                <td class="px-6 py-4">
+                                    {{ $order->status }}
+                                </td>
+                                <td class="px-6 py-4">
+                                    <button data-modal-target="editModal{{ $order->id }}"
+                                        class="font-medium text-green-600 hover:underline" type="button">
+                                        View
+                                    </button>
+                                </td>
+                            </tr>
 
-                                <div id="editModal{{ $order->id }}" tabindex="-1" aria-hidden="true"
-                                    class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-screen max-h-full bg-black bg-opacity-50">
-                                    <div class="relative p-4 w-full max-w-5xl max-h-full mx-auto">
-                                        <div class="relative bg-white rounded-lg shadow-sm">
-                                            <div
-                                                class="flex items-center justify-between p-4 md:p-5 border-b rounded-t border-gray-200">
-                                                <h3 class="text-lg font-bold text-gray-900">
-                                                    Order Details
-                                                </h3>
-                                                <button type="button"
-                                                    class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center"
-                                                    data-modal-toggle="editModal{{ $order->id }}">
-                                                    <i class='bx bx-x text-gray-500 text-2xl'></i>
-                                                </button>
-                                            </div>
-                                            <form action="{{ route('cashier.orders.update', $order->id) }}"
-                                                method="POST">
-                                                @csrf
-                                                @method('PUT')
-                                                <div class="grid grid-cols-2 gap-4 mb-4 p-4">
+                            <div id="editModal{{ $order->id }}" tabindex="-1" aria-hidden="true"
+                                class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-screen max-h-full bg-black bg-opacity-50">
+                                <div class="relative p-4 w-full max-w-5xl max-h-full mx-auto">
+                                    <div class="relative bg-white rounded-lg shadow-sm">
+                                        <div
+                                            class="flex items-center justify-between p-4 md:p-5 border-b rounded-t border-gray-200">
+                                            <h3 class="text-lg font-bold text-gray-900">
+                                                Order Details
+                                            </h3>
+                                            <button type="button"
+                                                class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center"
+                                                data-modal-toggle="editModal{{ $order->id }}">
+                                                <i class='bx bx-x text-gray-500 text-2xl'></i>
+                                            </button>
+                                        </div>
+                                        <form action="{{ route('cashier.orders.update', $order->id) }}" method="POST">
+                                            @csrf
+                                            @method('PUT')
+                                            <div class="grid grid-cols-2 gap-4 mb-4 p-4">
 
-                                                    <div class="col-span-1">
-                                                        <label for="customer_id"
-                                                            class="block mb-2 text-sm font-medium text-gray-900">Customer
-                                                            Name</label>
-                                                        <input type="text" name="customer_id" id="customer_id"
-                                                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
-                                                            value="{{ $order->user->fname . ' ' . $order->user->lname }}"
-                                                            readonly>
+                                                <div class="col-span-1">
+                                                    <label for="customer_id"
+                                                        class="block mb-2 text-sm font-medium text-gray-900">Customer
+                                                        Name</label>
+                                                    <input type="text" name="customer_id" id="customer_id"
+                                                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                                                        value="{{ $order->user->fname . ' ' . $order->user->lname }}"
+                                                        readonly>
+                                                </div>
+                                                <div class="col-span-1">
+                                                    <label for="customer_id"
+                                                        class="block mb-2 text-sm font-medium text-gray-900">Customer
+                                                        Address</label>
+                                                    <input type="text" name="customer_id" id="customer_id"
+                                                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                                                        placeholder="Type customer address"
+                                                        value="{{ $order->user->address }}" readonly>
+                                                </div>
+                                                <div class="col-span-1">
+                                                    <label for="customer_id"
+                                                        class="block mb-2 text-sm font-medium text-gray-900">Customer
+                                                        Contact Number</label>
+                                                    <input type="text" name="customer_id" id="customer_id"
+                                                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                                                        placeholder="Type customer contact number"
+                                                        value="{{ $order->user->phone }}" readonly>
+                                                </div>
+                                                <div class="col-span-1">
+                                                    <label for="product_name"
+                                                        class="block mb-2 text-sm font-medium text-gray-900">Product
+                                                        Name</label>
+                                                    <input type="text" name="name" id="name"
+                                                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                                                        placeholder="Type product name"
+                                                        value="{{ $order->orderItems->first()->product->name ?? 'N/A' }}"
+                                                        readonly>
+                                                </div>
+                                                <div class="col-span-1">
+                                                    <label for="product_description"
+                                                        class="block mb-2 text-sm font-medium text-gray-900">Product
+                                                        Description</label>
+                                                    <input type="text" name="product_description"
+                                                        id="product_description"
+                                                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                                                        placeholder="Type product description"
+                                                        value="{{ $order->orderItems->first()->product->description ?? 'N/A' }}"
+                                                        readonly>
+                                                </div>
+                                                <div class="col-span-1">
+                                                    <label for="category"
+                                                        class="block mb-2 text-sm font-medium text-gray-900">Category
+                                                        Name</label>
+                                                    <div id="category" name="category_id"
+                                                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5"
+                                                        disabled>
+                                                        @foreach ($categories as $category)
+                                                            @if ($order->orderItems->first()->product->category_id == $category->id)
+                                                                <div value="{{ $category->id }}">
+                                                                    {{ $category->name }}
+                                                                </div>
+                                                            @endif
+                                                        @endforeach
                                                     </div>
-                                                    <div class="col-span-1">
-                                                        <label for="customer_id"
-                                                            class="block mb-2 text-sm font-medium text-gray-900">Customer
-                                                            Address</label>
-                                                        <input type="text" name="customer_id" id="customer_id"
-                                                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
-                                                            placeholder="Type customer address"
-                                                            value="{{ $order->user->address }}" readonly>
-                                                    </div>
-                                                    <div class="col-span-1">
-                                                        <label for="customer_id"
-                                                            class="block mb-2 text-sm font-medium text-gray-900">Customer
-                                                            Contact Number</label>
-                                                        <input type="text" name="customer_id" id="customer_id"
-                                                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
-                                                            placeholder="Type customer contact number"
-                                                            value="{{ $order->user->phone }}" readonly>
-                                                    </div>
-                                                    <div class="col-span-1">
-                                                        <label for="product_name"
-                                                            class="block mb-2 text-sm font-medium text-gray-900">Product
-                                                            Name</label>
-                                                        <input type="text" name="name" id="name"
-                                                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
-                                                            placeholder="Type product name"
-                                                            value="{{ $order->orderItems->first()->product->name ?? 'N/A' }}"
-                                                            readonly>
-                                                    </div>
-                                                    <div class="col-span-1">
-                                                        <label for="product_description"
-                                                            class="block mb-2 text-sm font-medium text-gray-900">Product
-                                                            Description</label>
-                                                        <input type="text" name="product_description"
-                                                            id="product_description"
-                                                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
-                                                            placeholder="Type product description"
-                                                            value="{{ $order->orderItems->first()->product->description ?? 'N/A' }}"
-                                                            readonly>
-                                                    </div>
-                                                    <div class="col-span-1">
-                                                        <label for="category"
-                                                            class="block mb-2 text-sm font-medium text-gray-900">Category Name</label>
-                                                        <div id="category" name="category_id"
-                                                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5"
-                                                            disabled>
-                                                            @foreach ($categories as $category)
-                                                                @if ($order->orderItems->first()->product->category_id == $category->id)
-                                                                    <div value="{{ $category->id }}">
-                                                                        {{ $category->name }}
-                                                                    </div>
-                                                                @endif
-                                                            @endforeach
-                                                        </div>
-                                                    </div>
+                                                </div>
 
-                                                    <div class="col-span-1">
-                                                        <label for="price"
-                                                            class="block mb-2 text-sm font-medium text-gray-900">Price</label>
-                                                        <input type="number" name="price" id="price"
-                                                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
-                                                            placeholder="$2999"
-                                                            value="{{ $order->orderItems->first()->price / $order->orderItems->first()->quantity ?? 'N/A' }}"
-                                                            readonly>
-                                                    </div>
+                                                <div class="col-span-1">
+                                                    <label for="price"
+                                                        class="block mb-2 text-sm font-medium text-gray-900">Price</label>
+                                                    <input type="number" name="price" id="price"
+                                                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                                                        placeholder="$2999"
+                                                        value="{{ $order->orderItems->first()->price / $order->orderItems->first()->quantity ?? 'N/A' }}"
+                                                        readonly>
+                                                </div>
 
-                                                    <div class="col-span-1">
-                                                        <label for="quantity"
-                                                            class="block mb-2 text-sm font-medium text-gray-900">Quantity</label>
-                                                        <input type="number" name="quantity" id="quantity"
-                                                            class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500"
-                                                            placeholder="Type quantity" name="quantity"
-                                                            value="{{ $order->orderItems->first()->quantity }}"
-                                                            readonly>
-                                                    </div>
+                                                <div class="col-span-1">
+                                                    <label for="quantity"
+                                                        class="block mb-2 text-sm font-medium text-gray-900">Quantity</label>
+                                                    <input type="number" name="quantity" id="quantity"
+                                                        class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500"
+                                                        placeholder="Type quantity" name="quantity"
+                                                        value="{{ $order->orderItems->first()->quantity }}" readonly>
+                                                </div>
 
 
-                                                    <div class="col-span-1">
-                                                        <label for="payment_method"
-                                                            class="block mb-2 text-sm font-medium text-gray-900">Total
-                                                            Amount</label>
-                                                        <input type="text" name="payment_method"
-                                                            id="payment_method"
-                                                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
-                                                            value="{{ $order->orderItems->first()->price }}" readonly>
-                                                    </div>
+                                                <div class="col-span-1">
+                                                    <label for="payment_method"
+                                                        class="block mb-2 text-sm font-medium text-gray-900">Total
+                                                        Amount</label>
+                                                    <input type="text" name="payment_method" id="payment_method"
+                                                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                                                        value="{{ $order->orderItems->first()->price }}" readonly>
+                                                </div>
 
-                                                    <!-- <div class="col-span-1">
+                                                <!-- <div class="col-span-1">
                                                         <label for="courier"
                                                             class="block mb-2 text-sm font-medium text-gray-900">Courier</label>
                                                         <input type="text" name="courier" id="courier"
@@ -189,52 +211,51 @@
                                                             readonly>
                                                     </div> -->
 
+                                                <div class="col-span-1">
+                                                    <label for="payment_method"
+                                                        class="block mb-2 text-sm font-medium text-gray-900">Mode
+                                                        of Payment</label>
+                                                    <input type="text" name="payment_method" id="payment_method"
+                                                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                                                        value="{{ $order->payments->first() ? $order->payments->first()->payment_method : 'N/A' }}"
+                                                        readonly>
+                                                </div>
+                                                <div class="col-span-1">
+                                                    <label for="payment_date"
+                                                        class="block mb-2 text-sm font-medium text-gray-900">Payment
+                                                        Date</label>
+                                                    <input type="text" name="payment_date" id="payment_date"
+                                                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                                                        value="{{ $order->payments->first() ? \Carbon\Carbon::parse($order->payments->first()->payment_date)->format('F d, Y') : 'N/A' }}"
+                                                        readonly>
+                                                </div>
+                                                @if (!is_null($order->payments->pickup_date))
                                                     <div class="col-span-1">
-                                                        <label for="payment_method"
-                                                            class="block mb-2 text-sm font-medium text-gray-900">Mode
-                                                            of Payment</label>
-                                                        <input type="text" name="payment_method"
-                                                            id="payment_method"
-                                                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
-                                                            value="{{ $order->payments->first() ? $order->payments->first()->payment_method : 'N/A' }}"
-                                                            readonly>
-                                                    </div>
-                                                    <div class="col-span-1">
-                                                        <label for="payment_date"
-                                                            class="block mb-2 text-sm font-medium text-gray-900">Payment
+                                                        <label for="pickup_date"
+                                                            class="block mb-2 text-sm font-medium text-gray-900">Pickup
                                                             Date</label>
-                                                        <input type="text" name="payment_date" id="payment_date"
+                                                        <input type="text" name="pickup_date" id="pickup_date"
                                                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
-                                                            value="{{ $order->payments->first() ? \Carbon\Carbon::parse($order->payments->first()->payment_date)->format('F d, Y') : 'N/A' }}"
+                                                            value="{{ $order->payments->pickup_date ? \Carbon\Carbon::parse($order->payments->pickup_date)->format('F d, Y') : 'N/A' }}"
                                                             readonly>
                                                     </div>
-                                                    @if (!is_null($order->payments->pickup_date ))
-                                                        <div class="col-span-1">
-                                                            <label for="pickup_date"
-                                                                class="block mb-2 text-sm font-medium text-gray-900">Pickup
-                                                                Date</label>
-                                                            <input type="text" name="pickup_date" id="pickup_date"
-                                                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
-                                                                value="{{ $order->payments->pickup_date  ? \Carbon\Carbon::parse($order->payments->pickup_date)->format('F d, Y') : 'N/A' }}"
-                                                                readonly>
-                                                        </div>
-                                                    @endif
-                                                    <div class="col-span-1">
-                                                        <label for="status"
-                                                            class="block mb-2 text-sm font-medium text-gray-900">Status</label>
-                                                        <select id="status" name="status"
-                                                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5">
+                                                @endif
+                                                <div class="col-span-1">
+                                                    <label for="status"
+                                                        class="block mb-2 text-sm font-medium text-gray-900">Status</label>
+                                                    <select id="status" name="status"
+                                                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5">
 
-                                                            <option value="pending"
-                                                                {{ $order->status == 'pending' ? 'selected' : '' }}
-                                                                disabled>
-                                                                Pending
-                                                            </option>
-                                                            <option value="processing"
-                                                                {{ $order->status == 'processing' ? 'selected' : '' }}>
-                                                                Processing
-                                                            </option>
-                                                            <!--
+                                                        <option value="pending"
+                                                            {{ $order->status == 'pending' ? 'selected' : '' }}
+                                                            disabled>
+                                                            Pending
+                                                        </option>
+                                                        <option value="processing"
+                                                            {{ $order->status == 'processing' ? 'selected' : '' }}>
+                                                            Processing
+                                                        </option>
+                                                        <!--
                                                         <option value="delivered"
                                                             {{ $order->status == 'delivered' ? 'selected' : '' }}>
                                                             Completed/Delivered
@@ -243,9 +264,9 @@
                                                             {{ $order->status == 'canceled' ? 'selected' : '' }}>
                                                             Canceled
                                                         </option> -->
-                                                        </select>
-                                                    </div>
-                                                    <!-- <div class="col-span-2">
+                                                    </select>
+                                                </div>
+                                                <!-- <div class="col-span-2">
                                                     <label for="feedback"
                                                         class="block mb-2 text-sm font-bold text-gray-900">Feedback</label>
                                                     <ul class="bg-gray-50 border border-gray-300 rounded-lg p-2">
@@ -257,46 +278,46 @@
                                                         </li>
                                                     </ul>
                                                 </div> -->
-                                                    <div class="col-span-2 flex justify-around gap-2">
-                                                        <div class="col-span-1">
-                                                            <label for="proof_of_delivery"
-                                                                class="block mb-2 text-sm font-medium text-gray-900">Proof
-                                                                of
-                                                                Delivery</label>
-                                                            <img src="{{ asset('delivery_receipt/' . $order->proof_of_delivery) }}"
-                                                                alt="Proof of Delivery" class="w-60 object-cover"
-                                                                onclick="openModal(this.src)">
-                                                        </div>
-                                                        <div class="col-span-1">
-                                                            <label for="receipt_file"
-                                                                class="block mb-2 text-sm font-medium text-gray-900">Receipt
-                                                                File</label>
-                                                            @if ($order->payments->first() && $order->payments->first()->receipt_file)
-                                                                <img src="{{ asset('receipt_file/' . $order->payments->first()->receipt_file) }}"
-                                                                    alt="Receipt File" class="w-60 object-cover"
-                                                                    onclick="openModal(this.src)">
-                                                            @else
-                                                                <p>No receipt file available.</p>
-                                                            @endif
-                                                        </div>
+                                                <div class="col-span-2 flex justify-around gap-2">
+                                                    <div class="col-span-1">
+                                                        <label for="proof_of_delivery"
+                                                            class="block mb-2 text-sm font-medium text-gray-900">Proof
+                                                            of
+                                                            Delivery</label>
+                                                        <img src="{{ asset('delivery_receipt/' . $order->proof_of_delivery) }}"
+                                                            alt="Proof of Delivery" class="w-60 object-cover"
+                                                            onclick="openModal(this.src)">
                                                     </div>
-                                                    <hr class="my-4">
-                                                    <div class="flex justify-end gap-2">
-                                                        <button type="button"
-                                                            data-modal-toggle="editModal{{ $order->id }}"
-                                                            class="btn btn-error text-white inline-flex items-center bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">
-                                                            Close
-                                                        </button>
-                                                        <button type="submit"
-                                                            class="btn btn-primary text-white inline-flex items-center bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">
-                                                            Save Changes
-                                                        </button>
+                                                    <div class="col-span-1">
+                                                        <label for="receipt_file"
+                                                            class="block mb-2 text-sm font-medium text-gray-900">Receipt
+                                                            File</label>
+                                                        @if ($order->payments->first() && $order->payments->first()->receipt_file)
+                                                            <img src="{{ asset('receipt_file/' . $order->payments->first()->receipt_file) }}"
+                                                                alt="Receipt File" class="w-60 object-cover"
+                                                                onclick="openModal(this.src)">
+                                                        @else
+                                                            <p>No receipt file available.</p>
+                                                        @endif
                                                     </div>
                                                 </div>
-                                            </form>
-                                        </div>
+                                                <hr class="my-4">
+                                                <div class="flex justify-end gap-2">
+                                                    <button type="button"
+                                                        data-modal-toggle="editModal{{ $order->id }}"
+                                                        class="btn btn-error text-white inline-flex items-center bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">
+                                                        Close
+                                                    </button>
+                                                    <button type="submit"
+                                                        class="btn btn-primary text-white inline-flex items-center bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">
+                                                        Save Changes
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </form>
                                     </div>
                                 </div>
+                            </div>
                         @endforeach
 
                     </tbody>
