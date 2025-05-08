@@ -38,6 +38,11 @@
                     class="hidden fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full">
                     <div class="relative top-20 mx-auto p-5 border w-96 shadow-lg rounded-md bg-white">
                         <div class="mt-3">
+                            <style>
+                                .flatpickr-disabled {
+                                    color:rgba(0,0,0,0.2) !important;
+                                }
+                            </style>
                             <h3 class="text-lg font-medium text-gray-900 mb-4">Select Date Range</h3>
                             <form action="{{ route('cashier.sales.export') }}" method="GET">
                                 <div class="mb-4">
@@ -58,25 +63,30 @@
                                     let selectedDates = [];
                                     let fp;
 
-                                    document.addEventListener('DOMContentLoaded', function () {
+                                    document.addEventListener('DOMContentLoaded', function() {
                                         fp = flatpickr("#dateRange", {
                                             mode: "range",
                                             dateFormat: "Y-m-d",
                                             closeOnSelect: false,
-                                            onChange: function (dates) {
+                                            showMonths: 1, // You can increase to 2 if you're displaying two months
+                                            maxDate: 'today',
+                                            disableMobile: true, // Ensures desktop calendar on mobile
+                                            onChange: function(dates) {
                                                 selectedDates = dates;
                                             },
-                                            onReady: function (selectedDates, dateStr, instance) {
+                                            onReady: function(selectedDates, dateStr, instance) {
                                                 // Create confirm/cancel buttons
                                                 const confirmBtn = document.createElement("button");
                                                 confirmBtn.type = "button";
                                                 confirmBtn.innerText = "Confirm";
-                                                confirmBtn.className = "mt-2 bg-blue-600 hover:bg-blue-700 text-white px-3 py-1 rounded text-sm";
+                                                confirmBtn.className =
+                                                    "mt-2 bg-blue-600 hover:bg-blue-700 text-white px-3 py-1 rounded text-sm";
 
                                                 const cancelBtn = document.createElement("button");
                                                 cancelBtn.type = "button";
                                                 cancelBtn.innerText = "Cancel";
-                                                cancelBtn.className = "mt-2 ml-2 bg-gray-500 hover:bg-gray-600 text-white px-3 py-1 rounded text-sm";
+                                                cancelBtn.className =
+                                                    "mt-2 ml-2 bg-gray-500 hover:bg-gray-600 text-white px-3 py-1 rounded text-sm";
 
                                                 // Button container
                                                 const btnContainer = document.createElement("div");
@@ -88,18 +98,17 @@
                                                 instance.calendarContainer.appendChild(btnContainer);
 
                                                 // Confirm logic
-                                                confirmBtn.addEventListener("click", function () {
-                                                    if (selectedDates.length === 2) {
-                                                        document.getElementById('from_date').value = instance.formatDate(selectedDates[0], "Y-m-d");
-                                                        document.getElementById('to_date').value = instance.formatDate(selectedDates[1], "Y-m-d");
-                                                        instance.close();
-                                                    } else {
-                                                        alert("Please select a full date range.");
-                                                    }
+                                                confirmBtn.addEventListener("click", function() {
+                                                    document.getElementById('from_date').value = instance.formatDate(
+                                                        selectedDates[0], "Y-m-d");
+                                                    document.getElementById('to_date').value = instance.formatDate(
+                                                        selectedDates[1], "Y-m-d");
+                                                    instance.close();
+
                                                 });
 
                                                 // Cancel logic
-                                                cancelBtn.addEventListener("click", function () {
+                                                cancelBtn.addEventListener("click", function() {
                                                     instance.clear();
                                                     document.getElementById('from_date').value = '';
                                                     document.getElementById('to_date').value = '';
