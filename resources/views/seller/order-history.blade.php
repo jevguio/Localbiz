@@ -1,9 +1,24 @@
 <x-app-layout>
     <div class="p-4 sm:ml-64">
-        <div class="p-4 border-2 border-gray-200 border-dashed rounded-lg" >
+        <div class="p-4 border-2 border-gray-200 border-dashed rounded-lg">
+
             <div class="flex justify-between items-center">
                 <h2 class="mt-3 text-xl font-bold text-gray-900 sm:text-3xl">Order History</h2>
             </div>
+
+            <ul
+                class="bg-white shadow-[0_2px_8px_-1px_rgba(6,81,237,0.4)] p-2 space-x-4 w-max flex items-center mx-auto font-[sans-serif] mt-4">
+
+                <li
+                    class=" {{ Route::currentRouteName() == 'seller.order-history' ? 'border-b-2 border-orange-900 text-orange-900' : 'text-gray-400' }} ' border-orange-900 text-orange-900' : text-gray-400 hover:text-orange-900  px-4 py-2.5 text-sm font-bold cursor-pointer flex items-center">
+                    <a href="{{ route('seller.order-history') }}">Order</a>
+                </li>
+                <li
+                    class=" {{ Route::currentRouteName() == 'seller.tracking.walkin' ? 'border-b-2 border-orange-900 text-orange-900' : 'text-gray-400' }} ' border-orange-900 text-orange-900' : text-gray-400 hover:text-orange-900  px-4 py-2.5 text-sm font-bold cursor-pointer flex items-center">
+                    <a href="{{ route('seller.tracking.walkin') }}">Walk-in</a>
+                </li>
+
+            </ul>
             <div class="relative overflow-x-auto mt-10 bg-white p-4 rounded-lg" style="min-height: 800px">
                 <form class="max-w-md ml-0 mb-4">
                     <label for="table-search" class="mb-2 text-sm font-medium text-gray-900 sr-only">Search</label>
@@ -14,21 +29,26 @@
                         <input type="search" id="table-search"
                             class="block w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500"
                             placeholder="Search for order....">
-                            
+
                         <button type="button" id="filter-btn"
                             class="absolute inset-y-0 end-0 flex items-center px-3 text-gray-600 hover:text-gray-900">
                             <i class='bx bx-filter text-2xl'></i>
-                        </button> 
-                            <div id="filter-dropdown"
-                                class="hidden absolute right-0 mt-2 w-40 bg-white border border-gray-300 rounded-lg shadow-lg">
-                                <ul class="py-2 text-sm text-gray-700">
-                                    <a href="{{ route('seller.order-history') }}?filter=all" class="block w-full px-4 py-2 hover:bg-gray-100 cursor-pointer">All</a> 
-                                    <a href="{{ route('seller.order-history') }}?filter=processing" class="block w-full px-4 py-2 hover:bg-gray-100 cursor-pointer">Processing</a>
-                                    <a href="{{ route('seller.order-history') }}?filter=receiving" class="block w-full px-4 py-2 hover:bg-gray-100 cursor-pointer">Receiving</a> 
-                                    <a href="{{ route('seller.order-history') }}?filter=delivered" class="block w-full px-4 py-2 hover:bg-gray-100 cursor-pointer">Delivered</a> 
-                                    <a href="{{ route('seller.order-history') }}?filter=cancelled" class="block w-full px-4 py-2 hover:bg-gray-100 cursor-pointer">Cancelled</a> 
-                                    </ul>
-                            </div> 
+                        </button>
+                        <div id="filter-dropdown"
+                            class="hidden absolute right-0 mt-2 w-40 bg-white border border-gray-300 rounded-lg shadow-lg">
+                            <ul class="py-2 text-sm text-gray-700">
+                                <a href="{{ route('seller.order-history') }}?filter=all"
+                                    class="block w-full px-4 py-2 hover:bg-gray-100 cursor-pointer">All</a>
+                                <a href="{{ route('seller.order-history') }}?filter=processing"
+                                    class="block w-full px-4 py-2 hover:bg-gray-100 cursor-pointer">Processing</a>
+                                <a href="{{ route('seller.order-history') }}?filter=receiving"
+                                    class="block w-full px-4 py-2 hover:bg-gray-100 cursor-pointer">Receiving</a>
+                                <a href="{{ route('seller.order-history') }}?filter=delivered"
+                                    class="block w-full px-4 py-2 hover:bg-gray-100 cursor-pointer">Delivered</a>
+                                <a href="{{ route('seller.order-history') }}?filter=cancelled"
+                                    class="block w-full px-4 py-2 hover:bg-gray-100 cursor-pointer">Cancelled</a>
+                            </ul>
+                        </div>
                     </div>
                 </form>
                 <table class="w-full text-sm text-left rtl:text-right text-gray-500">
@@ -36,7 +56,7 @@
                         <tr>
                             <th scope="col" class="px-6 py-3">
                                 Order Number
-                            </th> 
+                            </th>
                             <th scope="col" class="px-6 py-3">
                                 Order Date
                             </th>
@@ -54,19 +74,22 @@
 
                     <tbody id="product-table-body">
                         @foreach ($orders as $order)
-                         
-                            <tr class="bg-white border-b border-gray-200 hover:bg-gray-50"  data-category="{{ $order->status }}">
+                            <tr class="bg-white border-b border-gray-200 hover:bg-gray-50"
+                                data-category="{{ $order->status }}">
                                 <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
                                     {{ $order->order_number }}
-                                </th> 
+                                </th>
                                 <td class="px-6 py-4">
                                     {{ $order->created_at->format('d M Y') }}
 
                                 </td>
                                 <td class="px-6 py-4 pl-12">
-                                    ₱{{ number_format($order->orderItems->sum(function($item) {
-                                        return $item->quantity * $item->product->price;
-                                    }), 2) }}
+                                    ₱{{ number_format(
+                                        $order->orderItems->sum(function ($item) {
+                                            return $item->quantity * $item->product->price;
+                                        }),
+                                        2,
+                                    ) }}
                                 </td>
                                 <td class="px-6 py-4 -ml-6">
                                     {{ $order->status }}
@@ -101,7 +124,8 @@
                                                     Name</label>
                                                 <input type="text" name="customer_fn" id="customer_fn"
                                                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
-                                                    placeholder="Type customer name" value="{{ $order->user->fname . ' ' . $order->user->lname }}"
+                                                    placeholder="Type customer name"
+                                                    value="{{ $order->user->fname . ' ' . $order->user->lname }}"
                                                     readonly disabled>
                                             </div>
 
@@ -149,12 +173,12 @@
                                                     class="block mb-2 text-sm font-medium text-gray-900">Category</label>
                                                 <div id="category" name="category_id"
                                                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5"
-                                                    readonly disabled> 
+                                                    readonly disabled>
                                                     @foreach ($categories as $category)
-                                                    @if($order->orderItems->first()->product->category_id == $category->id)
-                                                        <div value="{{ $category->id }}" >
-                                                            {{ $category->name }} </div>
-                                                            @endif
+                                                        @if ($order->orderItems->first()->product->category_id == $category->id)
+                                                            <div value="{{ $category->id }}">
+                                                                {{ $category->name }} </div>
+                                                        @endif
                                                     @endforeach
                                                 </div>
                                             </div>
@@ -175,9 +199,10 @@
                                                 <input type="number" name="quantity" id="quantity"
                                                     class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500"
                                                     placeholder="Type quantity" name="quantity"
-                                                    value="{{ $order->orderItems->first()->quantity }}" readonly disabled>
+                                                    value="{{ $order->orderItems->first()->quantity }}" readonly
+                                                    disabled>
                                             </div>
-                                            
+
                                             <!-- <div class="col-span-1">
                                                 <label for="status"
                                                     class="block mb-2 text-sm font-medium text-gray-900">Status</label>
@@ -186,7 +211,7 @@
                                                     readonly disabled>
                                                     <div value="status" id="status"
                                                         {{ $order->status }}>
-                                                    </div> 
+                                                    </div>
                                                 </div>
                                             </div> -->
                                             <div class="col-span-1">
@@ -203,30 +228,30 @@
                                                 <label for="payment_date"
                                                     class="block mb-2 text-sm font-medium text-gray-900">Payment
                                                     Date</label>
-                                                <input type="text" name="payment_date" id="payment_date" 
+                                                <input type="text" name="payment_date" id="payment_date"
                                                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
                                                     value="{{ $order->payments->first() ? \Carbon\Carbon::parse($order->payments->first()->payment_date)->format('F d, Y') : 'N/A' }}"
                                                     readonly>
                                             </div>
-                                            
+
                                             <!-- <div class="col-span-1">
                                                 <label for="payment_date"
                                                     class="block mb-2 text-sm font-medium text-gray-900">Courier</label>
                                                 <div name="courier" id="courier"
                                                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
                                                     readonly disabled>
-                                                    @if($order->payments->first())
-                                                        @foreach ($couriers as $courier)
-                                                            @if($order->payments->first()->courier_id == $courier->id )
-                                                            <div value="{{ $courier->id }}" >
+                                                    @if ($order->payments->first())
+@foreach ($couriers as $courier)
+@if ($order->payments->first()->courier_id == $courier->id)
+<div value="{{ $courier->id }}" >
                                                                 {{ $courier->name }}
                                                             </div>
-                                                                @endif
-                                                        @endforeach
-                                                    @endif
+@endif
+@endforeach
+@endif
                                                 </div>
                                             </div> -->
-                                            
+
                                             <div class="col-span-1">
                                                 <label for="feedback"
                                                     class="block mb-2 text-sm font-bold text-gray-900">Feedback</label>
@@ -243,8 +268,8 @@
                                                 <label for="feedback"
                                                     class="block mb-2 text-sm font-bold text-gray-900">Message</label>
                                                 <ul class="bg-gray-50 border border-gray-300 rounded-lg p-2">
-                                                    <li class="mb-2"> 
-                                                        <span>{{ $order->payments->first()->message ?? 'No Message' }}</span> 
+                                                    <li class="mb-2">
+                                                        <span>{{ $order->payments->first()->message ?? 'No Message' }}</span>
                                                     </li>
                                                 </ul>
                                             </div>
@@ -254,21 +279,23 @@
                                                         class="block mb-2 text-sm font-medium text-gray-900">Proof of
                                                         Delivery</label>
                                                     <img src="{{ asset('delivery_receipt/' . $order->proof_of_delivery) }}"
-                                                        alt="Proof of Delivery" class="w-60 object-cover" onclick="openModal(this.src)"> 
+                                                        alt="Proof of Delivery" class="w-60 object-cover"
+                                                        onclick="openModal(this.src)">
                                                 </div>
                                                 <div class="col-span-1">
                                                     <label for="receipt_file"
                                                         class="block mb-2 text-sm font-medium text-gray-900">Receipt
                                                         File</label>
-                                                        @if($order->payments->first())
-                                                    <img src="{{ asset('receipt_file/' . $order->payments->first()->receipt_file) }}"
-                                                        alt="Receipt File" class="w-60 object-cover" onclick="openModal(this.src)">
-                                                        @endif
+                                                    @if ($order->payments->first())
+                                                        <img src="{{ asset('receipt_file/' . $order->payments->first()->receipt_file) }}"
+                                                            alt="Receipt File" class="w-60 object-cover"
+                                                            onclick="openModal(this.src)">
+                                                    @endif
                                                 </div>
                                             </div>
                                             <hr class="my-4">
                                             <div class="flex justify-end gap-2">
-                                                <button type="button" 
+                                                <button type="button"
                                                     data-modal-toggle="viewModal{{ $order->id }}"
                                                     class="btn btn-error text-white inline-flex items-center bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">
                                                     Close
@@ -277,7 +304,7 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div> 
+                            </div>
                         @endforeach
                     </tbody>
                 </table>
@@ -341,40 +368,40 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
         $(document).ready(function() {
-            
-        $("#filter-btn").click(function (event) {
-            event.preventDefault();
-            $("#filter-dropdown").toggleClass("hidden");
-        });
 
-        // Search and filter function
-        function filterTable() {
-            const searchInput = $("#table-search").val().toLowerCase();
-
-            $("#product-table-body tr").each(function () {
-                const rowText = $(this).text().toLowerCase();
-                const rowCategory = $(this).data("category");
-
-                const matchesSearch = rowText.indexOf(searchInput) > -1;
-                const matchesFilter = selectedFilter === "All" || rowCategory === selectedFilter;
-
-                $(this).toggle(matchesSearch && matchesFilter);
+            $("#filter-btn").click(function(event) {
+                event.preventDefault();
+                $("#filter-dropdown").toggleClass("hidden");
             });
-        }
-        
-        // Apply filter
-        $(".filter-option").click(function () {
-            selectedFilter = $(this).data("filter");
-            $("#filter-dropdown").addClass("hidden"); // Hide dropdown after selection
-            filterTable();
-        });
 
-        // Close dropdown when clicking outside
-        $(document).click(function (event) {
-            if (!$(event.target).closest("#filter-btn, #filter-dropdown").length) {
-                $("#filter-dropdown").addClass("hidden");
+            // Search and filter function
+            function filterTable() {
+                const searchInput = $("#table-search").val().toLowerCase();
+
+                $("#product-table-body tr").each(function() {
+                    const rowText = $(this).text().toLowerCase();
+                    const rowCategory = $(this).data("category");
+
+                    const matchesSearch = rowText.indexOf(searchInput) > -1;
+                    const matchesFilter = selectedFilter === "All" || rowCategory === selectedFilter;
+
+                    $(this).toggle(matchesSearch && matchesFilter);
+                });
             }
-        });
+
+            // Apply filter
+            $(".filter-option").click(function() {
+                selectedFilter = $(this).data("filter");
+                $("#filter-dropdown").addClass("hidden"); // Hide dropdown after selection
+                filterTable();
+            });
+
+            // Close dropdown when clicking outside
+            $(document).click(function(event) {
+                if (!$(event.target).closest("#filter-btn, #filter-dropdown").length) {
+                    $("#filter-dropdown").addClass("hidden");
+                }
+            });
             $('#table-search').on('keyup', function() {
                 const searchInput = $(this).val().toLowerCase();
                 $('#product-table-body tr').filter(function() {
@@ -391,6 +418,7 @@
                 $(`#${modalId}`).addClass('hidden');
             });
         });
+
         function openModal(src) {
             let modal = document.getElementById("myModalmyModal");
             modalImg = document.getElementById("modalImg");
@@ -408,6 +436,7 @@
             window.addEventListener("mouseup", stopDrag);
             modalImg.addEventListener("mouseup", stopDrag);
         }
+
         function closeModal() {
             document.getElementById("myModalmyModal").style.display = "none";
         }

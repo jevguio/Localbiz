@@ -112,6 +112,8 @@ Route::middleware(['auth', 'Seller'])->group(function () {
     Route::get('/seller/tracking/cancelled', [SellerController::class, 'trackingCancelled'])->name('seller.tracking.cancelled');
     Route::get('/seller/tracking/delivered', [SellerController::class, 'trackingDelivered'])->name('seller.tracking.delivered');
 
+    Route::get('/seller/tracking/walkin', [SellerController::class, 'walkin'])->name('seller.tracking.walkin');
+
     Route::post('/seller/dashboard/upload', [SellerController::class, 'upload'])->name('seller.dashboard.upload');
     Route::post('/seller/products/store', [SellerController::class, 'storeProduct'])->name('seller.products.store');
     Route::post('/seller/categories/store', [SellerController::class, 'storeCategory'])->name('seller.categories.store');
@@ -181,7 +183,7 @@ Route::middleware(['auth', 'DeliveryRider'])->group(function () {
     Route::get('/rider/tracking/cancelled', [RiderController::class, 'trackingCancelled'])->name('rider.tracking.cancelled');
     Route::get('/rider/tracking/delivered', [RiderController::class, 'trackingDelivered'])->name('rider.tracking.delivered');
     Route::get('/rider/tracking/walkin', [RiderController::class, 'index'])->name('rider.tracking.walkin');
-    Route::get('/rider/update/walkin/{id}', [RiderController::class, 'updateWalkin'])->name('rider.update.walkin');
+    Route::get('/rider/update/walkin/{id}', [RiderController::class, 'index'])->name('rider.update.walkin');
 
     Route::post('/rider/dashboard/upload', [RiderController::class, 'upload'])->name('rider.dashboard.upload');
 
