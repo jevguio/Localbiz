@@ -41,35 +41,76 @@
                             <h3 class="text-lg font-medium text-gray-900 mb-4">Select Date Range</h3>
                             <form action="{{ route('cashier.sales.export') }}" method="GET">
                                 <div class="mb-4">
-                                    <label class="block text-sm font-medium text-gray-700 mb-2">From Date</label>
+                                    <label class="block text-sm font-medium text-gray-700 mb-2">Select Date
+                                        Range</label>
+
                                     <!-- Visible Date Range Picker -->
                                     <input type="text" id="dateRange"
-                                        class="flatpickr-input block w-full p-2.5 mb-4 border border-gray-300 rounded-lg"
+                                        class="flatpickr-input block w-full p-2.5 mb-2 border border-gray-300 rounded-lg"
                                         placeholder="Select date range" readonly>
 
-                                    <!-- Hidden Inputs to Hold Parsed Dates -->
+                                    <!-- Hidden Inputs to Hold Confirmed Dates -->
                                     <input type="hidden" name="from_date" id="from_date">
                                     <input type="hidden" name="to_date" id="to_date">
+
                                 </div>
                                 <script>
-                                    document.addEventListener('DOMContentLoaded', function() {
-                                        flatpickr("#dateRange", {
+                                    let selectedDates = [];
+                                    let fp;
+
+                                    document.addEventListener('DOMContentLoaded', function () {
+                                        fp = flatpickr("#dateRange", {
                                             mode: "range",
                                             dateFormat: "Y-m-d",
-                                            onChange: function(selectedDates, dateStr, instance) {
-                                                if (selectedDates.length === 2) {
-                                                    document.getElementById('from_date').value = instance.formatDate(selectedDates[
-                                                        0], "Y-m-d");
-                                                    document.getElementById('to_date').value = instance.formatDate(selectedDates[1],
-                                                        "Y-m-d");
-                                                } else {
+                                            closeOnSelect: false,
+                                            onChange: function (dates) {
+                                                selectedDates = dates;
+                                            },
+                                            onReady: function (selectedDates, dateStr, instance) {
+                                                // Create confirm/cancel buttons
+                                                const confirmBtn = document.createElement("button");
+                                                confirmBtn.type = "button";
+                                                confirmBtn.innerText = "Confirm";
+                                                confirmBtn.className = "mt-2 bg-blue-600 hover:bg-blue-700 text-white px-3 py-1 rounded text-sm";
+
+                                                const cancelBtn = document.createElement("button");
+                                                cancelBtn.type = "button";
+                                                cancelBtn.innerText = "Cancel";
+                                                cancelBtn.className = "mt-2 ml-2 bg-gray-500 hover:bg-gray-600 text-white px-3 py-1 rounded text-sm";
+
+                                                // Button container
+                                                const btnContainer = document.createElement("div");
+                                                btnContainer.className = "flatpickr-confirm-buttons flex justify-center mt-2";
+                                                btnContainer.appendChild(confirmBtn);
+                                                btnContainer.appendChild(cancelBtn);
+
+                                                // Append buttons to Flatpickr calendar
+                                                instance.calendarContainer.appendChild(btnContainer);
+
+                                                // Confirm logic
+                                                confirmBtn.addEventListener("click", function () {
+                                                    if (selectedDates.length === 2) {
+                                                        document.getElementById('from_date').value = instance.formatDate(selectedDates[0], "Y-m-d");
+                                                        document.getElementById('to_date').value = instance.formatDate(selectedDates[1], "Y-m-d");
+                                                        instance.close();
+                                                    } else {
+                                                        alert("Please select a full date range.");
+                                                    }
+                                                });
+
+                                                // Cancel logic
+                                                cancelBtn.addEventListener("click", function () {
+                                                    instance.clear();
                                                     document.getElementById('from_date').value = '';
                                                     document.getElementById('to_date').value = '';
-                                                }
+                                                });
                                             }
                                         });
                                     });
                                 </script>
+
+
+
 
                                 <div class="flex justify-end gap-2">
                                     <button type="submit"
