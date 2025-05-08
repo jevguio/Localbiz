@@ -81,13 +81,7 @@
                         <form action="{{ route('cashier.walkin.checkout') }}" method="post">
 
                             @csrf
-                            <h2 class="font-bold text-lg mb-2">Order #{{ $cart['id'] }}</h2>
-                            <div class="mb-4">
-                                <label class="block mb-1 text-sm font-medium text-gray-900">Order Date</label>
-                                <input type="date" name="order_date"
-                                    class="w-full border p-2 text-sm rounded-lg"
-                                    value="{{ date('Y-m-d') }}">
-                            </div>
+                            {{-- <h2 class="font-bold text-lg mb-2">Order #{{ $cart['id'] }}</h2> --}}
                             <div class="mb-4">
                                 <label class="block mb-1 text-sm font-medium text-gray-900">Customer Name</label>
                                 <input type="text" name="customer_name" class="w-full border p-2 text-sm rounded-lg"
