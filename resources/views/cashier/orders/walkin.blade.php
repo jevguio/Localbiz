@@ -34,7 +34,7 @@
                                     class="block w-full px-4 py-2 hover:bg-gray-100 cursor-pointer">Delivered</a>
                                 <a href="{{ route('seller.order-history') }}?filter=cancelled"
                                     class="block w-full px-4 py-2 hover:bg-gray-100 cursor-pointer">Cancelled</a>
-                            </ul> -->   
+                            </ul> -->
                         </div>
                     </div>
                     <div class="relative w-1/2">
@@ -84,7 +84,7 @@
                             <h2 class="font-bold text-lg mb-2">Order #{{ $cart['id'] }}</h2>
                             <div class="mb-4">
                                 <label class="block mb-1 text-sm font-medium text-gray-900">Order Date</label>
-                                <input type="date" name="order_date" 
+                                <input type="date" name="order_date"
                                     class="w-full border p-2 text-sm rounded-lg"
                                     value="{{ date('Y-m-d') }}">
                             </div>
@@ -170,9 +170,9 @@
 
                             {{-- Payment Status --}}
                             <label class="block mb-1 text-sm">Amount Paid</label>
-                            <input type="number" name="payment_amount" 
+                            <input type="number" name="amount_paid"
                                 class="w-full border p-2 mb-4 text-sm rounded-lg"
-                                placeholder="Enter amount paid" 
+                                placeholder="Enter amount paid"
                                 step="0.01"
                                 min="0"
                                 max="{{ $cart['total'] }}"
@@ -185,7 +185,7 @@
                                 }
                             </script>
 
-                            <button class="w-full py-3 bg-red-900 text-white rounded-lg">Add Order</button>
+                            <button type="submit" class="w-full py-3 bg-red-900 text-white rounded-lg">Add Order</button>
                         </form>
                     </div>
 

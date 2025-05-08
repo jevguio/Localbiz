@@ -24,6 +24,7 @@ return new class extends Migration
 
             // Totals
             $table->decimal('subtotal', 10, 2);
+            $table->decimal('amount_paid', 10, 2);
             $table->decimal('delivery_fee', 10, 2)->default(0);
             $table->decimal('total', 10, 2);
 

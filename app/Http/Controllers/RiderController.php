@@ -40,15 +40,15 @@ class RiderController extends Controller
         $orders = Orders::whereHas('orderItems.product', function ($query) use ($seller_id) {
             $query->where('seller_id', $seller_id);
         })
-        ->latest()
+            ->latest()
             ->with(['user', 'orderItems.product', 'payments'])
             ->paginate(10);
 
         $orderItems = OrderItems::whereHas('product', function ($query) use ($seller_id) {
             $query->where('seller_id', $seller_id);
         })
-        ->latest()
-        ->get();
+            ->latest()
+            ->get();
 
         $payments = Payments::all();
         $products = Products::all();
@@ -137,8 +137,8 @@ class RiderController extends Controller
     {
         $user = Auth::user()->load('rider');
         $seller_id = $user->rider->seller_id ?? null; // Use null-safe operator in case it's missing
-        \Log::info(''. $user->id .' '. $seller_id);
-        $orders = WalkinOrders::where('seller_id', '=', $seller_id)->get();
+        \Log::info('' . $user->id . ' ' . $seller_id);
+        $orders = WalkinOrders::where('seller_id', '=', $seller_id)->where('delivery_method', '=', 'delivery')->get();
 
         return view('rider.tracking.walkinorder', compact('orders'));
     }

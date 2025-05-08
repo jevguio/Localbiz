@@ -51,7 +51,7 @@ class CashierController extends Controller
             'customer_name' => 'nullable|string|max:255',
             'delivery_method' => 'required|in:pickup,delivery',
             'payment_method' => 'required|in:cash,bank_transfer,e_wallet',
-            'payment_status' => 'required|in:partial,paid',
+            'amount_paid' => 'required|numeric|min:0',
         ]);
 
         $cart = session()->get('cart', []);
@@ -77,7 +77,8 @@ class CashierController extends Controller
         $total = $subtotal + $deliveryFee;
         $user = Auth::user()->load('cashier');
         $seller_id = $user->cashier->seller_id ?? null; // Use null-safe operator in case it's missing
-
+        $amount_paid = $data['amount_paid'];
+        $payment_status = $amount_paid == $subtotal ? 'paid' : 'partial';
         $order = WalkinOrders::create([
             'customer_name' => $data['customer_name'] ?? null,
             'items' => $items,
@@ -87,7 +88,8 @@ class CashierController extends Controller
             'subtotal' => $subtotal,
             'delivery_fee' => $deliveryFee,
             'total' => $total,
-            'status' => $data['payment_status'],
+            'amount_paid' => $data['amount_paid'],
+            'status' => $payment_status,
         ]);
 
         session()->forget('cart'); // optional: clear the cart
@@ -234,7 +236,7 @@ class CashierController extends Controller
         ])
             ->whereHas('orderItems.product', function ($query) use ($seller_id) {
                 $query->where('seller_id', $seller_id);
-            })->where('status', '=', 'pending')
+            })->where('status', '=', 'processing')
             ->orderBy('created_at', 'desc')
             ->paginate(10);
 

@@ -38,8 +38,8 @@
                 <tbody>
                     @forelse ($orders as $order)
                         <tr>
-                            
-                            <td>{{ \Carbon\Carbon::parse($order->order_date)->format('F d, Y') }}</td>
+
+                            <td>{{ \Carbon\Carbon::parse($order->created_at)->format('F d, Y') }}</td>
                             <td>{{ $order->customer_name }}</td>
                             <td>
                                 <ul>
@@ -52,9 +52,9 @@
                             <td class="pl-12">{{ $order->payment_method }}</td>
                             <td class="pl-12">{{ $order->delivery_method }}</td>
                             <td>{{ $order->status }}</td>
-                           
-                            <td>
 
+                            <td>
+                                {{ $order->amount_paid }}
                             </td>
                         </tr>
                     @empty

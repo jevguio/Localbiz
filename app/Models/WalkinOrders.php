@@ -22,6 +22,7 @@ class WalkinOrders extends Model
         'total',
         'status',
         'delivery_status',
+        'amount_paid',
     ];
 
     // Cast JSON columns to arrays or objects for easy manipulation

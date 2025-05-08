@@ -243,41 +243,14 @@
                                                 <div class="col-span-1">
                                                     <label for="status"
                                                         class="block mb-2 text-sm font-medium text-gray-900">Status</label>
-                                                    <select id="status" name="status"
+                                                    <div id="status" name="status" disabled
                                                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5">
 
-                                                        <option value="pending"
-                                                            {{ $order->status == 'pending' ? 'selected' : '' }}
-                                                            disabled>
-                                                            Pending
-                                                        </option>
-                                                        <option value="processing"
-                                                            {{ $order->status == 'processing' ? 'selected' : '' }}>
-                                                            Processing
-                                                        </option>
-                                                        <!--
-                                                        <option value="delivered"
-                                                            {{ $order->status == 'delivered' ? 'selected' : '' }}>
-                                                            Completed/Delivered
-                                                        </option>
-                                                        <option value="canceled"
-                                                            {{ $order->status == 'canceled' ? 'selected' : '' }}>
-                                                            Canceled
-                                                        </option> -->
+                                                        <div>
+                                                            {{ $order->status}}
+                                                        </div>
                                                     </select>
                                                 </div>
-                                                <!-- <div class="col-span-2">
-                                                    <label for="feedback"
-                                                        class="block mb-2 text-sm font-bold text-gray-900">Feedback</label>
-                                                    <ul class="bg-gray-50 border border-gray-300 rounded-lg p-2">
-                                                        <li class="mb-2">
-                                                            <strong>{{ $order->user->name }}:</strong>
-                                                            <span>{{ $order->orderItems->first()->feedback->comment ?? 'No feedback yet' }}</span>
-                                                            <span class="text-gray-500"> (Rating:
-                                                                {{ $order->orderItems->first()->feedback->rating ?? 'No rating yet' }})</span>
-                                                        </li>
-                                                    </ul>
-                                                </div> -->
                                                 <div class="col-span-2 flex justify-around gap-2">
                                                     <div class="col-span-1">
                                                         <label for="proof_of_delivery"
@@ -301,7 +274,7 @@
                                                         @endif
                                                     </div>
                                                 </div>
-                                                <hr class="my-4">
+                                                {{-- <hr class="my-4">
                                                 <div class="flex justify-end gap-2">
                                                     <button type="button"
                                                         data-modal-toggle="editModal{{ $order->id }}"
@@ -312,7 +285,7 @@
                                                         class="btn btn-primary text-white inline-flex items-center bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">
                                                         Save Changes
                                                     </button>
-                                                </div>
+                                                </div> --}}
                                             </div>
                                         </form>
                                     </div>
