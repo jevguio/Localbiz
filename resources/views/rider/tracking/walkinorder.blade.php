@@ -15,10 +15,6 @@
 
                 @endphp
 
-                <li
-                    class="{{ $status == null && Route::currentRouteName() != 'rider.tracking.walkin' ? 'border-b-2 border-orange-900 text-orange-900' : 'text-gray-400 hover:text-orange-900' }} px-4 py-2.5 text-sm font-bold cursor-pointer flex items-center">
-                    <a href="{{ route('rider.orders') }}">All {{ $status }}</a>
-                </li>
 
                 <li
                     class="{{ $status == 'receiving' ? 'border-b-2 border-orange-900 text-orange-900' : 'text-gray-400 hover:text-orange-900' }} px-4 py-2.5 text-sm font-bold cursor-pointer flex items-center">
