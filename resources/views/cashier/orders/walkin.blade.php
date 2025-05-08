@@ -83,28 +83,34 @@
                             @csrf
                             <h2 class="font-bold text-lg mb-2">Order #{{ $cart['id'] }}</h2>
                             <div class="mb-4">
+                                <label class="block mb-1 text-sm font-medium text-gray-900">Order Date</label>
+                                <input type="date" name="order_date" 
+                                    class="w-full border p-2 text-sm rounded-lg"
+                                    value="{{ date('Y-m-d') }}">
+                            </div>
+                            <div class="mb-4">
                                 <label class="block mb-1 text-sm font-medium text-gray-900">Customer Name</label>
                                 <input type="text" name="customer_name" class="w-full border p-2 text-sm rounded-lg"
                                     placeholder="Enter customer name" value="{{ $cart['customer_name'] ?? ' ' }}">
                             </div>
-                            <ul class="mb-4">
-                                @foreach ($cart['product'] as $item)
-                                    @if (!empty($item['product']))
-                                        <li class="flex justify-between text-sm border-b py-1">
-                                            <span>{{ $item['product']['name'] }} ×{{ $item['quantity'] }}</span>
-                                            <span>₱{{ number_format($item['price'] * $item['quantity'], 2) }}</span>
-                                        </li>
-                                    @endif
-                                @endforeach
-
-                            </ul>
+                            <label class="block mb-1 text-sm font-medium text-gray-900">Products</label>
+                                            <ul class="mb-4">
+                                                @foreach ($cart['product'] as $item)
+                                                    @if (!empty($item['product']))
+                                                        <li class="flex justify-between text-sm border-b py-1">
+                                                            <span>{{ $item['product']['name'] }} ×{{ $item['quantity'] }}</span>
+                                                            <span>₱{{ number_format($item['price'] * $item['quantity'], 2) }}</span>
+                                                        </li>
+                                                    @endif
+                                                @endforeach
+                                            </ul>
 
                             <div class="text-sm space-y-1 mb-4">
-                                <div class="flex justify-between">
+                                <!-- <div class="flex justify-between">
                                     <span>Subtotal</span><span>₱{{ number_format($cart['subtotal'], 2) }}</span>
                                 </div>
                                 <div class="flex justify-between"><span>Delivery
-                                        Fee</span><span>₱{{ number_format($cart['delivery_fee'], 2) }}</span></div>
+                                        Fee</span><span>₱{{ number_format($cart['delivery_fee'], 2) }}</span></div> -->
                                 <hr>
                                 <div class="flex justify-between font-semibold text-lg">
                                     <span>Total</span><span>₱{{ number_format($cart['total'], 2) }}</span>
@@ -113,6 +119,7 @@
 
                             {{-- Payment Methods --}}
 
+                            <label class="block mb-1 text-sm">Payment Method</label>
                             <input type="hidden" name="payment_method" id="paymentMethodInput">
                             <div class="flex justify-between mb-4">
                                 <button id="cashButton" class="w-full mx-1 py-2 bg-gray-200 rounded" type="button"
@@ -163,11 +170,20 @@
 
                             {{-- Payment Status --}}
                             <label class="block mb-1 text-sm">Amount Paid</label>
-                            <select class="w-full border p-2 mb-4 text-sm rounded" name="payment_status">
-                                <option selected disabled>Select Payment Status</option>
-                                <option value="partial">Partial</option>
-                                <option value="paid">Paid</option>
-                            </select>
+                            <input type="number" name="payment_amount" 
+                                class="w-full border p-2 mb-4 text-sm rounded-lg"
+                                placeholder="Enter amount paid" 
+                                step="0.01"
+                                min="0"
+                                max="{{ $cart['total'] }}"
+                                oninput="validatePayment(this, {{ $cart['total'] }})">
+                            <script>
+                                function validatePayment(input, total) {
+                                    if (parseFloat(input.value) > total) {
+                                        input.value = total;
+                                    }
+                                }
+                            </script>
 
                             <button class="w-full py-3 bg-red-900 text-white rounded-lg">Add Order</button>
                         </form>
