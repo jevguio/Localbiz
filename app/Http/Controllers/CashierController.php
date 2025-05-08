@@ -35,7 +35,7 @@ class CashierController extends Controller
     {
         $user = Auth::user()->load('cashier');
         $seller_id = $user->cashier->seller_id ?? null; // Use null-safe operator in case it's missing
-        $orders = WalkinOrders::where('seller_id', '=', $seller_id)->get();
+        $orders = WalkinOrders::where('seller_id', '=', $seller_id)->latest()->get();
 
         return view('cashier.orders.walkinorder', compact('orders'));
     }
