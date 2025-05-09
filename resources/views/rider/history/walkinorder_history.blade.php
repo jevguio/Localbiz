@@ -49,7 +49,6 @@
                         <th>Total</th>
                         <th>Status</th>
                         <th>Delivery Status</th>
-                        <th>Action</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -73,19 +72,6 @@
                                 {{ $order->status =="paid"?"Fully Paid":'Partial'}}
                             </td>
                             <td>{{ $order->delivery_status }}</td>
-                            <td>
-                                @if ($order->delivery_status != 'delivered')
-                                    <form action="{{ route('rider.update.walkin', ['id' => $order->id]) }}"
-                                        method="GET">
-                                        @csrf
-                                        <button type="submit"
-                                            class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
-                                            Mark as Delivered
-                                        </button>
-                                    </form>
-                                @endif
-
-                            </td>
                         </tr>
                     @empty
                         <tr>
