@@ -32,7 +32,7 @@
                 </li>
                 <li
                     class=" {{ Route::currentRouteName() == 'rider.tracking.walkin' ? 'border-b-2 border-orange-900 text-orange-900' : 'text-gray-400' }} ' border-orange-900 text-orange-900' : text-gray-400 hover:text-orange-900  px-4 py-2.5 text-sm font-bold cursor-pointer flex items-center">
-                    <a href="{{ route('rider.tracking.walkin') }}">Walk-in</a>
+                    <a href="{{ route('rider.tracking.walkin') }}">Walk-in Delivery</a>
                 </li>
 
             </ul>

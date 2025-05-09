@@ -18,7 +18,7 @@
                     <a href="{{ route('rider.orders', ['status' => 'cancelled']) }}">Cancelled</a>
                 </li>
                 <li class=" 'border-orange-900 text-orange-900' : text-gray-400 hover:text-orange-900  px-4 py-2.5 text-sm font-bold cursor-pointer flex items-center">
-                    <a href="{{ route('rider.tracking.walkin') }}">Walk-in</a>
+                    <a href="{{ route('rider.tracking.walkin') }}">Walk-in Delivery</a>
                 </li>
 
             </ul>
