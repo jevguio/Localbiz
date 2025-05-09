@@ -28,7 +28,7 @@ class RiderController extends Controller
         return redirect()->back();
     }
 
-    public function orders()
+    public function orders(Request $request)
     {
         $rider = Auth::user()->rider;
         $seller_id = $rider->seller_id;
@@ -42,6 +42,7 @@ class RiderController extends Controller
         })
             ->latest()
             ->with(['user', 'orderItems.product', 'payments'])
+            ->where('status','=','receiving')
             ->paginate(10);
 
         $orderItems = OrderItems::whereHas('product', function ($query) use ($seller_id) {
