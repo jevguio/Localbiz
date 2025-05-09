@@ -187,6 +187,9 @@ Route::middleware(['auth', 'DeliveryRider'])->group(function () {
 
     Route::post('/rider/dashboard/upload', [RiderController::class, 'upload'])->name('rider.dashboard.upload');
 
+    Route::get('/rider/history/order', [RiderController::class, 'orderHistory'])->name('rider.history.order');
+    Route::get('/rider/history/walkin', [RiderController::class, 'walkinHistory'])->name('rider.history.walkin');
+
 
     Route::put('/rider/orders/update/{id}', [RiderController::class, 'updateOrder'])->name('rider.orders.update');
 });

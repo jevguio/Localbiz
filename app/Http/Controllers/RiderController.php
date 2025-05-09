@@ -139,13 +139,41 @@ class RiderController extends Controller
         $seller_id = $user->rider->seller_id ?? null; // Use null-safe operator in case it's missing
         \Log::info('' . $user->id . ' ' . $seller_id);
         $orders = WalkinOrders::where('seller_id', '=', $seller_id)
-        ->where('delivery_method', '=', 'delivery')
-        ->where('delivery_status', '!=', 'completed')
+            ->where('delivery_method', '=', 'delivery')
+            ->where('delivery_status', '!=', 'completed')
             ->latest()->get();
 
         return view('rider.tracking.walkinorder', compact('orders'));
     }
 
+    public function orderHistory(Request $request)
+    {
+
+        $rider = Rider::where('user_id', Auth::user()->id)->first();
+        if ($rider->is_approved == 0 || $rider->user->is_active == 0) {
+            session()->flash('error', 'You are not approved to access this page.');
+            return redirect()->route('rider.dashboard');
+        }
+        $cartItems = OrderItems::whereHas('order', function ($query) use ($request) {
+            $query->where('status', $request->status);
+        })->whereHas('product', function ($query) use ($rider) {
+            $query->where('seller_id', $rider->seller_id);
+        })
+            ->get();
+        return view('rider.history.order', compact('cartItems'));
+    }
+    public function walkinHistory()
+    {
+        $user = Auth::user()->load('rider');
+        $seller_id = $user->rider->seller_id ?? null; // Use null-safe operator in case it's missing
+        \Log::info('' . $user->id . ' ' . $seller_id);
+        $orders = WalkinOrders::where('seller_id', '=', $seller_id)
+            ->where('delivery_method', '=', 'delivery')
+            // ->where('delivery_status', '!=', 'completed')
+            ->latest()->get();
+
+        return view('rider.history.walkinorder_history', compact('orders'));
+    }
     public function updateWalkin(Request $request, $id)
     {
 

@@ -18,21 +18,21 @@
 
                 <li
                     class="{{ $status == 'receiving' ? 'border-b-2 border-orange-900 text-orange-900' : 'text-gray-400 hover:text-orange-900' }} px-4 py-2.5 text-sm font-bold cursor-pointer flex items-center">
-                    <a href="{{ route('rider.orders', ['status' => 'receiving']) }}">For Delivery</a>
+                    <a href="{{ route('rider.history.order', ['status' => 'receiving']) }}">For Delivery</a>
                 </li>
 
                 <li
                     class="{{ $status == 'delivered' ? 'border-b-2 border-orange-900 text-orange-900' : 'text-gray-400 hover:text-orange-900' }} px-4 py-2.5 text-sm font-bold cursor-pointer flex items-center">
-                    <a href="{{ route('rider.orders', ['status' => 'delivered']) }}">Delivered</a>
+                    <a href="{{ route('rider.history.order', ['status' => 'delivered']) }}">Delivered</a>
                 </li>
 
                 <li
                     class="{{ $status == 'cancelled' ? 'border-b-2 border-orange-900 text-orange-900' : 'text-gray-400 hover:text-orange-900' }} px-4 py-2.5 text-sm font-bold cursor-pointer flex items-center">
-                    <a href="{{ route('rider.orders', ['status' => 'cancelled']) }}">Cancelled</a>
+                    <a href="{{ route('rider.history.order', ['status' => 'cancelled']) }}">Cancelled</a>
                 </li>
                 <li
-                    class=" {{ Route::currentRouteName() == 'rider.tracking.walkin' ? 'border-b-2 border-orange-900 text-orange-900' : 'text-gray-400' }} ' border-orange-900 text-orange-900' : text-gray-400 hover:text-orange-900  px-4 py-2.5 text-sm font-bold cursor-pointer flex items-center">
-                    <a href="{{ route('rider.tracking.walkin') }}">Walk-in</a>
+                    class=" {{ Route::currentRouteName() === 'rider.history.walkin' ? 'border-b-2 border-orange-900 text-orange-900' : 'text-gray-400' }}  px-4 py-2.5 text-sm font-bold cursor-pointer flex items-center">
+                    <a href="{{ route('rider.history.walkin') }}">Walk-in</a>
                 </li>
 
             </ul>
@@ -43,6 +43,7 @@
                         <th>Order Date</th>
                         <th>Customer</th>
                         <th>Items</th>
+                        <th>Delivery Method</th>
                         <th>Payment</th>
                         <th>Amount Paid</th>
                         <th>Total</th>
@@ -64,6 +65,7 @@
                                     @endforeach
                                 </ul>
                             </td>
+                            <td>{{ $order->delivery_method }}</td>
                             <td>{{ $order->payment_method }}</td>
                             <td>{{ $order->total }}</td>
                             <td>{{ $order->amount_paid }}</td>
