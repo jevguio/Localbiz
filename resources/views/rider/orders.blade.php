@@ -16,8 +16,8 @@
 
 
                 <li
-                    class="{{ $status == 'receiving' ? 'border-b-2 border-orange-900 text-orange-900' : 'text-gray-400 hover:text-orange-900' }} px-4 py-2.5 text-sm font-bold cursor-pointer flex items-center">
-                    <a href="{{ route('rider.orders', ['status' => 'receiving']) }}">For Delivery</a>
+                    class="{{  Route::currentRouteName() == 'rider.orders' ? 'border-b-2 border-orange-900 text-orange-900' : 'text-gray-400 hover:text-orange-900' }} px-4 py-2.5 text-sm font-bold cursor-pointer flex items-center">
+                    <a href="{{ route('rider.orders') }}">For Delivery</a>
                 </li>
 
                 <li
