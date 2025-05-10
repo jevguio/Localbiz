@@ -77,13 +77,7 @@
                         </tr>
                     </thead>
                     <tbody id="order-table-body">
-                        @if(empty($orders))
-                        <tr>
-
-                            <td colspan="8" class="text-center text-gray-500 py-4">No records found.</td>
-                        </tr>
-                        @endif
-                        @foreach ($orders as $order)
+                        @forelse ($orders as $order)
 
                                 <tr class="bg-white border-b border-gray-200 hover:bg-gray-50"  data-category="{{ $order->status }}">
                                     <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
@@ -313,7 +307,13 @@
                                     </div>
                                 </div>
                             </div>
-                        @endforeach
+                        @empty
+
+                        <tr>
+
+                            <td colspan="8" class="text-center text-gray-500 py-4">No records found.</td>
+                        </tr>
+                        @endforelse
 
                     </tbody>
                 </table>
