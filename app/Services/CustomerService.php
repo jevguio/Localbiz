@@ -187,6 +187,8 @@ class CustomerService
             } elseif($request->quantity<= $orderItem->product->stock){
 
                 $orderItem->quantity =$request->quantity;
+
+                session()->flash('error', 'Exceeds available stock.');
             }else {
                 $orderItem->quantity = $orderItem->product->stock;
                 session()->flash('error', 'Exceeds available stock.');
