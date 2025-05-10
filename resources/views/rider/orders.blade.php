@@ -311,7 +311,7 @@
 
                         <tr>
 
-                            <td colspan="8" class="text-center text-gray-500 py-4">No records found.</td>
+                            <td colspan="8" class="text-center text-gray-500 py-4">No orders found</td>
                         </tr>
                         @endforelse
 

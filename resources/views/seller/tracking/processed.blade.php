@@ -247,14 +247,14 @@
                                                     </li>
                                                 </ul>
                                             </div>
-                                            <div class="col-span-2 flex justify-around gap-2">
+                                            <!-- <div class="col-span-2 flex justify-around gap-2">
                                                 <div class="col-span-1">
                                                     <label for="proof_of_delivery"
                                                         class="block mb-2 text-sm font-medium text-gray-900">Proof of
                                                         Delivery</label>
                                                     <img src="{{ asset('delivery_receipt/' . $item->order->proof_of_delivery) }}"
                                                         alt="Proof of Delivery" class="w-60 object-cover">
-                                                </div>
+                                                </div> -->
                                                 <div class="col-span-1">
                                                     <label for="receipt_file"
                                                         class="block mb-2 text-sm font-medium text-gray-900">Receipt
@@ -266,12 +266,12 @@
                                             <hr class="my-4">
                                             <div class="flex justify-end gap-2">
                                                 <button type="submit"
-                                                    class="btn btn-info text-white inline-flex items-center bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-info-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">
-                                                    Save
+                                                    class="btn btn-info text-white inline-flex items-center bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-info-300 font-medium rounded-lg text-base px-5 py-2.5 text-center">
+                                                    Update
                                                 </button>
                                                 <button type="button"
                                                     data-modal-toggle="viewModal{{ $item->id }}"
-                                                    class="btn btn-error text-white inline-flex items-center bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">
+                                                    class="btn btn-error text-white inline-flex items-center bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-base px-5 py-2.5 text-center">
                                                     Close
                                                 </button>
                                             </div>
