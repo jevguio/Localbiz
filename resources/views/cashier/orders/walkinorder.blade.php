@@ -50,7 +50,17 @@
                                 </ul>
                             </td>
                             <td>₱{{ number_format($order->total, 2) }}</td>
-                            <td class="pl-12">{{ $order->payment_method }}</td>
+
+                            <td>
+                                {{
+                                    match($order->payment_method) {
+                                        'bank_transfer' => 'Bank Transfer',
+                                        'e_wallet' => 'E-Wallet',
+                                        default => ucwords(str_replace('_', ' ', $order->payment_method)),
+                                    }
+                                }}
+                            </td>
+
                             <td class="pl-12">{{ $order->delivery_method }}</td>
                             <td>
                                 {{ $order->status =="paid"?"Fully Paid":'Partial'}}</td>
