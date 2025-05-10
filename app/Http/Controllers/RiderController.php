@@ -161,7 +161,9 @@ class RiderController extends Controller
             $query->where('seller_id', $rider->seller_id);
         })
             ->get();
-        return view('rider.history.order', compact('cartItems'));
+
+        $categories = Categories::all();
+        return view('rider.history.order', compact('cartItems','categories'));
     }
     public function walkinHistory()
     {
