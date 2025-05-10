@@ -171,7 +171,7 @@ class RiderController extends Controller
         $seller_id = $user->rider->seller_id ?? null; // Use null-safe operator in case it's missing
         \Log::info('' . $user->id . ' ' . $seller_id);
         $orders = WalkinOrders::where('seller_id', '=', $seller_id)
-            ->where('delivery_method', '=', 'delivery')
+            ->where('delivery_status', '!=', 'pending')
             // ->where('delivery_status', '!=', 'completed')
             ->latest()->get();
 
