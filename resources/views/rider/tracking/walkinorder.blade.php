@@ -55,7 +55,16 @@
                                     @endforeach
                                 </ul>
                             </td>
-                            <td>{{ $order->payment_method }}</td>
+                            <td>
+                                {{
+                                    match($order->payment_method) {
+                                        'bank_transfer' => 'Bank Transfer',
+                                        'e_wallet' => 'E-Wallet',
+                                        default => ucwords(str_replace('_', ' ', $order->payment_method)),
+                                    }
+                                }}
+                            </td>
+
                             <td>{{ $order->total }}</td>
                             <td>{{ $order->amount_paid }}</td>
                             <td>
