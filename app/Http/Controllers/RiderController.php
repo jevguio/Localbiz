@@ -159,7 +159,7 @@ class RiderController extends Controller
             $query->where('status', $request->status);
         })->whereHas('product', function ($query) use ($rider) {
             $query->where('seller_id', $rider->seller_id);
-        })
+        })->latest()
             ->get();
 
         $categories = Categories::all();
