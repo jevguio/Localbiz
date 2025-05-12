@@ -128,51 +128,58 @@
                         </form>
                         <div class="flex gap-6">
 
-                            <div class="w-72 h-72 flex items-center justify-center p-4">
+                            <div id="sliderContainer" class="relative w-64 h-64 mx-auto">
+                                <img id="sliderImage{{ $product->id }}"
+                                    src="{{ isset($product->images[0]) ? asset('assets/' . $product->images[0]->filename) : asset('assets/default.png') }}"
+                                    class="w-full h-full object-cover rounded" />
 
-                                <div id="sliderContainer" class="relative w-64 h-64 mx-auto">
-                                    @if (isset($product->images[0]))
-                                        <img id="sliderImage"
-                                            src="{{ asset('assets/' . $product->images[0]->filename ) }}"
-                                            class="w-full h-full object-cover rounded" />
-                                    @else
-                                        <img id="sliderImage"
-                                            src="{{ asset('assets/' .  'default.png') }}"
-                                            class="w-full h-full object-cover rounded" />
-                                    @endif
-
-                                    <button onclick="prevImage()"
+                                @if (count($product->images) > 1)
+                                    <button id="prevBtn{{ $product->id }}"
                                         class="absolute left-0 top-1/2 transform -translate-y-1/2 bg-black text-white px-2 rounded-l">←</button>
-                                    <button onclick="nextImage()"
+                                    <button id="nextBtn{{ $product->id }}"
                                         class="absolute right-0 top-1/2 transform -translate-y-1/2 bg-black text-white px-2 rounded-r">→</button>
-                                </div>
+                                @endif
+                            </div>
 
-                                <script>
+                            <script>
+                                document.addEventListener('DOMContentLoaded', function() {
+
                                     const images = @json($product->images);
                                     let currentIndex = 0;
+                                    const sliderImage = document.getElementById('sliderImage{{ $product->id }}');
 
-                                    const sliderImage = document.getElementById('sliderImage');
-                                    const deleteBtn = document.getElementById('deleteBtn');
-
-                                    function updateImage() {
-                                        const current = images[currentIndex];
-                                        sliderImage.src = `/assets/${current.filename}`;
-                                        deleteBtn.href = `{{ route('seller.products.delete.image') }}?id=${current.id}`;
+                                    function updateImage{{ $product->id }}() {
+                                        if (images.length > 0) {
+                                            const current = images[currentIndex];
+                                            sliderImage.src = `/assets/${current.filename}`;
+                                        } else {
+                                            sliderImage.src = `/assets/default.png`;
+                                        }
                                     }
 
-                                    function nextImage() {
-                                        currentIndex = (currentIndex + 1) % images.length;
-                                        updateImage();
+                                    function nextImage{{ $product->id }}() {
+                                        if (images.length > 0) {
+                                            currentIndex = (currentIndex + 1) % images.length;
+                                            updateImage{{ $product->id }}();
+                                        }
                                     }
 
-                                    function prevImage() {
-                                        currentIndex = (currentIndex - 1 + images.length) % images.length;
-                                        updateImage();
+                                    function prevImage{{ $product->id }}() {
+                                        if (images.length > 0) {
+                                            currentIndex = (currentIndex - 1 + images.length) %
+                                                images.length;
+                                            updateImage{{ $product->id }}();
+                                        }
                                     }
-                                </script>
 
+                                    const nextBtn = document.getElementById('nextBtn{{ $product->id }}');
+                                    const prevBtn = document.getElementById('prevBtn{{ $product->id }}');
 
-                            </div>
+                                    if (nextBtn) nextBtn.addEventListener('click', nextImage{{ $product->id }});
+                                    if (prevBtn) prevBtn.addEventListener('click', prevImage{{ $product->id }});
+                                });
+                            </script>
+
                             <div class="flex-1">
                                 <div class="mt-6">
                                     <h3 class="text-3xl font-bold text-gray-900 mb-4">{{ $product->name }}</h3>
@@ -180,8 +187,10 @@
                                         <p>{{ $product->description }}</p>
                                         <p>Location: {{ $product->location->name }}</p>
                                         <p>Stock: {{ $product->stock }}</p>
-                                        @if($product->category && $product->category->name === 'Processed Foods' && $product->best_before)
-                                            <p class="text-red-600">Best Before: {{ \Carbon\Carbon::parse($product->best_before)->format('M d, Y') }}</p>
+                                        @if ($product->category && $product->category->name === 'Processed Foods' && $product->best_before)
+                                            <p class="text-red-600">Best Before:
+                                                {{ \Carbon\Carbon::parse($product->best_before)->format('M d, Y') }}
+                                            </p>
                                         @endif
                                     </div>
                                 </div>
