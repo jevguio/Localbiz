@@ -213,28 +213,7 @@
                                                             value="{{ $order->payments->first() ? $order->payments->first()->payment_method : 'N/A' }}"
                                                             readonly>
                                                     </div>
-                                                    <div class="col-span-1">
-                                                        <label
-                                                            class="block mb-2 text-sm font-medium text-gray-900">Payment
-                                                            Status</label>
-                                                        <div class="flex items-center space-x-4">
-                                                            <div class="flex items-center">
-                                                                <input type="radio" name="payment_status"
-                                                                    id="partial" value="partial"
-                                                                    class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500">
-                                                                <label for="partial"
-                                                                    class="ms-2 text-sm font-medium text-gray-900">Partial</label>
-                                                            </div>
-                                                            <div class="flex items-center">
-                                                                <input type="radio" name="payment_status"
-                                                                    id="fully_paid" value="fully_paid"
-                                                                    class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500">
-                                                                <label for="fully_paid"
-                                                                    class="ms-2 text-sm font-medium text-gray-900">Fully
-                                                                    Paid</label>
-                                                            </div>
-                                                        </div>
-                                                    </div>
+                                                    
 
                                                     <div class="col-span-1">
                                                         <label for="payment_date"
@@ -246,15 +225,7 @@
                                                             readonly>
                                                     </div>
 
-                                                    <div id="paymentAmountContainer" class="col-span-1 hidden">
-                                                        <label for="payment_amount"
-                                                            class="block mb-2 text-sm font-medium text-gray-900">Payment
-                                                            Amount</label>
-                                                        <input type="number" name="payment_amount"
-                                                            id="payment_amount"
-                                                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-                                                            placeholder="Enter amount" min="0" step="0.01" max="{{ $order->total_amount }}">
-                                                    </div>
+                                                    
                                                     @if (!is_null($order->payments->pickup_date))
                                                         <div class="col-span-1">
                                                             <label for="pickup_date"
@@ -314,28 +285,56 @@
                                                         </option> -->
                                                         </select>
                                                     </div>
-                                                    <!-- <div class="col-span-2">
-                                                    <label for="feedback"
-                                                        class="block mb-2 text-sm font-bold text-gray-900">Feedback</label>
-                                                    <ul class="bg-gray-50 border border-gray-300 rounded-lg p-2">
-                                                        <li class="mb-2">
-                                                            <strong>{{ $order->user->name }}:</strong>
-                                                            <span>{{ $order->orderItems->first()->feedback->comment ?? 'No feedback yet' }}</span>
-                                                            <span class="text-gray-500"> (Rating:
-                                                                {{ $order->orderItems->first()->feedback->rating ?? 'No rating yet' }})</span>
-                                                        </li>
-                                                    </ul>
-                                                </div> -->
-                                                    <!-- <div class="col-span-2 flex justify-around gap-2">
-                                                        <div class="col-span-1">
-                                                            <label for="proof_of_delivery"
-                                                                class="block mb-2 text-sm font-medium text-gray-900">Proof
-                                                                of
-                                                                Delivery</label>
-                                                            <img src="{{ asset('delivery_receipt/' . $order->proof_of_delivery) }}"
-                                                                alt="Proof of Delivery" class="w-60 object-cover"
-                                                                onclick="openModal(this.src)">
-                                                        </div> -->
+                                                    <div class="col-span-1">
+                                                        <div class="flex gap-4 pl-2">
+                                                            <div class="col-span-1">
+                                                                <label class="block mb-2 text-sm font-medium text-gray-900">Payment Status</label>
+                                                                <div class="flex items-center space-x-4">
+                                                                    <div class="flex items-center">
+                                                                        <input type="radio" name="payment_status_{{ $order->id }}"
+                                                                            id="partial_{{ $order->id }}" value="partial"
+                                                                            class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500">
+                                                                        <label for="partial_{{ $order->id }}"
+                                                                            class="ms-2 text-sm font-medium text-gray-900">Partial</label>
+                                                                    </div>
+                                                                    <div class="flex items-center">
+                                                                        <input type="radio" name="payment_status_{{ $order->id }}"
+                                                                            id="fully_paid_{{ $order->id }}" value="fully_paid"
+                                                                            class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500">
+                                                                        <label for="fully_paid_{{ $order->id }}"
+                                                                            class="ms-2 text-sm font-medium text-gray-900">Fully
+                                                                            Paid</label>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div id="paymentAmountContainer_{{ $order->id }}" class="col-span-1 hidden">
+                                                                <label for="payment_amount_{{ $order->id }}"
+                                                                    class="block mb-2 text-sm font-medium text-gray-900">
+                                                                    Amount Paid</label>
+                                                                <input type="number" name="payment_amount"
+                                                                    id="payment_amount_{{ $order->id }}"
+                                                                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-50 p-2.5"
+                                                                    placeholder="Enter amount" min="0" step="0.01" max="{{ $order->total_amount }}">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    
+                                                    <script>
+                                                    document.addEventListener('DOMContentLoaded', function() {
+                                                        const partialRadio = document.getElementById('partial_{{ $order->id }}');
+                                                        const fullyPaidRadio = document.getElementById('fully_paid_{{ $order->id }}');
+                                                        const paymentAmountContainer = document.getElementById('paymentAmountContainer_{{ $order->id }}');
+                                                        function togglePaymentAmount() {
+                                                            if (partialRadio.checked) {
+                                                                paymentAmountContainer.classList.remove('hidden');
+                                                            } else {
+                                                                paymentAmountContainer.classList.add('hidden');
+                                                            }
+                                                        }
+                                                        partialRadio.addEventListener('change', togglePaymentAmount);
+                                                        fullyPaidRadio.addEventListener('change', togglePaymentAmount);
+                                                    });
+                                                </script>
 
                                                     <div class="col-span-1">
                                                         <label for="receipt_file"
@@ -351,6 +350,9 @@
                                                         @endif
                                                     </div>
                                                 </div>
+                                                
+                                                    
+                                                
                                                 <hr class="my-4">
                                                 <div class="flex justify-end gap-2">
                                                     <button type="button"
