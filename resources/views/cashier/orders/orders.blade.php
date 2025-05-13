@@ -209,7 +209,7 @@
                                                             of Payment</label>
                                                         <input type="text" name="payment_method"
                                                             id="payment_method"
-                                                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block p-2.5"
+                                                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
                                                             value="{{ $order->payments->first() ? $order->payments->first()->payment_method : 'N/A' }}"
                                                             readonly>
                                                     </div>
@@ -314,8 +314,18 @@
                                                                 <input type="number" name="payment_amount"
                                                                     id="payment_amount_{{ $order->id }}"
                                                                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-50 p-2.5"
-                                                                    placeholder="Enter amount" min="0" step="0.01" max="{{ $order->total_amount }}">
+                                                                    placeholder="Enter amount" min="0" step="0.01" 
+                                                                    max="{{ $order->orderItems->first()->price }}"
+                                                                    oninput="validatePaymentAmount(this, {{ $order->orderItems->first()->price }})">
                                                             </div>
+                                                            
+                                                            <script>
+                                                                function validatePaymentAmount(input, totalAmount) {
+                                                                    if (parseFloat(input.value) > totalAmount) {
+                                                                        input.value = totalAmount;
+                                                                    }
+                                                                }
+                                                            </script>
                                                         </div>
                                                     </div>
                                                     
