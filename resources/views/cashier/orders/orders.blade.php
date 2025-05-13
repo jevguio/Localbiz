@@ -245,6 +245,16 @@
                                                             value="{{ $order->payments->first() ? \Carbon\Carbon::parse($order->payments->first()->payment_date)->format('F d, Y') : 'N/A' }}"
                                                             readonly>
                                                     </div>
+
+                                                    <div id="paymentAmountContainer" class="col-span-1 hidden">
+                                                        <label for="payment_amount"
+                                                            class="block mb-2 text-sm font-medium text-gray-900">Payment
+                                                            Amount</label>
+                                                        <input type="number" name="payment_amount"
+                                                            id="payment_amount"
+                                                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                                                            placeholder="Enter amount" min="0" step="0.01" max="{{ $order->total_amount }}">
+                                                    </div>
                                                     @if (!is_null($order->payments->pickup_date))
                                                         <div class="col-span-1">
                                                             <label for="pickup_date"
@@ -257,15 +267,6 @@
                                                         </div>
                                                     @endif
 
-                                                    <div id="paymentAmountContainer" class="col-span-1 hidden">
-                                                        <label for="payment_amount"
-                                                            class="block mb-2 text-sm font-medium text-gray-900">Payment
-                                                            Amount</label>
-                                                        <input type="number" name="payment_amount"
-                                                            id="payment_amount"
-                                                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-                                                            placeholder="Enter amount" min="0" step="0.01" max="{{ $order->total_amount }}">
-                                                    </div>
                                                     <script>
                                                         document.addEventListener('DOMContentLoaded', function() {
                                                             const partialRadio = document.getElementById('partial');
