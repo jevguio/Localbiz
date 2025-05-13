@@ -19,6 +19,7 @@ class Payments extends Model
         'receipt_file',
         'payment_date',
         'message',
+        'status',
         'paid_at',
         'pickup_date',
     ];

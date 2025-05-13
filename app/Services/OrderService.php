@@ -20,7 +20,10 @@ class OrderService
                     'message' => 'Order not found',
                 ]);
             }
-            $order->status = $request->status;
+
+            if ($request->has('status')) {
+                $order->status = $request->status;
+            }
 
             if ($request->hasFile('proof_of_delivery')) {
                 $image = $request->file('proof_of_delivery');
@@ -28,10 +31,21 @@ class OrderService
                 $image->move(public_path('delivery_receipt'), $filename);
                 $order->proof_of_delivery = $filename;
             }
+            if ($request->payment_status) {
+                $payment = $order->payments()->first();
+                if ($payment) {
+                    $payment->status = $request->payment_status;
+                    if ($request->payment_status === 'partial' && $request->has('payment_amount')) {
+                        $payment->payment_amount = $request->payment_amount; // Make sure `amount` column exists
+                    }
+                    $payment->save();
+                }
+            }
 
             $order->save();
 
 
+            session()->flash('success', 'Payment Approved');
             return response()->json([
                 'error_code' => MyConstant::SUCCESS_CODE,
                 'status_code' => MyConstant::SUCCESS_CODE,
@@ -39,6 +53,8 @@ class OrderService
             ]);
         } catch (\Exception $e) {
             \Log::error('Order update failed: ' . $e->getMessage()); // Log for debugging
+
+            session()->flash('error', 'Payment Approve Failed');
             return response()->json([
                 'error_code' => MyConstant::FAILED_CODE,
                 'status_code' => MyConstant::FAILED_CODE,

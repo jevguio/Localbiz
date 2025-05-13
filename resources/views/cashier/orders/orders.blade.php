@@ -64,7 +64,7 @@
                                     </td>
                                     <td class="px-6 py-4">
 
-                                    {{ optional($order->payments)->payment_method ?? 'N/A'}}
+                                        {{ optional($order->payments)->payment_method ?? 'N/A' }}
                                     </td>
                                     <td class="px-6 py-4">
                                         {{ $order->status }}
@@ -148,7 +148,8 @@
                                                     </div>
                                                     <div class="col-span-1">
                                                         <label for="category"
-                                                            class="block mb-2 text-sm font-medium text-gray-900">Category Name</label>
+                                                            class="block mb-2 text-sm font-medium text-gray-900">Category
+                                                            Name</label>
                                                         <div id="category" name="category_id"
                                                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5"
                                                             disabled>
@@ -213,20 +214,58 @@
                                                             readonly>
                                                     </div>
                                                     <div class="col-span-1">
-                                                        <label class="block mb-2 text-sm font-medium text-gray-900">Payment Status</label>
+                                                        <label
+                                                            class="block mb-2 text-sm font-medium text-gray-900">Payment
+                                                            Status</label>
                                                         <div class="flex items-center space-x-4">
                                                             <div class="flex items-center">
-                                                                <input type="radio" name="payment_status" id="partial" value="partial"
+                                                                <input type="radio" name="payment_status"
+                                                                    id="partial" value="partial"
                                                                     class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500">
-                                                                <label for="partial" class="ms-2 text-sm font-medium text-gray-900">Partial</label>
+                                                                <label for="partial"
+                                                                    class="ms-2 text-sm font-medium text-gray-900">Partial</label>
                                                             </div>
                                                             <div class="flex items-center">
-                                                                <input type="radio" name="payment_status" id="fully_paid" value="fully_paid"
+                                                                <input type="radio" name="payment_status"
+                                                                    id="fully_paid" value="fully_paid"
                                                                     class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500">
-                                                                <label for="fully_paid" class="ms-2 text-sm font-medium text-gray-900">Fully Paid</label>
+                                                                <label for="fully_paid"
+                                                                    class="ms-2 text-sm font-medium text-gray-900">Fully
+                                                                    Paid</label>
                                                             </div>
                                                         </div>
                                                     </div>
+                                                    <div id="paymentAmountContainer" class="mt-4 hidden">
+                                                        <label for="payment_amount"
+                                                            class="block mb-2 text-sm font-medium text-gray-900">Payment
+                                                            Amount</label>
+                                                        <input type="number" name="payment_amount"
+                                                            id="payment_amount"
+                                                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                                                            placeholder="Enter amount" min="0" step="0.01" max="{{ $order->total_amount }}">
+                                                    </div>
+                                                    <script>
+                                                        document.addEventListener('DOMContentLoaded', function() {
+                                                            const partialRadio = document.getElementById('partial');
+                                                            const fullyPaidRadio = document.getElementById('fully_paid');
+                                                            const paymentAmountContainer = document.getElementById('paymentAmountContainer');
+
+                                                            function togglePaymentAmount() {
+                                                                if (partialRadio.checked) {
+                                                                    paymentAmountContainer.classList.remove('hidden');
+                                                                } else {
+                                                                    paymentAmountContainer.classList.add('hidden');
+                                                                }
+                                                            }
+
+                                                            partialRadio.addEventListener('change', togglePaymentAmount);
+                                                            fullyPaidRadio.addEventListener('change', togglePaymentAmount);
+
+                                                            // Run on page load in case it's pre-selected
+                                                            togglePaymentAmount();
+                                                        });
+                                                    </script>
+
                                                     <div class="col-span-1">
                                                         <label for="payment_date"
                                                             class="block mb-2 text-sm font-medium text-gray-900">Payment
@@ -236,14 +275,14 @@
                                                             value="{{ $order->payments->first() ? \Carbon\Carbon::parse($order->payments->first()->payment_date)->format('F d, Y') : 'N/A' }}"
                                                             readonly>
                                                     </div>
-                                                    @if (!is_null($order->payments->pickup_date ))
+                                                    @if (!is_null($order->payments->pickup_date))
                                                         <div class="col-span-1">
                                                             <label for="pickup_date"
                                                                 class="block mb-2 text-sm font-medium text-gray-900">Pickup
                                                                 Date</label>
                                                             <input type="text" name="pickup_date" id="pickup_date"
                                                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
-                                                                value="{{ $order->payments->pickup_date  ? \Carbon\Carbon::parse($order->payments->pickup_date)->format('F d, Y') : 'N/A' }}"
+                                                                value="{{ $order->payments->pickup_date ? \Carbon\Carbon::parse($order->payments->pickup_date)->format('F d, Y') : 'N/A' }}"
                                                                 readonly>
                                                         </div>
                                                     @endif
@@ -296,55 +335,55 @@
                                                                 onclick="openModal(this.src)">
                                                         </div> -->
 
-                                                        <div class="col-span-1">
-                                                            <label for="receipt_file"
-                                                                class="block mb-2 text-sm font-medium text-gray-900">Receipt
-                                                                File</label>
-                                                            @if ($order->payments->first() && $order->payments->first()->receipt_file)
-                                                                <img src="{{ asset('receipt_file/' . $order->payments->first()->receipt_file) }}"
-                                                                    alt="Receipt File" class="w-60 object-cover cursor-pointer"
-                                                                    onclick="openModal(this.src)">
-                                                            @else
-                                                                <p>No receipt file available.</p>
-                                                            @endif
-                                                        </div>
-                                                    </div>
-                                                    <hr class="my-4">
-                                                    <div class="flex justify-end gap-2">
-                                                        <button type="button"
-                                                            data-modal-toggle="editModal{{ $order->id }}"
-                                                            class="btn btn-error text-white inline-flex items-center bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">
-                                                            Close
-                                                        </button>
-                                                        <button type="submit"
-                                                            class="btn btn-primary text-white inline-flex items-center bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">
-                                                            Verified
-                                                        </button>
+                                                    <div class="col-span-1">
+                                                        <label for="receipt_file"
+                                                            class="block mb-2 text-sm font-medium text-gray-900">Receipt
+                                                            File</label>
+                                                        @if ($order->payments->first() && $order->payments->first()->receipt_file)
+                                                            <img src="{{ asset('receipt_file/' . $order->payments->first()->receipt_file) }}"
+                                                                alt="Receipt File"
+                                                                class="w-60 object-cover cursor-pointer"
+                                                                onclick="openModal(this.src)">
+                                                        @else
+                                                            <p>No receipt file available.</p>
+                                                        @endif
                                                     </div>
                                                 </div>
-                                            </form>
+                                                <hr class="my-4">
+                                                <div class="flex justify-end gap-2">
+                                                    <button type="button"
+                                                        data-modal-toggle="editModal{{ $order->id }}"
+                                                        class="btn btn-error text-white inline-flex items-center bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">
+                                                        Close
+                                                    </button>
+                                                    <button type="submit"
+                                                        class="btn btn-primary text-white inline-flex items-center bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">
+                                                        Verified
+                                                    </button>
+                                                </div>
                                         </div>
+                                        </form>
                                     </div>
                                 </div>
-                            @endif
-                        @endforeach
-
-                    </tbody>
-                </table>
-                <nav class="flex items-center flex-column flex-wrap md:flex-row justify-between pt-4"
-                    aria-label="Table navigation">
-                    <span
-                        class="text-sm font-normal text-gray-500 mb-4 md:mb-0 block w-full md:inline md:w-auto">Showing
-                        <span
-                            class="font-semibold text-gray-900">{{ $orders->firstItem() }}-{{ $orders->lastItem() }}</span>
-                        of <span class="font-semibold text-gray-900">{{ $orders->total() }}</span></span>
-                    <ul class="inline-flex -space-x-px rtl:space-x-reverse text-sm h-8">
-                        {{ $orders->links() }}
-
-                    </ul>
-                </nav>
             </div>
+            @endif
+            @endforeach
+
+            </tbody>
+            </table>
+            <nav class="flex items-center flex-column flex-wrap md:flex-row justify-between pt-4"
+                aria-label="Table navigation">
+                <span class="text-sm font-normal text-gray-500 mb-4 md:mb-0 block w-full md:inline md:w-auto">Showing
+                    <span
+                        class="font-semibold text-gray-900">{{ $orders->firstItem() }}-{{ $orders->lastItem() }}</span>
+                    of <span class="font-semibold text-gray-900">{{ $orders->total() }}</span></span>
+                <ul class="inline-flex -space-x-px rtl:space-x-reverse text-sm h-8">
+                    {{ $orders->links() }}
+
+                </ul>
+            </nav>
         </div>
+    </div>
     </div>
     <style>
         .myModalthumbnail {
