@@ -19,21 +19,21 @@
                     class="text-gray-400
     {{ Route::currentRouteName() == 'cashier.walkin.orders.history' ? 'border-b-2 border-orange-900 text-orange-900' : 'text-gray-400' }}
     hover:text-red-900 px-4 py-2.5 text-sm font-bold cursor-pointer flex items-center">
-                    <a onclick="window.location.href = '{{ route('cashier.walkin.orders.history') }}'">Walk-in Order
-                        History</a>
+                    <a onclick="window.location.href = '{{ route('cashier.walkin.orders.history') }}'">Walk-in Order</a>
                 </li>
             </ul>
             <table class="table table-bordered mt-10">
                 <thead>
                     <tr>
                         <th>Order Date</th>
-                        <th>Customer</th>
+                        <th>Customer Name</th>
                         <th>Items</th>
                         <th>Total</th>
                         <th>Payment Method</th>
                         <th>Delivery Method</th>
                         <th>Status</th>
                         <th>Amount Paid</th>
+                        <th class="text-center pr-8">Action</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -51,7 +51,7 @@
                             </td>
                             <td>₱{{ number_format($order->total, 2) }}</td>
 
-                            <td>
+                            <td class="text-center">
                                 {{
                                     match($order->payment_method) {
                                         'bank_transfer' => 'Bank Transfer',
@@ -67,6 +67,15 @@
 
                             <td>
                                 {{ $order->amount_paid }}
+                            </td>
+                            <td>
+                                @if($order->status != 'paid')
+                                    <button type="button" 
+                                        class="btn text-white bg-orange-900 hover:bg-red-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-3 py-1.5"
+                                        onclick="window.location.href='{{ route('cashier.walkin.orders.complete', $order->id) }}'">
+                                        Completed
+                                    </button>
+                                @endif
                             </td>
                         </tr>
                     @empty

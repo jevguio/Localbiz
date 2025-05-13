@@ -19,8 +19,7 @@
                     class="text-gray-400
     {{ Route::currentRouteName() == 'cashier.walkin.orders.history' ? 'border-b-2 border-orange-900 text-orange-900' : 'text-gray-400' }}
     hover:text-red-900 px-4 py-2.5 text-sm font-bold cursor-pointer flex items-center">
-                    <a onclick="window.location.href = '{{ route('cashier.walkin.orders.history') }}'">Walk-in Order
-                        History</a>
+                    <a onclick="window.location.href = '{{ route('cashier.walkin.orders.history') }}'">Walk-in Order</a>
                 </li>
             </ul>
             <div class="relative overflow-x-auto mt-10 bg-white p-4 rounded-lg">
@@ -223,7 +222,7 @@
                                                         class="block mb-2 text-sm font-medium text-gray-900">Mode
                                                         of Payment</label>
                                                     <input type="text" name="payment_method" id="payment_method"
-                                                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block p-2.5"
+                                                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
                                                         value="{{ $order->payments->first() ? $order->payments->first()->payment_method : 'N/A' }}"
                                                         readonly>
                                                 </div>
