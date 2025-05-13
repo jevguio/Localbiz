@@ -65,8 +65,8 @@
                             <td>
                                 {{ $order->status =="paid"?"Fully Paid":'Partial'}}</td>
 
-                            <td>
-                                {{ $order->amount_paid }}
+                            <td class="text-right pr-12">
+                                ₱{{ number_format($order->amount_paid, 2) }}
                             </td>
                             <td>
                                 @if($order->status != 'paid')
@@ -75,6 +75,8 @@
                                         onclick="window.location.href='{{ route('cashier.walkin.orders.complete', $order->id) }}'">
                                         Completed
                                     </button>
+                                @else
+                                    <span class="text-green-700">Completed</span>
                                 @endif
                             </td>
                         </tr>

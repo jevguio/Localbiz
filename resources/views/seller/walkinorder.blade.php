@@ -23,19 +23,21 @@
             <table class="table table-bordered mt-10">
                 <thead>
                     <tr>
-                        <th>Customer</th>
+                        <th>Order Date</th>
+                        <th>Customer Name</th>
                         <th>Items</th>
-                        <th>Delivery Method</th>
-                        <th>Payment</th>
                         <th>Total</th>
+                        <th>Payment Method</th>
+                        <th>Delivery Method</th>
                         <th>Status</th>
-                        <th>Delivery Status</th>
-                        <th>Action</th>
+                        <th>Amount Paid</th>
+        
                     </tr>
                 </thead>
                 <tbody>
                     @forelse ($orders as $order)
                         <tr>
+                            <td>{{ \Carbon\Carbon::parse($order->created_at)->format('F d, Y') }}</td>
                             <td>{{ $order->customer_name }}</td>
                             <td>
                                 <ul>
@@ -44,11 +46,11 @@
                                     @endforeach
                                 </ul>
                             </td>
-                            <td>{{ $order->delivery_method }}</td>
+                            <td>₱{{ number_format($order->total, 2) }}</td>
                             <td>{{ $order->payment_method }}</td>
-                            <td>{{ $order->total }}</td>
+                            <td>{{ $order->delivery_method }}</td>
                             <td>{{ $order->status }}</td>
-                            <td>{{ $order->delivery_status }}</td>
+                            <td>₱{{ number_format($order->amount_paid, 2) }}</td>
                             <td>
                                 <form action="{{ route('rider.update.walkin', ['id' => $order->id]) }}" method="GET">
                                     @csrf
