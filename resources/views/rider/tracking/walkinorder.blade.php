@@ -39,7 +39,7 @@
                         <th>Delivery Method</th>
                         <th>Status</th>
                         <th>Amount Paid</th>
-                        <th>Action</th>
+                        <th class="text-center">Action</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -55,7 +55,7 @@
                                     @endforeach
                                 </ul>
                             </td>
-                            <td>{{ $order->total }}</td>
+                            <td>₱{{ number_format($order->total, 2) }}</td>
                             <td>
                                 {{
                                     match($order->payment_method) {
@@ -70,14 +70,14 @@
                             <td>
                                 {{ $order->status =="paid"?"Fully Paid":'Partial'}}
                             </td>
-                            <td>{{ $order->amount_paid }}</td>
+                            <td>₱{{ number_format($order->amount_paid, 2) }}</td>
                             <td>
                                 @if ($order->delivery_status != 'delivered')
                                     <form action="{{ route('rider.update.walkin', ['id' => $order->id]) }}"
                                         method="GET">
                                         @csrf
                                         <button type="submit"
-                                            class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
+                                            class="bg-red-900 text-white px-4 py-2 rounded hover:bg-red-800">
                                             Mark as Delivered
                                         </button>
                                     </form>

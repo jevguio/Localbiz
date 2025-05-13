@@ -78,11 +78,11 @@
                             <td>
                                 {{ $order->status =="paid"?"Fully Paid":'Partial'}}
                             </td>
-                            <td>{{ $order->delivery_status }}</td>
+                            <td class="text-green-700 pl-8">{{ $order->delivery_status }}</td>
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="8" class="text-center text-gray-500 py-4">No records found.</td>
+                            <td colspan="8" class="text-center text-gray-500 py-4">No orders found</td>
                         </tr>
                     @endforelse
                 </tbody>

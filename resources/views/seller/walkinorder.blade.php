@@ -51,16 +51,7 @@
                             <td>{{ $order->delivery_method }}</td>
                             <td>{{ $order->status }}</td>
                             <td>₱{{ number_format($order->amount_paid, 2) }}</td>
-                            <td>
-                                <form action="{{ route('rider.update.walkin', ['id' => $order->id]) }}" method="GET">
-                                    @csrf
-                                    <button type="submit"
-                                        class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
-                                        Mark as Delivered
-                                    </button>
-                                </form>
-
-                            </td>
+                            
                         </tr>
                     @empty
                         <tr>
