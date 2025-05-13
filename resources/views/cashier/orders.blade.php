@@ -53,6 +53,9 @@
                                 Total Amount
                             </th>
                             <th scope="col" class="px-6 py-3">
+                                Payment Method
+                            </th>
+                            <th scope="col" class="px-6 py-3">
                                 Status
                             </th>
                             <th scope="col" class="px-6 py-3">
@@ -77,6 +80,10 @@
                                 <td class="px-6 py-4">
                                     ₱{{ number_format($order->orderItems->sum('price'), 2) }}
                                 </td>
+                                <td class="px-6 py-4">
+                                    {{ optional($order->payments)->payment_method ?? 'N/A'}}
+                                </td>
+
                                 <td class="px-6 py-4">
                                     {{ $order->status }}
                                 </td>
@@ -255,7 +262,7 @@
                                                     <div id="status" name="status" disabled
                                                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5">
                                                         <div>
-                                                            {{ $order->status}}
+                                                            {{ $order->status }}
                                                         </div>
                                                     </div>
                                                 </div>
@@ -265,14 +272,15 @@
                                                         File</label>
                                                     @if ($order->payments->first() && $order->payments->first()->receipt_file)
                                                         <img src="{{ asset('receipt_file/' . $order->payments->first()->receipt_file) }}"
-                                                            alt="Receipt File" class="w-60 object-cover cursor-pointer"
+                                                            alt="Receipt File"
+                                                            class="w-60 object-cover cursor-pointer"
                                                             onclick="openModal(this.src)">
                                                     @else
                                                         <p>No receipt file available.</p>
                                                     @endif
                                                 </div>
-                                                </div>
-                                                {{-- <hr class="my-4">
+                                            </div>
+                                            {{-- <hr class="my-4">
                                                 <div class="flex justify-end gap-2">
                                                     <button type="button"
                                                         data-modal-toggle="editModal{{ $order->id }}"
@@ -284,30 +292,29 @@
                                                         Save Changes
                                                     </button>
                                                 </div> --}}
-                                            </div>
-                                        </form>
                                     </div>
+                                    </form>
                                 </div>
                             </div>
-                        @endforeach
-
-                    </tbody>
-                </table>
-
-                <nav class="flex items-center flex-column flex-wrap md:flex-row justify-between pt-4"
-                    aria-label="Table navigation">
-                    <span
-                        class="text-sm font-normal text-gray-500 mb-4 md:mb-0 block w-full md:inline md:w-auto">Showing
-                        <span
-                            class="font-semibold text-gray-900">{{ $orders->firstItem() }}-{{ $orders->lastItem() }}</span>
-                        of <span class="font-semibold text-gray-900">{{ $orders->total() }}</span></span>
-                    <ul class="inline-flex -space-x-px rtl:space-x-reverse text-sm h-8">
-                        {{ $orders->links() }}
-
-                    </ul>
-                </nav>
             </div>
+            @endforeach
+
+            </tbody>
+            </table>
+
+            <nav class="flex items-center flex-column flex-wrap md:flex-row justify-between pt-4"
+                aria-label="Table navigation">
+                <span class="text-sm font-normal text-gray-500 mb-4 md:mb-0 block w-full md:inline md:w-auto">Showing
+                    <span
+                        class="font-semibold text-gray-900">{{ $orders->firstItem() }}-{{ $orders->lastItem() }}</span>
+                    of <span class="font-semibold text-gray-900">{{ $orders->total() }}</span></span>
+                <ul class="inline-flex -space-x-px rtl:space-x-reverse text-sm h-8">
+                    {{ $orders->links() }}
+
+                </ul>
+            </nav>
         </div>
+    </div>
     </div>
     <style>
         .myModalthumbnail {

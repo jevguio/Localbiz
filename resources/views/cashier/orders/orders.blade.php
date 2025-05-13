@@ -34,6 +34,9 @@
                                 Total Amount
                             </th>
                             <th scope="col" class="px-6 py-3">
+                                Payment Method
+                            </th>
+                            <th scope="col" class="px-6 py-3">
                                 Status
                             </th>
                             <th scope="col" class="px-6 py-3">
@@ -58,6 +61,10 @@
                                     </td>
                                     <td class="px-6 py-4">
                                         ₱{{ number_format($order->orderItems->sum('price'), 2) }}
+                                    </td>
+                                    <td class="px-6 py-4">
+
+                                    {{ optional($order->payments)->payment_method ?? 'N/A'}}
                                     </td>
                                     <td class="px-6 py-4">
                                         {{ $order->status }}
@@ -209,12 +216,12 @@
                                                         <label class="block mb-2 text-sm font-medium text-gray-900">Payment Status</label>
                                                         <div class="flex items-center space-x-4">
                                                             <div class="flex items-center">
-                                                                <input type="radio" name="payment_status" id="partial" value="partial" 
+                                                                <input type="radio" name="payment_status" id="partial" value="partial"
                                                                     class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500">
                                                                 <label for="partial" class="ms-2 text-sm font-medium text-gray-900">Partial</label>
                                                             </div>
                                                             <div class="flex items-center">
-                                                                <input type="radio" name="payment_status" id="fully_paid" value="fully_paid" 
+                                                                <input type="radio" name="payment_status" id="fully_paid" value="fully_paid"
                                                                     class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500">
                                                                 <label for="fully_paid" class="ms-2 text-sm font-medium text-gray-900">Fully Paid</label>
                                                             </div>
