@@ -235,7 +235,29 @@
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <div id="paymentAmountContainer" class="mt-4 hidden">
+
+                                                    <div class="col-span-1">
+                                                        <label for="payment_date"
+                                                            class="block mb-2 text-sm font-medium text-gray-900">Payment
+                                                            Date</label>
+                                                        <input type="text" name="payment_date" id="payment_date"
+                                                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                                                            value="{{ $order->payments->first() ? \Carbon\Carbon::parse($order->payments->first()->payment_date)->format('F d, Y') : 'N/A' }}"
+                                                            readonly>
+                                                    </div>
+                                                    @if (!is_null($order->payments->pickup_date))
+                                                        <div class="col-span-1">
+                                                            <label for="pickup_date"
+                                                                class="block mb-2 text-sm font-medium text-gray-900">Pickup
+                                                                Date</label>
+                                                            <input type="text" name="pickup_date" id="pickup_date"
+                                                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                                                                value="{{ $order->payments->pickup_date ? \Carbon\Carbon::parse($order->payments->pickup_date)->format('F d, Y') : 'N/A' }}"
+                                                                readonly>
+                                                        </div>
+                                                    @endif
+
+                                                    <div id="paymentAmountContainer" class="col-span-1 hidden">
                                                         <label for="payment_amount"
                                                             class="block mb-2 text-sm font-medium text-gray-900">Payment
                                                             Amount</label>
@@ -265,27 +287,6 @@
                                                             togglePaymentAmount();
                                                         });
                                                     </script>
-
-                                                    <div class="col-span-1">
-                                                        <label for="payment_date"
-                                                            class="block mb-2 text-sm font-medium text-gray-900">Payment
-                                                            Date</label>
-                                                        <input type="text" name="payment_date" id="payment_date"
-                                                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
-                                                            value="{{ $order->payments->first() ? \Carbon\Carbon::parse($order->payments->first()->payment_date)->format('F d, Y') : 'N/A' }}"
-                                                            readonly>
-                                                    </div>
-                                                    @if (!is_null($order->payments->pickup_date))
-                                                        <div class="col-span-1">
-                                                            <label for="pickup_date"
-                                                                class="block mb-2 text-sm font-medium text-gray-900">Pickup
-                                                                Date</label>
-                                                            <input type="text" name="pickup_date" id="pickup_date"
-                                                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
-                                                                value="{{ $order->payments->pickup_date ? \Carbon\Carbon::parse($order->payments->pickup_date)->format('F d, Y') : 'N/A' }}"
-                                                                readonly>
-                                                        </div>
-                                                    @endif
                                                     <div class="col-span-1">
                                                         <label for="status"
                                                             class="block mb-2 text-sm font-medium text-gray-900">Status</label>
