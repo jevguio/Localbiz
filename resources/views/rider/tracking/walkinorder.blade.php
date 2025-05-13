@@ -32,13 +32,13 @@
                 <thead>
                     <tr>
                         <th>Order Date</th>
-                        <th>Customer</th>
+                        <th>Customer Name</th>
                         <th>Items</th>
-                        <th>Payment</th>
-                        <th>Amount Paid</th>
                         <th>Total</th>
+                        <th>Payment Method</th>
+                        <th>Delivery Method</th>
                         <th>Status</th>
-                        <th>Delivery Status</th>
+                        <th>Amount Paid</th>
                         <th>Action</th>
                     </tr>
                 </thead>
@@ -55,6 +55,7 @@
                                     @endforeach
                                 </ul>
                             </td>
+                            <td>{{ $order->total }}</td>
                             <td>
                                 {{
                                     match($order->payment_method) {
@@ -64,13 +65,12 @@
                                     }
                                 }}
                             </td>
+                            <td>{{ $order->delivery_status }}</td>
 
-                            <td>{{ $order->total }}</td>
-                            <td>{{ $order->amount_paid }}</td>
                             <td>
                                 {{ $order->status =="paid"?"Fully Paid":'Partial'}}
                             </td>
-                            <td>{{ $order->delivery_status }}</td>
+                            <td>{{ $order->amount_paid }}</td>
                             <td>
                                 @if ($order->delivery_status != 'delivered')
                                     <form action="{{ route('rider.update.walkin', ['id' => $order->id]) }}"

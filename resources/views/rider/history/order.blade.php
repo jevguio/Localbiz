@@ -28,7 +28,7 @@
                 </li>
                 <li
                     class=" {{ Route::currentRouteName() == 'rider.history.walkin' ? 'border-b-2 border-orange-900 text-orange-900' : 'text-gray-400' }} ' border-orange-900 text-orange-900' : text-gray-400 hover:text-orange-900  px-4 py-2.5 text-sm font-bold cursor-pointer flex items-center">
-                    <a href="{{ route('rider.history.walkin') }}">Walk-in History</a>
+                    <a href="{{ route('rider.history.walkin') }}">Walk-in</a>
                 </li>
 
             </ul>

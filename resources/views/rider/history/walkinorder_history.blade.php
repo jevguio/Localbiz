@@ -37,10 +37,10 @@
                 <thead>
                     <tr>
                         <th>Order Date</th>
-                        <th>Customer</th>
+                        <th>Customer Name</th>
                         <th>Items</th>
+                        <th>Payment Method</th>
                         <th>Delivery Method</th>
-                        <th>Payment</th>
                         <th>Amount Paid</th>
                         <th>Total</th>
                         <th>Status</th>
@@ -60,8 +60,7 @@
                                     @endforeach
                                 </ul>
                             </td>
-                            <td>{{ $order->delivery_method }}</td>
-
+                            
                             <td>
                                 {{
                                     match($order->payment_method) {
@@ -72,8 +71,10 @@
                                 }}
                             </td>
 
-                            <td>{{ $order->total }}</td>
-                            <td>{{ $order->amount_paid }}</td>
+                            <td>{{ $order->delivery_method }}</td>
+
+                            <td>₱{{ number_format($order->amount_paid, 2) }}</td>
+                            <td>₱{{ number_format($order->total, 2) }}</td>
                             <td>
                                 {{ $order->status =="paid"?"Fully Paid":'Partial'}}
                             </td>
