@@ -51,9 +51,7 @@
                             <th scope="col" class="px-6 py-3">
                                 Total Amount
                             </th>
-                            <th scope="col" class="px-6 py-3">
-                                Payment Status
-                            </th>
+                           
                             <th scope="col" class="px-6 py-3">
                                 Status
                             </th>
@@ -79,9 +77,7 @@
                                 <td class="px-6 py-4">
                                     ₱{{ number_format($order->orderItems->sum('price'), 2) }}
                                 </td>
-                                <td class="px-6 py-4">
-                                    {{ optional($order->payments)->status ?? 'N/A'}}
-                                </td>
+                                
 
                                 <td class="px-6 py-4">
                                     {{ $order->status }}

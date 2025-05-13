@@ -200,7 +200,6 @@
                                                 <select name="status" id="status"
                                                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
                                                     readonly>
-
                                                     <option value="Processing"
                                                         {{ $item->order->status == 'processing' ? 'selected' : '' }} 
                                                         disabled>
@@ -210,15 +209,16 @@
                                                         {{ $item->order->status == 'receiving' ? 'selected' : '' }}>
                                                         For Delivery
                                                     </option>
-                                                    <!-- {{-- <option value="Delivered"
-                                                            {{ $item->order->status == 'delivered' ? 'selected' : '' }}>
-                                                            Delivered
-                                                        </option>
-                                                        <option value="cancelled"
-                                                            {{ $item->order->status == 'cancelled' ? 'selected' : '' }}>
-                                                            Cancelled
-                                                        </option> --}} -->
                                                 </select>
+                                            </div>
+
+                                            <div class="col-span-1">
+                                                <label for="payment_status"
+                                                    class="block mb-2 text-sm font-medium text-gray-900">Payment Status</label>
+                                                <input type="text" name="payment_status" id="payment_status"
+                                                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                                                    value="{{ $item->order->payments && $item->order->payments->first()->payment_status ? ($item->order->payments->first()->payment_status == 'partial' ? 'Partial' : 'Fully Paid') : 'N/A' }}"
+                                                    readonly disabled>
                                             </div>
                                                        
                                             <div class="col-span-1">
@@ -233,7 +233,7 @@
                                                     </li>
                                                 </ul>
                                             </div>
-                                            <div class="col-span-1">
+                                            <!-- <div class="col-span-1">
                                                 <label for="feedback"
                                                     class="block mb-2 text-sm font-bold text-gray-900">Message</label>
                                                 <ul class="bg-gray-50 border border-gray-300 rounded-lg p-2">
@@ -246,7 +246,7 @@
                                                         @endif
                                                     </li>
                                                 </ul>
-                                            </div>
+                                            </div> -->
                                             <!-- <div class="col-span-2 flex justify-around gap-2">
                                                 <div class="col-span-1">
                                                     <label for="proof_of_delivery"
