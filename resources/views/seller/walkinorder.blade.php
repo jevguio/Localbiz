@@ -31,7 +31,7 @@
                         <th>Delivery Method</th>
                         <th>Status</th>
                         <th>Amount Paid</th>
-        
+
                     </tr>
                 </thead>
                 <tbody>
@@ -47,11 +47,23 @@
                                 </ul>
                             </td>
                             <td>₱{{ number_format($order->total, 2) }}</td>
-                            <td>{{ $order->payment_method }}</td>
-                            <td>{{ $order->delivery_method }}</td>
-                            <td>{{ $order->status }}</td>
+                            <td>
+
+                                {{
+                                    match($order->payment_method) {
+                                        'bank_transfer' => 'Bank Transfer',
+                                        'e_wallet' => 'E-Wallet',
+                                        default => ucwords(str_replace('_', ' ', $order->payment_method)),
+                                    }
+                                }}
+                            </td>
+                            <td>{{ \Illuminate\Support\Str::title($order->delivery_method) }}
+                            </td>
+                            <td>
+                                {{ $order->status =="paid"?"Fully Paid":'Partial'}}
+                            </td>
                             <td>₱{{ number_format($order->amount_paid, 2) }}</td>
-                            
+
                         </tr>
                     @empty
                         <tr>
