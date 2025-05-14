@@ -31,12 +31,16 @@ class OrderService
                 $image->move(public_path('delivery_receipt'), $filename);
                 $order->proof_of_delivery = $filename;
             }
+
+            Log::info( $request->all() );
             if ($request->payment_status) {
                 $payment = $order->payments()->first();
                 if ($payment) {
                     $payment->status = $request->payment_status;
+                    Log::info(''. $request->payment_status .'');
                     if ($request->payment_status === 'partial' && $request->has('payment_amount')) {
                         $payment->payment_amount = $request->payment_amount; // Make sure `amount` column exists
+                        Log::info(''. $payment->payment_amount .'');
                     }
                     $payment->save();
                 }

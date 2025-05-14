@@ -66,7 +66,7 @@
                                     {{ optional($order->payments)->payment_method ?? 'N/A' }}
                                 </td>
                                 <td class="px-6 py-4">
-                                    {{ optional($order->payments)->status }}
+                                    {{ optional($order->payments)->status=='processing' ?'Pending':'N/A' }}
                                 </td>
                                 <td class="px-6 py-4">
                                     <button data-modal-target="editModal{{ $order->id }}"
@@ -289,7 +289,7 @@
                                                             <div class="flex items-center space-x-4">
                                                                 <div class="flex items-center">
                                                                     <input type="radio"
-                                                                        name="payment_status_{{ $order->id }}"
+                                                                        name="payment_status"
                                                                         id="partial_{{ $order->id }}"
                                                                         value="partial"
                                                                         class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500">
@@ -298,7 +298,7 @@
                                                                 </div>
                                                                 <div class="flex items-center">
                                                                     <input type="radio"
-                                                                        name="payment_status_{{ $order->id }}"
+                                                                        name="payment_status"
                                                                         id="fully_paid_{{ $order->id }}"
                                                                         value="fully_paid"
                                                                         class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500">
