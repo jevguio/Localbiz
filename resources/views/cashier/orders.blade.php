@@ -227,9 +227,12 @@
                                                     <label for="payment_status"
                                                         class="block mb-2 text-sm font-medium text-gray-900">Payment
                                                         Status</label>
-                                                    <input type="text" name="payment_status" id="payment_status"
-                                                        class="bg-gray-50 border border-gray-300 text-black text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block p-2.5"
-                                                        value="{{ $order->payments()->first()->status }}" readonly>
+
+                                            <input type="text" name="payment_status" id="payment_status"
+                                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                                            value="{{ $order->payments->status === 'partial' ? 'Partial' : ($order->payments->status === 'fully_paid' ? 'Fully Paid' : 'N/A') }}"
+
+                                            readonly disabled>
                                                 </div>
                                                 <div class="col-span-1">
                                                     <label for="payment_date"
