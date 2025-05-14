@@ -208,7 +208,8 @@
                                                 Status</label>
                                             <input type="text" name="payment_status" id="payment_status"
                                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
-                                                value="{{$item->order->payments->status == 'partial' ? 'Partial' : $item->order->payments->status}}"
+                                                value="{{ $item->order->payments->status === 'partial' ? 'Partial' : ($item->order->payments->status === 'fully_paid' ? 'Fully Paid' : 'N/A') }}"
+
                                                 readonly disabled>
                                         </div>
 
