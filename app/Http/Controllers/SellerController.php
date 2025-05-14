@@ -216,7 +216,6 @@ class SellerController extends Controller
         $seller_id = $user->seller->id ?? null; // Use nul
         \Log::info('' . $user->id . ' ' . $seller_id);
         $orders = WalkinOrders::where('seller_id', '=', $seller_id)
-        ->where('delivery_status', '=', 'completed')
             ->latest()->get();
 
         return view('seller.walkinorder', compact('orders'));
