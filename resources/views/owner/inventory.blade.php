@@ -19,16 +19,16 @@
                                   class="absolute inset-y-0 end-0 flex items-center px-3 text-gray-600 hover:text-gray-900">
                                   <i class='bx bx-filter text-2xl'></i>
                               </button>
-      
+
                               <!-- Filter Dropdown -->
                               <div id="filter-dropdown"
                                   class="hidden absolute right-0 mt-2 w-40 bg-white border border-gray-300 rounded-lg shadow-lg  ">
-                                  <div class="py-2 text-sm text-gray-700"> 
+                                  <div class="py-2 text-sm text-gray-700">
                                     <a href="{{ route('owner.inventory') }}?filter=all" class="block px-4 py-2 hover:bg-gray-100 w-full cursor-pointer filter-option" data-filter="All">All</a>
-                                    
+
                                     @foreach ($sellers as $seller)
                                         <a href="{{ route('owner.inventory') }}?filter={{$seller->user->id}}" class="block px-4 py-2 w-full hover:bg-gray-100 cursor-pointer filter-option" data-filter="{{$seller->user->fname}}">{{$seller->user->fname}}</a>
-                                    @endforeach 
+                                    @endforeach
                                   </div>
                               </div>
                     </div>
@@ -74,12 +74,12 @@
                                 <td class="px-6 py-4 pl-8 text-black">
                                      @php
                                      $totalQuantity=0;
-                                          
+
                                      foreach($product->orderItems as $orderItem){
                                         if($orderItem->order->status!="on-cart"){
                                             $totalQuantity+=$orderItem->quantity;
                                         }
-                                        
+
                                      }
                                      @endphp
                                     {{  $totalQuantity}}
@@ -132,18 +132,7 @@
                                                             class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500"
                                                             placeholder="Write product description here" name="description">{{ old('description', $product->description) }}</textarea>
                                                     </div>
-                                                    <div class="col-span-2 sm:col-span-1">
-                                                        <label for="location"
-                                                            class="block mb-2 text-sm font-medium text-gray-900">Location</label>
-                                                        <select name="location" id="location"
-                                                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5">
-                                                            @foreach ($locations as $location)
-                                                                <option value="{{ $location->id }}"
-                                                                    {{ old('location', $product->location->id) == $location->id ? 'selected' : '' }}>
-                                                                    {{ $location->name }}</option>
-                                                            @endforeach
-                                                        </select>
-                                                    </div>
+
                                                     <div class="col-span-2 sm:col-span-1">
                                                         <label for="price"
                                                             class="block mb-2 text-sm font-medium text-gray-900">Price</label>
@@ -245,7 +234,7 @@
                     </ul>
                 </nav>
 
-               
+
             </div>
         </div>
     </div>
@@ -258,7 +247,7 @@
                 $('#product-table-body tr').filter(function() {
                     $(this).toggle($(this).text().toLowerCase().indexOf(searchInput) > -1);
                 });
-            }); 
+            });
         });
         $("#filter-btn").click(function (event) {
             event.preventDefault();
@@ -278,7 +267,7 @@
 
                 $(this).toggle(matchesSearch && matchesFilter);
             });
-        } 
+        }
         // Close dropdown when clicking outside
         $(document).click(function (event) {
             if (!$(event.target).closest("#filter-btn, #filter-dropdown").length) {
@@ -286,7 +275,7 @@
             }
         });
 
-                                         function categoryChange(e) { 
+                                         function categoryChange(e) {
                                             let bestBeforeDiv = document.getElementById('bestBeforeDateDiv');
                                             bestBeforeDiv.style.display = e.target.value == 'food' ? 'block' : 'none';
                                         };

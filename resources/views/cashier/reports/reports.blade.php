@@ -20,7 +20,6 @@
                 <th>Customer Name</th>
                 <th>Product Name</th>
                 <th>Price</th>
-                <th>Location</th>
                 <th>Total Amount</th>
                 <th>Status</th>
             </tr>
@@ -32,7 +31,6 @@
                     <td>{{ $orderItem->order->user->fname." ".$orderItem->order->user->lname  }}</td>
                     <td>{{ $orderItem->product->name }}</td>
                     <td>{{ $orderItem->price }}</td>
-                    <td>{{ $orderItem->product->location->name }}</td>
                     <td>{{ $orderItem->order->total_amount }}</td>
                     <td>{{ $orderItem->order->status }}</td>
                 </tr>

@@ -3,7 +3,7 @@
         <div class="p-4 border-2 border-gray-200 border-dashed rounded-lg">
             <div class="flex justify-between items-center">
                 <h2 class="text-xl font-bold text-gray-900 sm:text-3xl">Archive Products</h2>
-                 
+
 
             </div>
             <div class="relative overflow-x-auto mt-10 bg-white p-4 rounded-lg">
@@ -112,18 +112,7 @@
                                                             class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500"
                                                             placeholder="Write product description here" name="description">{{ old('description', $product->description) }}</textarea>
                                                     </div>
-                                                    <div class="col-span-2 sm:col-span-1">
-                                                        <label for="location"
-                                                            class="block mb-2 text-sm font-medium text-gray-900">Location</label>
-                                                        <select name="location" id="location"
-                                                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5">
-                                                            @foreach ($locations as $location)
-                                                                <option value="{{ $location->id }}"
-                                                                    {{ old('location', $product->location->id) == $location->id ? 'selected' : '' }}>
-                                                                    {{ $location->name }}</option>
-                                                            @endforeach
-                                                        </select>
-                                                    </div>
+
                                                     <div class="col-span-2 sm:col-span-1">
                                                         <label for="price"
                                                             class="block mb-2 text-sm font-medium text-gray-900">Price</label>
@@ -156,7 +145,7 @@
                                                     <div id="bestBeforeDateDiv_{{ $product->id }}" style="display: none;" class="col-span-2 sm:col-span-1">
                                                         <div class="mt-2">
                                                             <label for="best_before_date" class="block mb-2 text-sm font-medium text-gray-900">Best Before Date</label>
-                                                            <input type="date" name="best_before_date" id="best_before_date_{{ $product->id }}" 
+                                                            <input type="date" name="best_before_date" id="best_before_date_{{ $product->id }}"
                                                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
                                                                 value="{{ old('best_before_date', $product->best_before_date ?? '') }}">
                                                         </div>
@@ -235,7 +224,7 @@
                     </ul>
                 </nav>
 
-               
+
             </div>
         </div>
     </div>
@@ -265,7 +254,7 @@
             // ... existing code ...
         });
 
-        function categoryChange(e) { 
+        function categoryChange(e) {
             let bestBeforeDiv = document.getElementById('bestBeforeDateDiv');
             let selectedOption = e.target.options[e.target.selectedIndex];
             bestBeforeDiv.style.display = selectedOption.text.toLowerCase() === 'processed foods' ? 'block' : 'none';

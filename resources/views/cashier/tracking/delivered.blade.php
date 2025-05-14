@@ -25,8 +25,7 @@
                                 <li class="flex flex-wrap gap-4">Total Price <span class="ml-auto font-bold">₱
                                         {{ number_format($item->product->price * $item->quantity, 2, '.', ',') }}</span>
                                 </li>
-                                <li class="flex flex-wrap gap-4">Location <span
-                                        class="ml-auto font-bold">{{ $item->product->location->name }}</span></li>
+
                             </ul>
                             @if (!$item->feedback && $item->order->status == 'delivered' && $item->order->user_id == Auth::id())
                                 <form action="{{ route('customer.tracking.delivered.upload') }}" method="POST"

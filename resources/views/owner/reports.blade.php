@@ -17,7 +17,7 @@
                                 <input type="search" id="table-search"
                                     class="block w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500"
                                     placeholder="Search for reports....">
-                                    
+
                                 <button type="button" id="filter-btn"
                                     class="absolute inset-y-0 end-0 flex items-center px-3 text-gray-600 hover:text-gray-900">
                                     <i class='bx bx-filter text-2xl'></i>
@@ -30,7 +30,7 @@
                                         <li class="px-4 py-2 hover:bg-gray-100 cursor-pointer filter-option" data-filter="Sales Report">Sales Report</li>
                                         <li class="px-4 py-2 hover:bg-gray-100 cursor-pointer filter-option" data-filter="Inventory Report">Inventory Report</li>
                                         <li class="px-4 py-2 hover:bg-gray-100 cursor-pointer filter-option" data-filter="Top Seller Report">Top Seller Report</li>
-                                        <li class="px-4 py-2 hover:bg-gray-100 cursor-pointer filter-option" data-filter="Top Purchase Report">Top Purchase Report</li> 
+                                        <li class="px-4 py-2 hover:bg-gray-100 cursor-pointer filter-option" data-filter="Top Purchase Report">Top Purchase Report</li>
                                     </ul>
                                 </div>
                             </div>
@@ -38,21 +38,21 @@
                             <!-- <a href="#" onclick="openInventorySeller()"
                                 class="btn btn-primary bg-blue-700 hover:bg-blue-800 text-white px-4 py-2 rounded-md">Generate
                                 Inventory</a>
-                                
+
                             <a href="#" onclick="openSalesSeller()"
                                 class="btn btn-primary bg-blue-700 hover:bg-blue-800 text-white px-4 py-2 rounded-md">
                                 Generate Sales
                             </a> -->
-                            <a  href="{{route('owner.topseller')}}" 
+                            <a  href="{{route('owner.topseller')}}"
                                 class="btn btn-primary bg-blue-700 hover:bg-blue-800 text-white px-4 py-2 rounded-md">
                                 Top Sellers
                             </a>
-                            
+
                             <!-- <a href="{{ route('owner.toppurchase') }}" onclick="openTopProducts()"
                                 class="btn btn-primary bg-blue-700 hover:bg-blue-800 text-white px-4 py-2 rounded-md">
                                 Top Purchased Products
                             </a>
-                            <a href="{{ route(name: 'report.payment') }}"  
+                            <a href="{{ route(name: 'report.payment') }}"
                                 class="btn btn-primary bg-blue-700 hover:bg-blue-800 text-white px-4 py-2 rounded-md">
                                 Generate Payment
                             </a> -->
@@ -97,7 +97,7 @@
                         @endforeach
                     </tbody>
                 </table>
-               
+
                 <nav class="flex items-center flex-column flex-wrap md:flex-row justify-between pt-4"
                     aria-label="Table navigation">
                     <span
@@ -112,16 +112,16 @@
             </div>
         </div>
     </div>
-     
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> 
 
-  
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+
     <div class="p-4 " id="Seller_Inventory_Management" style="display:none; position:fixed; top:0;left:0;background-color:rgba(0,0,0,0.3);width:100%;height:100%" onclick="CloseInventorySeller(event)">
         <div class="p-4  relative rounded-lg" style="width:60%; margin-left:auto;margin-right:auto; background-color:white;height:80%" onclick="">
-             
-             
-        <div class="header">List of Sellers</div> 
-        <button  onclick="CloseInventorySeller()" 
+
+
+        <div class="header">List of Sellers</div>
+        <button  onclick="CloseInventorySeller()"
         class="absolute top-5 right-5 "
         >
             <i class="bx bx-x text-gray-500 text-2xl"></i>
@@ -131,16 +131,16 @@
                 <tr>
                     <th>ID</th>
                     <th>Seller Business Name</th>
-                    <th>Address</th> 
-                    <th>Action</th> 
+                    <th>Address</th>
+                    <th>Action</th>
                 </tr>
             </thead>
             <tbody >
                 @foreach ($sellers as $index => $seller)
                     <tr>
-                    <td>{{ $seller->id }}</td> 
+                    <td>{{ $seller->id }}</td>
                         <td>{{ $seller->fname}}</td>
-                        <td>{{ $seller->address  }}</td> 
+                        <td>{{ $seller->address  }}</td>
                         <td>
                         <a id="generateReportBtn{{ $seller->id }}"
                         class="btn btn-primary bg-blue-700 hover:bg-blue-800 text-white px-2 py-1 m-1 rounded-md">
@@ -156,30 +156,30 @@
                                     event.preventDefault(); // Prevent default link behavior
 
                                     let baseUrl = "{{ route('owner.reports') }}"; // Blade generates this correctly
-                                    let sellerId = "{{ $seller->id }}"; // Get seller ID from Blade 
+                                    let sellerId = "{{ $seller->id }}"; // Get seller ID from Blade
 
                                     let url = `${baseUrl}?id=${sellerId}&inventory=true`;
                                     window.location.href = url; // Redirect dynamically
                                 });
                             });
                         </script>
-                    </td> 
+                    </td>
                     </tr>
                 @endforeach
             </tbody>
         </table>
-                 
+
         </div>
     </div>
-    
+
 <div class="p-4 " id="Seller_Sales_Management" style="display:none; position:fixed; top:0;left:0;background-color:rgba(0,0,0,0.3);width:100%;height:100%" onclick="CloseSalesSeller(event)">
         <div class="p-4  relative rounded-lg" style="width:60%; margin-left:auto;margin-right:auto; background-color:white;height:80%" onclick="">
-             
-             
-        <div class="header">List of Sellers</div> 
+
+
+        <div class="header">List of Sellers</div>
 
         @if($is_view)
-<button  onclick="CloseSalesSeller()" 
+<button  onclick="CloseSalesSeller()"
         class="absolute top-5 right-5 "
         >
             <i class="bx bx-x text-gray-500 text-2xl"></i>
@@ -190,16 +190,16 @@
                 <tr>
                     <th>ID</th>
                     <th>Seller Business Name</th>
-                    <th>Address</th> 
-                    <th>Action</th> 
+                    <th>Address</th>
+                    <th>Action</th>
                 </tr>
             </thead>
             <tbody>
                 @foreach ($sellers as $index => $seller)
                     <tr>
-                    <td>{{ $seller->id }}</td> 
+                    <td>{{ $seller->id }}</td>
                         <td>{{ $seller->fname }}</td>
-                        <td>{{ $seller->address  }}</td> 
+                        <td>{{ $seller->address  }}</td>
                         <td>
                         <a id="generateSalesReportBtn{{ $seller->id }}"
                         class="btn btn-primary bg-blue-700 hover:bg-blue-800 text-white px-2 py-1 m-1 rounded-md">
@@ -215,42 +215,42 @@
                                     event.preventDefault(); // Prevent default link behavior
 
                                     let baseUrl = "{{ route('owner.reports') }}"; // Blade generates this correctly
-                                    let sellerId = "{{ $seller->id }}"; // Get seller ID from Blade 
+                                    let sellerId = "{{ $seller->id }}"; // Get seller ID from Blade
 
                                     let url = `${baseUrl}?id=${sellerId}&sales=true`;
                                     window.location.href = url; // Redirect dynamically
                                 });
                             });
                         </script>
-                    </td> 
+                    </td>
                     </tr>
                 @endforeach
             </tbody>
         </table>
-                 
+
         </div>
     </div>
     <div class="overlay" id="overlay">
     @include('reports.daterangepicker')
-        
+
     </div>
     <div class="p-4 " id="Product_Management" style="position:fixed; top:0;left:0;background-color:rgba(0,0,0,0.3);width:100%;height:100%" onclick="CloseInventory(event)">
         <div class="p-4   rounded-lg" style="width:60%; margin-left:auto;margin-right:auto; background-color:white;height:80%">
-           
+
                 @include('reports.inventory')
-        
+
                 <a  id="export_inventory"
                         class="btn btn-primary bg-blue-700 hover:bg-blue-800 text-white px-4 py-2 rounded-md" style="position:absolute;right:21%; bottom:23%">Download PDF</a>
                         <script>
                             document.addEventListener("DOMContentLoaded", function () {
-                                let export_inventory = document.getElementById("export_inventory"); 
+                                let export_inventory = document.getElementById("export_inventory");
 
                                 export_inventory.addEventListener("click", function (event) {
                                     event.preventDefault(); // Prevent default link behavior
 
-                                    let DateStartEnd = document.getElementById("DateStartEnd"); 
+                                    let DateStartEnd = document.getElementById("DateStartEnd");
                                     let baseUrl = "{{ route('owner.inventory.export') }}"; // Blade generates this correctly
-                                    const id = urlParams.get("id");  
+                                    const id = urlParams.get("id");
                                     let start=DateStartEnd.getAttribute('start');
                                     let end=DateStartEnd.getAttribute('end');
                                     let url = `${baseUrl}?id=${id}&sales=true&start_date=${start}&end_date=${end}`;
@@ -258,31 +258,31 @@
                                 });
                             });
                         </script>
-                 
+
         </div>
     </div>
-     
 
 
-    
+
+
     <div class="p-4 " id="Sales_Management" style="position:fixed; top:0;left:0;background-color:rgba(0,0,0,0.3);width:100%;height:100%" onclick="CloseSales(event)">
         <div class="p-4   rounded-lg" style="width:60%; margin-left:auto;margin-right:auto; background-color:white;height:80%">
-           
+
                 @include('reports.sales')
-        
+
                 <a href="{{ route('owner.inventory.export') }}" id="export_sales"
                         class="btn btn-primary bg-blue-700 hover:bg-blue-800 text-white px-4 py-2 rounded-md" style="position:absolute;right:21%; bottom:23%">Download PDF</a>
                         <script>
                             document.addEventListener("DOMContentLoaded", function () {
-                                let export_sales = document.getElementById("export_sales"); 
+                                let export_sales = document.getElementById("export_sales");
 
                                 export_sales.addEventListener("click", function (event) {
                                     event.preventDefault(); // Prevent default link behavior
 
-                                    let DateStartEnd = document.getElementById("DateStartEnd"); 
+                                    let DateStartEnd = document.getElementById("DateStartEnd");
                                     let baseUrl = "{{ route('owner.sales.export') }}"; // Blade generates this correctly
-                                    
-                                    const id = urlParams.get("id");  
+
+                                    const id = urlParams.get("id");
                                     let start=DateStartEnd.getAttribute('start');
                                     let end=DateStartEnd.getAttribute('end');
                                     let url = `${baseUrl}?id=${id}&sales=true&start_date=${start}&end_date=${end}`;
@@ -290,7 +290,7 @@
                                 });
                             });
                         </script>
-                 
+
         </div>
     </div>
     <style> .overlay {
@@ -303,35 +303,35 @@
             display: none;
             justify-content: center;
             align-items: center;
-            z-index: 1000; 
+            z-index: 1000;
             opacity: 0;
             transition: opacity 0.3s ease;
         }
- 
-</style> 
-    <script>  
+
+</style>
+    <script>
         const Seller = document.getElementById('Seller_Inventory_Management');
-         
-         const datePicker = document.createElement("input"); 
-         datePicker.setAttribute('type','text'); 
+
+         const datePicker = document.createElement("input");
+         datePicker.setAttribute('type','text');
 
          let grid = document.getElementById("grid");
          if(grid){
 
          }else{
 
-            grid = document.createElement("div"); 
-            grid.setAttribute('id','grid'); 
+            grid = document.createElement("div");
+            grid.setAttribute('id','grid');
          }
-         
 
- 
+
+
 
         //   -------------------------------Inventory--------------------------------------
         //   -------------------------------Inventory--------------------------------------
         //   -------------------------------Inventory--------------------------------------
         //   -------------------------------Inventory--------------------------------------
-        
+
 
         let selectedFilter = "All"; // Default filter
 
@@ -370,15 +370,15 @@
         });
 
 
-         function openInventoryReport(event){ 
-            
-            const overlay = document.getElementById("overlay");  
+         function openInventoryReport(event){
+
+            const overlay = document.getElementById("overlay");
             const invent = document.getElementById('Product_Management');
             invent.style.display="none";
-                overlay.style.display= "block"; 
-                overlay.style.visibility= "visible";   
-                overlay.style.opacity= 1;   
-                dateRangeflatpickr.open(); 
+                overlay.style.display= "block";
+                overlay.style.visibility= "visible";
+                overlay.style.opacity= 1;
+                dateRangeflatpickr.open();
         }
         function CloseInventory(event){
             const invent = document.getElementById('Product_Management');
@@ -387,47 +387,47 @@
                 window.location.href ="#";
             }
         }
-        function openInventorySeller(event){ 
+        function openInventorySeller(event){
             const Seller = document.getElementById('Seller_Inventory_Management');
-                Seller.style.display="block"; 
+                Seller.style.display="block";
         }
         function CloseInventorySeller(event){
-            event.stopPropagation(); 
+            event.stopPropagation();
             if (event.target === event.currentTarget) {
                 const Seller = document.getElementById('Seller_Inventory_Management');
                 Seller.style.display="none";
             }
         }
-        
+
         function CloseInventorySeller(){
                 const Seller = document.getElementById('Seller_Inventory_Management');
                 Seller.style.display="none";
         }
-        
+
         //   -------------------------------Sales--------------------------------------
         //   -------------------------------Sales--------------------------------------
         //   -------------------------------Sales--------------------------------------
         //   -------------------------------Sales--------------------------------------
-        
-        function openSalesReport(event){ 
-            
-            const overlay = document.getElementById("overlay");  
+
+        function openSalesReport(event){
+
+            const overlay = document.getElementById("overlay");
             const invent = document.getElementById('Sales_Management');
             invent.style.display="none";
-                overlay.style.display= "block"; 
-                overlay.style.visibility= "visible";   
-                overlay.style.opacity= 1;   
-                dateRangeflatpickr.open(); 
+                overlay.style.display= "block";
+                overlay.style.visibility= "visible";
+                overlay.style.opacity= 1;
+                dateRangeflatpickr.open();
         }
         function CloseSales(event){
             const invent = document.getElementById('Sales_Management');
             if (event.target === event.currentTarget) {
                 invent.style.display="none";
             }
-        } 
-        function openSalesSeller(event){ 
+        }
+        function openSalesSeller(event){
             const Seller = document.getElementById('Seller_Sales_Management');
-                Seller.style.display="block"; 
+                Seller.style.display="block";
         }
         function CloseSalesSeller(event){
             if (event.target === event.currentTarget) {
@@ -448,31 +448,31 @@
             });
         });
         const urlParams = new URLSearchParams(window.location.search);
-        const id = urlParams.get("id"); 
-        const sales = urlParams.get("sales"); 
-        const inventory = urlParams.get("inventory");  
+        const id = urlParams.get("id");
+        const sales = urlParams.get("sales");
+        const inventory = urlParams.get("inventory");
         if(sales && id!=null){
 
             openSalesSeller(null);
             openSalesReport(null);
         }else {
-            
+
             const Product_Management = document.getElementById("Product_Management");
-            Product_Management.style.display="none"; 
+            Product_Management.style.display="none";
             const Sales_Management = document.getElementById("Sales_Management");
-            Sales_Management.style.display="none"; 
+            Sales_Management.style.display="none";
         }
-        
+
         if(inventory && id!=null){
 
             openInventorySeller(null);
             openInventoryReport(null);
         } else {
             const Product_Management = document.getElementById("Product_Management");
-            Product_Management.style.display="none"; 
+            Product_Management.style.display="none";
             const Sales_Management = document.getElementById("Sales_Management");
-            Sales_Management.style.display="none"; 
+            Sales_Management.style.display="none";
         }
-        </script> 
+        </script>
 
 </x-app-layout>

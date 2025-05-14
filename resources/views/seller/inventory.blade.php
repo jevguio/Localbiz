@@ -3,7 +3,7 @@
         <div class="p-5 border-2 border-gray-200 border-dashed rounded-lg">
             <div class="flex justify-between items-center">
                 <h2 class="text-xl font-bold text-gray-900 sm:text-3xl">Inventory</h2>
-                 
+
             </div>
             <div class="relative overflow-x-auto mt-10 bg-white p-4 rounded-lg">
                 <form class="max-w-md ml-0 mb-4">
@@ -59,23 +59,23 @@
                                 <td class="px-6 py-4 pl-8 text-black">
                                      @php
                                      $totalQuantity=0;
-                                          
+
                                      foreach($product->orderItems as $orderItem){
                                         if($orderItem->order->status!="on-cart"){
                                             $totalQuantity+=$orderItem->quantity;
                                         }
-                                        
+
                                      }
                                      @endphp
                                     {{  $totalQuantity}}
                                 </td>
-                                
+
                                 <td class="px-6 py-4 pl-17 text-black">
-                                <button  
-                                    data-modal-target="editModal{{ $product->id }}"  
+                                <button
+                                    data-modal-target="editModal{{ $product->id }}"
                                         class="font-medium text-green-600 hover:underline" type="button">
                                         Replenish
-                                    </button> 
+                                    </button>
                                 </td>
                             </tr>
 
@@ -102,7 +102,7 @@
                                                 method="POST" enctype="multipart/form-data">
                                                 @csrf
                                                 @method('PUT')
-                                                <div class="grid gap-4 mb-4 grid-cols-2"> 
+                                                <div class="grid gap-4 mb-4 grid-cols-2">
                                                     <div class="col-span-2">
                                                         <label for="product_name"
                                                             class="block mb-2 text-sm font-medium text-gray-900">Name</label>
@@ -118,24 +118,7 @@
                                                             class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500"
                                                             placeholder="Write product description here" name="description">{{ old('description', $product->description) }}</textarea>
                                                     </div>
-                                                    <div class="col-span-2 sm:col-span-1">
-                                                        <label for="location"
-                                                            class="block mb-2 text-sm font-medium text-gray-900">Location</label>
-                                                        <input type="text" hidden name="location" id="location" readonly
-                                                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
-                                                           
-                                                            value="{{ $product->location->id }}"
-                                                            >
-                                                        </input>
-                                                        <div  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5">
-                                                            
-                                                        @foreach ($locations as $location)
-                                                                @if ( $product->location->id  == $location->id) 
-                                                                {{ $location->name }}
-                                                                @endif
-                                                            @endforeach
-                                                        </div>
-                                                    </div>
+
                                                     <div class="col-span-2 sm:col-span-1">
                                                         <label for="price"
                                                             class="block mb-2 text-sm font-medium text-gray-900">Price</label>
@@ -147,19 +130,19 @@
                                                     <div class="col-span-2 sm:col-span-1">
                                                         <label for="stock"
                                                             class="block mb-2 text-sm font-medium text-gray-900">Stock</label>
-                                                        <input type="number" name="stock" id="stock" 
+                                                        <input type="number" name="stock" id="stock"
                                                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
                                                             value="{{ old('stock', $product->stock) }}">
                                                     </div>
                                                     <div class="col-span-2 sm:col-span-1">
                                                         <label for="category"
                                                             class="block mb-2 text-sm font-medium text-gray-900">Category</label>
-                                                        <div id="category" name="category_id" 
+                                                        <div id="category" name="category_id"
                                                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5">
-                                                             
+
                                                             @foreach ($categories as $category)
                                                                 @if ($product->category_id == $category->id)
-                                                                
+
                                                                 <div value="{{ $category->id }}"
                                                                         {{ old('category_id', $product->category_id) == $category->id ? 'selected' : '' }}>
                                                                         {{ $category->name }}</div>
@@ -240,7 +223,7 @@
                     </ul>
                 </nav>
 
-               
+
             </div>
         </div>
     </div>
@@ -253,9 +236,9 @@
                 $('#product-table-body tr').filter(function() {
                     $(this).toggle($(this).text().toLowerCase().indexOf(searchInput) > -1);
                 });
-            }); 
+            });
         });
-                                         function categoryChange(e) { 
+                                         function categoryChange(e) {
                                             let bestBeforeDiv = document.getElementById('bestBeforeDateDiv');
                                             bestBeforeDiv.style.display = e.target.value == 'food' ? 'block' : 'none';
                                         };

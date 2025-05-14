@@ -26,8 +26,7 @@
                                 <li class="flex flex-wrap gap-4">Total Price <span class="ml-auto font-bold">₱
                                 {{ number_format($item->product->price * $item->quantity, 2, '.', ',') }}</span>
                                 </li>
-                                {{-- <li class="flex flex-wrap gap-4">Location <span
-                                        class="ml-auto font-bold">{{ $item->product->location->name }}</span></li> --}}
+
                                 <h3 class="text-sm lg:text-base text-gray-800 font-bold">Receipt</h3>
                                 <img src="{{ asset('' . $item->order->payments->receipt_file) }}"
                                     alt="Receipt" class="w-60">

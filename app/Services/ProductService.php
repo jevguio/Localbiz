@@ -3,7 +3,6 @@
 namespace App\Services;
 
 use App\Constant\MyConstant;
-use App\Models\Location;
 use App\Models\ProductImage;
 use App\Models\Products;
 use App\Models\Seller;
@@ -31,19 +30,8 @@ class ProductService
                 ]);
             }
 
-            \Log::info("Has seller");
-            // if (!$location) {
-            //     \Log::info("No Location");
-            //     return response()->json([
-            //         'error_code' => MyConstant::FAILED_CODE,
-            //         'status_code' => MyConstant::FAILED_CODE,
-            //         'message' => 'Location not found',
-            //     ]);
-            // }
-
-            \Log::info("Has Location");
             $productData = $request->all();
-            $productData['location_id'] = 1;
+
             $productData['seller_id'] = $seller->id;
             $productData['image'] = ' ';
             \Log::info($productData);
@@ -124,7 +112,6 @@ class ProductService
                 \Log::info("No Image");
             }
 
-            $product->location_id = 1;
             $product->save();
 
             session()->flash('success', 'Product updated successfully');

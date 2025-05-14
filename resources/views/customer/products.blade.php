@@ -18,19 +18,7 @@
                         @endforeach
                     </select>
                 </form>
-                <form method="GET" action="{{ route('customer.products') }}">
-                    <select name="location"
-                        class="border border-gray-200 bg-white px-3 py-2 text-sm font-medium text-gray-900"
-                        id="locationSelect">
-                        <option value="">All Locations</option>
-                        @foreach ($locations as $location)
-                            <option value="{{ $location->id }}"
-                                {{ request('location') == $location->id ? 'selected' : '' }}>
-                                {{ $location->name }}
-                            </option>
-                        @endforeach
-                    </select>
-                </form>
+
                 <div class="relative w-full">
 
                     <i class='bx bx-search absolute text-gray-500 text-xl left-3 top-2.5 z-10'></i>
@@ -111,7 +99,7 @@
                             {{ $average }} out of 5
                         @endif
                     </p>
-                    <p class="text-gray-500 font-semibold">Location: {{ $product->location->name }}</p>
+
                     <div class="flex justify-between items-center">
                         <p class="text-gray-500 font-bold">₱ {{ number_format($product->price, 2, '.', ',') }}</p>
                         <p class="text-gray-500">Stock: {{ $product->stock }}</p>
@@ -185,7 +173,7 @@
                                     <h3 class="text-3xl font-bold text-gray-900 mb-4">{{ $product->name }}</h3>
                                     <div class="space-y-1 text-lg">
                                         <p>{{ $product->description }}</p>
-                                        <p>Location: {{ $product->location->name }}</p>
+
                                         <p>Stock: {{ $product->stock }}</p>
                                         @if ($product->category && $product->category->name === 'Processed Foods' && $product->best_before)
                                             <p class="text-red-600">Best Before:

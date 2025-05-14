@@ -25,13 +25,12 @@
                                 <li class="flex flex-wrap gap-4">Total Price <span class="ml-auto font-bold">₱
                                 {{ number_format($item->product->price * $item->quantity, 2, '.', ',') }}</span>
                                 </li>
-                                {{-- <li class="flex flex-wrap gap-4">Location <span
-                                        class="ml-auto font-bold">{{ $item->product->location->name }}</span></li> --}}
+
                             </ul>
                         </div>
                     </div>
-                        
-                      
+
+
                     <div id="viewModal{{ $item->id }}" tabindex="-1" aria-hidden="true"
                         class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-screen max-h-full bg-black bg-opacity-50">
                         <div class="relative p-4 w-full max-w-5xl max-h-full mx-auto">
@@ -56,7 +55,7 @@
                                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
                                             placeholder="Type customer first name" value="{{ $item->order->user->fname . ' ' . $item->order->user->lname }}"
                                             readonly>
-                                    </div> 
+                                    </div>
 
                                     <!-- <div class="col-span-1">
                                         <label for="customer_id"
@@ -101,9 +100,9 @@
                                             class="block mb-2 text-sm font-medium text-gray-900">Category</label>
                                         <div id="category" name="category_id"
                                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5"
-                                            disabled> 
+                                            disabled>
                                             @foreach ($categories as $category)
-                                            @if($item->order->orderItems->first()->product->category_id ==$category->id) 
+                                            @if($item->order->orderItems->first()->product->category_id ==$category->id)
                                                     <div value="{{ $category->id }}"
                                                     >
                                                     {{ $category->name }}</div>
@@ -174,19 +173,19 @@
                                     <div class="col-span-1">
                                         <label for="payment_date"
                                             class="block mb-2 text-sm font-medium text-gray-900">Delivery Method</label>
-                                            <div name="status" id="status" 
+                                            <div name="status" id="status"
                                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5">
-                                   
+
                                             @if(optional($item->order->payments)->courier_id != null)
                                             Cash on Delivery
                                             @else
                                             Pick Up
-                                            @endif 
+                                            @endif
                                         </div>
                                     </div>
 
-                                    
-                                   
+
+
                                     <div class="col-span-1">
                                         <label for="status"
                                             class="block mb-2 text-sm font-medium text-gray-900">Status</label>
@@ -196,10 +195,10 @@
                                             <div value="pending">
                                                 {{ $item->order->status}}
                                             </div>
-                                           
+
                                         </div>
                                     </div>
-                                    
+
                                     <!-- <div class="col-span-1">
                                         <label for="courier"
                                             class="block mb-2 text-sm font-medium text-gray-900">Courier</label>
@@ -208,7 +207,7 @@
                                             value="{{ $item->order->payments->first()->courier->name ?? 'N/A' }}"
                                             readonly>
                                     </div> -->
-                                    
+
                                     <div class="col-span-2">
                                         <label for="feedback"
                                             class="block mb-2 text-sm font-bold text-gray-900">Feedback</label>

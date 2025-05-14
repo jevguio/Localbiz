@@ -11,7 +11,7 @@ class Products extends Model
     protected $table = 'tbl_products';
     public $timestamps = true;
 
-    protected $fillable = ['seller_id', 'category_id', 'name', 'description', 'price', 'stock', 'image', 'location_id', 'is_active','best_before_date'];
+    protected $fillable = ['seller_id', 'category_id', 'name', 'description', 'price', 'stock', 'image', 'is_active','best_before_date'];
 
     public function category(): BelongsTo
     {
@@ -37,10 +37,7 @@ class Products extends Model
         return $this->hasMany(ProductImage::class, 'product_id', 'id');
     }
 
-    public function location(): BelongsTo
-    {
-        return $this->belongsTo(Location::class, 'location_id', 'id');
-    }
+
     public function reports(): HasMany
     {
         return $this->hasMany(Reports::class, 'product_id', 'id');

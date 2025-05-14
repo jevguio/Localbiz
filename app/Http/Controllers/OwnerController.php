@@ -27,7 +27,6 @@ use Maatwebsite\Excel\Facades\Excel;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\DB;
-use App\Models\Location;
 
 class OwnerController extends Controller
 {
@@ -236,11 +235,11 @@ class OwnerController extends Controller
         // Retrieve products for the given sellers
         $products = Products::whereIn('seller_id', $sellerIds)->where('is_active', '=', true)->paginate(10);
 
-        // Retrieve categories and locations
+        // Retrieve categories
         $categories = Categories::all();
-        $locations = Location::all();
 
-        return view('owner.inventory', compact('orders', 'products', 'totalSales', 'categories', 'locations', 'sellers'));
+
+        return view('owner.inventory', compact('orders', 'products', 'totalSales', 'categories', 'sellers'));
     }
 
     public function exportInventory(Request $request)
@@ -257,7 +256,7 @@ class OwnerController extends Controller
             ->leftJoin('tbl_users', 'tbl_sellers.user_id', '=', 'tbl_users.id')
             ->selectRaw('
             tbl_products.id,
-            tbl_products.name AS name, 
+            tbl_products.name AS name,
             tbl_products.seller_id AS seller_id,
             tbl_products.stock AS stock,
             tbl_products.description AS description,
@@ -436,10 +435,10 @@ class OwnerController extends Controller
             COUNT(DISTINCT tbl_order_items.order_id) AS total_order,
             SUM(tbl_order_items.quantity) AS total_units_sold,
             SUM(tbl_order_items.quantity * tbl_order_items.price) AS revenue,
-            CASE 
-                WHEN COUNT(DISTINCT tbl_order_items.order_id) > 0 
-                THEN SUM(tbl_order_items.quantity * tbl_order_items.price) / COUNT(DISTINCT tbl_order_items.order_id) 
-                ELSE 0 
+            CASE
+                WHEN COUNT(DISTINCT tbl_order_items.order_id) > 0
+                THEN SUM(tbl_order_items.quantity * tbl_order_items.price) / COUNT(DISTINCT tbl_order_items.order_id)
+                ELSE 0
             END AS avg_order_value
         ')
             ->groupBy('tbl_users.id', 'tbl_users.fname', 'tbl_users.lname')
@@ -467,10 +466,10 @@ class OwnerController extends Controller
             DATE_FORMAT(tbl_orders.created_at, "%M %Y") as month,
 
             SUM(tbl_order_items.quantity * tbl_order_items.price) AS revenue,
-            CASE 
-                WHEN COUNT(DISTINCT tbl_order_items.order_id) > 0 
-                THEN SUM(tbl_order_items.quantity * tbl_order_items.price) / COUNT(DISTINCT tbl_order_items.order_id) 
-                ELSE 0 
+            CASE
+                WHEN COUNT(DISTINCT tbl_order_items.order_id) > 0
+                THEN SUM(tbl_order_items.quantity * tbl_order_items.price) / COUNT(DISTINCT tbl_order_items.order_id)
+                ELSE 0
             END AS avg_order_value
         ')
             ->whereNotNull('tbl_orders.created_at')
@@ -503,10 +502,10 @@ class OwnerController extends Controller
             COUNT(DISTINCT tbl_order_items.order_id) AS total_order,
             SUM(tbl_order_items.quantity) AS total_units_sold,
             SUM(tbl_order_items.quantity * tbl_order_items.price) AS revenue,
-            CASE 
-                WHEN COUNT(DISTINCT tbl_order_items.order_id) > 0 
-                THEN SUM(tbl_order_items.quantity * tbl_order_items.price) / COUNT(DISTINCT tbl_order_items.order_id) 
-                ELSE 0 
+            CASE
+                WHEN COUNT(DISTINCT tbl_order_items.order_id) > 0
+                THEN SUM(tbl_order_items.quantity * tbl_order_items.price) / COUNT(DISTINCT tbl_order_items.order_id)
+                ELSE 0
             END AS avg_order_value
         ')
             ->groupBy('tbl_users.id', 'tbl_users.fname', 'tbl_users.lname')

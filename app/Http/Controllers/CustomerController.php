@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\Categories;
 use App\Models\Courier;
 use App\Models\Feedback;
-use App\Models\Location;
 use App\Models\OrderItems;
 use App\Models\Orders;
 use App\Models\Products;
@@ -21,7 +20,7 @@ class CustomerController extends Controller
     {
         $products = Products::with(['feedback','images'])->where('is_active', '=', true)->latest()->get();
         $categories = Categories::all();
-        $locations = Location::all();
+
         $seller = Seller::with('user')->get();
         $averageRating = Products::with('feedback')
         ->where('is_active', '=', true)
@@ -31,13 +30,11 @@ class CustomerController extends Controller
         if ($request->has('category') && $request->category != '') {
             $products = $products->where('category_id', $request->category);
         }
-        if ($request->has('location') && $request->location != '') {
-            $products = $products->where('location_id', $request->location);
-        }
+
         if ($request->has('seller') && $request->seller != '') {
             $products = $products->where('seller_id', $request->seller);
         }
-        return view('customer.products', compact('products','averageRating', 'seller', 'categories', 'locations'));
+        return view('customer.products', compact('products','averageRating', 'seller', 'categories'));
     }
 
     public function cart()

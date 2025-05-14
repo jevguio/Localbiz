@@ -9,7 +9,6 @@ use App\Exports\SalesExport;
 use App\Models\Cashier;
 use App\Models\Categories;
 use App\Models\Courier;
-use App\Models\Location;
 use App\Models\OrderItems;
 use App\Models\Orders;
 use App\Models\Payments;
@@ -24,7 +23,6 @@ use Barryvdh\DomPDF\Facade\Pdf;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Storage;
 use App\Services\CategoryService;
-use App\Services\LocationService;
 use App\Services\ProductService;
 use App\Constant\MyConstant;
 use App\Services\RiderService;
@@ -62,8 +60,7 @@ class SellerController extends Controller
         }
         $products = $seller->products()->with('images')->where('is_active', '=', true)->orderBy('created_at', 'desc')->paginate(10);
         $categories = Categories::all();
-        $locations = Location::all();
-        return view('seller.products', compact('products', 'categories', 'locations'));
+        return view('seller.products', compact('products', 'categories'));
     }
     public function archive()
     {
@@ -78,8 +75,7 @@ class SellerController extends Controller
         }
         $products = $seller->products()->where('is_active', '=', false)->orderBy('created_at', 'desc')->paginate(10);
         $categories = Categories::all();
-        $locations = Location::all();
-        return view('seller.archive', compact('products', 'categories', 'locations'));
+        return view('seller.archive', compact('products', 'categories'));
     }
 
     public function inventory()
@@ -95,8 +91,7 @@ class SellerController extends Controller
         }
         $products = $seller->products()->orderBy('created_at', 'desc')->paginate(10);
         $categories = Categories::all();
-        $locations = Location::all();
-        return view('seller.inventory', compact('products', 'categories', 'locations'));
+        return view('seller.inventory', compact('products', 'categories'));
     }
 
     public function storeProduct(Request $request)
@@ -350,28 +345,8 @@ class SellerController extends Controller
         return redirect()->back();
     }
 
-    public function locations()
-    {
-        $locations = Location::paginate(10);
-        $seller = Seller::where('user_id', Auth::user()->id)->first();
-        if (!$seller || !$seller->is_approved || $seller->user->is_active == 0) {
-            session()->flash('error', 'You are not approved to access this page.');
-            return redirect()->route('seller.dashboard');
-        }
-        return view('seller.locations', compact('locations'));
-    }
 
-    public function storeLocation(Request $request)
-    {
-        $result = (new LocationService())->storeLocation($request);
-        return redirect()->back();
-    }
 
-    public function updateLocation(Request $request, $id)
-    {
-        $result = (new LocationService())->updateLocation($request, $id);
-        return redirect()->back();
-    }
     public function updateOrder(Request $request)
     {
 
@@ -396,11 +371,6 @@ class SellerController extends Controller
 
             return redirect()->back();
         }
-    }
-    public function destroyLocation($id)
-    {
-        $result = (new LocationService())->destroyLocation($id);
-        return redirect()->back();
     }
 
     public function cashier()

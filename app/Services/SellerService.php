@@ -30,19 +30,19 @@ class SellerService
 
             if ($request->hasFile('document_file')) {
                 $documentFiles = $seller->document_files ? json_decode($seller->document_files, true) : [];
-            
+
                 foreach ($request->file('document_file') as $file) {
                     $filename = time() . '_' . $file->getClientOriginalName();
                     $file->move(public_path('seller/documents/'), $filename);
                     $documentFiles[] = $filename; // Add new file to the array
                 }
-            
+
                 // Convert back to JSON and save
                 $seller->document_file = json_encode($documentFiles);
                 $seller->save();
             }
-            
-            
+
+
             if ($request->hasFile('logo')) {
                 $logo = $request->file('logo');
                 $logo->move(public_path('seller/logo/'), $logo->getClientOriginalName());

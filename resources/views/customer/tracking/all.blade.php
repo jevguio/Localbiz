@@ -6,14 +6,14 @@
             </div>
             @include('customer.tracking.breadcrumbs')
             <div class="flex flex-col bg-white p-4 rounded-lg mt-4">
-                
+
             @if ($cartItems->isEmpty())
             <p style="text-align: center;">No orders found</p>
             @else
                 @foreach ($cartItems as $item)
                     <div class="border border-gray-200 bg-white p-6 shadow-md md:p-8 hover:bg-gray-50 flex items-start gap-4 p-5 my-5"  data-modal-target="viewModal{{ $item->id }}">
                         <div class="w-32 h-28 max-lg:w-24 max-lg:h-24 flex p-3 shrink-0 rounded-md">
-                            
+
                             <img src='{{ asset('assets/' . $item->product->image) }}' class="w-full object-contain" />
                         </div>
                         <div class="w-full">
@@ -27,25 +27,12 @@
                                 <li class="flex flex-wrap gap-4">Total Price <span class="ml-auto font-bold">₱
                                 {{ $item->order->payments->payment_amount}}</span>
                                 </li>
-                                <!-- {{-- <li class="flex flex-wrap gap-4">Location <span
-                                        class="ml-auto font-bold">{{ $item->product->location->name }}</span></li> --}}
-                                <h3 class="text-sm lg:text-base text-gray-800 font-bold">Receipt</h3>
-                                    alt="Receipt" class="w-60"> -->
+
                             </ul>
-                            <!-- <div class="flex justify-end">
-                            <form action="{{ route('customer.cancelled') }}" method="POST"
-                                enctype="multipart/form-data">
-                                @csrf
-                                @method('PUT')
-                                <input type="hidden" name="order_id" value="{{ $item->order->id }}">
-                                <button class="btn mt-2 px-6 py-3 text-lg bg-red-500 text-white rounded-md hover:bg-red-600">
-                                    Cancel
-                                </button>
-                            </form>
-                            </div> -->
+
                         </div>
                     </div>
-                        
+
                     <div id="viewModal{{ $item->id }}" tabindex="-1" aria-hidden="true"
                         class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-screen max-h-full bg-black bg-opacity-50">
                         <div class="relative p-4 w-full max-w-5xl max-h-full mx-auto">
@@ -131,9 +118,9 @@
                                             class="block mb-2 text-sm font-medium text-gray-900">Category</label>
                                         <div id="category" name="category_id"
                                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5"
-                                            disabled> 
+                                            disabled>
                                             @foreach ($categories as $category)
-                                            @if($item->order->orderItems->first()->product->category_id ==$category->id) 
+                                            @if($item->order->orderItems->first()->product->category_id ==$category->id)
                                                     <div value="{{ $category->id }}"
                                                     >
                                                     {{ $category->name }}</div>
@@ -141,7 +128,7 @@
                                             @endforeach
                                         </div>
                                     </div>
-                                   
+
                                     <div class="col-span-1">
                                         <label for="status"
                                             class="block mb-2 text-sm font-medium text-gray-900">Status</label>
@@ -151,7 +138,7 @@
                                             <div value="pending">
                                                 {{ $item->order->status}}
                                             </div>
-                                           
+
                                         </div>
                                     </div>
                                     <div class="col-span-1">
@@ -201,14 +188,14 @@
                                     <div class="col-span-1">
                                         <label for="payment_date"
                                             class="block mb-2 text-sm font-medium text-gray-900">Delivery Method</label>
-                                            <div name="status" id="status" 
+                                            <div name="status" id="status"
                                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5">
-                                   
+
                                             @if(optional($item->order->payments)->courier_id != null)
                                             Cash on Delivery
                                             @else
                                             Pick Up
-                                            @endif 
+                                            @endif
                                         </div>
                                     </div>
                                     <div class="col-span-2">
@@ -255,7 +242,7 @@
                 const modalId = $(this).data('modal-toggle');
                 $(`#${modalId}`).addClass('hidden');
             });
-            
+
             $('.btn').on('click', function (event) {
                 event.stopPropagation(); // Stops the click event from reaching the parent
             });
