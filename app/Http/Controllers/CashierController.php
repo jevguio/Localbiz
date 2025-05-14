@@ -134,6 +134,25 @@ class CashierController extends Controller
     }
 
 
+    public function complete($id)
+    {
+        $order = WalkinOrders::findOrFail($id);
+
+        if ($order) {
+
+            $order->amount_paid = $order->subtotal;
+            $order->status = 'paid';
+            Log::info($order);
+            $order->save();
+            session()->flash('success', 'Order Completed');
+        }else{
+
+            session()->flash('error', 'Order Not Found');
+        }
+
+        return redirect()->back();
+    }
+
     public function updateCart(Request $request, $productId)
     {
         $product = Products::findOrFail($productId);
@@ -207,9 +226,9 @@ class CashierController extends Controller
             })
             ->where(function ($query) {
                 $query->where('status', 'pending')
-                      ->orWhereHas('payments', function ($q) {
-                          $q->where('status', 'processing');
-                      });
+                    ->orWhereHas('payments', function ($q) {
+                        $q->where('status', 'processing');
+                    });
             })
             ->orderBy('created_at', 'desc')
             ->paginate(10);

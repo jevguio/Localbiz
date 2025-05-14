@@ -70,7 +70,7 @@
                             </td>
                             <td>
                                 @if($order->status != 'paid')
-                                    <button type="button" 
+                                    <button type="button"
                                         class="btn text-white bg-orange-900 hover:bg-red-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-3 py-1.5"
                                         onclick="window.location.href='{{ route('cashier.walkin.orders.complete', $order->id) }}'">
                                         Completed

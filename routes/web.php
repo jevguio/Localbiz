@@ -171,7 +171,7 @@ Route::middleware(['auth', 'Cashier'])->group(function () {
     Route::put('/cashier/orders/update/{id}', [CashierController::class, 'updateOrder'])->name('cashier.orders.update');
 
     Route::put('/cashier/orders/create', [CashierController::class, 'updateOrder'])->name('cashier.orders.create');
-    Route::get('/cashier/walkin-orders/{order}/complete', [WalkinOrderController::class, 'complete'])->name('cashier.walkin.orders.complete');
+    Route::get('/cashier/walkin-orders/{id}/complete', [CashierController::class, 'complete'])->name('cashier.walkin.orders.complete');
 });
 
 Route::middleware(['auth', 'DeliveryRider'])->group(function () {
