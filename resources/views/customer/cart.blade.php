@@ -53,7 +53,7 @@
                                                     <div class="w-full">
                                                         @if (isset($item->product->images[0]))
                                                             <img class="h-25 w-25 rounded-lg border border-gray-300 object-cover"
-                                                                src="{{ asset('assets/' . $item->product->images[0]) }}"
+                                                                src="{{ asset('assets/' . $item->product->images[0]->filename) }}"
                                                                 alt="{{ $item->product->name }}" />
                                                         @else
                                                             <img class="h-25 w-25 rounded-lg border border-gray-300 object-cover"
