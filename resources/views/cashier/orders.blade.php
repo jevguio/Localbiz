@@ -240,6 +240,20 @@
                                                         value="{{ $order->payments->first() ? \Carbon\Carbon::parse($order->payments->first()->payment_date)->format('F d, Y') : 'N/A' }}"
                                                         readonly>
                                                 </div>
+                                                <div id="paymentAmountContainer_{{ $order->id }}"
+                                                    class="col-span-1">
+                                                    <label for="payment_amount_{{ $order->id }}"
+                                                        class="block mb-2 text-sm font-medium text-gray-900">
+                                                        Amount Paid</label>
+                                                    <input type="number" name="payment_amount"
+                                                        id="payment_amount_{{ $order->id }}"
+                                                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-50 p-2.5"
+                                                        placeholder="Enter amount" min="0"
+                                                        step="0.01"
+                                                        disabled
+                                                        value="{{  $order->payments->payment_amount}}">
+                                                </div>
+
                                                 @if (!is_null($order->payments->pickup_date))
                                                     <div class="col-span-1">
                                                         <label for="pickup_date"
