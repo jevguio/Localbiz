@@ -288,7 +288,7 @@
                                                 <div class="flex justify-end gap-2">
                                                     <button type="button"
                                                         data-modal-toggle="editModal{{ $order->id }}"
-                                                        class="btn btn-error text-white inline-flex items-center bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">
+                                                        class="btn btn-error mb-2 mr-2 text-white inline-flex items-center bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">
                                                         Close
                                                     </button>
                                                 </div>
