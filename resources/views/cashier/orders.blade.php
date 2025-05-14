@@ -284,18 +284,14 @@
                                                     @endif
                                                 </div>
                                             </div>
-                                            {{-- <hr class="my-4">
+                                            <hr class="my-4">
                                                 <div class="flex justify-end gap-2">
                                                     <button type="button"
                                                         data-modal-toggle="editModal{{ $order->id }}"
                                                         class="btn btn-error text-white inline-flex items-center bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">
                                                         Close
                                                     </button>
-                                                    <button type="submit"
-                                                        class="btn btn-primary text-white inline-flex items-center bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">
-                                                        Save Changes
-                                                    </button>
-                                                </div> --}}
+                                                </div>
                                     </div>
                                     </form>
                                 </div>
