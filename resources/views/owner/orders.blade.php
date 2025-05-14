@@ -18,16 +18,16 @@
                             class="absolute inset-y-0 end-0 flex items-center px-3 text-gray-600 hover:text-gray-900">
                             <i class='bx bx-filter text-2xl'></i>
                         </button>
-                        
+
                         <div id="filter-dropdown"
                             class="hidden absolute right-0 mt-2 w-40 bg-white border border-gray-300 rounded-lg shadow-lg">
                             <ul class="py-2 text-sm text-gray-700">
                                 <a href="{{ route('owner.orders') }}?filter=all" class="block px-4 py-2 hover:bg-gray-100 cursor-pointer filter-option" data-filter="All">All</a>
-                                <a href="{{ route('owner.orders') }}?filter=pending"  class="block px-4 py-2 hover:bg-gray-100 cursor-pointer filter-option" data-filter="pending">Pending</a> 
+                                <a href="{{ route('owner.orders') }}?filter=pending"  class="block px-4 py-2 hover:bg-gray-100 cursor-pointer filter-option" data-filter="pending">Pending</a>
                                 <a href="{{ route('owner.orders') }}?filter=processing"  class="block px-4 py-2 hover:bg-gray-100 cursor-pointer filter-option" data-filter="processing">Processing</a>
-                                <a href="{{ route('owner.orders') }}?filter=receiving"  class="block px-4 py-2 hover:bg-gray-100 cursor-pointer filter-option" data-filter="receiving">Receiving</a> 
-                                <a href="{{ route('owner.orders') }}?filter=delivered"  class="block px-4 py-2 hover:bg-gray-100 cursor-pointer filter-option" data-filter="delivered">Delivered</a> 
-                                <a href="{{ route('owner.orders') }}?filter=cancelled"  class="block px-4 py-2 hover:bg-gray-100 cursor-pointer filter-option" data-filter="cancelled">Cancelled</a> 
+                                <a href="{{ route('owner.orders') }}?filter=receiving"  class="block px-4 py-2 hover:bg-gray-100 cursor-pointer filter-option" data-filter="receiving">Receiving</a>
+                                <a href="{{ route('owner.orders') }}?filter=delivered"  class="block px-4 py-2 hover:bg-gray-100 cursor-pointer filter-option" data-filter="delivered">Delivered</a>
+                                <a href="{{ route('owner.orders') }}?filter=cancelled"  class="block px-4 py-2 hover:bg-gray-100 cursor-pointer filter-option" data-filter="cancelled">Cancelled</a>
                             </ul>
                         </div>
                     </div>
@@ -40,7 +40,7 @@
                             </th>
                             <th scope="col" class="px-6 py-3 pl-15">
                                 Order Date
-                            </th> 
+                            </th>
                             <th scope="col" class="px-6 py-3 -ml-6">
                                 Customer Name
                             </th>
@@ -53,7 +53,7 @@
                         </tr>
                     </thead>
                     <tbody id="order-table-body">
-                        @foreach ($orders as $order) 
+                        @foreach ($orders as $order)
                             <tr class="bg-white border-b border-gray-200 hover:bg-gray-50" data-category="{{ $order->status }}">
                                 <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
                                     {{ $order->order_number }}
@@ -98,8 +98,8 @@
                                                 <input type="text" name="customer_id" id="customer_id"
                                                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
                                                     placeholder="Type customer first name" value="{{ $order->user->fname . ' ' . $order->user->lname }}"
-                                                    readonly> 
-                                            </div> 
+                                                    readonly>
+                                            </div>
 
                                             <!-- <div class="col-span-1">
                                                 <label for="customer_id"
@@ -144,7 +144,7 @@
                                                     class="block mb-2 text-sm font-medium text-gray-900">Category</label>
                                                 <div id="category" name="category_id"
                                                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5"
-                                                    disabled> 
+                                                    disabled>
                                                     @foreach ($categories as $category)
                                                         @if($order->orderItems->first()->product->category_id == $category->id)
                                                             <div value="{{ $category->id }}"
@@ -194,7 +194,7 @@
                                                     value="{{ $order->first() ? \Carbon\Carbon::parse($order->first()->created_at)->format('F d, Y') : 'N/A' }}"
                                                     readonly>
                                             </div>
-                                            
+
                                             <!-- <div class="col-span-1">
                                                 <label for="status"
                                                     class="block mb-2 text-sm font-medium text-gray-900">Status</label>
@@ -243,18 +243,18 @@
                                                     readonly>
                                             </div>
 
-                                            
+
                                     <div class="col-span-1">
                                         <label for="payment_date"
                                             class="block mb-2 text-sm font-medium text-gray-900">Delivery Method</label>
-                                            <div name="status" id="status" 
+                                            <div name="status" id="status"
                                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5">
-                                   
-                                            @if(optional($order->payments)->courier_id != null)
+
+                                            @if(optional($item->order->payments)->delivery_method == 'cod')
                                             Cash on Delivery
                                             @else
                                             Pick Up
-                                            @endif 
+                                            @endif
                                         </div>
                                     </div>
 
@@ -266,8 +266,8 @@
                                                     value="{{ $order->payments->first()->courier->name ?? 'N/A' }}"
                                                     readonly>
                                             </div> -->
-                                            
-                                            
+
+
                                             <div class="col-span-2">
                                                 <label for="feedback"
                                                     class="block mb-2 text-sm font-bold text-gray-900">Feedback</label>
@@ -290,7 +290,7 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div> 
+                            </div>
                         @endforeach
                     </tbody>
                 </table>
@@ -330,7 +330,7 @@
                 $(this).toggle(matchesSearch && matchesFilter);
             });
         }
-        
+
         // Apply filter
         $(".filter-option").click(function () {
             selectedFilter = $(this).data("filter");

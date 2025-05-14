@@ -6,9 +6,9 @@
             </div>
             @include('seller.tracking.breadcrumbs')
             <div class="flex flex-col bg-white p-4 rounded-lg mt-4">
-                
+
             @if ($cartItems->isEmpty())
-            <p style="text-align: center;">No orders found</p> 
+            <p style="text-align: center;">No orders found</p>
             @else
                 @foreach ($cartItems as $item)
                     <div class="flex items-start gap-4 border border-gray-200 hover:bg-gray-50 p-5 my-5"    data-modal-target="viewModal{{ $item->id }}">
@@ -29,14 +29,14 @@
                                 <li class="flex flex-wrap gap-4">Total Price <span class="ml-auto font-bold">₱
                                         {{ number_format($item->product->price * $item->quantity, 2, '.', ',') }}</span>
                                 </li>
-                                
+
                             </ul>
                         </div>
-                    </div>    
+                    </div>
                     <div id="viewModal{{ $item->id }}" tabindex="-1" aria-hidden="true"
                                 class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-screen max-h-full bg-black bg-opacity-50">
                                 <div class="relative p-4 w-full max-w-5xl max-h-full mx-auto">
-                                        
+
                                     <form action="{{ route('seller.order.update') }}" method="POST"
                                         enctype="multipart/form-data">
                                         @csrf
@@ -98,7 +98,7 @@
                                                         class="block mb-2 text-sm font-medium text-gray-900">Category</label>
                                                     <div id="category" name="category_id"
                                                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5"
-                                                        readonly disabled> 
+                                                        readonly disabled>
                                                         @foreach ($categories as $category)
                                                             @if($item->order->orderItems->first()->product->category_id == $category->id )
                                                                 <div value="{{ $category->id }}" >
@@ -167,18 +167,18 @@
                                                         readonly disabled>
                                                 </div>
 
-                                                
+
                                     <div class="col-span-1">
                                         <label for="payment_date"
                                             class="block mb-2 text-sm font-medium text-gray-900">Delivery Method</label>
-                                            <div name="status" id="status" 
+                                            <div name="status" id="status"
                                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5">
-                                   
-                                            @if(optional($item->order->payments)->courier_id != null)
+
+                                            @if(optional($item->order->payments)->delivery_method == 'cod')
                                             Cash on Delivery
                                             @else
                                             Pick Up
-                                            @endif 
+                                            @endif
                                         </div>
                                     </div>
 
@@ -191,7 +191,7 @@
                                                         {{ $item->order->status }}
                                                     </div>
                                                 </div>
-   
+
                                                 <div class="col-span-1">
                                                     <label for="feedback"
                                                         class="block mb-2 text-sm font-bold text-gray-900">Feedback</label>
@@ -221,7 +221,7 @@
                                                     </div>
                                                 </div>
                                                 <hr class="my-4">
-                                                <div class="flex justify-end gap-2"> 
+                                                <div class="flex justify-end gap-2">
                                                     <button type="button"
                                                         data-modal-toggle="viewModal{{ $item->id }}"
                                                         class="btn btn-error text-white inline-flex items-center bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">
@@ -230,7 +230,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        
+
                                     </form>
                                 </div>
                             </div>

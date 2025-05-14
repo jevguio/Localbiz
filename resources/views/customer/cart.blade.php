@@ -193,8 +193,8 @@
                                                 <select class="select select-bordered w-full" name="delivery_method"
                                                     id="deliveryMethod" required>
                                                     <option disabled selected>Pick a Delivery method</option>
-                                                    <option value="COD">Cash on Delivery</option>
-                                                    <option value="Pick Up">Pick Up</option>
+                                                    <option value="cod">Cash on Delivery</option>
+                                                    <option value="pick-up">Pick Up</option>
                                                 </select>
                                             </div>
                                         </div>
@@ -224,8 +224,6 @@
                                             </div>
                                         </div>
                                         <div class="fieldset">
-                                            <input type="text" hidden class="input w-full" name="courier_id"
-                                                value="1" />
                                             <legend class="fieldset-legend">Upload Receipt</legend>
                                             <input type="file" class="file-input file-input-bordered w-full"
                                                 accept="image/*" name="receipt_file" required />

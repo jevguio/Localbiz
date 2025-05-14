@@ -176,7 +176,7 @@
                                             <div name="status" id="status"
                                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5">
 
-                                            @if(optional($item->order->payments)->courier_id != null)
+                                            @if(optional($item->order->payments)->delivery_method == 'cod')
                                             Cash on Delivery
                                             @else
                                             Pick Up
@@ -198,15 +198,6 @@
 
                                         </div>
                                     </div>
-
-                                    <!-- <div class="col-span-1">
-                                        <label for="courier"
-                                            class="block mb-2 text-sm font-medium text-gray-900">Courier</label>
-                                        <input type="text" name="courier" id="courier"
-                                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
-                                            value="{{ $item->order->payments->first()->courier->name ?? 'N/A' }}"
-                                            readonly>
-                                    </div> -->
 
                                     <div class="col-span-2">
                                         <label for="feedback"

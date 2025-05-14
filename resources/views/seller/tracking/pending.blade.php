@@ -8,7 +8,7 @@
             <div class="flex flex-col bg-white p-4 rounded-lg mt-4">
             @if ($cartItems->isEmpty())
                 <p>No Orders found. </p>
-            @else 
+            @else
                 @foreach ($cartItems as $item )
                     <div class="flex items-start gap-4 border border-gray-200 hover:bg-gray-50 p-5 my-5"  data-modal-target="viewModal{{ $item->id }}" >
                         <div class="w-32 h-28 max-lg:w-24 max-lg:h-24 flex p-3 shrink-0 rounded-md">
@@ -28,11 +28,11 @@
                                 <li class="flex flex-wrap gap-4">Total Price <span class="ml-auto font-bold">₱
                                         {{ number_format($item->product->price * $item->quantity, 2, '.', ',') }}</span>
                                 </li>
-                                 
-                                <li class="flex flex-wrap gap-4"> 
-                                    
-                                <!-- <button  
-                                    data-modal-target="viewModal{{ $item->id }}"  
+
+                                <li class="flex flex-wrap gap-4">
+
+                                <!-- <button
+                                    data-modal-target="viewModal{{ $item->id }}"
                                         class="font-medium text-green-600 hover:underline" type="button">
                                         Open
                                     </button> -->
@@ -40,12 +40,12 @@
                             </ul>
                         </div>
                     </div>
-                     
-                  
+
+
                     <div id="viewModal{{ $item->id }}" tabindex="-1" aria-hidden="true"
                         class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-screen max-h-full bg-black bg-opacity-50">
                         <div class="relative p-4 w-full max-w-5xl max-h-full mx-auto">
-                                
+
                             <form action="{{ route('seller.order.update') }}" method="POST"
                                 enctype="multipart/form-data">
                                 @csrf
@@ -123,7 +123,7 @@
                                                 class="block mb-2 text-sm font-medium text-gray-900">Category</label>
                                             <div id="category" name="category_id"
                                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5"
-                                                readonly disabled> 
+                                                readonly disabled>
                                                 @foreach ($categories as $category)
                                                     @if($item->order->orderItems->first()->product->category_id == $category->id )
                                                         <div value="{{ $category->id }}" >
@@ -169,18 +169,18 @@
                                                 value="{{ $item->order->payments->first() ? $item->order->payments->first()->payment_method : 'N/A' }}"
                                                 readonly disabled>
                                         </div>
-                                       
+
                                     <div class="col-span-1">
                                         <label for="payment_date"
                                             class="block mb-2 text-sm font-medium text-gray-900">Delivery Method</label>
-                                            <div name="status" id="status" 
+                                            <div name="status" id="status"
                                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5">
-                                   
-                                            @if(optional($item->order->payments)->courier_id != null)
+
+                                            @if(optional($item->order->payments)->delivery_method == 'cod')
                                             Cash on Delivery
                                             @else
                                             Pick Up
-                                            @endif 
+                                            @endif
                                         </div>
                                     </div>
                                         <div class="col-span-1">
@@ -231,7 +231,7 @@
                                         </div>
                                         <hr class="my-4">
                                         <div class="flex justify-end gap-2">
-                                            <button type="submit" 
+                                            <button type="submit"
                                                 class="btn btn-info text-white inline-flex items-center bg-info-700 hover:bg-info-800 focus:ring-4 focus:outline-none focus:ring-info-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">
                                                 Save
                                             </button>
@@ -243,7 +243,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                
+
                             </form>
                         </div>
                     </div>
@@ -251,7 +251,7 @@
                 @endif
             </div>
         </div>
-    </div>    
+    </div>
     <script>
         $(document).ready(function() {
             $('#table-search').on('keyup', function() {
@@ -270,6 +270,6 @@
                 $(`#${modalId}`).addClass('hidden');
             });
         });
-        
+
     </script>
 </x-app-layout>

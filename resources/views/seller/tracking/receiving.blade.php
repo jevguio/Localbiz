@@ -187,7 +187,7 @@
                                                 <div name="status" id="status"
                                                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5">
 
-                                                    @if (optional($item->order->payments)->courier_id != null)
+                                                    @if(optional($item->order->payments)->delivery_method == 'cod')
                                                         Cash on Delivery
                                                     @else
                                                         Pick Up

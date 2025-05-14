@@ -246,7 +246,7 @@ class CustomerService
                     Payments::create([
                         'order_id' => $orderItem->order_id,
                         'customer_id' => Auth::id(),
-                        'courier_id' => 1,
+                        'delivery_method' => $request->delivery_method,
                         'payment_method' => $request->payment_method,
                         'payment_amount' => $orderItem->price,
                         'receipt_file' => $path,

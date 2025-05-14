@@ -84,7 +84,7 @@
                                         class="btn bg-orange-900 hover:bg-orange-800 text-white rounded-md my-2">Submit
                                         Feedback</button>
                                 </form>
-                                
+
                             @else
                                 <div role="alert" class="alert alert-success mt-4 mb-15 ">
                                     <i class='bx bx-check-circle text-white text-2xl'></i>
@@ -92,22 +92,22 @@
                                         product!</span>
                                 </div>
                             @endif
-                            
+
                             <div class="col-span-3 mt-2  absolute right-0 bottom-0">
                                         <form action="{{ route('customer.addToCart').'?targ=customer.cart'}}" method="POST">
                                             @csrf
                                             <input type="hidden" name="product_id" value="{{ $item->product->id }}">
-                                            <button 
-                                            class="btn px-4 py-2 bg-red-900 text-white 
+                                            <button
+                                            class="btn px-4 py-2 bg-red-900 text-white
                                             rounded-md hover:bg-red-800">
                                             Buy Again
                                         </button>
-                                        </form> 
+                                        </form>
                                 </div>
                         </div>
                     </div>
-                        
-                        
+
+
                     <div id="viewModal{{ $item->id }}" tabindex="-1" aria-hidden="true"
                         class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-screen max-h-full bg-black bg-opacity-50">
                         <div class="relative p-4 w-full max-w-5xl max-h-full mx-auto">
@@ -132,7 +132,7 @@
                                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
                                             placeholder="Type customer first name" value="{{ $item->order->user->fname . ' ' . $item->order->user->lname }}"
                                             readonly>
-                                    </div> 
+                                    </div>
 
                                     <!-- <div class="col-span-1">
                                         <label for="customer_id"
@@ -178,9 +178,9 @@
                                             class="block mb-2 text-sm font-medium text-gray-900">Category</label>
                                         <div id="category" name="category_id"
                                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5"
-                                            disabled> 
+                                            disabled>
                                             @foreach ($categories as $category)
-                                            @if($item->order->orderItems->first()->product->category_id ==$category->id) 
+                                            @if($item->order->orderItems->first()->product->category_id ==$category->id)
                                                     <div value="{{ $category->id }}"
                                                     >
                                                     {{ $category->name }}</div>
@@ -206,7 +206,7 @@
                                             class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500"
                                             placeholder="Type quantity" name="quantity"
                                             value="{{  $item->quantity}}" readonly>
-                                    </div>                            
+                                    </div>
 
                                     <div class="col-span-1">
                                         <label for="payment_amount"
@@ -238,18 +238,18 @@
                                             value="{{ $item->order->payments->first() ? $item->order->payments->first()->payment_method : 'N/A' }}" readonly>
                                     </div>
 
-                                   
+
                                     <div class="col-span-1">
                                         <label for="payment_date"
                                             class="block mb-2 text-sm font-medium text-gray-900">Delivery Method</label>
-                                            <div name="status" id="status" 
+                                            <div name="status" id="status"
                                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5">
-                                   
-                                            @if(optional($item->order->payments)->courier_id != null)
+
+                                            @if(optional($item->order->payments)->delivery_method == 'cod')
                                             Cash on Delivery
                                             @else
                                             Pick Up
-                                            @endif 
+                                            @endif
                                         </div>
                                     </div>
 
@@ -262,7 +262,7 @@
                                             value="{{ $item->order->payments->first() ? \Carbon\Carbon::parse($item->order->payments->first()->payment_date)->format('F d, Y') : 'N/A' }}"
                                             readonly>
                                     </div>
-                                   
+
                                     <div class="col-span-1">
                                         <label for="status"
                                             class="block mb-2 text-sm font-medium text-gray-900">Status</label>
@@ -274,17 +274,9 @@
                                             </div>
                                         </div>
                                     </div>
-                                   
-                                    <!-- <div class="col-span-1">
-                                        <label for="courier"
-                                            class="block mb-2 text-sm font-medium text-gray-900">Courier</label>
-                                        <input type="text" name="courier" id="courier"
-                                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
-                                            value="{{ $item->order->payments->first()->courier->name ?? 'N/A' }}"
-                                            readonly>
-                                    </div> -->
-                                    
-                                    
+
+
+
                                     <div class="col-span-2">
                                         <label for="feedback"
                                             class="block mb-2 text-sm font-bold text-gray-900">Feedback</label>
@@ -297,9 +289,9 @@
                                             </li>
                                         </ul>
                                     </div>
-                                    
+
                                 </div>
-                                
+
                                                 <div class="col-span-2 flex justify-around gap-2">
                                                     <div class="col-span-1">
                                                         <label for="proof_of_delivery"
@@ -333,7 +325,7 @@
             </div>
         </div>
     </div>
-    
+
     <style>
         .myModalthumbnail {
             width: 150px;
@@ -404,7 +396,7 @@
                 event.stopPropagation(); // Stops the click event from reaching the parent
             });
         });
-        
+
         function openModal(src) {
             let modal = document.getElementById("myModalmyModal");
             modalImg = document.getElementById("modalImg");
