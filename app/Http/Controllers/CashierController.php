@@ -204,7 +204,13 @@ class CashierController extends Controller
         ])
             ->whereHas('orderItems.product', function ($query) use ($seller_id) {
                 $query->where('seller_id', $seller_id);
-            })->where('status', '=', 'pending')
+            })
+            ->where(function ($query) {
+                $query->where('status', 'pending')
+                      ->orWhereHas('payments', function ($q) {
+                          $q->where('status', 'processing');
+                      });
+            })
             ->orderBy('created_at', 'desc')
             ->paginate(10);
 
@@ -229,17 +235,21 @@ class CashierController extends Controller
             session()->flash('error', 'You are not approved to access this page.');
             return redirect()->route('cashier.dashboard');
         }
-
         $orders = Orders::with([
             'user',
-            'orderItems.product', // ensures orderItems and nested product are loaded
+            'orderItems.product',
             'payments'
         ])
             ->whereHas('orderItems.product', function ($query) use ($seller_id) {
                 $query->where('seller_id', $seller_id);
-            })->where('status', '=', 'processing')
+            })
+            ->where('status', 'processing')
+            ->whereHas('payments', function ($query) {
+                $query->where('status', '!=', 'processing');
+            })
             ->orderBy('created_at', 'desc')
             ->paginate(10);
+
 
 
         $payments = Payments::all();

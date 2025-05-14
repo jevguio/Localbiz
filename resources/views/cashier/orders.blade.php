@@ -51,7 +51,7 @@
                             <th scope="col" class="px-6 py-3">
                                 Total Amount
                             </th>
-                           
+
                             <th scope="col" class="px-6 py-3">
                                 Status
                             </th>
@@ -77,10 +77,11 @@
                                 <td class="px-6 py-4">
                                     ₱{{ number_format($order->orderItems->sum('price'), 2) }}
                                 </td>
-                                
+
 
                                 <td class="px-6 py-4">
-                                    {{ $order->status }}
+                                    {{ $order->status === 'processing' ? 'Payment Verified' : $order->status }}
+
                                 </td>
                                 <td class="px-6 py-4">
                                     <button data-modal-target="editModal{{ $order->id }}"
@@ -227,9 +228,8 @@
                                                         class="block mb-2 text-sm font-medium text-gray-900">Payment
                                                         Status</label>
                                                     <input type="text" name="payment_status" id="payment_status"
-                                                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block p-2.5"
-                                                        value="{{ $order->payments->first() ? $order->payments->first()->payment_status : 'N/A' }}"
-                                                        readonly>
+                                                        class="bg-gray-50 border border-gray-300 text-black text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block p-2.5"
+                                                        value="{{ $order->payments()->first()->status }}" readonly>
                                                 </div>
                                                 <div class="col-span-1">
                                                     <label for="payment_date"
@@ -257,7 +257,8 @@
                                                     <div id="status" name="status" disabled
                                                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5">
                                                         <div>
-                                                            {{ $order->status }}
+
+                                                            {{ $order->status === 'processing' ? 'Payment Verified' : $order->status }}
                                                         </div>
                                                     </div>
                                                 </div>
