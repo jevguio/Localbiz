@@ -184,7 +184,7 @@ Route::middleware(['auth', 'DeliveryRider'])->group(function () {
     Route::get('/rider/tracking/cancelled', [RiderController::class, 'trackingCancelled'])->name('rider.tracking.cancelled');
     Route::get('/rider/tracking/delivered', [RiderController::class, 'trackingDelivered'])->name('rider.tracking.delivered');
     Route::get('/rider/tracking/walkin', [RiderController::class, 'index'])->name('rider.tracking.walkin');
-    Route::get('/rider/update/walkin/{id}', [RiderController::class, 'index'])->name('rider.update.walkin');
+    Route::get('/rider/update/walkin/{id}', [RiderController::class, 'updateWalkin'])->name('rider.update.walkin');
 
     Route::post('/rider/dashboard/upload', [RiderController::class, 'upload'])->name('rider.dashboard.upload');
 

@@ -86,7 +86,7 @@
                     </thead>
                     <tbody id="account-table-body">
                         @foreach ($users as $user)
-                            <tr class="{{ $user->is_active == 1 ? 'bg-white' : 'bg-white ' }} 
+                            <tr class="{{ $user->is_active == 1 ? 'bg-white' : 'bg-white ' }}
                             border-b border-gray-200 hover:{{ $user->is_active == 1 ? 'bg-gray-50' : 'bg-warning-50' }}"
                                 data-category="{{ $user->role }}">
                                 <th scope="row"
@@ -357,6 +357,7 @@
                                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5">
                                                 <option value="Seller">Seller</option>
                                                 <option value="GovernmentAgency">DTI</option>
+                                                <option value="Owner">Admin</option>
                                             </select>
                                         </div>
                                         <div class="col-span-2">
@@ -407,7 +408,7 @@
                                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
                                                 placeholder="Type address" value="{{ old('address') }}" required>
                                         </div>
-                                        
+
 
                                         <script>
                                             onRoleSeller(null);
@@ -480,7 +481,7 @@
 
                     $(this).toggle(matchesSearch && matchesFilter);
                 });
-            } 
+            }
 
             // Close dropdown when clicking outside
             $(document).click(function(event) {

@@ -60,7 +60,7 @@
                                     @endforeach
                                 </ul>
                             </td>
-                            
+
                             <td>
                                 {{
                                     match($order->payment_method) {

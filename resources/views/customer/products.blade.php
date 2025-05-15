@@ -172,6 +172,11 @@
                                 <div class="mt-6">
                                     <h3 class="text-3xl font-bold text-gray-900 mb-4">{{ $product->name }}</h3>
                                     <div class="space-y-1 text-lg">
+                                        @if ($product->best_before_date)
+                                            <p>Best Before Date:
+                                                {{ \Carbon\Carbon::parse($product->best_before_date)->format('F d, Y') }}
+                                            </p>
+                                        @endif
                                         <p>{{ $product->description }}</p>
 
                                         <p>Stock: {{ $product->stock }}</p>

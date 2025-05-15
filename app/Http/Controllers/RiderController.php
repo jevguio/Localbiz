@@ -177,7 +177,7 @@ class RiderController extends Controller
 
         return view('rider.history.walkinorder_history', compact('orders'));
     }
-    public function updateWalkin(Request $request, $id)
+    public function updateWalkin($id)
     {
 
         $orders = WalkinOrders::find($id);
