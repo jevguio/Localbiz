@@ -36,7 +36,6 @@
                         <th>Items</th>
                         <th>Total</th>
                         <th>Payment Method</th>
-                        <th>Delivery Method</th>
                         <th>Status</th>
                         <th>Amount Paid</th>
                         <th class="text-center">Action</th>
@@ -63,7 +62,6 @@
                                     default => ucwords(str_replace('_', ' ', $order->payment_method)),
                                 } }}
                             </td>
-                            <td>{{ $order->delivery_status }}</td>
 
                             <td>
                                 {{ $order->status == 'paid' ? 'Fully Paid' : 'Partial' }}
