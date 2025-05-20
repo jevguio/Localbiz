@@ -45,7 +45,9 @@
                         @foreach ($products as $product)
                             <tr class="bg-white border-b border-gray-200 hover:bg-gray-50">
                                 <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
-                                    <img src="{{ asset('assets/' . ($product->images[0]->filename ?? 'default.png')) }}"
+                                    <img data-modal-target="viewModal"
+                                        onclick='OnImageShow(@json($product->images), 0)'
+                                        src="{{ asset('assets/' . ($product->images[0]->filename ?? 'default.png')) }}"
                                         alt="Product Image" class="w-50 h-50 object-cover rounded">
 
                                 </th>
@@ -114,9 +116,8 @@
                                                                     <img src="{{ asset('assets/' . $img->filename) }}"
                                                                         class="w-full h-full object-cover">
 
-                                                                        <a
-                                                                        href="{{ route('seller.products.delete.image') }}?id={{ $img->id }}"
-                                                                            class="absolute top-0 right-0 bg-red-500 text-white rounded-bl px-1 text-xs">✕</a>
+                                                                    <a href="{{ route('seller.products.delete.image') }}?id={{ $img->id }}"
+                                                                        class="absolute top-0 right-0 bg-red-500 text-white rounded-bl px-1 text-xs">✕</a>
 
                                                                 </div>
                                                             @endforeach
@@ -345,6 +346,29 @@
             </ul>
         </nav>
 
+        <div id="viewModal" tabindex="-1" aria-hidden="true"
+            class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-screen max-h-full bg-black bg-opacity-1">
+            <div class="relative p-4 w-full max-w-5xl max-h-full mx-auto">
+
+                <button type="button"
+                    class="text-gray-400 absolute right-3 z-5 top-3 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center"
+                    data-modal-toggle="viewModal">
+                    <i class='bx bx-x text-gray-500 text-2xl'></i>
+                </button>
+                <div class="relative bg-white rounded-lg pt-5 shadow-sm">
+                    <img src="" id="view_image" alt="Product Image" class="h-90 mx-auto max-w-5xl  object-cover rounded">
+
+                    <button type="button" onclick="nextPrev(-1)"
+                        class="text-gray-400 absolute left-3 z-5 top-50 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center">
+                        <i class='bx bx-left-arrow text-gray-500 text-2xl'></i>
+                    </button>
+                    <button type="button" onclick="nextPrev(+1)"
+                        class="text-gray-400 absolute right-3 z-5 top-50 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center">
+                        <i class='bx bx-right-arrow text-gray-500 text-2xl'></i>
+                    </button>
+                </div>
+            </div>
+        </div>
         <div id="addModal" tabindex="-1" aria-hidden="true"
             class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-screen max-h-full bg-black bg-opacity-50">
             <div class="relative p-4 w-full max-w-5xl max-h-full mx-auto">
@@ -537,6 +561,36 @@
                 $(`#${modalId}`).addClass('hidden');
             });
         });
+
+        let imageList = [];
+        let indexImage = 0;
+
+        function OnImageShow(images, startIndex = 0) {
+            imageList = images;
+            console.log(images);
+            indexImage = startIndex;
+
+            const view_image = document.getElementById('view_image');
+            if (view_image && imageList.length > 0) {
+                view_image.src = "/assets/" + imageList[indexImage].filename;
+            }
+        }
+
+        function nextPrev(step) {
+            indexImage += step;
+
+            if (indexImage < 0) {
+                indexImage = imageList.length - 1;
+            } else if (indexImage >= imageList.length) {
+                indexImage = 0;
+            }
+
+            const view_image = document.getElementById('view_image');
+            if (view_image && imageList.length > 0) {
+
+                view_image.src = "/assets/" + imageList[indexImage].filename;
+            }
+        }
     </script>
 
 
