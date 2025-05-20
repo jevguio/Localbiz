@@ -53,7 +53,7 @@
  </div> -->
 
  <div class="bg-white p-5 rounded-lg shadow-md">
-     <h2 class="text-3xl font-bold mb-4">Top 10 Products</h2>
+     <h2 class="text-3xl font-bold mb-4">Top Products</h2>
      @if (isset($monthpicker))
          <h4 class="text-xl font-bold mb-4">Date: {{ \Carbon\Carbon::parse($monthpicker)->format('F Y') }}</h4>
      @endif
