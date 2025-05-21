@@ -15,7 +15,7 @@
 
             @if ($isViewBTN)
                 <button type="submit" id="export_topseller"
-                    class="btn btn-primary bg-blue-700 hover:bg-blue-800 text-white px-4 py-2 rounded-md"
+                    class="btn bg-red-900 hover:bg-red-800 text-white px-4 py-2 rounded-md"
                     style="position:absolute;right:3%; bottom:2.5%">Download PDF</a>
             @endif
         </form>
