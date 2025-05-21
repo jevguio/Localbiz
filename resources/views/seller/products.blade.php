@@ -73,7 +73,7 @@
                             </tr>
 
                             <div id="editModal{{ $product->id }}" tabindex="-1" aria-hidden="true"
-                                class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-screen max-h-full bg-black bg-opacity-50">
+                                class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-screen max-h-full bg-opacity-50" style="background-color: rgba(0,0,0,0.75);">
                                 <div class="relative p-4 w-full max-w-5xl max-h-full mx-auto">
                                     <div class="relative bg-white rounded-lg shadow-sm p-4">
                                         <div
@@ -284,7 +284,7 @@
         </div>
 
         <div id="deleteModal{{ $product->id }}" tabindex="-1" aria-hidden="true"
-            class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-screen max-h-full bg-black bg-opacity-50">
+            class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-screen max-h-full bg-opacity-50" style="background-color: rgba(0,0,0,0.75);">
             <div class="relative p-4 w-full max-w-5xl max-h-full mx-auto">
                 <div class="relative bg-white rounded-lg shadow-sm">
                     <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t border-gray-200">
@@ -347,7 +347,7 @@
         </nav>
 
         <div id="viewModal" tabindex="-1" aria-hidden="true"
-            class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-screen max-h-full bg-black bg-opacity-1">
+            class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-screen max-h-full bg-opacity-1" style="background-color: rgba(0,0,0,0.75);">
             <div class="relative p-4 w-full max-w-5xl max-h-full mx-auto">
 
                 <button type="button"
@@ -370,7 +370,7 @@
             </div>
         </div>
         <div id="addModal" tabindex="-1" aria-hidden="true"
-            class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-screen max-h-full bg-black bg-opacity-50">
+            class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-screen max-h-full" style="background-color: rgba(0,0,0,0.75);">
             <div class="relative p-4 w-full max-w-5xl max-h-full mx-auto">
                 <div class="relative bg-white rounded-lg shadow-sm">
                     <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t border-gray-200">
