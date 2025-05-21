@@ -50,7 +50,7 @@
                             </tr>
 
                             <div id="editModal{{ $category->id }}" tabindex="-1" aria-hidden="true"
-                                class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-screen max-h-full bg-black bg-opacity-50">
+                                class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-screen max-h-full bg-opacity-50" style="background-color: rgba(0,0,0,0.75);">
                                 <div class="relative p-4 w-full max-w-5xl max-h-full mx-auto">
                                     <div class="relative bg-white rounded-lg shadow-sm">
                                         <div
@@ -98,7 +98,7 @@
                             </div>
 
                             <div id="deleteModal{{ $category->id }}" tabindex="-1" aria-hidden="true"
-                                class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-screen max-h-full bg-black bg-opacity-50">
+                                class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-screen max-h-full bg-opacity-50" style="background-color: rgba(0,0,0,0.75);">
                                 <div class="relative p-4 w-full max-w-5xl max-h-full mx-auto">
                                     <div class="relative bg-white rounded-lg shadow-sm">
                                         <div
@@ -151,7 +151,7 @@
                 </nav>
 
                 <div id="addModal" tabindex="-1" aria-hidden="true"
-                    class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-screen max-h-full bg-black bg-opacity-50">
+                    class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-screen max-h-full bg-opacity-50" style="background-color: rgba(0,0,0,0.75);">
                     <div class="relative p-4 w-full max-w-5xl max-h-full mx-auto">
                         <div class="relative bg-white rounded-lg shadow-sm">
                             <div
